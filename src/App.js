@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Profile from 'components/Profile'
+import Profile from 'pages/Profile'
 import NavBar from 'components/NavBar'
 import PrivateRoute from 'components/PrivateRoute'
+import Home from 'pages/Home'
 
 function App() {
   return (
@@ -13,8 +14,8 @@ function App() {
           <NavBar />
         </header>
         <Switch>
-          <Route path="/" exact />
           <PrivateRoute path="/profile" component={Profile} />
+          <Route path="*" component={Home} />
         </Switch>
       </BrowserRouter>
     </div>
