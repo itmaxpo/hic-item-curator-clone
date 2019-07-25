@@ -39,7 +39,7 @@
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test start-server http://localhost:3000 cy:run",
     "test:e2e:ci": "CI=1 yarn add cypress; yarn test:e2e",
-    "docs": "npx documentation build src/** -f html -o docs"
+    "docs": "npx documentation build src/** -f html -o docs --config documentation.yml  --markdown-toc"
   },
   "eslintConfig": {
     "extends": "react-app"

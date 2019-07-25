@@ -11,6 +11,7 @@ import Home from 'pages/Home'
  * @name App
  * @kind function
  * @returns {Object} The whole App
+ * @category App
  */
 function App() {
   return (
