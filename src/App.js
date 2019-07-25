@@ -5,6 +5,13 @@ import NavBar from 'components/NavBar'
 import PrivateRoute from 'components/PrivateRoute'
 import Home from 'pages/Home'
 
+/**
+ * This is the entry App component to generate the app
+ *
+ * @name App
+ * @kind function
+ * @returns {Object} The whole App
+ */
 function App() {
   return (
     <div className="App">
