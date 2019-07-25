@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth0 } from '../../contexts/AuthWrapper'
+import { useAuth0 } from '../../contexts/Auth/AuthWrapper'
 
 const Profile = () => {
   const { loading, user } = useAuth0()

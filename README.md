@@ -1,3 +1,53 @@
+# Item Curator Structure
+
+```bash
+├── cypress [Cypress E2E folder]
+├── docs [Generated documentation]
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── pull_request_template.md [Template with generated message on PR]
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── components [Folder with all existing shared components]
+│   │   ├── Component
+│   │   │   ├── <Custom>Component.js
+│   │   │   └── styles.js
+│   │   │   └── index.js
+│   ├── contexts [Folder with all existing global contexts]
+│   │   └── <Custom>
+│   │       └── <Custom>Context.js
+│   ├── icons [Folder with all <icon>.svg files]
+│   ├── index.css
+│   ├── index.js
+│   ├── lib
+│   ├── logo.svg
+│   ├── pages
+│   │   ├── Page [Page is a Route component]
+│   │   │   ├── index.js
+│   │   │   ├── styles.js
+│   │   │   ├── SpecificPageComponent1.js
+│   │   │   ├── SpecificPageComponent1.js
+│   ├── serviceWorker.js
+│   ├── services
+│   ├── styles
+│   └── utils [Folder with global utils]
+├── yarn.lock
+├── package.json
+├── .env.staging
+├── .env.production
+├── .eslintrc
+├── .gitignore
+├── .prettierrc
+├── cypress.json
+├── jsconfig.json
+├── pull_request_template.md
+└── README.md
+```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

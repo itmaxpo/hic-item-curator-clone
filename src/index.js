@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { Auth0Provider } from './contexts/AuthWrapper'
-import config from './auth_config.json'
+import { Auth0Provider } from './contexts/Auth/AuthWrapper'
+import authConfig from 'contexts/Auth/authConfig'
 import { init } from '@sentry/browser'
 
 // Setup Sentry Error tracking
@@ -24,8 +24,8 @@ const onRedirectCallback = appState => {
 
 ReactDOM.render(
   <Auth0Provider
-    domain={config.domain}
-    client_id={config.clientId}
+    domain={authConfig.domain}
+    client_id={authConfig.clientId}
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
