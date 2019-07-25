@@ -38,7 +38,8 @@
     "start-server": "yarn build && yarn start",
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test start-server http://localhost:3000 cy:run",
-    "test:e2e:ci": "CI=1 yarn add cypress; yarn test:e2e"
+    "test:e2e:ci": "CI=1 yarn add cypress; yarn test:e2e",
+    "docs": "npx documentation build src/** -f html -o docs"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -71,6 +72,7 @@
     "commitizen": "^4.0.3",
     "cypress-file-upload": "^3.3.2",
     "cz-conventional-changelog": "^3.0.2",
+    "documentation": "^12.0.3",
     "env-cmd": "^9.0.3",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.1",
