@@ -1,6 +1,6 @@
-describe('Cypress', () => {
+describe('Login', () => {
   it('is working', () => {
     cy.visit('/')
-    cy.get('a').contains('Go to ... here actually')
+    cy.get('p').contains('Seamless and smooth item management')
   })
 })

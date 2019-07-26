@@ -1,6 +1,6 @@
 import React from 'react'
 import { P } from '@tourlane/tourlane-ui'
-import { SecondaryButton } from 'components/Button'
+import { Button } from 'components/Button'
 import styled from 'styled-components'
 import LayoutSingleCard from 'components/Layout'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
@@ -12,34 +12,29 @@ const StyledP = styled(P)`
   }
 `
 
-const StyledButton = styled(SecondaryButton)`
+const StyledButton = styled(Button)`
   width: 100%;
 `
 
 /**
- * This is the Home Page component
+ * This is the Login Page component
  *
  * @name Login
  * @kind function
- * @returns {Object} Home Page
- * @category Home
+ * @returns {Object} Login Page
+ * @category App
  */
 
-const Home = () => {
-  const { user, logout } = useAuth0()
-
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin
-    })
+const Login = () => {
+  const { loginWithRedirect } = useAuth0()
 
   return (
     <LayoutSingleCard>
       <LogoSvg>Item Curator</LogoSvg>
-      {user && <StyledP>{`Welcome ${user.given_name}!`}</StyledP>}
-      <StyledButton onClick={() => logoutWithRedirect()}>Logout</StyledButton>
+      <StyledP>Seamless and smooth item management.</StyledP>
+      <StyledButton onClick={() => loginWithRedirect({})}>Login with Google</StyledButton>
     </LayoutSingleCard>
   )
 }
 
-export default Home
+export default Login
