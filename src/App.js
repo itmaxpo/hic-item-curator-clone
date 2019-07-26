@@ -14,14 +14,6 @@ const AppWrapper = styled.div`
   left: 0px;
 `
 
-/**
- * This is the entry App component to generate the app
- *
- * @name App1
- * @kind function
- * @returns {Object} The whole App
- * @category App
- */
 function App() {
   const { isAuthenticated, loading } = useAuth0()
 

@@ -20,9 +20,7 @@ const StyledButton = styled(Button)`
  * This is the Login Page component
  *
  * @name Login
- * @kind function
  * @returns {Object} Login Page
- * @category App
  */
 
 const Login = () => {

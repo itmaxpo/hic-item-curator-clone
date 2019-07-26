@@ -19,10 +19,8 @@ const StyledButton = styled(SecondaryButton)`
 /**
  * This is the Home Page component
  *
- * @name Login
- * @kind function
+ * @name Home
  * @returns {Object} Home Page
- * @category Home
  */
 
 const Home = () => {
