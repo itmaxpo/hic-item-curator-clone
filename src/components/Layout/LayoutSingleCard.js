@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card } from '@tourlane/tourlane-ui'
+import background from 'icons/background.svg'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -10,14 +11,14 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 
-// const Background = styled.img`
-//   display: block;
-//   position: absolute;
-//   z-index: -1;
-//   width: 100vw;
-//   height: 100vh;
-//   object-fit: cover;
-// `
+const Background = styled.img`
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+`
 
 const StyledCard = styled(Card)`
   width: 400px;
@@ -30,7 +31,7 @@ const StyledCard = styled(Card)`
 
 const LayoutSingleCard = ({ children, cardProps = {} }) => (
   <Wrapper>
-    {/* <Background src={background} /> */}
+    <Background src={background} />
     <StyledCard {...cardProps}>{children}</StyledCard>
   </Wrapper>
 )
