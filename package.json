@@ -58,7 +58,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run docs"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "config": {
