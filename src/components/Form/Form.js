@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { fieldMaps } from './Form'
+const fieldMaps = {}
 
 const addPropsToFields = fields => {
   const fieldsWithProps = []
