@@ -50,7 +50,7 @@ The entry point of the whole app is an [src/index.js](https://github.com/tourlan
 
 ## Tech stack
 
-* `E2E`: [Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
+* `Cypress`: [E2E](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
 * `Sentry`: [Error-tracking](https://sentry.io/organizations/tourlane/issues/?project=1511575)
 * `JSDoc`: [Documenting code](https://jsdoc.app/)
 * `Auth0`: [Authentication](https://manage.auth0.com/dashboard/eu/tourlane-staging)
