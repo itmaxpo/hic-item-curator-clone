@@ -1,13 +1,13 @@
 # Item Curator Structure
 
+### Entry point
+
+The entry point of the whole app is an [src/index.js](https://github.com/tourlane/item-curator/blob/master/src/index.js)
+
 ```bash
 ├── cypress [Cypress E2E folder]
-├── docs [Generated documentation]
-├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   └── manifest.json
-├── pull_request_template.md [Template with generated message on PR]
+├── public [Static files]
+├── pull_request_template.md [Template to generate message on PR]
 ├── src
 │   ├── App.css
 │   ├── App.js
@@ -22,7 +22,7 @@
 │   │       └── <Custom>Context.js
 │   ├── icons [Folder with all <icon>.svg files]
 │   ├── index.css
-│   ├── index.js
+│   ├── index.js [Entry point of the app]
 │   ├── lib
 │   ├── logo.svg
 │   ├── pages
@@ -62,57 +62,34 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+### `npm build`
+
+Builds the app for production
+
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the unit tests
 
-### `npm run build`
+### `npm run e2e`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Runs E2E tests via [Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### `npm run test:e2e`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs E2E tests in a `--headless` mode
 
-### `npm run eject`
+### `npm run lint`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Runs the eslint checks
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm run commit`
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Runs commit creation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### `npm run release`
 
-## Learn More
+Creates next release of the app
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `npm run start-server`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Runs a standalone Nodejs server to run E2E tests
