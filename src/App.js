@@ -8,7 +8,7 @@ import Home from 'pages/Home'
 /**
  * This is the entry App component to generate the app
  *
- * @name App
+ * @name App1
  * @kind function
  * @returns {Object} The whole App
  * @category App
