@@ -1,23 +1,38 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Profile from 'pages/Profile'
-import NavBar from 'components/NavBar'
+import styled from 'styled-components'
+import { BrowserRouter, Switch } from 'react-router-dom'
 import PrivateRoute from 'components/PrivateRoute'
 import Home from 'pages/Home'
+import Login from 'pages/Login'
+import { useAuth0 } from 'contexts/Auth/AuthWrapper'
+
+const AppWrapper = styled.div`
+  min-height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+`
 
 function App() {
+  const { isAuthenticated, loading } = useAuth0()
+
+  if (loading) {
+    return <span>Loading</span>
+  }
+
+  if (!isAuthenticated) {
+    return <Login />
+  }
+
   return (
-    <div className="App">
+    <AppWrapper>
       <BrowserRouter>
-        <header>
-          <NavBar />
-        </header>
         <Switch>
-          <PrivateRoute path="/profile" component={Profile} />
-          <Route path="*" component={Home} />
+          <PrivateRoute path="*" component={Home} />
         </Switch>
       </BrowserRouter>
-    </div>
+    </AppWrapper>
   )
 }
 

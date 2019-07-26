@@ -1,29 +1,41 @@
 import React from 'react'
-import { Subline } from '@tourlane/tourlane-ui'
-import { SecondaryLink } from 'components/Link'
+import { P } from '@tourlane/tourlane-ui'
+import { SecondaryButton } from 'components/Button'
 import styled from 'styled-components'
 import LayoutSingleCard from 'components/Layout'
+import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
+import { useAuth0 } from 'contexts/Auth/AuthWrapper'
 
-const StyledSubline = styled(Subline)`
+const StyledP = styled(P)`
   & {
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 600;
+    margin-top: 24px;
   }
 `
 
-const StyledSecondaryLink = styled(SecondaryLink)`
-  margin-top: 20px;
+const StyledButton = styled(SecondaryButton)`
   width: 100%;
 `
 
+/**
+ * This is the Home Page component
+ *
+ * @name Home
+ * @returns {Object} Home Page
+ */
+
 const Home = () => {
+  const { user, logout } = useAuth0()
+
+  const logoutWithRedirect = () =>
+    logout({
+      returnTo: window.location.origin
+    })
+
   return (
     <LayoutSingleCard>
-      {/* <StyledLogo>Gecko</StyledLogo> */}
-      <StyledSubline>This is Item Curator, Tourlane’s new item manager.</StyledSubline>
-
-      <StyledSecondaryLink to={'/'}>Go to ... here actually</StyledSecondaryLink>
+      <LogoSvg>Item Curator</LogoSvg>
+      {user && <StyledP>{`Welcome ${user.given_name}!`}</StyledP>}
+      <StyledButton onClick={() => logoutWithRedirect()}>Logout</StyledButton>
     </LayoutSingleCard>
   )
 }
