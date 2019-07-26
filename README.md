@@ -48,6 +48,14 @@ The entry point of the whole app is an [src/index.js](https://github.com/tourlan
 └── README.md
 ```
 
+## Tech stack
+
+`E2E`: [Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
+`Sentry`: [Error-tracking](https://sentry.io/organizations/tourlane/issues/?project=1511575)
+`JSDoc`: [Documenting code](https://jsdoc.app/)
+`Auth0`: [Authentication](https://manage.auth0.com/dashboard/eu/tourlane-staging)
+`Netlify`: [CI/CD](https://app.netlify.com/sites/lucid-fermi-29f426/overview)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
