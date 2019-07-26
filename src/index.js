@@ -12,8 +12,6 @@ if (process.env.REACT_APP_DEPLOYED_TO === 'production') {
   init({ dsn: process.env.REACT_APP_SENTRY_DSN })
 }
 
-// A function that routes the user to the right place
-// after login
 const onRedirectCallback = appState => {
   window.history.replaceState(
     {},

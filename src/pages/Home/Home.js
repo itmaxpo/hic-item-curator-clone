@@ -12,12 +12,6 @@ const StyledSubline = styled(Subline)`
   }
 `
 
-// const BoldSubline = styled(StyledSubline)`
-//   & {
-//     font-weight: 600;
-//   }
-// `
-
 const StyledSecondaryLink = styled(SecondaryLink)`
   margin-top: 20px;
   width: 100%;

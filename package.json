@@ -7,9 +7,11 @@
     "@material-ui/core": "^4.2.1",
     "@tourlane/tourlane-ui": "^4.0.6",
     "axios": "^0.19.0",
+    "better-docs": "^1.1.6",
     "cuid": "^2.1.6",
     "cypress": "^3.4.0",
     "i18n-iso-countries": "^4.2.1",
+    "jsdoc": "^3.6.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
@@ -38,8 +40,7 @@
     "start-server": "yarn build && yarn start",
     "cy:run": "cypress run",
     "test:e2e": "start-server-and-test start-server http://localhost:3000 cy:run",
-    "test:e2e:ci": "CI=1 yarn add cypress; yarn test:e2e",
-    "docs": "npx documentation build src/** -f html -o docs"
+    "test:e2e:ci": "CI=1 yarn add cypress; yarn test:e2e"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -72,7 +73,6 @@
     "commitizen": "^4.0.3",
     "cypress-file-upload": "^3.3.2",
     "cz-conventional-changelog": "^3.0.2",
-    "documentation": "^12.0.3",
     "env-cmd": "^9.0.3",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.1",
