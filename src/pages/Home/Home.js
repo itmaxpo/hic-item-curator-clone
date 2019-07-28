@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <LayoutSingleCard>
       <LogoSvg>Item Curator</LogoSvg>
-      {user && <StyledP>{`Welcome ${user.given_name}!`}</StyledP>}
+      {user && <StyledP>{`Welcome ${user.given_name}`}</StyledP>}
       <StyledButton onClick={() => logoutWithRedirect()}>Logout</StyledButton>
     </LayoutSingleCard>
   )
