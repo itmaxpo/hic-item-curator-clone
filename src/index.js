@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { Auth0Provider } from './contexts/Auth/AuthWrapper'
+import { Auth0Provider } from './contexts/Auth'
 import authConfig from 'contexts/Auth/authConfig'
 import { init } from '@sentry/browser'
 

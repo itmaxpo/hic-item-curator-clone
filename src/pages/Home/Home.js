@@ -2,9 +2,9 @@ import React from 'react'
 import { P } from '@tourlane/tourlane-ui'
 import { SecondaryButton } from 'components/Button'
 import styled from 'styled-components'
-import LayoutSingleCard from 'components/Layout'
+import { BackgroundSingleCard } from 'components/Background'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
-import { useAuth0 } from 'contexts/Auth/AuthWrapper'
+import { useAuth0 } from 'contexts/Auth'
 
 const StyledP = styled(P)`
   & {
@@ -32,11 +32,11 @@ const Home = () => {
     })
 
   return (
-    <LayoutSingleCard>
+    <BackgroundSingleCard>
       <LogoSvg>Item Curator</LogoSvg>
       {user && <StyledP>{`Welcome ${user.given_name}`}</StyledP>}
       <StyledButton onClick={() => logoutWithRedirect()}>Logout</StyledButton>
-    </LayoutSingleCard>
+    </BackgroundSingleCard>
   )
 }
 

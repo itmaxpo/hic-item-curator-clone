@@ -1,5 +1,4 @@
 /* global Headers, fetch */
-import { useAuth0 } from 'contexts/Auth/AuthWrapper'
 
 /**
  * Performs an HTTP request.
@@ -13,8 +12,6 @@ const request = async (
   errorHandler = window.alert,
   contentType
 ) => {
-  const { loginWithRedirect } = useAuth0()
-
   if (!window.navigator.onLine) {
     errorHandler(
       'You are offline! Your last changes did not apply. Please get online and try again.'
@@ -30,7 +27,8 @@ const request = async (
   }
 
   // Prepare request options
-  const headers = new Headers({ Authorization: `Bearer ${auth.token}` })
+  // TODO: Get Auth0 token if required for requests. i.e: new Headers({ Authorization: `Bearer ${token}` })
+  const headers = new Headers()
   if (method !== 'GET') {
     const _contentType = contentType ? contentType : 'application/json'
     headers.set('Content-Type', _contentType)
@@ -56,7 +54,6 @@ const request = async (
     console.warn(
       `Got an Authorization error from the backend (${path}). Trying to refresh the Auth token.`
     )
-    await loginWithRedirect({})
     return request(method, path, config, retries + 1)
   } else if (response.status === 404) {
     console.warn(`Could not find ${path}`)

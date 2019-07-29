@@ -4,7 +4,8 @@ import { BrowserRouter, Switch } from 'react-router-dom'
 import PrivateRoute from 'components/PrivateRoute'
 import Home from 'pages/Home'
 import Login from 'pages/Login'
-import { useAuth0 } from 'contexts/Auth/AuthWrapper'
+import Loading from 'pages/Loading'
+import { useAuth0 } from 'contexts/Auth'
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -18,7 +19,7 @@ function App() {
   const { isAuthenticated, loading } = useAuth0()
 
   if (loading) {
-    return <span>Loading</span>
+    return <Loading />
   }
 
   if (!isAuthenticated) {
