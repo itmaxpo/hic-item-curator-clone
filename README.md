@@ -29,6 +29,8 @@ The entry point of the whole app is an [src/index.js](https://github.com/tourlan
 │   │   ├── Page [Page is a Route component]
 │   │   │   ├── index.js
 │   │   │   ├── styles.js
+│   │   │   ├── state.js
+│   │   │   ├── utils.js
 │   │   │   ├── SpecificPageComponent1.js
 │   │   │   ├── SpecificPageComponent1.js
 │   ├── serviceWorker.js
