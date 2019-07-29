@@ -12,6 +12,12 @@ const StyledCard = styled(Card)`
   justify-content: center;
 `
 
+/**
+ * Creates a centered card with default background
+ *
+ * @name BackgroundSingleCard
+ * @param {Object} cardProps optional card properties
+ */
 const BackgroundSingleCard = ({ children, cardProps = {} }) => (
   <Background>
     <StyledCard {...cardProps}>{children}</StyledCard>

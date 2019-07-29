@@ -3,6 +3,12 @@ import PropTypes from 'prop-types'
 
 const fieldMaps = {}
 
+/**
+ * Adds fields to extend current Container of fields
+ *
+ * @name addPropsToFields
+ * @param fields
+ */
 const addPropsToFields = fields => {
   const fieldsWithProps = []
 
@@ -26,6 +32,13 @@ const addPropsToFields = fields => {
   return fieldsWithProps
 }
 
+/**
+ * Renders fields based on fields object provided
+ * Checks if it a Container or just a field
+ *
+ * @name renderFields
+ * @param fields
+ */
 const renderFields = fields =>
   fields.map((field, index) => {
     if (field.Container && field.fields) {
@@ -47,6 +60,12 @@ const renderFields = fields =>
     )
   })
 
+/**
+ * Returns fields, that should be rendered based on fields object provided
+ *
+ * @name FormFields
+ * @param {Object} props.fields
+ */
 const FormFields = ({ fields }) => {
   if (fields === undefined) {
     throw new Error('You are calling FormFields with an undefined fields.')

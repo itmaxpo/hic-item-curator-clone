@@ -9,7 +9,13 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `
-
+/**
+ * Receive any React component or Array of them
+ * and returns them with background and centered
+ *
+ * @name Background
+ * @param {Array<React.Component>} children
+ */
 const Background = ({ children }) => (
   <Wrapper>
     <StyledBackground />

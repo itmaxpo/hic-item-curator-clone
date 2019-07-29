@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { BrowserRouter, Switch } from 'react-router-dom'
-import PrivateRoute from 'components/PrivateRoute'
-import Home from 'pages/Home'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import MissingPage from 'pages/Missing'
+import SearchPage from 'pages/Search'
 import Login from 'pages/Login'
 import Loading from 'pages/Loading'
 import { useAuth0 } from 'contexts/Auth'
@@ -15,6 +15,13 @@ const AppWrapper = styled.div`
   left: 0px;
 `
 
+/**
+ * This is entry container for the whole app
+ * Will check if user isAuthenticated, if not - go to Login page
+ *
+ * @name App
+ * @returns App
+ */
 function App() {
   const { isAuthenticated, loading } = useAuth0()
 
@@ -30,7 +37,8 @@ function App() {
     <AppWrapper>
       <BrowserRouter>
         <Switch>
-          <PrivateRoute path="*" component={Home} />
+          <Route exact path="/" component={SearchPage} />
+          <Route path="*" component={MissingPage} />
         </Switch>
       </BrowserRouter>
     </AppWrapper>

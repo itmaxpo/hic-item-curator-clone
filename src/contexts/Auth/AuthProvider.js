@@ -7,6 +7,14 @@ const DEFAULT_REDIRECT_CALLBACK = () =>
 export const Auth0Context = React.createContext()
 export const useAuth0 = () => useContext(Auth0Context)
 
+/**
+ * This is a Provider that provide user information after auth process
+ * to the whole application
+ *
+ * @name Auth0Provider
+ * @param {Object} onRedirectCallback
+ * @returns
+ */
 export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
@@ -65,6 +73,7 @@ export const Auth0Provider = ({
     setIsAuthenticated(true)
     setUser(user)
   }
+
   return (
     <Auth0Context.Provider
       value={{

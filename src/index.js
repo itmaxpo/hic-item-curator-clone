@@ -12,6 +12,7 @@ if (process.env.REACT_APP_DEPLOYED_TO === 'production') {
   init({ dsn: process.env.REACT_APP_SENTRY_DSN })
 }
 
+// After authentication process finished will use this callback
 const onRedirectCallback = appState => {
   window.history.replaceState(
     {},

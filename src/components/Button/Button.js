@@ -12,7 +12,10 @@ export const sharedButtonStyle = css`
   font-size: 14px;
   white-space: nowrap;
 `
-
+/**
+ * Uses TUI default button with Item Curator styles
+ * @name Button
+ */
 const Button = styled(TuiButton)`
   ${sharedButtonStyle}
 `
@@ -21,11 +24,20 @@ const secondaryButtonDisabledStyle = css`
   color: ${COLORS.ELEMENT_GRAY};
   background: ${COLORS.LINE_GRAY};
 `
+
+/**
+ * Uses TUI secondary button with Item Curator styles
+ * @name SecondaryButton
+ */
 const SecondaryButton = styled(TuiSecondaryButton)`
   ${sharedButtonStyle}
   ${props => (props.disabled ? secondaryButtonDisabledStyle : '')}
 `
 
+/**
+ * Uses TUI alarm button with Item Curator styles
+ * @name AlarmButton
+ */
 const AlarmButton = styled(TuiAlarmButton)`
   ${sharedButtonStyle}
 `

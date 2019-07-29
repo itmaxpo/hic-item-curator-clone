@@ -1,8 +1,12 @@
 /* global Headers, fetch */
 
 /**
- * Performs an HTTP request.
- * Handles refreshing tokens if needed.
+ * Performs an HTTP request. Using Fetch
+ * Handles refreshing tokens if needed and stores auth0 token for every request
+ *
+ * @name request
+ * @params method, path, config
+ * @returns {Promise<response} response
  */
 const request = async (
   method,
