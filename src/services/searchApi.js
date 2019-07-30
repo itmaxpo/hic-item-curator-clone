@@ -1,5 +1,3 @@
-import request from './request'
-
 /**
  * Return all search results from server
  *
@@ -7,9 +5,10 @@ import request from './request'
  * @param {Object} payload
  */
 const getSearchResults = async payload => {
-  let res = await request('GET', `${process.env.REACT_APP_SEARCH_API}`)
-
-  return res.json()
+  // This is example of usage
+  // let res = await request('GET', `${process.env.REACT_APP_SEARCH_API}`)
+  // return res.json()
+  return payload
 }
 
 export { getSearchResults }

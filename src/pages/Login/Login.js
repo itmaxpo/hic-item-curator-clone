@@ -1,20 +1,8 @@
 import React from 'react'
-import { P } from '@tourlane/tourlane-ui'
-import { Button } from 'components/Button'
-import styled from 'styled-components'
 import { BackgroundSingleCard } from 'components/Background'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
 import { useAuth0 } from 'contexts/Auth'
-
-const StyledP = styled(P)`
-  & {
-    margin-top: 24px;
-  }
-`
-
-const StyledButton = styled(Button)`
-  width: 100%;
-`
+import { StyledP, StyledButton } from './styles'
 
 /**
  * This is the Login Page component
