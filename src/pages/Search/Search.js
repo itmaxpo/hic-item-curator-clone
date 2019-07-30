@@ -1,6 +1,8 @@
 import React from 'react'
 import Layout from 'components/Layout'
-import { useAuth0 } from 'contexts/Auth/AuthProvider'
+import { Wrapper } from './styles'
+import SearchBox from './SearchBox'
+import SearchResult from './SearchResult'
 
 /**
  * This is the Search Page component
@@ -11,9 +13,14 @@ import { useAuth0 } from 'contexts/Auth/AuthProvider'
  * @returns {Object} Search Page
  */
 const SearchPage = () => {
-  const { user } = useAuth0()
-
-  return <Layout>Some stuff for {user.given_name}</Layout>
+  return (
+    <Layout>
+      <Wrapper>
+        <SearchBox />
+        <SearchResult />
+      </Wrapper>
+    </Layout>
+  )
 }
 
 export default SearchPage

@@ -9,7 +9,7 @@ export const StyledSidebar = styled.div`
   color: ${COLORS.INACTIVE_GRAY};
   background: ${COLORS.BACKGROUND_GRAY};
   box-shadow: 1px 0 4px 0 rgba(63, 65, 68, 0.3);
-  width: 148px;
+  width: 90px;
   height: calc(100vh - 68px);
   position: fixed;
   top: 68px;
@@ -36,7 +36,6 @@ export const StyledCircleButton = styled(CircleButton)`
 
 export const LogoutContainer = styled(Flex)`
   position: absolute;
-  left: 25px;
   bottom: 80px;
 `
 

@@ -29,7 +29,7 @@
     "build": "react-scripts build",
     "build:staging": "npx env-cmd -f .env.staging react-scripts build",
     "build:production": "npx env-cmd -f .env.production react-scripts build",
-    "deploy": "yarn test:e2e:ci && yarn lint",
+    "deploy": "yarn lint && yarn test:e2e:ci",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(@tourlane/tourlane-ui))/\" --env=jsdom",
     "e2e": "npx cypress open",
     "eject": "react-scripts eject",
