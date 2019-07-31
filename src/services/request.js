@@ -6,7 +6,7 @@
  *
  * @name request
  * @params method, path, config
- * @returns {Promise<response} response
+ * @returns {Promise<response>} response
  */
 const request = async (
   method,

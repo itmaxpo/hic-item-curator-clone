@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Flex } from '@tourlane/tourlane-ui'
-
 import HeaderContentWrapper from '../AppContainer'
 import { LeftRightWrapper, StyledHeader, StyledLogoSvg } from './styles'
 

@@ -1,6 +1,21 @@
 # Item Curator Structure
 
-### Entry point
+## Testing
+
+### E2E tests
+
+**Cypress** used to test application. Basically, E2E tests should cover user paths or user interaction with separate pages or functionalities. **E.g**: _I am as a user want to search for country and should be able to find it, then go to Edit page and edit it, then save it and see my changes_
+
+### Unit tests
+
+**Jest && Enzyme && Renderer** used for Unit testing. Basically, unit tests will cover basic components, that are used across the app. For Unit testing should be used 'Black box testing' means component should receive
+some input and unit tests check the output. We are checking styling only if it changed by some conditions or properties (_State like Button - disabled we are not checking_). Should be used [Given-When-Then](https://martinfowler.com/bliki/GivenWhenThen.html) approach. And everything not covered by E2E. Should be covered:
+
+- all components
+- services
+- smaller components in the <Custom>Page folder
+
+## Entry point
 
 The entry point of the whole app is an [src/index.js](https://github.com/tourlane/item-curator/blob/master/src/index.js)
 
@@ -52,10 +67,14 @@ The entry point of the whole app is an [src/index.js](https://github.com/tourlan
 
 ## Tech stack
 
-* `Cypress`: [E2E](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
-* `Sentry`: [Error-tracking](https://sentry.io/organizations/tourlane/issues/?project=1511575)
-* `Auth0`: [Authentication](https://manage.auth0.com/dashboard/eu/tourlane-staging)
-* `Netlify`: [CI/CD](https://app.netlify.com/sites/lucid-fermi-29f426/overview)
+- `Cypress`: [E2E](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
+- `Sentry`: [Error-tracking](https://sentry.io/organizations/tourlane/issues/?project=1511575)
+- `Auth0`: [Authentication](https://manage.auth0.com/dashboard/eu/tourlane-staging)
+- `Netlify`: [CI/CD](https://app.netlify.com/sites/lucid-fermi-29f426/overview)
+- `Jest`: [Unit Testing](https://app.netlify.com/sites/lucid-fermi-29f426/overview)
+- `Enzyme`: [Unit Testing Utility](https://airbnb.io/enzyme/docs/guides/jest.html)
+- `Sinon`: [Assertion library](https://sinonjs.org/releases/latest/assertions/)
+- `Jasmine`: [Cheatsheet](https://devhints.io/jasmine)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
