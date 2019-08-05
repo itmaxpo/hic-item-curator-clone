@@ -14,6 +14,10 @@ import { ReactComponent as SearchSvg } from 'icons/magnifier.svg'
 import { ReactComponent as EditSvg } from 'icons/edit.svg'
 import { ReactComponent as ChevronRightSvg } from 'icons/chevronRight.svg'
 import { ReactComponent as ChevronLeftSvg } from 'icons/chevronLeft.svg'
+import { ReactComponent as MapPinSvg } from 'icons/mapPin.svg'
+import { ReactComponent as WorldSvg } from 'icons/world.svg'
+import { ReactComponent as FlagSvg } from 'icons/flag.svg'
+import { ReactComponent as HomeSvg } from 'icons/home.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -97,6 +101,30 @@ const ChevronLeftIcon = props => (
   </StyledSvgIcon>
 )
 
+const MapPin = props => (
+  <StyledSvgIcon alt="map-pin" {...props}>
+    <MapPinSvg />
+  </StyledSvgIcon>
+)
+
+const World = props => (
+  <StyledSvgIcon alt="world" {...props}>
+    <WorldSvg />
+  </StyledSvgIcon>
+)
+
+const Flag = props => (
+  <StyledSvgIcon alt="flag" {...props}>
+    <FlagSvg />
+  </StyledSvgIcon>
+)
+
+const Home = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <HomeSvg />
+  </StyledSvgIcon>
+)
+
 export {
   AlertIcon,
   LightCloseIcon,
@@ -109,5 +137,9 @@ export {
   SearchIcon,
   MenuIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  MapPin,
+  World,
+  Flag,
+  Home
 }

@@ -1533,13 +1533,20 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
-"@tourlane/tourlane-ui@^4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@tourlane/tourlane-ui/-/tourlane-ui-4.0.6.tgz#0b3fc0100b427e3667255f97ee92889d91546409"
-  integrity sha512-kDh6agvs3gbGITxbvzqJnB8S4qvTVhmZ+T/aJoP67PoYhmio/BloZot5hwQ8t+rh3Tc0wI+dNhHT9nWPy0pY2w==
+"@tourlane/iconography@^1.3.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@tourlane/iconography/-/iconography-1.4.0.tgz#ccf4f8e484ce6e249e3a16cbcfdd7233ad20c5e6"
+  integrity sha512-jFKH+RQZU2JKKmU6/pM2RZ9/DE5l+Kjymq/r3Y9azieyeT0cW7HSBRxF/OVsJxifE0px0HFL2pf+11faKVuWTA==
+
+"@tourlane/tourlane-ui@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@tourlane/tourlane-ui/-/tourlane-ui-4.4.2.tgz#f5af7fdcbe8413e45fa9522908b52652366059e2"
+  integrity sha512-bEQEw1QmykEVZKZrT9O4wvTomPIm910pgAbdiMOLWoLy37V9lGl2wJCjBSUdZdNmAtHFYzLzKd/qCXFBtmPn3A==
   dependencies:
+    "@tourlane/iconography" "^1.3.0"
     react-animations "^1.0.0"
     react-compound-slider "^2.1.0"
+    react-day-picker "^7.3.0"
     react-popper "^1.3.3"
     react-select "^3.0.4"
     react-spring "^8.0.20"
@@ -10191,6 +10198,13 @@ react-compound-slider@^2.1.0:
     d3-array "^1.2.4"
     prop-types "^15.7.2"
     warning "^3.0.0"
+
+react-day-picker@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.3.0.tgz#59b6d4e19d274650c79dcf49fbcce2637313467d"
+  integrity sha512-t2kz0Zy4P5U4qwU5YhsBq2QGmypP8L/u+89TSnuD0h4dYKSEDQArFPWfin9gv8erV1ciR1Wzr485TMaYnI7FTw==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-dev-utils@^9.0.1:
   version "9.0.1"
