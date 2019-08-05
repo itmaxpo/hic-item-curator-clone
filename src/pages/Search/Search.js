@@ -1,8 +1,8 @@
 import React from 'react'
 import Layout from 'components/Layout'
-import { Wrapper } from './styles'
+import { Wrapper, CreateNewItemWrapper, CreateButton } from './styles'
 import SearchBox from './SearchBox'
-import SearchResult from './SearchResult'
+import SearchResultWrapper from './SearchResult'
 
 /**
  * This is the Search Page component
@@ -12,12 +12,23 @@ import SearchResult from './SearchResult'
  * @param {Object} location from route
  * @returns {Object} Search Page
  */
-const SearchPage = () => {
+const SearchPage = ({ results }) => {
+  const updateSelectedResults = itemsToUpdate => {
+    // console.log(itemsToUpdate)
+  }
+
+  const createNewItem = () => {}
+
   return (
     <Layout>
       <Wrapper>
         <SearchBox />
-        <SearchResult />
+        <SearchResultWrapper results={results} updateSelectedResults={updateSelectedResults} />
+
+        <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
+          <p>Didn't find what are you looking for?</p>
+          <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
+        </CreateNewItemWrapper>
       </Wrapper>
     </Layout>
   )

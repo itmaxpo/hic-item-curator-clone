@@ -1,7 +1,6 @@
 import React from 'react'
 import Background from 'components/Background'
-import PacmanLoader from 'react-spinners/PacmanLoader'
-import { COLORS } from '@tourlane/tourlane-ui'
+import Loader from 'components/Loader'
 
 /**
  * This is the Loading Page component
@@ -12,7 +11,7 @@ import { COLORS } from '@tourlane/tourlane-ui'
 
 const Loading = () => (
   <Background>
-    <PacmanLoader color={COLORS.ADVENTURE_GREEN} />
+    <Loader />
   </Background>
 )
 

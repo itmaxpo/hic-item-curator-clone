@@ -14,6 +14,7 @@ import { ReactComponent as SearchSvg } from 'icons/magnifier.svg'
 import { ReactComponent as EditSvg } from 'icons/edit.svg'
 import { ReactComponent as ChevronRightSvg } from 'icons/chevronRight.svg'
 import { ReactComponent as ChevronLeftSvg } from 'icons/chevronLeft.svg'
+import { ReactComponent as ActionSvg } from 'icons/action.svg'
 import { ReactComponent as MapPinSvg } from 'icons/mapPin.svg'
 import { ReactComponent as WorldSvg } from 'icons/world.svg'
 import { ReactComponent as FlagSvg } from 'icons/flag.svg'
@@ -101,6 +102,12 @@ const ChevronLeftIcon = props => (
   </StyledSvgIcon>
 )
 
+const ActionIcon = props => (
+  <StyledSvgIcon alt="action" {...props}>
+    <ActionSvg />
+  </StyledSvgIcon>
+)
+
 const MapPin = props => (
   <StyledSvgIcon alt="map-pin" {...props}>
     <MapPinSvg />
@@ -138,6 +145,7 @@ export {
   MenuIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ActionIcon,
   MapPin,
   World,
   Flag,
