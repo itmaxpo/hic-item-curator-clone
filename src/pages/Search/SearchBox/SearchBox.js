@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { Fragment, useState, useCallback, useEffect, useRef } from 'react'
+import { get } from 'lodash'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -9,6 +10,7 @@ import {
   SearchWrapper,
   SearchFieldsWrapper
 } from './styles'
+import { getCategoryBasedBehavior } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
 
@@ -23,47 +25,27 @@ const mockOptions = [
   { value: 'cinnamon', label: 'Cinnamon' }
 ]
 
-const CountrySelect = ({ options = [], onChange = () => {}, value, ...rest }) => (
-  <Dropdown
-    label="Country"
-    placeholder="Please select ..."
-    options={mockOptions}
-    value={value}
-    onChange={value => onChange(value)}
-    {...rest}
-  />
-)
-const AreaSelect = ({ options = [], onChange = () => {}, value, isOptional }) => (
-  <Dropdown
-    label={isOptional ? 'Area (optional)' : 'Area'}
-    placeholder="Please select ..."
-    options={mockOptions}
-    value={value}
-    onChange={value => onChange(value)}
-  />
-)
-const SupplierSelect = ({ options = [], onChange = () => {} }) => (
-  <Dropdown
-    label="Supplier (optional)"
-    placeholder="Name of supplier"
-    options={mockOptions}
-    onChange={value => onChange({ supplier: value })}
-  />
-)
-const NameInput = ({ onChange = () => {} }) => (
-  <NameField
-    label="Name (optional)"
-    placeholder="Name of the place"
-    onChange={e => onChange({ name: e.target.value })}
-  />
-)
-
-const AccommodationSearchFields = ({ area, onAreaChange, ...rest }) => (
-  <>
-    <AreaSelect value={area} onChange={onAreaChange} />
-    <NameInput {...rest} />
-    <SupplierSelect {...rest} />
-  </>
+const AccommodationSearchFields = ({ area, onAreaChange, onChange }) => (
+  <Fragment>
+    <Dropdown
+      label={'Area'}
+      placeholder="Please select ..."
+      options={mockOptions}
+      value={area}
+      onChange={value => onAreaChange(value)}
+    />
+    <NameField
+      label="Name (optional)"
+      placeholder="Name of the place"
+      onChange={e => onChange({ name: e.target.value })}
+    />
+    <Dropdown
+      label="Supplier (optional)"
+      placeholder="Name of supplier"
+      options={mockOptions}
+      onChange={value => onChange({ supplier: value })}
+    />
+  </Fragment>
 )
 
 const initialValues = {
@@ -97,7 +79,15 @@ const SearchBox = () => {
   const getCategorySearchFields = useCallback(() => {
     switch (category) {
       case 'area':
-        return <AreaSelect value={area} onChange={setArea} isOptional />
+        return (
+          <Dropdown
+            label={'Area (optional)'}
+            placeholder="Please select ..."
+            options={mockOptions}
+            value={area}
+            onChange={value => setArea(value)}
+          />
+        )
       case 'accommodation':
         return (
           <AccommodationSearchFields onChange={onValueChange} area={area} onAreaChange={setArea} />
@@ -112,51 +102,16 @@ const SearchBox = () => {
     setArea(null)
   }, [country])
 
-  // effect to enable/disable search button
+  // effect to enable/disable search button & get Go To destination
   useEffect(() => {
-    switch (category) {
-      case 'country':
-      case 'area':
-        if (country) {
-          setSearchDisabled(false)
-        } else {
-          setSearchDisabled(true)
-        }
-        break
-      case 'accommodation':
-        if (area && country) {
-          setSearchDisabled(false)
-        } else {
-          setSearchDisabled(true)
-        }
-        break
-      default:
-        setSearchDisabled(true)
-        break
-    }
-  }, [category, country, area])
+    const { shouldDisableSearchButton, getGoToDestination } = getCategoryBasedBehavior(
+      category,
+      get(country, 'label'),
+      get(area, 'label')
+    )
 
-  // effect to switch from search to "Go to destination"
-  useEffect(() => {
-    switch (category) {
-      case 'country':
-        if (country) {
-          setGoToDestination(country.label)
-        } else {
-          setGoToDestination(undefined)
-        }
-        break
-      case 'area':
-        if (country && area) {
-          setGoToDestination(area.label)
-        } else {
-          setGoToDestination(undefined)
-        }
-        break
-      default:
-        setGoToDestination(undefined)
-        break
-    }
+    setSearchDisabled(shouldDisableSearchButton)
+    setGoToDestination(getGoToDestination)
   }, [category, country, area])
 
   return (
@@ -175,11 +130,14 @@ const SearchBox = () => {
       </CategoryCardsWrapper>
       {category && (
         <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
-          <CountrySelect
+          <Dropdown
+            label="Country"
+            placeholder="Please select ..."
+            options={mockOptions}
             renderMarginRight={category !== 'country'}
             renderMarginBottom={category === 'accommodation'}
             value={country}
-            onChange={setCountry}
+            onChange={value => setCountry(value)}
           />
           {getCategorySearchFields()}
         </SearchFieldsWrapper>

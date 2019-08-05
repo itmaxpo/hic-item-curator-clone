@@ -1,43 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { capitalize } from 'lodash'
-import { Card, Subline, COLORS } from '@tourlane/tourlane-ui'
+import { Wrapper, StyledCard, StyledSubline } from './styles'
 
-const Wrapper = styled.div`
-  min-width: 140px;
-  height: 90px;
-  cursor: pointer;
-`
-
-const StyledCard = styled(Card)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  box-sizing: border-box;
-  border-bottom: solid 5px ${({ selected }) => (selected ? COLORS.ADVENTURE_GREEN : 'transparent')};
-
-  && * {
-    margin: 0 auto;
-  }
-
-  && > span {
-    margin-top: 10px;
-  }
-
-  > p {
-    position: relative;
-    top: 5px;
-  }
-`
-
-const StyledSubline = styled(Subline)`
-  & {
-    font-size: 16px;
-    line-height: 26px;
-  }
-`
 /**
  * Returns a small card with a provided icon and label,
  * if selected, renders a green bottom border.
