@@ -1,3 +1,21 @@
+<h1 align="center">
+  <br>
+<img alt="logo" width="100" src="https://user-images.githubusercontent.com/12096547/62462356-8026b880-b787-11e9-9996-3e2b25c73616.jpg" />
+  <br>
+    Item Curator
+  <br>
+</h1>
+
+<h4 align="center">Tourlane’s item management tool. https://items.tlservers.com</h4>
+<img width="1358" alt="Screenshot 2019-08-01 at 19 23 34" src="https://user-images.githubusercontent.com/12096547/62462454-bfeda000-b787-11e9-8e89-2977ca4f7b76.png">
+
+## 🚀 Installation instructions
+
+1. Make sure you are a member of the npm package `@tourlane/tourlane-ui`
+2. Add  `//registry.npmjs.org/:_authToken={YOUR_NPM_TOKEN}` to `.npmrc` in your home directory
+3. Run `npm install` (make sure port 3000 is not already in use)
+4. Start the app with either `npm run start:staging` or `npm run start:production`
+
 # Item Curator Structure
 
 ## Testing
