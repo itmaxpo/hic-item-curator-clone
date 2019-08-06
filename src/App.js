@@ -5,6 +5,7 @@ import MissingPage from 'pages/Missing'
 import SearchPage from 'pages/Search'
 import Login from 'pages/Login'
 import Loading from 'pages/Loading'
+import SandboxPage from 'pages/Sandbox'
 import { useAuth0 } from 'contexts/Auth'
 
 const AppWrapper = styled.div`
@@ -38,6 +39,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={SearchPage} />
+          <Route exact path="/sandbox" component={SandboxPage} />
           <Route path="*" component={MissingPage} />
         </Switch>
       </BrowserRouter>
