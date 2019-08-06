@@ -43,11 +43,16 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser()
-        const token = await auth0FromHook.getTokenSilently({
-          audience: process.env.REACT_APP_AUTH_AUDIENCE,
-          scope: 'read:all'
-        })
-        tokenManager.setToken(token)
+        try {
+          const token = await auth0FromHook.getTokenSilently({
+            audience: process.env.REACT_APP_AUTH_AUDIENCE,
+            scope: 'read:all'
+          })
+          tokenManager.setToken(token)
+        } catch (error) {
+          console.warn('Nice try using stuff', error)
+        }
+
         setUser(user)
       }
 

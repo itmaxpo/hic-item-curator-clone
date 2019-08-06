@@ -1,4 +1,5 @@
 import React from 'react'
+import TabsWrapper from 'components/Tabs'
 
 /**
  * This is the Sandbox Page component
@@ -8,7 +9,14 @@ import React from 'react'
  * @returns {Object} Sandbox Page
  */
 const SandboxPage = () => {
-  return <div>Welcome to IC Sandbox.</div>
+  return (
+    <div>
+      <TabsWrapper
+        tabs={['Stuff 1', 'Stuff 2', 'Stuff 3']}
+        tabContents={[<p>Hello 1</p>, 123, 123]}
+      />
+    </div>
+  )
 }
 
 export default SandboxPage
