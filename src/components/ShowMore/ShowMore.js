@@ -3,7 +3,13 @@ import { Collapse } from '@material-ui/core'
 import Truncate from 'react-truncate'
 import { ButtonWrapper } from './styles'
 
-const Collapsable = ({ children, height }) => {
+/**
+ * Component serves as a wrapper for the text components, that need to have
+ * show more/less text functionality
+ *
+ * @param height (optional) Provide height of collapsed block
+ */
+const Collapsable = ({ children, height = '60px' }) => {
   // We use 2 states to make sure the collapse transition happens before the
   // text is truncated.
   const [isCollapsed, setIsCollapsed] = useState(true)

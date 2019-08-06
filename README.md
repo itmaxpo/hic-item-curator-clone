@@ -12,7 +12,7 @@
 ## 🚀 Installation instructions
 
 1. Make sure you are a member of the npm package `@tourlane/tourlane-ui`
-2. Add  `//registry.npmjs.org/:_authToken={YOUR_NPM_TOKEN}` to `.npmrc` in your home directory
+2. Add `//registry.npmjs.org/:_authToken={YOUR_NPM_TOKEN}` to `.npmrc` in your home directory
 3. Run `npm install` (make sure port 3000 is not already in use)
 4. Start the app with either `npm run start:staging` or `npm run start:production`
 

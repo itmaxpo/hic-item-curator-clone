@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox, Tooltip, Base } from '@tourlane/tourlane-ui'
-import { SearchActionsWrapper, ActionIcons, IconData } from './styles'
-import Pagination from 'components/Pagination'
+import { SearchActionsWrapper, ActionIcons, IconData, PaginationCenteredWrapper } from './styles'
+import PaginationWrapper from 'components/Pagination'
 import { MergeIcon } from 'components/Icon'
 import { getSelectedItems } from '../utils'
 
@@ -48,13 +48,15 @@ export const SearchActions = ({
       </ActionIcons>
 
       {pages && (
-        <Pagination
-          total={pages * 10}
-          limit={10}
-          pageCount={10}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-        />
+        <PaginationCenteredWrapper>
+          <PaginationWrapper
+            total={pages * 10}
+            limit={10}
+            pageCount={10}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        </PaginationCenteredWrapper>
       )}
     </SearchActionsWrapper>
   )

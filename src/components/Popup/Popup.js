@@ -2,6 +2,11 @@ import React from 'react'
 import Popover from '@material-ui/core/Popover'
 import { ChevronDown } from 'components/Icon'
 
+/**
+ * MUI Popover with custom styles https://material-ui.com/components/popover/
+ *
+ * @param {String} id
+ */
 export const Popup = ({ id, children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 

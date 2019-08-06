@@ -1,5 +1,8 @@
 import React from 'react'
-import { PaginationWrapper, PrevButton, NextButton, PaginationButton } from './styles'
+import Pagination from 'react-paginating'
+import { PrevButton, NextButton, PaginationButton } from './styles'
+import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
+import { COLORS } from '@tourlane/tourlane-ui'
 
 /**
  *  Pagination component
@@ -9,9 +12,9 @@ import { PaginationWrapper, PrevButton, NextButton, PaginationButton } from './s
  * @param {Number} pageCount
  * @param {Number} currentPage
  */
-const Pagination = ({ total, limit, pageCount, currentPage, onPageChange }) => {
+const PaginationWrapper = ({ total, limit, pageCount, currentPage, onPageChange }) => {
   return (
-    <PaginationWrapper total={total} limit={limit} pageCount={pageCount} currentPage={currentPage}>
+    <Pagination total={total} limit={limit} pageCount={pageCount} currentPage={currentPage}>
       {({
         pages,
         currentPage,
@@ -30,7 +33,7 @@ const Pagination = ({ total, limit, pageCount, currentPage, onPageChange }) => {
                 onPageChange: onPageChange
               })}
             >
-              {'<'}
+              <ChevronLeftIcon color={COLORS.INACTIVE_GRAY} />
             </PrevButton>
           ) : (
             <PrevButton className={'empty'} width={'26px'}>
@@ -45,7 +48,7 @@ const Pagination = ({ total, limit, pageCount, currentPage, onPageChange }) => {
               onPageChange: onPageChange
             })}
           >
-            first
+            First
           </PaginationButton>
 
           {pages.map(page => {
@@ -69,7 +72,7 @@ const Pagination = ({ total, limit, pageCount, currentPage, onPageChange }) => {
               onPageChange: onPageChange
             })}
           >
-            last
+            Last
           </PaginationButton>
 
           {hasNextPage && (
@@ -79,13 +82,13 @@ const Pagination = ({ total, limit, pageCount, currentPage, onPageChange }) => {
                 onPageChange: onPageChange
               })}
             >
-              {'>'}
+              <ChevronRightIcon />
             </NextButton>
           )}
         </div>
       )}
-    </PaginationWrapper>
+    </Pagination>
   )
 }
 
-export default Pagination
+export default PaginationWrapper

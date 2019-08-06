@@ -1,4 +1,3 @@
-import Pagination from 'react-paginating'
 import styled, { css } from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
@@ -11,46 +10,64 @@ const buttonStyles = css`
   font-family: SourceSansPro;
   font-size: 18px;
   font-weight: 600;
-  margin: 2px;
-  padding: 4px 8px;
+  margin: 0 8px;
+  padding: 2px 8px;
   border-radius: 2px;
+  box-sizing: content-box;
 
   &:hover {
     cursor: pointer;
-    color: ${COLORS.SENSATION_WHITE};
-    background-color: ${COLORS.ADVENTURE_GREEN_FOCUSED}
+    border-bottom: 2px solid ${COLORS.ADVENTURE_GREEN}
+    padding: 4px 8px 2px 8px;
   }
 
   &.active {
     color: ${COLORS.NIGHTINGALE_BLACK}
+    border-bottom: 2px solid ${COLORS.ADVENTURE_GREEN}
+    padding: 2px 8px 2px 8px;
 
     &:hover {
       cursor: pointer;
-      color: ${COLORS.SENSATION_WHITE};
-      background-color: ${COLORS.ADVENTURE_GREEN_FOCUSED}
     }
   }
 
   &.empty {
-    color: ${COLORS.NIGHTINGALE_BLACK}
+    opacity: 0;
+    pointer: auto;
+    padding: 4px 8px 0 8px;
 
     &:hover {
-      cursor: auto;
-      color: ${COLORS.SENSATION_WHITE};
-      background-color: transparent;
+      cursor: default;
     }
   }
 `
 
-export const PaginationWrapper = styled(Pagination)``
+export const prevNextStyles = css`
+  height: 26px;
+  width: 12px;
+  padding: 4px 8px 0 8px;
+
+  svg g {
+    stroke: ${COLORS.INACTIVE_GRAY}
+
+    &:hover {
+      cursor: pointer;
+      color: ${COLORS.NIGHTINGALE_BLACK}
+      border-bottom: 2px solid ${COLORS.ADVENTURE_GREEN}
+    }
+  }
+`
 
 export const PrevButton = styled.button`
   ${buttonStyles}
   ${({ width }) => `width: ${width}`}
+  ${prevNextStyles}
+  
 `
 
 export const NextButton = styled.button`
   ${buttonStyles}
+  ${prevNextStyles}
 `
 
 export const PaginationButton = styled.button`

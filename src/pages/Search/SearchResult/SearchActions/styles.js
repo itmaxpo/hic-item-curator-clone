@@ -22,3 +22,8 @@ export const IconData = styled.span`
 export const ActionIcons = styled.div`
   margin-left: 6px;
 `
+
+export const PaginationCenteredWrapper = styled.div`
+  flex-grow: 2;
+  text-align: center;
+`
