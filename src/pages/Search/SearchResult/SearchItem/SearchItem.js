@@ -11,7 +11,7 @@ import SearchItemPhotos from './components/SearchItemPhotos'
  * @param {Number} index
  * @param {Function} onSelect
  */
-export const SearchItem = ({ item, index, onItemSelect }) => {
+export const SearchItem = ({ item, index, onItemSelect, onItemClick }) => {
   const onCheckboxChange = () => {
     const selectedItem = { ...item, isSelected: !item.isSelected }
     onItemSelect(selectedItem, index)
@@ -26,7 +26,7 @@ export const SearchItem = ({ item, index, onItemSelect }) => {
         onChange={onCheckboxChange}
       />
 
-      <SearchItemBody item={item} />
+      <SearchItemBody item={item} onItemClick={onItemClick} />
 
       <SearchItemPhotos photos={item.photos} />
     </SearchItemWrapper>

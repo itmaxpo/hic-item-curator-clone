@@ -1,12 +1,24 @@
 import styled from 'styled-components'
-import { FlexContainer, Dropdown } from '@tourlane/tourlane-ui'
+import { FlexContainer, COLORS } from '@tourlane/tourlane-ui'
 
 export const SearchActionsWrapper = styled(FlexContainer)`
   > * {
-    margin-right: 18px;
+    margin-right: 6px;
   }
 `
 
-export const ActionsDropdown = styled(Dropdown)`
-  width: 351px;
+export const IconData = styled.span`
+  &:hover {
+    cursor: pointer;
+    background-color: ${COLORS.ADVENTURE_GREEN};
+  }
+
+  ${({ isActive }) => `
+    svg g {
+      fill: ${isActive ? COLORS.NIGHTINGALE_BLACK : ''};`}
+  }
+`
+
+export const ActionIcons = styled.div`
+  margin-left: 6px;
 `

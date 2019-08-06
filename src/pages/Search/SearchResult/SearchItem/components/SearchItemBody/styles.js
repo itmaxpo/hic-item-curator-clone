@@ -15,6 +15,13 @@ export const ItemTitle = styled.p`
   line-height: 1.45;
   font-weight: 600;
   color: ${COLORS.NIGHTINGALE_BLACK};
+
+  > span {
+    &:hover {
+      cursor: pointer;
+      border-bottom: 3px solid ${COLORS.ADVENTURE_GREEN};
+    }
+  }
 `
 
 export const ItemSubtitle = styled.p`

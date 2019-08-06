@@ -1,3 +1,5 @@
+import { tokenManager } from './tokenManager'
+
 /* global Headers, fetch */
 
 /**
@@ -32,7 +34,10 @@ const request = async (
 
   // Prepare request options
   // TODO: Get Auth0 token if required for requests. i.e: new Headers({ Authorization: `Bearer ${token}` })
-  const headers = new Headers()
+  const headers = new Headers({
+    Authorization: `Bearer ${tokenManager.getToken()}`
+  })
+
   if (method !== 'GET') {
     const _contentType = contentType ? contentType : 'application/json'
     headers.set('Content-Type', _contentType)

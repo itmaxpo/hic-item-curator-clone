@@ -19,6 +19,8 @@ import { ReactComponent as MapPinSvg } from 'icons/mapPin.svg'
 import { ReactComponent as WorldSvg } from 'icons/world.svg'
 import { ReactComponent as FlagSvg } from 'icons/flag.svg'
 import { ReactComponent as HomeSvg } from 'icons/home.svg'
+import { ReactComponent as ChevronDownSvg } from 'icons/down.svg'
+import { ReactComponent as MergeSvg } from 'icons/merge.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -132,6 +134,18 @@ const Home = props => (
   </StyledSvgIcon>
 )
 
+const ChevronDown = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <ChevronDownSvg />
+  </StyledSvgIcon>
+)
+
+const MergeIcon = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <MergeSvg />
+  </StyledSvgIcon>
+)
+
 export {
   AlertIcon,
   LightCloseIcon,
@@ -149,5 +163,7 @@ export {
   MapPin,
   World,
   Flag,
-  Home
+  Home,
+  ChevronDown,
+  MergeIcon
 }

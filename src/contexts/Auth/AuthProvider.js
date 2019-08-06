@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
+import { tokenManager } from 'services/tokenManager'
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname)
@@ -42,6 +43,11 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser()
+        const token = await auth0FromHook.getTokenSilently({
+          audience: process.env.REACT_APP_AUTH_AUDIENCE,
+          scope: 'read:all'
+        })
+        tokenManager.setToken(token)
         setUser(user)
       }
 
@@ -61,6 +67,7 @@ export const Auth0Provider = ({
       setPopupOpen(false)
     }
     const user = await auth0Client.getUser()
+
     setUser(user)
     setIsAuthenticated(true)
   }
@@ -69,9 +76,18 @@ export const Auth0Provider = ({
     setLoading(true)
     await auth0Client.handleRedirectCallback()
     const user = await auth0Client.getUser()
+
     setLoading(false)
     setIsAuthenticated(true)
     setUser(user)
+  }
+
+  const logout = (...p) => {
+    if (tokenManager.getToken()) {
+      tokenManager.setToken(null)
+    }
+
+    return auth0Client.logout(...p)
   }
 
   return (
@@ -83,11 +99,8 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
-        getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
-        logout: (...p) => auth0Client.logout(...p)
+        logout
       }}
     >
       {children}

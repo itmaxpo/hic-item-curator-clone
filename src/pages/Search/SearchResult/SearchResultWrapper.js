@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import { FlexContainer } from '@tourlane/tourlane-ui'
-import { isEmpty } from 'lodash'
 import Loader from 'components/Loader'
 import SearchActions from './SearchActions'
 import { animateScroll as scroll } from 'react-scroll'
@@ -8,9 +7,7 @@ import {
   getMockedResults,
   paginateResults,
   updatePaginatedItemByIndex,
-  updateAllPaginatedItems,
-  updateSelectedPaginatedItems,
-  getSelectedItems
+  updateAllPaginatedItems
 } from './utils'
 import SearchItem from './SearchItem'
 import { SearchResultContainer } from './styles'
@@ -27,28 +24,18 @@ import { SearchResultContainer } from './styles'
 export const SearchResultWrapper = ({ results, isLoading = false, updateSelectedResults }) => {
   const searchContainer = useRef(null)
   const [isAllSelected, setIsAllSelected] = useState(false)
-  const [actionSelected, setActionSelected] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [allResults, setAllResults] = useState(paginateResults(getMockedResults()))
 
   const pages = allResults.length
 
-  const onAllSelectClick = () => {
-    const selectedResults = updateAllPaginatedItems(allResults, 'isSelected', !isAllSelected)
+  const onAllSelectClick = isSelected => {
+    const selectedResults = updateAllPaginatedItems(allResults, 'isSelected', isSelected)
     setIsAllSelected(!isAllSelected)
     setAllResults(selectedResults)
   }
 
-  const onStatusSelect = status => {
-    // Do nothing if status was cleared
-    if (isEmpty(status)) {
-      return
-    }
-    const selectedResults = updateSelectedPaginatedItems(allResults, 'status', status)
-    setActionSelected(status)
-    setAllResults(selectedResults)
-    updateSelectedResults(getSelectedItems(selectedResults))
-  }
+  const onActionSelected = action => {}
 
   const onPageChange = page => {
     // Calculate offsetTop for searchContainer to scroll to it
@@ -64,6 +51,10 @@ export const SearchResultWrapper = ({ results, isLoading = false, updateSelected
     setAllResults(updatedItems)
   }
 
+  const onItemClick = item => {
+    // console.log(item)
+  }
+
   if (isLoading) {
     return <Loader />
   }
@@ -73,9 +64,8 @@ export const SearchResultWrapper = ({ results, isLoading = false, updateSelected
       <SearchActions
         isAllSelected={isAllSelected}
         onAllSelectClick={onAllSelectClick}
-        actionSelected={actionSelected}
-        onStatusSelect={onStatusSelect}
-        dropdownPlacement={'bottom'}
+        allResults={allResults}
+        onActionSelected={onActionSelected}
       />
 
       {allResults.length === 0 ? (
@@ -83,7 +73,13 @@ export const SearchResultWrapper = ({ results, isLoading = false, updateSelected
       ) : (
         <SearchResultContainer>
           {allResults[currentPage - 1].map((item, i) => (
-            <SearchItem key={i} item={item} index={i} onItemSelect={onItemSelect} />
+            <SearchItem
+              key={i}
+              item={item}
+              index={i}
+              onItemSelect={onItemSelect}
+              onItemClick={onItemClick}
+            />
           ))}
         </SearchResultContainer>
       )}
@@ -92,9 +88,8 @@ export const SearchResultWrapper = ({ results, isLoading = false, updateSelected
         <SearchActions
           isAllSelected={isAllSelected}
           onAllSelectClick={onAllSelectClick}
-          actionSelected={actionSelected}
-          onStatusSelect={onStatusSelect}
-          dropdownPlacement={'top'}
+          allResults={allResults}
+          onActionSelected={onActionSelected}
           currentPage={currentPage}
           pages={pages}
           onPageChange={onPageChange}

@@ -1,15 +1,6 @@
 import { flatten } from 'lodash'
 import { filterEmptyEntities, paginateArray } from '../utils'
-import {
-  STATUS_IN_PROGRESS,
-  STATUS_ON_HOLD,
-  STATUS_ONLINE,
-  STATUS_OFFLINE,
-  STATUS_IN_PROGRESS_LABEL,
-  STATUS_ON_HOLD_LABEL,
-  STATUS_ONLINE_LABEL,
-  STATUS_OFFLINE_LABEL
-} from 'components/StatusIndicator/StatusIndicator'
+import { STATUS_IN_PROGRESS } from 'components/StatusIndicator/StatusIndicator'
 
 export const getMockedResults = () => [
   {
@@ -206,25 +197,6 @@ export const getMockedResults = () => [
     description: '',
     status: STATUS_IN_PROGRESS,
     photos: [{ name: 'First' }]
-  }
-]
-
-export const searchActions = [
-  {
-    value: STATUS_IN_PROGRESS,
-    label: STATUS_IN_PROGRESS_LABEL
-  },
-  {
-    value: STATUS_ON_HOLD,
-    label: STATUS_ON_HOLD_LABEL
-  },
-  {
-    value: STATUS_ONLINE,
-    label: STATUS_ONLINE_LABEL
-  },
-  {
-    value: STATUS_OFFLINE,
-    label: STATUS_OFFLINE_LABEL
   }
 ]
 
