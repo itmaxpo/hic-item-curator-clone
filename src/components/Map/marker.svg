@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="26px" viewBox="0 0 19 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>icons/map-marker</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M9.33333333,0 C4.16888889,0 0,4.16888889 0,9.33333333 C0,15.5555556 9.33333333,24.8888889 9.33333333,24.8888889 C9.33333333,24.8888889 18.6666667,15.5555556 18.6666667,9.33333333 C18.6666667,4.16888889 14.4977778,0 9.33333333,0 Z M9.33333333,3.11111111 C12.7866667,3.11111111 15.5555556,5.91111111 15.5555556,9.33333333 C15.5555556,12.7866667 12.7866667,15.5555556 9.33333333,15.5555556 C5.91111111,15.5555556 3.11111111,12.7866667 3.11111111,9.33333333 C3.11111111,5.91111111 5.91111111,3.11111111 9.33333333,3.11111111 Z" id="path-1"></path>
+    </defs>
+    <g id="UI-Ver-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Item-Curator-Create-New-Accommodation" transform="translate(-566.000000, -2182.000000)">
+            <g id="extras/map-full-width" transform="translate(89.000000, 1897.000000)">
+                <g id="icons/map-marker" transform="translate(472.374901, 284.000000)">
+                    <g id="icons/dark/map-marker" transform="translate(4.666667, 1.555556)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#212B36" fill-rule="nonzero" xlink:href="#path-1"></use>
+                        <g id="color/main" mask="url(#mask-2)" fill="#212B36">
+                            <g transform="translate(-4.666667, -1.555556)">
+                                <rect x="0" y="0" width="28" height="28" rx="4"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

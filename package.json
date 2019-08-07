@@ -16,6 +16,8 @@
     "query-string": "^6.8.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-geocode": "^0.1.2",
+    "react-google-maps": "^9.4.5",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
     "react-spinners": "^0.5.13",
