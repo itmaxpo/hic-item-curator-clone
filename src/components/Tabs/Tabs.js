@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { StyledTabs, StyledTabList, StyledTab, StyledTabPanel, StyledLine } from './styles'
+import {
+  StyledTabs,
+  StyledTabList,
+  StyledTab,
+  StyledTabPanel,
+  StyledLine,
+  StyledPanelWrapper
+} from './styles'
+
 /**
  * Is rendering provided content as a Tabs and TabContents
  *
@@ -28,9 +36,11 @@ export const TabsWrapper = ({
         ))}
       </StyledTabList>
       <StyledLine />
-      {tabContents.map((c, i) => (
-        <StyledTabPanel key={i}>{c}</StyledTabPanel>
-      ))}
+      <StyledPanelWrapper>
+        {tabContents.map((c, i) => (
+          <StyledTabPanel key={i}>{c}</StyledTabPanel>
+        ))}
+      </StyledPanelWrapper>
     </StyledTabs>
   )
 }
