@@ -27,5 +27,6 @@ export const ImgWrapper = styled.img`
   max-width: 100%;
   max-height: 100%;
   border-radius: 4px;
+  // Uncomment this if we need image to fit full width & height of parent block
   // object-fit: contain;
 `

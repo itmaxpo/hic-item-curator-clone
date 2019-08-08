@@ -14,3 +14,10 @@ export const capitalize = str => str[0].toUpperCase() + str.slice(1)
 
 // Generate Array from 1 to N
 export const generateArrayTo = n => [...Array(n).keys()]
+
+// Move element [from] iomdex [to] index and return updatedArray
+export const moveFromTo = (arr, from, to) => {
+  const newArr = [...arr]
+  newArr.splice(to, 0, newArr.splice(from, 1)[0])
+  return newArr
+}
