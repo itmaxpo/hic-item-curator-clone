@@ -88,6 +88,7 @@ const Create = () => {
               />
               <TextField placeholder="Name" onChange={e => setName(e.target.value)} />
               <DropdownSelect
+                isCreatable
                 isClearable
                 placeholder="Select Supplier"
                 options={supplierOptions}
