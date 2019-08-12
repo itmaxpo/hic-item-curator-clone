@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { compose, withProps } from 'recompose'
-import { isEqual } from 'lodash'
+import { isEqual, isEmpty } from 'lodash'
 import {
   withScriptjs,
   withGoogleMap,
@@ -38,6 +38,9 @@ const Map = compose(
   withGoogleMap
 )(props => {
   const googleMap = window.google
+
+  // early return if there are no coordinates
+  if (isEmpty(props.coordinates)) return
 
   const [coordinates, setCoordinates] = useState(props.coordinates)
 
