@@ -12,12 +12,14 @@ import SearchResultWrapper from './SearchResult'
  * @param {Object} location from route
  * @returns {Object} Search Page
  */
-const SearchPage = ({ results }) => {
+const SearchPage = ({ history, results }) => {
   const updateSelectedResults = itemsToUpdate => {
     // console.log(itemsToUpdate)
   }
 
-  const createNewItem = () => {}
+  const createNewItem = () => {
+    history.push(`/create`)
+  }
 
   return (
     <Layout>
@@ -26,7 +28,7 @@ const SearchPage = ({ results }) => {
         <SearchResultWrapper results={results} updateSelectedResults={updateSelectedResults} />
 
         <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
-          <p>Didn't find what are you looking for?</p>
+          <p>Didn't find what you're looking for?</p>
           <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
         </CreateNewItemWrapper>
       </Wrapper>
