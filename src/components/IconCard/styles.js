@@ -22,6 +22,8 @@ export const StyledCard = styled(Card)`
 
   && > span {
     margin-top: 10px;
+    width: 24px;
+    height: 24px;
   }
 
   > p {
