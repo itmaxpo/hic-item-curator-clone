@@ -1,24 +1,36 @@
 import React from 'react'
 import { Checkbox, Tooltip, Base } from '@tourlane/tourlane-ui'
-import { SearchActionsWrapper, ActionIcons, IconData, PaginationCenteredWrapper } from './styles'
-import PaginationWrapper from 'components/Pagination'
-import { MergeIcon } from 'components/Icon'
+import { SearchActionsWrapper, ActionIcons, IconData } from './styles'
+import { MergeIcon, MergeInactiveIcon } from 'components/Icon'
 import { getSelectedItems } from '../utils'
 
 const getAllActions = selectedItems => {
   // const isOneSelected = selectedItems && selectedItems.length > 0
   const areMoreSelected = selectedItems.length > 1
 
-  return [{ icon: <MergeIcon />, tooltipText: 'Merge', isActive: areMoreSelected, action: 'merge' }]
+  return [
+    {
+      icon: <MergeInactiveIcon />,
+      iconActive: <MergeIcon />,
+      tooltipText: 'Merge',
+      isActive: areMoreSelected,
+      action: 'merge'
+    }
+  ]
 }
 
+/**
+ * This component is rendering all search actions, like merge
+ *
+ * @param {Boolean} isAllSelected             ('Select all' checkbox checked value)
+ * @param {Function} onAllSelectClick        (when 'Select all' clicked)
+ * @param {Array<Array<Object>>} allResults   (all search results as paginated array: Array of Array's)
+ * @param {Function} onActionSelected         (when specific action selected)
+ */
 export const SearchActions = ({
   isAllSelected,
   onAllSelectClick,
   allResults,
-  currentPage,
-  pages,
-  onPageChange,
   onActionSelected
 }) => {
   const selectedItems = getSelectedItems(allResults || [])
@@ -29,7 +41,7 @@ export const SearchActions = ({
   }
 
   return (
-    <SearchActionsWrapper p={3 / 4} alignItems={'center'}>
+    <SearchActionsWrapper p={3 / 4} alignItems={'center'} id={'items-sticky-actions'}>
       <Checkbox
         value={isAllSelected}
         name="isAllItemsSelected"
@@ -39,25 +51,13 @@ export const SearchActions = ({
 
       <ActionIcons>
         {availableActions.map((icon, i) => (
-          <Tooltip key={i} content={<Base>{icon.tooltipText}</Base>}>
+          <Tooltip key={i} position={'bottom'} content={<Base>{icon.tooltipText}</Base>}>
             <IconData isActive={icon.isActive} onClick={() => onActionClick(icon)}>
-              {icon.icon}
+              {icon.isActive ? icon.iconActive : icon.icon}
             </IconData>
           </Tooltip>
         ))}
       </ActionIcons>
-
-      {pages && (
-        <PaginationCenteredWrapper>
-          <PaginationWrapper
-            total={pages * 10}
-            limit={10}
-            pageCount={10}
-            currentPage={currentPage}
-            onPageChange={onPageChange}
-          />
-        </PaginationCenteredWrapper>
-      )}
     </SearchActionsWrapper>
   )
 }

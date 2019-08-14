@@ -13,5 +13,5 @@ export const BadgeWrapper = styled.div`
   line-height: 1.8;
   letter-spacing: normal;
   text-align: center;
-  color: ${COLORS.NIGHTINGALE_BLACK};
+  ${({ color }) => `color: ${color ? color : COLORS.NIGHTINGALE_BLACK}`};
 `

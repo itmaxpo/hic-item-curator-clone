@@ -8,12 +8,13 @@ export const StyledTabs = styled(Tabs)`
   background-color: #ffffff;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
   position: relative;
+  font-family: SourceSansPro, serif;
 `
 
 export const StyledTabList = styled(TabList)`
   list-style: none;
   display: flex;
-  padding: 20px 20px 0 20px;
+  padding: 32px 20px 0 20px;
   margin: 0;
   position: relative;
   z-index: 1;
@@ -49,9 +50,9 @@ export const StyledLine = styled.hr`
   border-top: 0.5px solid ${COLORS.LINE_GRAY};
   margin: 0;
   position: absolute;
-  top: 49px;
+  top: 61px;
 `
 
 export const StyledPanelWrapper = styled.div`
-  padding: 40px 60px;
+  padding: 40px 0;
 `

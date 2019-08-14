@@ -15,7 +15,7 @@ import {
  * @param {Array<String>} tabs Index of tab to be preselected
  * @param {Array<React.Component>} tabContents Array of contents
  */
-export const TabsWrapper = ({
+const TabsWrapper = ({
   tabIdx = 0,
   tabs = ['Tab 1', 'Tab 2', 'Tab 3'],
   tabContents = ['1', '2', '3'],

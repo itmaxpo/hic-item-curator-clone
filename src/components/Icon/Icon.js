@@ -20,7 +20,10 @@ import { ReactComponent as WorldSvg } from 'icons/world.svg'
 import { ReactComponent as FlagSvg } from 'icons/flag.svg'
 import { ReactComponent as HomeSvg } from 'icons/home.svg'
 import { ReactComponent as ChevronDownSvg } from 'icons/down.svg'
+import { ReactComponent as GlyphChevronDownSvg } from 'icons/glyph-chevron-down.svg'
 import { ReactComponent as MergeSvg } from 'icons/merge.svg'
+import { ReactComponent as MergeInactiveSvg } from 'icons/mergeInactive.svg'
+import { ReactComponent as UnhappySvg } from 'icons/unhappy-photo.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -110,31 +113,31 @@ const ActionIcon = props => (
   </StyledSvgIcon>
 )
 
-const MapPin = props => (
+const MapPinIcon = props => (
   <StyledSvgIcon alt="map-pin" {...props}>
     <MapPinSvg />
   </StyledSvgIcon>
 )
 
-const World = props => (
+const WorldIcon = props => (
   <StyledSvgIcon alt="world" {...props}>
     <WorldSvg />
   </StyledSvgIcon>
 )
 
-const Flag = props => (
+const FlagIcon = props => (
   <StyledSvgIcon alt="flag" {...props}>
     <FlagSvg />
   </StyledSvgIcon>
 )
 
-const Home = props => (
+const HomeIcon = props => (
   <StyledSvgIcon alt="home" {...props}>
     <HomeSvg />
   </StyledSvgIcon>
 )
 
-const ChevronDown = props => (
+const ChevronDownIcon = props => (
   <StyledSvgIcon alt="home" {...props}>
     <ChevronDownSvg />
   </StyledSvgIcon>
@@ -143,6 +146,24 @@ const ChevronDown = props => (
 const MergeIcon = props => (
   <StyledSvgIcon alt="home" {...props}>
     <MergeSvg />
+  </StyledSvgIcon>
+)
+
+const MergeInactiveIcon = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <MergeInactiveSvg />
+  </StyledSvgIcon>
+)
+
+const GlyphChevronDownIcon = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <GlyphChevronDownSvg />
+  </StyledSvgIcon>
+)
+
+const UnhappyIcon = props => (
+  <StyledSvgIcon alt="home" {...props}>
+    <UnhappySvg />
   </StyledSvgIcon>
 )
 
@@ -160,10 +181,13 @@ export {
   ChevronLeftIcon,
   ChevronRightIcon,
   ActionIcon,
-  MapPin,
-  World,
-  Flag,
-  Home,
-  ChevronDown,
-  MergeIcon
+  MapPinIcon,
+  WorldIcon,
+  FlagIcon,
+  HomeIcon,
+  ChevronDownIcon,
+  MergeIcon,
+  MergeInactiveIcon,
+  GlyphChevronDownIcon,
+  UnhappyIcon
 }

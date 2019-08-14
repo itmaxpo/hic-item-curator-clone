@@ -1,17 +1,19 @@
 import React from 'react'
-import { World, MapPin, Home } from 'components/Icon'
+import { WorldIcon, MapPinIcon, HomeIcon } from 'components/Icon'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
+// Mapping from value to icon
 export const categoryCardsMap = [
   {
-    value: 'country',
-    icon: () => <World />
+    value: COUNTRY_ITEM_TYPE,
+    icon: () => <WorldIcon />
   },
   {
-    value: 'area',
-    icon: () => <MapPin />
+    value: AREA_ITEM_TYPE,
+    icon: () => <MapPinIcon />
   },
   {
-    value: 'accommodation',
-    icon: () => <Home />
+    value: ACCOMMODATION_ITEM_TYPE,
+    icon: () => <HomeIcon />
   }
 ]

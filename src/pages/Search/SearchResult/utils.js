@@ -1,7 +1,8 @@
 import { flatten } from 'lodash'
 import { filterEmptyEntities, paginateArray } from '../utils'
 import { STATUS_IN_PROGRESS } from 'components/StatusIndicator/StatusIndicator'
-
+import { animateScroll as scroll } from 'react-scroll'
+// Mocked example of search results
 export const getMockedResults = () => [
   {
     title: 'Arakur Ushuaia Resort',
@@ -205,8 +206,11 @@ export const getMockedResults = () => [
  *  - add to every result isSelected property
  *  - will create <Array<Array<Item>> for pagination
  */
-export const paginateResults = results => {
-  return paginateArray(filterEmptyEntities(results).map(r => ({ ...r, isSelected: false })))
+export const paginateResults = (results, itemsPerPage) => {
+  return paginateArray(
+    filterEmptyEntities(results).map(r => ({ ...r, isSelected: false })),
+    itemsPerPage
+  )
 }
 
 // Update every item in paginated array
@@ -229,4 +233,14 @@ export const updatePaginatedItemByIndex = (page, updatedIndex, updatedItem, item
   )
 
 // Will receive selectedItems in paginated array and return unwrapped Array of selected items
+// Receives: [ [{ value: 1, isSelected: true }, { value: 2, isSelected: false }], [{ value: 1, isSelected: true }] ]
+// Returns: [{ value: 1, isSelected: true }, { value: 3, isSelected: true }]
 export const getSelectedItems = items => flatten(items).filter(item => item.isSelected)
+
+// Calculate offsetTop for searchContainer to scroll to it
+export const scrollToSearchActions = searchContainer => {
+  const searchContainerOffset = searchContainer.current
+    ? searchContainer.current
+    : document.querySelector('#search-container').offsetTop
+  scroll.scrollTo(searchContainerOffset, { duration: 800, delay: 0, smooth: 'easeOutQuad' })
+}

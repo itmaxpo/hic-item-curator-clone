@@ -1,3 +1,5 @@
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+
 /**
  * Defines if search button should be disabled.
  *
@@ -9,14 +11,14 @@
  */
 export const shouldDisableSearchButton = (category, country, area) => {
   switch (category) {
-    case 'country':
-    case 'area':
+    case COUNTRY_ITEM_TYPE:
+    case AREA_ITEM_TYPE:
       if (country) {
         return false
       } else {
         return true
       }
-    case 'accommodation':
+    case ACCOMMODATION_ITEM_TYPE:
       if (area && country) {
         return false
       } else {
@@ -38,13 +40,13 @@ export const shouldDisableSearchButton = (category, country, area) => {
  */
 export const getGoToDestination = (category, country, area) => {
   switch (category) {
-    case 'country':
+    case COUNTRY_ITEM_TYPE:
       if (country) {
         return country
       } else {
         return undefined
       }
-    case 'area':
+    case AREA_ITEM_TYPE:
       if (country && area) {
         return area
       } else {

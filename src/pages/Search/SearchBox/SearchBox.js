@@ -13,6 +13,7 @@ import {
 import { getCategoryBasedBehavior } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
 const mockOptions = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -78,7 +79,7 @@ const SearchBox = () => {
 
   const getCategorySearchFields = useCallback(() => {
     switch (category) {
-      case 'area':
+      case AREA_ITEM_TYPE:
         return (
           <Dropdown
             label={'Area (optional)'}
@@ -88,7 +89,7 @@ const SearchBox = () => {
             onChange={value => setArea(value)}
           />
         )
-      case 'accommodation':
+      case ACCOMMODATION_ITEM_TYPE:
         return (
           <AccommodationSearchFields onChange={onValueChange} area={area} onAreaChange={setArea} />
         )
@@ -134,8 +135,8 @@ const SearchBox = () => {
             label="Country"
             placeholder="Please select ..."
             options={mockOptions}
-            renderMarginRight={category !== 'country'}
-            renderMarginBottom={category === 'accommodation'}
+            renderMarginRight={category !== COUNTRY_ITEM_TYPE}
+            renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
             value={country}
             onChange={value => setCountry(value)}
           />

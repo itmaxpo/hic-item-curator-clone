@@ -1,0 +1,24 @@
+.draft-editor-container {
+  min-height: 150px;
+  height: calc(100% - 44px);
+  overflow-y: scroll;
+  padding: 0 10px;
+}
+
+.draft-editor-container .public-DraftStyleDefault-block {
+  margin: 0.5em 0;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.draft-editor-toolbar {
+}
+
+.rdw-editor-wrapper {
+  height: 100%;
+}
+
+.public-DraftEditorPlaceholder-root {
+  font-size: 20px;
+  line-height: 1.4;
+}

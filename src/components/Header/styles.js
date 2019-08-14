@@ -3,7 +3,7 @@ import { COLORS, Flex } from '@tourlane/tourlane-ui'
 import { ReactComponent as LogoShortSvg } from 'icons/itemCuratorLogoShort.svg'
 
 export const StyledHeader = styled.div`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -13,6 +13,7 @@ export const StyledHeader = styled.div`
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
   z-index: 31;
   pointer-events: ${({ canDrop }) => canDrop && 'none'};
+  transition: all 0.5s ease-out;
 `
 
 export const LeftRightWrapper = styled(Flex)`

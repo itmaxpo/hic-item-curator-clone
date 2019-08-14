@@ -13,16 +13,14 @@ import { LeftRightWrapper, StyledHeader, StyledLogoSvg } from './styles'
  */
 let BaseHeader = ({ children }) => {
   return (
-    <div>
-      <StyledHeader>
-        <Flex>
-          <Link to={'/'}>
-            <StyledLogoSvg>Item Curator</StyledLogoSvg>
-          </Link>
-          <HeaderContentWrapper>{children}</HeaderContentWrapper>
-        </Flex>
-      </StyledHeader>
-    </div>
+    <StyledHeader id={'sticky-header'}>
+      <Flex>
+        <Link to={'/'}>
+          <StyledLogoSvg>Item Curator</StyledLogoSvg>
+        </Link>
+        <HeaderContentWrapper>{children}</HeaderContentWrapper>
+      </Flex>
+    </StyledHeader>
   )
 }
 

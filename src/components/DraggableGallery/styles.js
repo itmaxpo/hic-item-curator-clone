@@ -1,22 +1,29 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Sortable from 'react-sortablejs'
 import { COLORS } from '@tourlane/tourlane-ui'
 
-export const ItemList = styled(Sortable)`
+const galleryItems = css`
   display: flex
   flex-wrap: wrap
   list-style-type: none;
 
   > li  {
-    width: 25%;
-    padding: 20px;
-    box-sizing: border-box;
+    width: 23%;
+    padding: 10px 1%;
 
     &.blue-background-class {
       background-color: ${COLORS.ADVENTURE_GREEN}
       opacity: 0.5
     }
   }
+`
+
+export const ItemList = styled(Sortable)`
+  ${galleryItems}
+`
+
+export const GalleryList = styled.div`
+  ${galleryItems}
 `
 
 export const Item = styled.li``

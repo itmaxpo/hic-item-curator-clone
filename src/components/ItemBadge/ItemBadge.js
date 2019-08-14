@@ -7,8 +7,12 @@ import { BadgeWrapper } from './styles'
  * @param {Array<React.Component>} children
  * @param {String} width
  */
-const ItemBadge = ({ width, children }) => {
-  return <BadgeWrapper width={width}>{children}</BadgeWrapper>
+const ItemBadge = ({ width, color, children }) => {
+  return (
+    <BadgeWrapper width={width} color={color}>
+      {children}
+    </BadgeWrapper>
+  )
 }
 
 export default ItemBadge

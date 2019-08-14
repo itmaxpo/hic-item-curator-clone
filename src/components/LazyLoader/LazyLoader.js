@@ -6,7 +6,6 @@ import { Wrapper, Preloader } from './styles'
  * LazyLoader component
  * Meant to show a loading spinner while the image loads
  *
- *
  * @name LazyLoader
  * @param {Function} onLoad
  * @param {String} src

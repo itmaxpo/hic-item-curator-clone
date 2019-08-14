@@ -7,7 +7,6 @@ import AppContainer from 'components/AppContainer'
 
 const BelowHeader = styled(Flex)`
   min-width: 1250px;
-  margin-top: 68px;
 `
 
 /**
@@ -21,13 +20,13 @@ const BelowHeader = styled(Flex)`
  */
 const Layout = ({ className, children }) => {
   return (
-    <>
+    <div className={'page'}>
       <Header />
       <BelowHeader>
         <Sidebar />
         <AppContainer className={className}>{children}</AppContainer>
       </BelowHeader>
-    </>
+    </div>
   )
 }
 

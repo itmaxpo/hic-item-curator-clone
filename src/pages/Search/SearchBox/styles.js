@@ -17,10 +17,16 @@ const StyledSearchBoxContainer = styled(FlexContainer)`
   background-color: ${COLORS.BACKGROUND_GRAY};
 `
 
+const Wrapper = styled.div`
+  margin: 20px 90px 0 90px;
+`
+
 export const SearchBoxWrapper = ({ children }) => (
-  <StyledSearchBoxContainer pt={3 / 4} pb={2} direction="ttb">
-    {children}
-  </StyledSearchBoxContainer>
+  <Wrapper>
+    <StyledSearchBoxContainer pt={3 / 4} pb={2} direction="ttb">
+      {children}
+    </StyledSearchBoxContainer>
+  </Wrapper>
 )
 
 export const SearchBoxTitle = styled(H3)`

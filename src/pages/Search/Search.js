@@ -18,6 +18,8 @@ const SearchPage = ({ history, results }) => {
   }
 
   const createNewItem = () => {
+    // Always should be on the top of the new page
+    window.scrollTo(0, 0)
     history.push(`/create`)
   }
 
@@ -25,6 +27,7 @@ const SearchPage = ({ history, results }) => {
     <Layout>
       <Wrapper>
         <SearchBox />
+
         <SearchResultWrapper results={results} updateSelectedResults={updateSelectedResults} />
 
         <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>

@@ -37,14 +37,15 @@ export const StyledCircleButton = styled(CircleButton)`
 export const LogoutContainer = styled(Flex)`
   position: absolute;
   bottom: 80px;
+  padding: 0 5px;
 `
 
 export const StyledSubline = styled(Subline)`
   display: inline-block;
   margin-left: 5px;
-  margin-top: 2px;
+  margin-top: 4px;
   && {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.44;
   }
 `

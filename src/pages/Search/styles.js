@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   min-height: 100vh;
-  margin: 20px 90px;
 `
 
 const StyledSearchBoxContainer = styled(FlexContainer)`
@@ -20,6 +19,7 @@ export const SearchBoxWrapper = ({ children }) => (
 
 export const CreateNewItemWrapper = styled(FlexContainer)`
   border-top: 1px solid ${COLORS.LINE_GRAY};
+  padding-bottom: 80px !important;
 
   > p {
     font-size: 22px;

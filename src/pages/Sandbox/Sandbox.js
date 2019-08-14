@@ -2,6 +2,8 @@ import React from 'react'
 import TabsWrapper from 'components/Tabs'
 import MapExample from './MapExample'
 import DraggableGalleryExample from './DraggableGalleryExample'
+import ExpansionExample from './ExpansionExample'
+import CarouselExample from './CarouselExample'
 
 /**
  * This is the Sandbox Page component
@@ -29,6 +31,14 @@ const SandboxPage = () => {
       <h3>Gallery</h3>
       <hr />
       <DraggableGalleryExample />
+      <br />
+      <h3>Expansion Table</h3>
+      <hr />
+      <ExpansionExample />
+      <br />
+      <h3>Carousel</h3>
+      <hr />
+      <CarouselExample />
     </div>
   )
 }

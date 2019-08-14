@@ -1,3 +1,5 @@
+import { COLORS } from '@tourlane/tourlane-ui'
+
 export default [
   {
     elementType: 'geometry',
@@ -81,7 +83,7 @@ export default [
     elementType: 'geometry',
     stylers: [
       {
-        color: '#ffffff'
+        color: `${COLORS.SENSATION_WHITE}`
       }
     ]
   },
