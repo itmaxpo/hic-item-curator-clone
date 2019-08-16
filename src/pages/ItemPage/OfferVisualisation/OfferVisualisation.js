@@ -6,14 +6,16 @@ import { TitleWithContent } from '../GlobalInformation/styles'
  * Use it to render OfferVisualisation tab
  *
  * @name OfferVisualisation
- * @param {Object} item
+ * @param {Object} offerVisualisation
+ * @param {Boolean} isEditing (isEditing mode flag)
+ * @param {Function} onChange (on offerVisualisation change)
  * @returns {Object} OfferVisualisation Tab
  */
-const OfferVisualisation = ({ item }) => {
+const OfferVisualisation = ({ offerVisualisation, isEditing, onChange }) => {
   return (
     <div>
       <TitleWithContent>
-        <p>No Offer Visualisation available yet.</p>
+        <p>{offerVisualisation.title}</p>
       </TitleWithContent>
     </div>
   )

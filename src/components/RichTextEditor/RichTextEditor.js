@@ -151,6 +151,14 @@ const RichTextEditor = ({
   const { editorRef, handleWrapperClick } = useEditorFocus()
   const { editorKey, handlePastedText } = useEditorPaste()
 
+  const onBlurAction = () => {
+    // If onBlur function provided, return html
+    if (otherProps.onBlur) {
+      const htmlValue = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+      return otherProps.onBlur(htmlValue)
+    }
+  }
+
   return (
     <div>
       {label && <StyledLabel>{label}</StyledLabel>}
@@ -167,6 +175,7 @@ const RichTextEditor = ({
             toolbarClassName="draft-editor-toolbar"
             editorClassName="draft-editor-container"
             onEditorStateChange={onEditorStateChange}
+            onBlur={onBlurAction}
             placeholder={placeholder}
             ref={editorRef}
             editorKey={editorKey}

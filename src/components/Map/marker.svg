@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="19px" height="26px" viewBox="0 0 19 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
-    <title>icons/map-marker</title>
-    <desc>Created with Sketch.</desc>
+<svg width="41px" height="41px" viewBox="0 0 41 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
-        <path d="M9.33333333,0 C4.16888889,0 0,4.16888889 0,9.33333333 C0,15.5555556 9.33333333,24.8888889 9.33333333,24.8888889 C9.33333333,24.8888889 18.6666667,15.5555556 18.6666667,9.33333333 C18.6666667,4.16888889 14.4977778,0 9.33333333,0 Z M9.33333333,3.11111111 C12.7866667,3.11111111 15.5555556,5.91111111 15.5555556,9.33333333 C15.5555556,12.7866667 12.7866667,15.5555556 9.33333333,15.5555556 C5.91111111,15.5555556 3.11111111,12.7866667 3.11111111,9.33333333 C3.11111111,5.91111111 5.91111111,3.11111111 9.33333333,3.11111111 Z" id="path-1"></path>
+        <ellipse id="path-1" cx="14.8431953" cy="14.8145957" rx="14.8431953" ry="14.8145957"></ellipse>
+        <filter x="-26.9%" y="-23.6%" width="153.9%" height="154.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.247058824   0 0 0 0 0.254901961   0 0 0 0 0.266666667  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
     </defs>
-    <g id="UI-Ver-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Item-Curator-Create-New-Accommodation" transform="translate(-566.000000, -2182.000000)">
-            <g id="extras/map-full-width" transform="translate(89.000000, 1897.000000)">
-                <g id="icons/map-marker" transform="translate(472.374901, 284.000000)">
-                    <g id="icons/dark/map-marker" transform="translate(4.666667, 1.555556)">
-                        <mask id="mask-2" fill="white">
-                            <use xlink:href="#path-1"></use>
-                        </mask>
-                        <use id="Mask" fill="#212B36" fill-rule="nonzero" xlink:href="#path-1"></use>
-                        <g id="color/main" mask="url(#mask-2)" fill="#212B36">
-                            <g transform="translate(-4.666667, -1.555556)">
-                                <rect x="0" y="0" width="28" height="28" rx="4"></rect>
+    <g id="Gecko-Offer-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Offer-Page-Default-View" transform="translate(-934.000000, -659.000000)">
+            <g id="Map" transform="translate(850.000000, 63.000000)">
+                <g transform="translate(-34.000000, 0.000000)" id="Route">
+                    <g transform="translate(123.000000, 600.000000)">
+                        <g id="Day" transform="translate(0.940828, 0.852071)">
+                            <g id="Oval-2">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                                <use stroke="#FFFFFF" stroke-width="3" fill="#59DD7D" fill-rule="evenodd" xlink:href="#path-1"></use>
                             </g>
                         </g>
                     </g>

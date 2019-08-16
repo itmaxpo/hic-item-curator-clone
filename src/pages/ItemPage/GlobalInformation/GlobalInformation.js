@@ -20,7 +20,7 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
-import { COLORS } from '@tourlane/tourlane-ui'
+import { COLORS, H4 } from '@tourlane/tourlane-ui'
 
 // Fake data to test components
 const descriptions = [
@@ -30,11 +30,6 @@ const descriptions = [
   { title: 'Insurance', description: 'Some descriptions about insurance' },
   { title: 'Money', description: 'Some descriptions about money' }
 ]
-const coordinates = { lat: 50.4520886, lng: 30.590911000000006 }
-const locationInfo = {
-  name: 'Some address',
-  info: 'Some description'
-}
 // END of fake data
 
 /**
@@ -42,13 +37,19 @@ const locationInfo = {
  * Use it to render GlobalInformation tab
  *
  * @name GlobalInformation
- * @param {Object} item (current item)
+ * @param {Object} globalInformation (current globalInformation)
  * @param {Boolean} isEditing (isEditing mode flag)
- * @param {Function} onChange (on item change)
+ * @param {Function} onChange (on globalInformation change)
  * @param {Array<String>} components (order of components as a STRING to render)
  * @returns {Object} GlobalInformation Tab Component
  */
-const GlobalInformation = ({ item, isEditing, onChange, components }) => {
+const GlobalInformation = ({ globalInformation, isEditing, onChange, components }) => {
+  const coordinates = { lat: globalInformation.location.lat, lng: globalInformation.location.lng }
+  const locationInfo = {
+    name: globalInformation.location.name,
+    info: globalInformation.location.info
+  }
+
   // Based on the provided array of strings, that describes which component to render
   // This map returns:
   //    - necessary component to render
@@ -70,16 +71,16 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <p>Description</p>
+            <H4>Description</H4>
             {isEditing ? (
               <RichTextEditor
                 placeholder={`Please write something about the accommodation.\nIn case you are using external copy (WETU) please mark it as such!`}
-                value={item.description}
+                value={globalInformation.description}
                 onChange={onDescriptionUpdate}
               />
             ) : (
               <ShowMore collapsed={true} height={'350px'} size={'20px'} lines={12}>
-                {ReactHtmlParser(item.description)}
+                {ReactHtmlParser(globalInformation.description)}
               </ShowMore>
             )}
           </TitleWithContent>
@@ -90,21 +91,24 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
       return (
         <Fragment key={key}>
           <TitleWithContent withoutPadding>
-            <p>Rooms</p>
-            {item.rooms && item.rooms.length > 0 ? (
-              item.rooms.map((room, i) => {
+            <H4>Rooms</H4>
+            {globalInformation.rooms && globalInformation.rooms.length > 0 ? (
+              globalInformation.rooms.map((room, i, arr) => {
                 return (
                   <SearchItemWrapper key={i} p={0} direction={'ttb'}>
                     <ItemTitle p={0} direction={'ltr'} alignItems={'center'}>
-                      <span>{room.title}</span>
-                      <StyledItemBadge color={COLORS.SENSATION_WHITE}>
-                        <span>MB INFO</span>
-                      </StyledItemBadge>
+                      <span>{room.type}</span>
+                      {room.mealbase && (
+                        <StyledItemBadge color={COLORS.SENSATION_WHITE}>
+                          <span>{room.mealbase}</span>
+                        </StyledItemBadge>
+                      )}
                     </ItemTitle>
+
                     <ItemDescription>
                       {room.description && (
                         <ShowMore collapsed={true} height={'70px'} lines={3}>
-                          {room.description}
+                          {ReactHtmlParser(room.description)}
                         </ShowMore>
                       )}
                     </ItemDescription>
@@ -113,7 +117,7 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
               })
             ) : (
               <SearchItemWrapper p={0} direction={'ttb'}>
-                <p>No rooms available</p>
+                <H4>No rooms available</H4>
               </SearchItemWrapper>
             )}
           </TitleWithContent>
@@ -128,9 +132,9 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <p>Images</p>
+            <H4>Images</H4>
             <DraggableGallery
-              images={item.photos}
+              images={globalInformation.photos}
               onChange={onImagesUpdate}
               disabled={!isEditing}
             />
@@ -142,7 +146,7 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <p>Information</p>
+            <H4>Information</H4>
           </TitleWithContent>
           <ExpansionPanelWrapper descriptions={descriptions} />
         </Fragment>
@@ -153,9 +157,9 @@ const GlobalInformation = ({ item, isEditing, onChange, components }) => {
         <Fragment key={key}>
           <TitleWithContent>
             <br />
-            <p>Location</p>
+            <H4>Location</H4>
             <MapWrapper>
-              <Map coordinates={coordinates} locationInfo={locationInfo} />
+              {coordinates && <Map coordinates={coordinates} locationInfo={locationInfo} />}
             </MapWrapper>
           </TitleWithContent>
         </Fragment>

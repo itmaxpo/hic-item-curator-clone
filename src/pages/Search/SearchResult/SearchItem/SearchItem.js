@@ -16,6 +16,7 @@ import {
   ImgWrapper,
   StyledUnhappyIcon
 } from './styles'
+import { P } from '@tourlane/tourlane-ui'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -70,7 +71,9 @@ export const SearchItem = ({ item, index, onItemSelect, onItemClick }) => {
 
         <BadgeWrapperPhoto>
           <ItemBadge width={'95px'}>
-            {item.photos.length} Photo{addSToString(item.photos.length)}
+            <P>
+              {item.photos.length} Photo{addSToString(item.photos.length)}
+            </P>
           </ItemBadge>
         </BadgeWrapperPhoto>
       </SearchItemPhotosWrapper>

@@ -6,14 +6,16 @@ import { TitleWithContent } from '../GlobalInformation/styles'
  * Use it to render TravelDocuments tab
  *
  * @name TravelDocuments
- * @param {Object} item
+ * @param {Object} travelDocuments
+ * @param {Boolean} isEditing (isEditing mode flag)
+ * @param {Function} onChange (on travelDocuments change)
  * @returns {Object} TravelDocuments Tab
  */
-const TravelDocuments = ({ item }) => {
+const TravelDocuments = ({ travelDocuments, isEditing, onChange }) => {
   return (
     <div>
       <TitleWithContent>
-        <p> No Travel documents available yet.</p>
+        <p>{travelDocuments.title}</p>
       </TitleWithContent>
     </div>
   )

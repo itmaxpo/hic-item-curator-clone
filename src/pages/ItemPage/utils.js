@@ -10,9 +10,19 @@ export const INFORMATION_COMPONENT_NAME = 'information'
 export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 
+// Global Item properties
+export const GLOBAL_INFORMATION_ITEM_PROP = 'globalInformation'
+export const OFFER_VISUALISATION_ITEM_PROP = 'offerVisualisation'
+export const TRAVEL_DOCUMENTS_ITEM_PROP = 'travelDocuments'
+
 // Update item by property name
 export const updateItemByProp = (item, prop, value) => {
   return { ...item, [prop]: value }
+}
+
+// Update item by global property: globalInformation/offerVisualisation/travelDocuments
+export const updateItemKey = (item, globalProp, prop, value) => {
+  return { ...item, [globalProp]: { ...item[globalProp], [prop]: value } }
 }
 
 // Components to render based on item.type
@@ -39,9 +49,14 @@ export const componentsBasedOnType = type => {
 
 // Mocked item to play with
 export const mockedItem = {
-  title: 'Arakur Ushuaia Resort',
+  title: 'Arakur Ushuaia & Resort',
   subtitle: 'Malvinas, Ushuaia, Argentina',
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+  status: 'inProgress',
+  type: ACCOMMODATION_ITEM_TYPE,
+  language: 'DE',
+  suppliers: [1, 2],
+  [GLOBAL_INFORMATION_ITEM_PROP]: {
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
     nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
@@ -83,23 +98,32 @@ export const mockedItem = {
     reprehenderit in voluptate velit esse cillum dolore eu fugiat 
     nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
     sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-  status: 'inProgress',
-  type: ACCOMMODATION_ITEM_TYPE,
-  language: 'DE',
-  suppliers: [1, 2],
-  rooms: [
-    { title: 'Queen Room', description: 'Some stuff about queens' },
-    { title: 'King Room', description: 'Some stuff about kings' },
-    { title: 'Prince Room', description: 'Some stuff about princs' }
-  ],
-  photos: [
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/travel',
-    'https://loremflickr.com/320/240/dance'
-  ]
+    location: {
+      lat: 50.4520886,
+      lng: 30.590911000000006,
+      name: 'Some address',
+      info: 'Some description'
+    },
+    rooms: [
+      { type: 'Queen Room', mealbase: 'MB INFO', description: 'Some stuff about queens' },
+      { type: 'King Room', mealbase: 'MB INFO', description: 'Some stuff about kings' },
+      { type: 'Prince Room', mealbase: '', description: 'Some stuff about princs' }
+    ],
+    photos: [
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/travel',
+      'https://loremflickr.com/320/240/dance'
+    ]
+  },
+  [OFFER_VISUALISATION_ITEM_PROP]: {
+    title: 'Offer Visualisation is not available yet'
+  },
+  [TRAVEL_DOCUMENTS_ITEM_PROP]: {
+    title: 'Travel documents are not available yet'
+  }
 }

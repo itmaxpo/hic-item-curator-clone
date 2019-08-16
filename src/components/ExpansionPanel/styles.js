@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
-export const Wrapper = styled.div``
+export const Wrapper = styled.div`
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
+`
 
 export const StyledCollapse = styled.div`
   text-align: left;
@@ -21,7 +24,6 @@ export const StyledHeader = styled.button`
   border-radius: 0;
   outline: none;
   width: 100%;
-  height: 112px;
   padding: 40px 60px 20px 60px;
   border-width: 0;
   position: relative;

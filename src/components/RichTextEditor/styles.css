@@ -22,3 +22,9 @@
   font-size: 20px;
   line-height: 1.4;
 }
+
+.public-DraftEditor-content {
+  padding: 5px 20px;
+  max-height: 385px;
+  overflow: auto;
+}

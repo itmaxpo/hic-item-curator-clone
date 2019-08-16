@@ -7,6 +7,7 @@ import {
   StyledLine,
   StyledPanelWrapper
 } from './styles'
+import { P } from '@tourlane/tourlane-ui'
 
 /**
  * Is rendering provided content as a Tabs and TabContents
@@ -32,7 +33,9 @@ const TabsWrapper = ({
     <StyledTabs selectedIndex={tabIndex} onSelect={onSelect}>
       <StyledTabList>
         {tabs.map((tab, i) => (
-          <StyledTab key={i}>{tab}</StyledTab>
+          <StyledTab key={i}>
+            <P>{tab}</P>
+          </StyledTab>
         ))}
       </StyledTabList>
       <StyledLine />

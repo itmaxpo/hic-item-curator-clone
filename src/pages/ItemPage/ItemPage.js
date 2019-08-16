@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
-import ItemLayout from 'components/ItemLayout'
+import ItemLayout from './ItemLayout'
 import GlobalInformation from './GlobalInformation'
 import OfferVisualisation from './OfferVisualisation'
 import TravelDocuments from './TravelDocuments'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
-import { updateItemByProp, componentsBasedOnType, mockedItem } from './utils'
+import {
+  updateItemByProp,
+  updateItemKey,
+  componentsBasedOnType,
+  mockedItem,
+  GLOBAL_INFORMATION_ITEM_PROP,
+  OFFER_VISUALISATION_ITEM_PROP,
+  TRAVEL_DOCUMENTS_ITEM_PROP
+} from './utils'
+import { cloneDeep } from 'lodash'
 
 /**
  * This is the Item Page component
@@ -21,11 +30,24 @@ import { updateItemByProp, componentsBasedOnType, mockedItem } from './utils'
  */
 const ItemPage = ({ match }) => {
   // Receive here id of item from route and send request to BE to get the item
-  const originalItem = match.params.id
+  // const originalItem = match.params.id
+  const originalItem = mockedItem
   // TODO: Uncomment when have BE to get item by ID
   // const [isLoading, setIsLoading] = useState(false)
-  const [item, setItem] = useState(originalItem.title || mockedItem)
+  const [item, setItem] = useState(cloneDeep(originalItem))
   const [isEditing, setIsEditing] = useState(false)
+
+  const onChangeGlobalInformation = (field, prop) => {
+    setItem(updateItemKey(item, GLOBAL_INFORMATION_ITEM_PROP, field, prop))
+  }
+
+  const onChangeOfferVisualisation = (field, prop) => {
+    setItem(updateItemKey(item, OFFER_VISUALISATION_ITEM_PROP, field, prop))
+  }
+
+  const onChangeTravelDocuments = (field, prop) => {
+    setItem(updateItemKey(item, TRAVEL_DOCUMENTS_ITEM_PROP, field, prop))
+  }
 
   const onChange = (field, prop) => {
     setItem(updateItemByProp(item, field, prop))
@@ -41,12 +63,8 @@ const ItemPage = ({ match }) => {
     setIsEditing(true)
   }
 
-  const onCancel = updatedItem => {
-    setItem(originalItem.title || mockedItem)
-    setIsEditing(!isEditing)
-  }
-
-  const onPreview = () => {
+  const onCancel = () => {
+    setItem(mockedItem)
     setIsEditing(!isEditing)
   }
 
@@ -56,7 +74,6 @@ const ItemPage = ({ match }) => {
         {isEditing ? (
           <>
             <AlarmButton title={'cancel'} onClick={onCancel} />
-            <SecondaryButton title={'preview'} onClick={onPreview} />
             <Button title={'save content'} onClick={onSave} />
           </>
         ) : (
@@ -71,13 +88,21 @@ const ItemPage = ({ match }) => {
         tabs={['Global Information', 'Offer Visualisation', 'Travel Documents']}
         tabContents={[
           <GlobalInformation
-            item={item}
+            globalInformation={item[GLOBAL_INFORMATION_ITEM_PROP]}
             isEditing={isEditing}
-            onChange={onChange}
+            onChange={onChangeGlobalInformation}
             components={componentsBasedOnType(item.type)}
           />,
-          <OfferVisualisation item={item} isEditing={isEditing} onChange={onChange} />,
-          <TravelDocuments item={item} isEditing={isEditing} onChange={onChange} />
+          <OfferVisualisation
+            offerVisualisation={item[OFFER_VISUALISATION_ITEM_PROP]}
+            isEditing={isEditing}
+            onChange={onChangeOfferVisualisation}
+          />,
+          <TravelDocuments
+            travelDocuments={item[TRAVEL_DOCUMENTS_ITEM_PROP]}
+            isEditing={isEditing}
+            onChange={onChangeTravelDocuments}
+          />
         ]}
       />
     </div>

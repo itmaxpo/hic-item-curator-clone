@@ -15,6 +15,7 @@ import {
 import TabsWrapper from 'components/Tabs'
 import { ChevronRightIcon } from 'components/Icon'
 import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
+import { H2, Base } from '@tourlane/tourlane-ui'
 
 /**
  * Will render Item page layout with required fields
@@ -62,13 +63,13 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
-              <h1>{item.title}</h1>
+              <H2>{item.title}</H2>
             ) : (
               <TitleField defaultValue={item.title} onChange={onTitleChange} />
             )}
 
-            <LanguageBlock className={`${isEditing ? 'editing' : ''}`}>
-              <span>Switch content to: </span>
+            <LanguageBlock isEditing={isEditing}>
+              <Base>Switch content to: </Base>
               <Select
                 disableUnderline
                 value={item.language}
@@ -88,13 +89,13 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
           </TitleLangWrapper>
 
           {!isEmpty(item.suppliers) && !isEditing ? (
-            <p>
+            <Base>
               {' '}
               Suppliers:
               {item.suppliers.map((s, i) => (
                 <span key={i}> {`${i !== item.suppliers.length - 1 ? s + ',' : s}`}</span>
               ))}
-            </p>
+            </Base>
           ) : (
             <SupplierDropdown
               isMulti

@@ -22,7 +22,7 @@ import { ReactComponent as HomeSvg } from 'icons/home.svg'
 import { ReactComponent as ChevronDownSvg } from 'icons/down.svg'
 import { ReactComponent as GlyphChevronDownSvg } from 'icons/glyph-chevron-down.svg'
 import { ReactComponent as MergeSvg } from 'icons/merge.svg'
-import { ReactComponent as MergeInactiveSvg } from 'icons/mergeInactive.svg'
+import { ReactComponent as MergeInactiveSvg } from 'icons/mergeGray.svg'
 import { ReactComponent as UnhappySvg } from 'icons/unhappy-photo.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`

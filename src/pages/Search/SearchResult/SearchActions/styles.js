@@ -14,12 +14,6 @@ export const SearchActionsWrapper = styled(FlexContainer)`
   }
 `
 
-export const IconData = styled.span`
-  &:hover {
-    cursor: pointer;
-  }
-`
-
 export const ActionIcons = styled.div`
   margin-left: 6px;
 `

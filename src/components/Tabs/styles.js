@@ -24,14 +24,25 @@ export const StyledTab = styled(Tab)`
   outline: none;
   margin: 0 40px;
   padding-bottom: 12px;
-  color: ${COLORS.INACTIVE_GRAY};
+
+  > p {
+    color: ${COLORS.INACTIVE_GRAY};
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+
+    &:hover {
+      color: ${COLORS.NIGHTINGALE_BLACK};
+      font-size: 18px;
+    }
+  }
 
   &:hover {
     cursor: pointer;
     margin: 0 40px;
     padding-bottom: 8px;
     border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
-    color: ${COLORS.NIGHTINGALE_BLACK};
   }
 
   &[class$='--selected'] {
@@ -39,7 +50,10 @@ export const StyledTab = styled(Tab)`
     margin: 0 40px;
     padding-bottom: 9px;
     border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
-    color: ${COLORS.NIGHTINGALE_BLACK};
+
+    > p {
+      color: ${COLORS.NIGHTINGALE_BLACK};
+    }
   }
 `
 
@@ -50,7 +64,7 @@ export const StyledLine = styled.hr`
   border-top: 0.5px solid ${COLORS.LINE_GRAY};
   margin: 0;
   position: absolute;
-  top: 61px;
+  top: 69px;
 `
 
 export const StyledPanelWrapper = styled.div`

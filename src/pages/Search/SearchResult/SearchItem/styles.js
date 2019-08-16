@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FlexContainer, Checkbox, COLORS } from '@tourlane/tourlane-ui'
+import { FlexContainer, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
 import { UnhappyIcon } from 'components/Icon'
 
 export const SearchItemWrapper = styled(FlexContainer)`
@@ -7,7 +7,6 @@ export const SearchItemWrapper = styled(FlexContainer)`
   border-radius: 4px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
   background-color: ${COLORS.SENSATION_WHITE};
-  font-family: SourceSansPro, serif;
   transition: box-shadow 0.5s ease-out;
 
   &:hover {
@@ -28,29 +27,20 @@ export const SearchItemBodyWrapper = styled(FlexContainer)`
   position: relative;
 `
 
-export const ItemTitle = styled.p`
-  padding: 0;
-  margin: 2px 0 0 0;
-  font-size: 22px;
-  line-height: 1.45;
-  font-weight: 600;
-  color: ${COLORS.NIGHTINGALE_BLACK};
+export const ItemTitle = styled(Subline)`
+  margin-top: 2px;
 `
 
-export const ItemSubtitle = styled.p`
+export const ItemSubtitle = styled(Base)`
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.44;
   color: ${COLORS.INACTIVE_GRAY};
+  font-weight: bold;
 `
 
 export const ItemDescription = styled.div`
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 18px;
-  line-height: 1.6;
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 

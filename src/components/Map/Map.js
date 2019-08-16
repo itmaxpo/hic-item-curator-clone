@@ -38,6 +38,7 @@ const Map = compose(
   withGoogleMap
 )(props => {
   const googleMap = window.google
+  const [isInfoShown, setIsInfoShown] = useState(false)
 
   // early return if there are no coordinates
   if (isEmpty(props.coordinates)) return
@@ -66,7 +67,7 @@ const Map = compose(
       center={center}
       controlSize={20}
     >
-      {props.locationInfo && (
+      {props.locationInfo && isInfoShown && (
         <MapControl position={'1'}>
           <InfoCard {...props.locationInfo} />
         </MapControl>
@@ -82,7 +83,23 @@ const Map = compose(
       {coordinates && coordinates.length > 1 ? (
         <Polygon paths={coordinates} options={{ strokeWeight: 2 }} />
       ) : (
-        <Marker position={coordinates} icon={{ url: MarkerIcon }} />
+        <Marker
+          key={1}
+          position={coordinates}
+          icon={{
+            url: MarkerIcon,
+            anchor: new window.google.maps.Point(20, 20),
+            labelOrigin: new window.google.maps.Point(21, 20)
+          }}
+          zIndex={1000}
+          label={{
+            text: '1',
+            color: '#FFF',
+            fontFamily: 'roboto',
+            fontWeight: '600'
+          }}
+          onClick={() => setIsInfoShown(!isInfoShown)}
+        />
       )}
       <StreetViewPanorama defaultVisible={false} />
     </GoogleMap>

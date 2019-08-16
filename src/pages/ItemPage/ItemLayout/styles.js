@@ -4,7 +4,7 @@ import { Breadcrumbs } from '@material-ui/core'
 
 export const Wrapper = styled.div`
   min-height: 100vh;
-  margin: 20px 90px;
+  margin: 30px 90px;
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
@@ -17,6 +17,7 @@ export const StyledBreadcrumbs = styled(Breadcrumbs)`
 
 export const TitleWrapper = styled.div`
   position: relative;
+  margin-bottom: 20px;
   z-index: 2; // Needed for dropdowm to overlap
 
   ${({ isEditing }) =>
@@ -26,28 +27,16 @@ export const TitleWrapper = styled.div`
           transition: max-height 0.5s ease-out;
         `
       : css`
-          transition: max-height 0.5s ease-out;
           max-height: 100px; // Needed for animation
         `}
 
-  h1 {
-    font-family: PlayfairDisplay;
-    font-size: 42px;
-    font-weight: bold;
-    line-height: 1.29;
-    color: ${COLORS.NIGHTINGALE_BLACK};
-    margin: 0;
-    padding: 0;
+  h2 {
+    margin: 20px 0 10px 0;
   }
 
   p {
-    font-family: SourceSansPro;
-    font-size: 18px;
     font-weight: 600;
-    line-height: 1.44;
     color: ${COLORS.ELEMENT_GRAY};
-    padding: 0 0 20px 0;
-    margin: 0;
   }
 `
 
@@ -61,6 +50,7 @@ export const SupplierDropdown = styled(DropdownSelect)`
 export const TitleField = styled(TextField)`
   width: 780px;
   margin-bottom: 20px;
+  margin-top: 20px;
   font-family: PlayfairDisplay, serif;
 `
 
@@ -82,23 +72,20 @@ export const LanguageBlock = styled.div`
   color: ${COLORS.ELEMENT_GRAY};
   margin-top: -5px;
 
+  p {
+    display: inline-block;
+  }
+
   .MuiSelect-icon {
     width: 20px;
     color: ${COLORS.ELEMENT_GRAY}
   }
 
-  &.editing {
-    margin-top: -20px;
-
-    .MuiInputBase-root {
-      top: 3px;
-    }
-  }
-
-  .MuiInputBase-root {
-    position: relative;
-    top: 2.5px;
-  }
+  ${({ isEditing }) =>
+    isEditing &&
+    css`
+      margin-top: -20px;
+    `}
 
   .MuiSelect-selectMenu {
     position: relative;

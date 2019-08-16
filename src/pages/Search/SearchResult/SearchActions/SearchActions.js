@@ -1,17 +1,18 @@
 import React from 'react'
 import { Checkbox, Tooltip, Base } from '@tourlane/tourlane-ui'
-import { SearchActionsWrapper, ActionIcons, IconData } from './styles'
+import { SearchActionsWrapper, ActionIcons } from './styles'
 import { MergeIcon, MergeInactiveIcon } from 'components/Icon'
 import { getSelectedItems } from '../utils'
+import OnHoverComponentToggle from 'components/OnHoverComponentToggle'
 
 const getAllActions = selectedItems => {
-  // const isOneSelected = selectedItems && selectedItems.length > 0
+  // const isOneSelected = selectedItems.length > 0
   const areMoreSelected = selectedItems.length > 1
 
   return [
     {
       icon: <MergeInactiveIcon />,
-      iconActive: <MergeIcon />,
+      iconHovered: <MergeIcon />,
       tooltipText: 'Merge',
       isActive: areMoreSelected,
       action: 'merge'
@@ -50,13 +51,23 @@ export const SearchActions = ({
       />
 
       <ActionIcons>
-        {availableActions.map((icon, i) => (
-          <Tooltip key={i} position={'bottom'} content={<Base>{icon.tooltipText}</Base>}>
-            <IconData isActive={icon.isActive} onClick={() => onActionClick(icon)}>
-              {icon.isActive ? icon.iconActive : icon.icon}
-            </IconData>
-          </Tooltip>
-        ))}
+        {availableActions.map(
+          (icon, i) =>
+            icon.isActive && (
+              <Tooltip
+                key={i}
+                position={'bottom'}
+                trigger={'hover'}
+                content={<Base>{icon.tooltipText}</Base>}
+              >
+                <OnHoverComponentToggle
+                  component={icon.icon}
+                  hoveredComponent={icon.iconHovered}
+                  onClick={() => onActionClick(icon)}
+                />
+              </Tooltip>
+            )
+        )}
       </ActionIcons>
     </SearchActionsWrapper>
   )

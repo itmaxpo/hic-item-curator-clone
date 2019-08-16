@@ -8,14 +8,8 @@ export const TitleWithContent = styled.div`
 
   ${({ withoutPadding }) => withoutPadding && `padding: 0 0;`}
 
-  > p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.5;
-    letter-spacing: 4px;
+  > h4 {
     color: #3f4144;
-    text-transform: uppercase;
     margin-bottom: 20px;
 
     ${({ withoutPadding }) => withoutPadding && `padding: 0 60px;`}
@@ -29,7 +23,8 @@ export const MapWrapper = styled.div`
 export const SearchItemWrapper = styled(FlexContainer)`
   border-top: 1px solid ${COLORS.LINE_GRAY};
   background-color: ${COLORS.SENSATION_WHITE};
-  font-family: SourceSansPro, serif;
+  font-family: 'Source Sans Pro', serif;
+  font-size: 20px;
   padding: 40px 60px !important;
 
   &:last-child {
@@ -49,8 +44,6 @@ export const ItemTitle = styled(FlexContainer)`
 export const ItemDescription = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
-  font-size: 18px;
-  line-height: 1.6;
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
