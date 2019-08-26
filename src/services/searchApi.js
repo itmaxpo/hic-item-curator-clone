@@ -9,7 +9,31 @@ import request from './request'
  */
 const getCountries = async name => {
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
-    body: { item_type: 'country', query: { name: { content: `${name}*` } } }
+    body: {
+      item_types: ['country'],
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'name',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        wildcard: {
+                          'name.content': `${name}*`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
   })
 
   return res.json()
@@ -28,10 +52,47 @@ const getCountries = async name => {
 const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
-      item_type: 'admin_area',
+      item_types: ['admin_area'],
       offset,
       limit,
-      query: { name: { content: `${name}*` }, ancestors: { content: countryId } }
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'ancestors',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        match: {
+                          'ancestors.content': `kiwi://Elephant/Item/${countryId}`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              nested: {
+                path: 'name',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        wildcard: {
+                          'name.content': `${name}*`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
     }
   })
 
@@ -54,12 +115,62 @@ const getAccommodations = async (
 ) => {
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
-      item_type: 'accommodation',
+      item_types: ['accommodation'],
       offset,
       limit,
       query: {
-        name: { content: `${name}*`, source: `${supplier}*` },
-        ancestors: { content: area || country }
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'ancestors',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        match: {
+                          'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              nested: {
+                path: 'dmc_id',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        wildcard: {
+                          'dmc_id.source': `${supplier}*`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              nested: {
+                path: 'name',
+                query: {
+                  bool: {
+                    must: [
+                      {
+                        wildcard: {
+                          'name.content': `${name}*`
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     }
   })
