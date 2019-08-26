@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { FlexContainer } from '@tourlane/tourlane-ui'
+import { FlexContainer, COLORS } from '@tourlane/tourlane-ui'
+import Loader from 'components/Loader'
 
 export const SearchResultContainer = styled.div`
   margin: 0 90px;
@@ -23,6 +24,7 @@ export const PaginationCenteredWrapper = styled.div`
 export const BottomWrapper = styled(FlexContainer)`
   margin: 0 90px;
   position: relative;
+  border-bottom: 1px solid ${COLORS.LINE_GRAY};
 `
 
 export const ItemsPerPageWrapper = styled(FlexContainer)`
@@ -38,5 +40,11 @@ export const ItemsPerPageWrapper = styled(FlexContainer)`
 
   > div {
     width: 100px;
+  }
+`
+
+export const StyledLoader = styled(Loader)`
+  && {
+    height: 200px;
   }
 `

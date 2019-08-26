@@ -1,4 +1,4 @@
-import { isEmpty, chunk } from 'lodash'
+import { isEmpty, chunk, get, ceil, flatten } from 'lodash'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
@@ -21,3 +21,66 @@ export const moveFromTo = (arr, from, to) => {
   newArr.splice(to, 0, newArr.splice(from, 1)[0])
   return newArr
 }
+
+const getItemTitle = item =>
+  get(
+    get(item, 'fields.name').filter(({ locale }) => locale === 'en-GB' || locale === 'de-DE')[0],
+    'content'
+  )
+
+// give shape to the items
+const parseItems = (items, itemType) =>
+  items.map(item => ({
+    id: item.id,
+    type: itemType,
+    title: getItemTitle(item),
+    description: '',
+    photos: [],
+    isLoading: true
+  }))
+
+// eslint-disable-next-line array-callback-return
+const createArrayOfSize = size => Array.apply(null, Array(size)).map(() => {})
+
+// create the pages
+// TODO: more comments
+export const createPages = (items, arraySize) =>
+  paginateArray(createArrayOfSize(arraySize).map((_, idx) => items[idx]))
+
+// parse search response data
+// sets the structure of the item also sets the pages (array of arrays - chunks of 10 items)
+export const parseSearchResponse = (data, arraySize, itemType) =>
+  createPages(parseItems(data, itemType), arraySize)
+
+export const calculateOffsetAndIndex = (page, itemsPerPage) => {
+  // index of page in the data array - the one chunked by 10
+  const index = (itemsPerPage * page) / 10
+
+  // given that we always get items by chunks of 50
+  // we divide the index of the missing page by 5 and ceil it
+  const offset = ceil(index / 5)
+
+  return { offset, index }
+}
+
+// inserts new page and paginates array
+export const insertPage = (pages, index, items, itemType) => {
+  // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 10)
+  const flattenedPages = flatten(pages)
+
+  // parse the items to give them the shape we use
+  const parsedItems = parseItems(items, itemType)
+
+  // given that our array is paginated by 10s, we multiply it to get the index to insert into the flattened array
+  const indexToInsert = index * 10
+
+  for (let i = 0; i < parsedItems.length; i++) {
+    flattenedPages[indexToInsert + i] = parsedItems[i]
+  }
+
+  return paginateArray(flattenedPages)
+}
+
+// give shape to the suppliers to feed the supplier's dropdown
+export const parseSuppliers = suppliers =>
+  suppliers.map(({ name }) => ({ value: name, label: name }))

@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef } from 'react'
 import { get } from 'lodash'
+import { withRouter } from 'react-router-dom'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -10,44 +11,11 @@ import {
   SearchWrapper,
   SearchFieldsWrapper
 } from './styles'
-import { getCategoryBasedBehavior } from './utils'
+import { getGoToDestination, parseCountriesResponse, parseAreasResponse } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
-
-const mockOptions = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'coconut', label: 'Coconut' },
-  { value: 'caramel', label: 'Caramel' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'cashew', label: 'Cashew' },
-  { value: 'cinnamon', label: 'Cinnamon' }
-]
-
-const AccommodationSearchFields = ({ area, onAreaChange, onChange }) => (
-  <Fragment>
-    <Dropdown
-      label={'Area'}
-      placeholder="Please select ..."
-      options={mockOptions}
-      value={area}
-      onChange={value => onAreaChange(value)}
-    />
-    <NameField
-      label="Name (optional)"
-      placeholder="Name of the place"
-      onChange={e => onChange({ name: e.target.value })}
-    />
-    <Dropdown
-      label="Supplier (optional)"
-      placeholder="Name of supplier"
-      options={mockOptions}
-      onChange={value => onChange({ supplier: value })}
-    />
-  </Fragment>
-)
+import { getCountries, getAreasInCountry } from 'services/searchApi'
 
 const initialValues = {
   name: undefined,
@@ -59,15 +27,16 @@ const initialValues = {
  * here the user specifies the item search criteria
  *
  * @name SearchBox
+ * @param {Object} history
  * @returns {Object} Search Box
  */
-const SearchBox = () => {
+const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
   const values = useRef(initialValues)
   const [category, setCategory] = useState(undefined)
   const [country, setCountry] = useState(undefined)
   const [area, setArea] = useState(undefined)
-  const [searchDisabled, setSearchDisabled] = useState(true)
   const [goToDestination, setGoToDestination] = useState(undefined)
+  const [progressButtonState, setProgressButtonState] = useState('isButton')
 
   const onValueChange = newValue => {
     values.current = { ...values.current, ...newValue }
@@ -75,45 +44,86 @@ const SearchBox = () => {
 
   const onCategoryCardClick = value => () => {
     setCategory(value)
+    // setProgressButtonState('isComplete')
   }
 
-  const getCategorySearchFields = useCallback(() => {
-    switch (category) {
-      case AREA_ITEM_TYPE:
-        return (
-          <Dropdown
-            label={'Area (optional)'}
-            placeholder="Please select ..."
-            options={mockOptions}
-            value={area}
-            onChange={value => setArea(value)}
-          />
-        )
-      case ACCOMMODATION_ITEM_TYPE:
-        return (
-          <AccommodationSearchFields onChange={onValueChange} area={area} onAreaChange={setArea} />
-        )
-      default:
-        return null
+  const onSearchClick = async () => {
+    if (!goToDestination) {
+      setProgressButtonState('isLoading')
+      // set search results
+      switch (category) {
+        case AREA_ITEM_TYPE:
+          await search(country.value)
+          break
+        case ACCOMMODATION_ITEM_TYPE:
+          await search({
+            country: country.value,
+            area: get(area, 'value'),
+            ...values.current
+          })
+          break
+        default:
+          return
+      }
+      setProgressButtonState('isComplete')
+    } else {
+      // go to item page
+      const itemId = get(area, 'value') || get(country, 'value')
+      history.push(`/item/${itemId}`)
     }
-  }, [category, area])
+  }
+
+  const searchCountries = useCallback(async value => {
+    const criteria = value.toLowerCase()
+
+    if (criteria.length >= 2) {
+      const { data } = await getCountries(criteria)
+
+      return parseCountriesResponse(data)
+    }
+  }, [])
+
+  const searchAreas = useCallback(
+    async value => {
+      const criteria = value.toLowerCase()
+
+      if (criteria.length >= 2) {
+        const { data } = await getAreasInCountry(criteria, country.value)
+        return parseAreasResponse(data)
+      }
+    },
+    [country]
+  )
+
+  const AreaDropdown = ({ hidden }) => (
+    <Dropdown
+      hidden={hidden}
+      isAsync
+      isClearable
+      cacheOptions
+      label={'Area (optional)'}
+      isDisabled={!country}
+      placeholder="Please select ..."
+      loadOptions={searchAreas}
+      onChange={value => setArea(value)}
+      value={area}
+    />
+  )
 
   // effect to clear area when country changes
   useEffect(() => {
     setArea(null)
   }, [country])
 
-  // effect to enable/disable search button & get Go To destination
+  // effect to get Go To destination
   useEffect(() => {
-    const { shouldDisableSearchButton, getGoToDestination } = getCategoryBasedBehavior(
-      category,
-      get(country, 'label'),
-      get(area, 'label')
-    )
-
-    setSearchDisabled(shouldDisableSearchButton)
-    setGoToDestination(getGoToDestination)
+    setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
+
+  // effect to keep parent's item type in sync with category
+  useEffect(() => {
+    onItemTypeChange(category)
+  }, [category, onItemTypeChange])
 
   return (
     <SearchBoxWrapper>
@@ -132,22 +142,44 @@ const SearchBox = () => {
       {category && (
         <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
           <Dropdown
+            isAsync
+            isClearable
+            cacheOptions
             label="Country"
             placeholder="Please select ..."
-            options={mockOptions}
+            loadOptions={searchCountries}
             renderMarginRight={category !== COUNTRY_ITEM_TYPE}
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
-            value={country}
             onChange={value => setCountry(value)}
           />
-          {getCategorySearchFields()}
+          <AreaDropdown hidden={category === COUNTRY_ITEM_TYPE} />
+          {category === ACCOMMODATION_ITEM_TYPE && (
+            <Fragment>
+              <NameField
+                label="Name (optional)"
+                placeholder="Name of the place"
+                onChange={e => onValueChange({ name: e.target.value })}
+              />
+              <Dropdown
+                label="Supplier (optional)"
+                placeholder="Name of supplier"
+                options={suppliers}
+                onChange={value => onValueChange({ supplier: get(value, 'value') })}
+              />
+            </Fragment>
+          )}
         </SearchFieldsWrapper>
       )}
       <SearchWrapper p={0} justify="between">
-        <Search disabled={searchDisabled} destination={goToDestination} />
+        <Search
+          state={progressButtonState}
+          disabled={!country}
+          destination={goToDestination}
+          onButtonClick={onSearchClick}
+        />
       </SearchWrapper>
     </SearchBoxWrapper>
   )
 }
 
-export default SearchBox
+export default withRouter(SearchBox)

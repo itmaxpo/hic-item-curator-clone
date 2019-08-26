@@ -1,24 +1,32 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer, Dropdown } from '@tourlane/tourlane-ui'
-import Loader from 'components/Loader'
 import PaginationWrapper from 'components/Pagination'
 import SearchActions from './SearchActions'
 import {
-  getMockedResults,
   paginateResults,
   updatePaginatedItemByIndex,
   updateAllPaginatedItems,
-  scrollToSearchActions
+  scrollToSearchActions,
+  missingId
 } from './utils'
 import SearchItem from './SearchItem'
 import {
   SearchResultContainer,
   PaginationCenteredWrapper,
   BottomWrapper,
-  ItemsPerPageWrapper
+  ItemsPerPageWrapper,
+  StyledLoader
 } from './styles'
 
+const itemsPerPageOptions = [
+  { value: 10, label: '10' },
+  { value: 20, label: '20' },
+  { value: 30, label: '30' },
+  { value: 40, label: '40' },
+  { value: 50, label: '50' }
+]
 /**
  * This is component, that is responsible for rendering all search results
  * Will receive Array<SearchResult> and transform it to Array<Array<SearchResult>>
@@ -30,21 +38,35 @@ import {
  * @output {Function} updateSelectedResults (return Array<SearchResult> that are selected)
  */
 export const SearchResultWrapper = withRouter(
-  ({ results, isLoading = false, updateSelectedResults, history }) => {
+  ({ results, updateSelectedResults, fetchMoreItems, history }) => {
     const searchContainer = useRef(null)
+    const [isLoading, setIsLoading] = useState(false)
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [allResults, setAllResults] = useState(paginateResults(getMockedResults(), 10))
+    const [allResults, setAllResults] = useState([])
 
-    const pages = allResults.length
-    const itemsPerPageOptions = [
-      { value: 10, label: '10' },
-      { value: 20, label: '20' },
-      { value: 30, label: '30' },
-      { value: 40, label: '40' },
-      { value: 50, label: '50' }
-    ]
+    const enrichedItemsRef = useRef([])
+
+    const updateItemRef = updatedItem => {
+      enrichedItemsRef.current.push(updatedItem)
+    }
+
+    /* this method updates the current page items
+     * with the enriched version of the item.
+     * it is meant to be called when changing pages
+     * so it doesn't affect performance, given that
+     * changing pages already causes a re render of the items.
+     */
+    const updateCurrentPageEnrichedItems = () => {
+      if (isEmpty(enrichedItemsRef.current)) return
+      const newAllResults = allResults
+      newAllResults[currentPage - 1] = enrichedItemsRef.current
+
+      enrichedItemsRef.current = []
+
+      setAllResults(newAllResults)
+    }
 
     const onAllSelectClick = isSelected => {
       const selectedResults = updateAllPaginatedItems(allResults, 'isSelected', isSelected)
@@ -57,10 +79,26 @@ export const SearchResultWrapper = withRouter(
       // USE: updateSelectedResults
     }
 
-    const onPageChange = page => {
+    const onPageChange = async page => {
+      updateCurrentPageEnrichedItems()
+
       // Calculate offsetTop for searchContainer to scroll to it
       scrollToSearchActions(searchContainer)
-      setCurrentPage(page)
+
+      // check if page is empty
+      if (allResults[page - 1].some(missingId)) {
+        setIsLoading(true)
+        try {
+          // fetch more items, then we set the current page.
+          await fetchMoreItems(page - 1, itemsPerPage)
+          setCurrentPage(page)
+        } catch (e) {
+          console.warn(e)
+        }
+        setIsLoading(false)
+      } else {
+        setCurrentPage(page)
+      }
     }
 
     const onItemSelect = (updatedItem, index) => {
@@ -79,7 +117,7 @@ export const SearchResultWrapper = withRouter(
       } else {
         // Always should be on the top of the new page
         window.scrollTo(0, 0)
-        history.push('/item/123')
+        history.push(`/item/${item.id}`)
       }
     }
 
@@ -89,12 +127,21 @@ export const SearchResultWrapper = withRouter(
         scrollToSearchActions(searchContainer)
       }
       setItemsPerPage(newItemsPerPage)
-      setAllResults(paginateResults(getMockedResults(), newItemsPerPage))
     }
 
+    useEffect(() => {
+      setAllResults(paginateResults(results, itemsPerPage))
+    }, [results, itemsPerPage])
+
     if (isLoading) {
-      return <Loader />
+      return <StyledLoader />
     }
+
+    if (isEmpty(results)) {
+      return null
+    }
+
+    const pages = allResults.length
 
     return (
       <FlexContainer p={0} direction="ttb" id={'search-container'}>
@@ -111,11 +158,12 @@ export const SearchResultWrapper = withRouter(
           <SearchResultContainer>
             {allResults[currentPage - 1].map((item, i) => (
               <SearchItem
-                key={i}
+                key={item.id}
                 item={item}
                 index={i}
                 onItemSelect={onItemSelect}
                 onItemClick={onItemClick}
+                updateItemRef={updateItemRef}
               />
             ))}
             {/* Rendering part after all results has been shown */}
@@ -125,7 +173,7 @@ export const SearchResultWrapper = withRouter(
                   <PaginationWrapper
                     total={pages * itemsPerPage}
                     limit={itemsPerPage}
-                    pageCount={itemsPerPage}
+                    pageCount={allResults.length > 10 ? 10 : allResults.length}
                     currentPage={currentPage}
                     onPageChange={onPageChange}
                   />
@@ -133,15 +181,17 @@ export const SearchResultWrapper = withRouter(
               ) : (
                 <PaginationCenteredWrapper />
               )}
-
-              <ItemsPerPageWrapper p={0} direction={'ltr'}>
-                <p>Show: </p>
-                <Dropdown
-                  value={itemsPerPage}
-                  options={itemsPerPageOptions}
-                  onChange={onItemsPerPageChange}
-                />
-              </ItemsPerPageWrapper>
+              {/*
+                TODO: Fix me Raulito!
+                <ItemsPerPageWrapper p={0} direction={'ltr'}>
+                  <p>Show: </p>
+                  <Dropdown
+                    value={itemsPerPage}
+                    options={itemsPerPageOptions}
+                    onChange={onItemsPerPageChange}
+                  />
+                </ItemsPerPageWrapper>
+              */}
             </BottomWrapper>
           </SearchResultContainer>
         )}

@@ -5,10 +5,10 @@ import {
   H3,
   DropdownSelect as TUIDropdown,
   TextField,
-  Button as TUIButton,
   Subline
 } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
+import ProgressButton from 'components/ProgressButton'
 
 const StyledSearchBoxContainer = styled(FlexContainer)`
   min-height: 274px;
@@ -54,11 +54,15 @@ const StyledTextField = styled(TextField)`
   width: 360px;
 `
 
-export const Dropdown = ({ label, ...rest }) => (
-  <div>
+const DropdownContainer = styled.div`
+  ${({ hidden }) => hidden && `display: none`}
+`
+
+export const Dropdown = ({ label, hidden, ...rest }) => (
+  <DropdownContainer hidden={hidden}>
     <StyledSubline>{label}</StyledSubline>
     <StyledDropdown isClearable {...rest} />
-  </div>
+  </DropdownContainer>
 )
 
 export const NameField = ({ label, ...rest }) => (
@@ -68,18 +72,8 @@ export const NameField = ({ label, ...rest }) => (
   </div>
 )
 
-export const Button = styled(TUIButton)`
-  && {
-    width: 100%;
-    padding: 0;
-    font-size: 16px;
-    letter-spacing: 4px;
-    line-height: 24px;
-  }
-`
-
 export const Search = ({ destination, ...rest }) => (
-  <Button {...rest} title={destination ? `Go to ${destination}` : 'Search'} />
+  <ProgressButton {...rest} label={destination ? `Go to ${destination}` : 'Search'} />
 )
 
 export const CategoryCardsWrapper = styled(FlexContainer)`
@@ -90,7 +84,7 @@ export const CategoryCardsWrapper = styled(FlexContainer)`
 `
 
 export const SearchWrapper = styled(FlexContainer)`
-  height: 48px;
+  min-height: 48px;
   width: 360px;
   align-self: center;
 `

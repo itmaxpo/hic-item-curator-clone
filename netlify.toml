@@ -1,0 +1,30 @@
+# Global settings applied to the whole site.
+# “base” is directory to change to before starting build, and
+# “publish” is the directory to publish (relative to root of your repo).
+# “command” is your build command.
+
+[build]
+  base    = ""
+  publish = "build"
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy"
+
+# Production context: All deploys to the main
+# repository branch will inherit these settings.
+[context.production]
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy"
+
+# Deploy Preview context: All Deploy Previews
+# will inherit these settings.
+[context.deploy-preview]
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy:staging"
+
+# Branch Deploy context: All deploys that are not in
+# an active Deploy Preview will inherit these settings.
+[context.staging]
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy:staging"
+
+# redirect rule
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

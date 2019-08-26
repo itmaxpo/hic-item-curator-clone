@@ -3,9 +3,9 @@ import PacmanLoader from 'react-spinners/PacmanLoader'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { LoaderContainer } from './styles'
 
-const Loader = ({ children }) => {
+const Loader = ({ className, children }) => {
   return (
-    <LoaderContainer center>
+    <LoaderContainer className={className} center>
       {children ? children : <PacmanLoader color={COLORS.ADVENTURE_GREEN} />}
     </LoaderContainer>
   )

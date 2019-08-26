@@ -21,10 +21,12 @@ export const SearchItemCheckbox = styled(Checkbox)`
 `
 
 export const SearchItemBodyWrapper = styled(FlexContainer)`
-  flex-grow: 2;
-  margin-right: 18px !important;
-  margin-left: 10px !important;
-  position: relative;
+  && {
+    flex-grow: 2;
+    margin-right: 30px;
+    margin-left: 10px;
+    position: relative;
+  }
 `
 
 export const ItemTitle = styled(Subline)`

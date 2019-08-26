@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
+import { isEmpty } from 'lodash'
+import Skeleton from '@material-ui/lab/Skeleton'
 import ShowMore from 'components/ShowMore'
 import ItemBadge from 'components/ItemBadge'
 // import StatusIndicator from 'components/StatusIndicator'
@@ -17,6 +19,9 @@ import {
   StyledUnhappyIcon
 } from './styles'
 import { P } from '@tourlane/tourlane-ui'
+import LazyLoader, { Preloader } from 'components/LazyLoader'
+import { enrichItem } from './utils'
+import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -27,13 +32,46 @@ import { P } from '@tourlane/tourlane-ui'
  * @param {Function} onSelect
  * @param {Function} onItemClick
  */
-export const SearchItem = ({ item, index, onItemSelect, onItemClick }) => {
-  const isEmpty = item.photos.length === 0
-  const url = 'https://loremflickr.com/320/240/travel'
+export const SearchItem = ({ item, index, onItemSelect, onItemClick, updateItemRef }) => {
+  const [localItem, setLocalItem] = useState(item)
 
   const onCheckboxChange = () => {
-    const selectedItem = { ...item, isSelected: !item.isSelected }
+    const selectedItem = { ...localItem, isSelected: !localItem.isSelected }
     onItemSelect(selectedItem, index)
+  }
+
+  useEffect(() => {
+    setLocalItem(item)
+  }, [item])
+
+  useEffect(() => {
+    // Enrich item and update it's ref in parent
+    // so we don't enrich the same item twice.
+    async function getEnrichedItem() {
+      if (localItem.isLoading && localItem) {
+        const enrichedItem = await enrichItem(localItem)
+        updateItemRef(enrichedItem)
+        setLocalItem(enrichedItem)
+      }
+    }
+
+    getEnrichedItem()
+  }, [localItem, updateItemRef])
+
+  const noPictures = localItem.isLoading === false && isEmpty(localItem.photos)
+
+  const Image = () => {
+    if (localItem.isLoading) return <Preloader />
+
+    if (noPictures) {
+      return <StyledUnhappyIcon />
+    } else {
+      return (
+        <LazyLoader src={localItem.photos[0]}>
+          <ImgWrapper width={'100%'} src={localItem.photos[0]} alt={localItem.photos[0]} />
+        </LazyLoader>
+      )
+    }
   }
 
   return (
@@ -42,37 +80,42 @@ export const SearchItem = ({ item, index, onItemSelect, onItemClick }) => {
         id={index}
         className={'search-item-checkbox'}
         name="isItemSelected"
-        checked={item.isSelected}
+        checked={localItem.isSelected}
         onChange={onCheckboxChange}
       />
 
-      <SearchItemBodyWrapper p={0} direction={'ttb'} onClick={e => onItemClick(e, item)}>
+      <SearchItemBodyWrapper p={0} direction={'ttb'} onClick={e => onItemClick(e, localItem)}>
         {/* TODO: Uncomment when status should be rendered */}
         {/* <BadgeWrapper>
           <ItemBadge width={'139px'}>
-            <StatusIndicator status={item.status} />
+            <StatusIndicator status={localItem.status} />
           </ItemBadge>
         </BadgeWrapper> */}
         <ItemTitle>
-          <span>{item.title}</span>
+          <span>{localItem.title}</span>
         </ItemTitle>
-        <ItemSubtitle>{item.subtitle}</ItemSubtitle>
+        <ItemSubtitle>{localItem.subtitle}</ItemSubtitle>
         <ItemDescription>
-          {item.description && (
+          {/* At the moment, only accommodations have description */}
+          {localItem.isLoading && localItem.type === ACCOMMODATION_ITEM_TYPE ? (
+            <Fragment>
+              <Skeleton />
+              <Skeleton width="60%" />
+            </Fragment>
+          ) : (
             <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-              {item.description}
+              {localItem.description}
             </ShowMore>
           )}
         </ItemDescription>
       </SearchItemBodyWrapper>
 
       <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
-        {!isEmpty ? <ImgWrapper width={'100%'} src={url} alt={url} /> : <StyledUnhappyIcon />}
-
+        <Image />
         <BadgeWrapperPhoto>
           <ItemBadge width={'95px'}>
             <P>
-              {item.photos.length} Photo{addSToString(item.photos.length)}
+              {localItem.photos.length} Photo{addSToString(localItem.photos.length)}
             </P>
           </ItemBadge>
         </BadgeWrapperPhoto>

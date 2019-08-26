@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
 /**
@@ -57,17 +58,15 @@ export const getGoToDestination = (category, country, area) => {
   }
 }
 
-/**
- * Defines search box behavior based on the selected category.
- *
- * @name getCategoryBasedBehavior
- * @param {String} category
- * @param {String} country
- * @param {String} area
- * @returns {Object}
- */
+// To support names by locale, revisit filtering.
+export const parseCountriesResponse = data =>
+  data.map(country => ({
+    value: country.id,
+    label: get(country, 'fields.name').filter(name => name.locale === 'en-GB')[0].content
+  }))
 
-export const getCategoryBasedBehavior = (category, country, area) => ({
-  shouldDisableSearchButton: shouldDisableSearchButton(category, country, area),
-  getGoToDestination: getGoToDestination(category, country, area)
-})
+export const parseAreasResponse = data =>
+  data.map(area => ({
+    value: area.id,
+    label: get(area, 'fields.name')[0].content
+  }))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ItemLayout from './ItemLayout'
 import GlobalInformation from './GlobalInformation'
 import OfferVisualisation from './OfferVisualisation'
@@ -15,6 +15,7 @@ import {
   TRAVEL_DOCUMENTS_ITEM_PROP
 } from './utils'
 import { cloneDeep } from 'lodash'
+import { getItemFieldsById } from 'services/contentApi'
 
 /**
  * This is the Item Page component
@@ -67,6 +68,19 @@ const ItemPage = ({ match }) => {
     setItem(mockedItem)
     setIsEditing(!isEditing)
   }
+
+  // fetch item by query params
+  useEffect(() => {
+    async function fetchItem() {
+      try {
+        const { data } = await getItemFieldsById(match.params.id)
+        console.log(data)
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+    fetchItem()
+  }, [match.params.id])
 
   return (
     <div>
