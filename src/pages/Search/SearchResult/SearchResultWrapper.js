@@ -137,10 +137,6 @@ export const SearchResultWrapper = withRouter(
       return <StyledLoader />
     }
 
-    if (isEmpty(results)) {
-      return null
-    }
-
     const pages = allResults.length
 
     return (

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
-import { flatten, floor } from 'lodash'
+import { flatten, floor, isEmpty } from 'lodash'
 import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton } from './styles'
 import SearchBox from './SearchBox'
@@ -34,6 +34,8 @@ const SearchPage = ({ history }) => {
 
   const search = async payload => {
     prevPayload.current = payload
+
+    setResults([])
     // set search results
     switch (itemType) {
       case AREA_ITEM_TYPE: {
@@ -131,11 +133,13 @@ const SearchPage = ({ history }) => {
           onItemTypeChange={onItemTypeChangeHandler}
           suppliers={suppliers}
         />
-        <SearchResultWrapper
-          results={flattenedResults}
-          updateSelectedResults={updateSelectedResults}
-          fetchMoreItems={fetchMoreItems}
-        />
+        {!isEmpty(flattenedResults) && (
+          <SearchResultWrapper
+            results={flattenedResults}
+            updateSelectedResults={updateSelectedResults}
+            fetchMoreItems={fetchMoreItems}
+          />
+        )}
         <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
           <p>Didn't find what you're looking for?</p>
           <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
