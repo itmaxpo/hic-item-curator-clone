@@ -22,6 +22,12 @@ export const moveFromTo = (arr, from, to) => {
   return newArr
 }
 
+// Add element to concrete index
+export const addElementToIndex = (arr, to, elem) => {
+  arr.splice(to, 0, elem)
+  return arr
+}
+
 const getItemTitle = item =>
   get(
     get(item, 'fields.name').filter(({ locale }) => locale === 'en-GB' || locale === 'de-DE')[0],

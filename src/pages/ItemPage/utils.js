@@ -11,7 +11,6 @@ export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 
 // Global Item properties
-export const GLOBAL_INFORMATION_ITEM_PROP = 'globalInformation'
 export const OFFER_VISUALISATION_ITEM_PROP = 'offerVisualisation'
 export const TRAVEL_DOCUMENTS_ITEM_PROP = 'travelDocuments'
 
@@ -49,13 +48,14 @@ export const componentsBasedOnType = type => {
 
 // Mocked item to play with
 export const mockedItem = {
+  id: '123',
   title: 'Arakur Ushuaia & Resort',
   subtitle: 'Malvinas, Ushuaia, Argentina',
   status: 'inProgress',
   type: ACCOMMODATION_ITEM_TYPE,
   language: 'DE',
   suppliers: [1, 2],
-  [GLOBAL_INFORMATION_ITEM_PROP]: {
+  [OFFER_VISUALISATION_ITEM_PROP]: {
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
@@ -110,18 +110,112 @@ export const mockedItem = {
       { type: 'Prince Room', mealbase: '', description: 'Some stuff about princs' }
     ],
     photos: [
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/travel',
-      'https://loremflickr.com/320/240/dance'
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: false,
+        value: 'https://loremflickr.com/320/240/travel'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: false,
+        value: 'https://loremflickr.com/320/240/man'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: false,
+        value: 'https://loremflickr.com/320/240/woman'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/dance'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/house'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/nature'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/sea'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/dance'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/house'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/nature'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/sea'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/dance'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/house'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/nature'
+      },
+      {
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: true,
+        value: 'https://loremflickr.com/320/240/sea'
+      }
     ]
-  },
-  [OFFER_VISUALISATION_ITEM_PROP]: {
-    title: 'Offer Visualisation is not available yet'
   },
   [TRAVEL_DOCUMENTS_ITEM_PROP]: {
     title: 'Travel documents are not available yet'

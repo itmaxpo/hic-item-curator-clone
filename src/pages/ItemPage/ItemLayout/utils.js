@@ -22,24 +22,14 @@ export const generateBreadcumbs = (item, onBreadcrumbClick) => {
   switch (item.type) {
     case AREA_ITEM_TYPE:
       return [
-        <Base onClick={() => onBreadcrumbClick(item.country, COUNTRY_ITEM_TYPE)}>
-          {item.country || 'Australia'}
-        </Base>,
-        <Base onClick={() => onBreadcrumbClick(item.area, AREA_ITEM_TYPE)}>
-          {item.area || 'Ushuaya'}
-        </Base>
+        { text: item[COUNTRY_ITEM_TYPE] || 'Australia', url: '/' },
+        { text: item[AREA_ITEM_TYPE] || 'Ushuaya', url: '/' }
       ]
     case ACCOMMODATION_ITEM_TYPE:
       return [
-        <Base onClick={() => onBreadcrumbClick(item.country, COUNTRY_ITEM_TYPE)}>
-          {item.country || 'Australia'}
-        </Base>,
-        <Base onClick={() => onBreadcrumbClick(item.area, AREA_ITEM_TYPE)}>
-          {item.area || 'Ushuaya'}
-        </Base>,
-        <Base onClick={() => onBreadcrumbClick(item.area, ACCOMMODATION_ITEM_TYPE)}>
-          {item.accommodation || 'Accommodation'}
-        </Base>
+        { text: item[COUNTRY_ITEM_TYPE] || 'Australia', url: '/' },
+        { text: item[AREA_ITEM_TYPE] || 'Ushuaya', url: '/' },
+        { text: item[ACCOMMODATION_ITEM_TYPE] || 'Accommodation', url: '/' }
       ]
     // When item is country - reserves some space for Breadcrumbs
     default:

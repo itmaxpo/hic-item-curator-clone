@@ -4,7 +4,7 @@ import MapExample from './MapExample'
 import DraggableGalleryExample from './DraggableGalleryExample'
 import ExpansionExample from './ExpansionExample'
 import CarouselExample from './CarouselExample'
-
+import ImageUploaderExample from './ImageUploaderExample'
 /**
  * This is the Sandbox Page component
  * Use it to play with components
@@ -16,6 +16,9 @@ const SandboxPage = () => {
   return (
     <div style={{ margin: '20px auto', width: 600 }}>
       <div>Welcome to IC Sandbox.</div>
+      <h3>Drag'n'Drop Area</h3>
+      <hr />
+      {/* <DragAndDropAreaExample files={imagesURLS} /> */}
       <br />
       <h3>Tabs</h3>
       <hr />
@@ -39,6 +42,10 @@ const SandboxPage = () => {
       <h3>Carousel</h3>
       <hr />
       <CarouselExample />
+      <br />
+      <h3>Image uploader</h3>
+      <hr />
+      <ImageUploaderExample />
     </div>
   )
 }

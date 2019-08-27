@@ -5,6 +5,14 @@ import Dialog from '@material-ui/core/Dialog'
 import { CarouselWrapper, CancelButton } from './styles'
 import { CloseIcon } from 'components/Icon'
 
+/**
+ * This is component that show Image Gallery in View mode
+ *
+ * @param {Boolean} open - handle open state for Carousel
+ * @param {Array<String>} images - Array of image URL's to show as a String's
+ * @param {Function} onClose
+ * @param {Function} onImageClick
+ */
 const ImageCarousel = ({ open, images = [], onClose, onImageClick }) => {
   // For creating Legends: <p className="legend">Legend 1</p>
 

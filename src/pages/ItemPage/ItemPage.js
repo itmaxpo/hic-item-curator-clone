@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import ItemLayout from './ItemLayout'
-import GlobalInformation from './GlobalInformation'
 import OfferVisualisation from './OfferVisualisation'
 import TravelDocuments from './TravelDocuments'
 import { EditingWrapper } from './styles'
@@ -10,7 +9,6 @@ import {
   updateItemKey,
   componentsBasedOnType,
   mockedItem,
-  GLOBAL_INFORMATION_ITEM_PROP,
   OFFER_VISUALISATION_ITEM_PROP,
   TRAVEL_DOCUMENTS_ITEM_PROP
 } from './utils'
@@ -38,10 +36,6 @@ const ItemPage = ({ match }) => {
   const [item, setItem] = useState(cloneDeep(originalItem))
   const [isEditing, setIsEditing] = useState(false)
 
-  const onChangeGlobalInformation = (field, prop) => {
-    setItem(updateItemKey(item, GLOBAL_INFORMATION_ITEM_PROP, field, prop))
-  }
-
   const onChangeOfferVisualisation = (field, prop) => {
     setItem(updateItemKey(item, OFFER_VISUALISATION_ITEM_PROP, field, prop))
   }
@@ -56,7 +50,7 @@ const ItemPage = ({ match }) => {
   // OnSave: Send request to BE, then update localCopy of the item
   // Cancel changes if BE returns error, store the changes locally (indexedDB?)
   const onSave = updatedItem => {
-    // send BE request to store item
+    // send BE request to store item + images
     setIsEditing(false)
   }
 
@@ -65,6 +59,7 @@ const ItemPage = ({ match }) => {
   }
 
   const onCancel = () => {
+    // Reset images to original version
     setItem(mockedItem)
     setIsEditing(!isEditing)
   }
@@ -99,18 +94,14 @@ const ItemPage = ({ match }) => {
         item={item}
         isEditing={isEditing}
         onChange={onChange}
-        tabs={['Global Information', 'Offer Visualisation', 'Travel Documents']}
+        tabs={['Offer Visualisation', 'Travel Documents']}
         tabContents={[
-          <GlobalInformation
-            globalInformation={item[GLOBAL_INFORMATION_ITEM_PROP]}
-            isEditing={isEditing}
-            onChange={onChangeGlobalInformation}
-            components={componentsBasedOnType(item.type)}
-          />,
           <OfferVisualisation
-            offerVisualisation={item[OFFER_VISUALISATION_ITEM_PROP]}
+            itemId={item.id}
+            offerVisualisation={item.offerVisualisation}
             isEditing={isEditing}
             onChange={onChangeOfferVisualisation}
+            components={componentsBasedOnType(item.type)}
           />,
           <TravelDocuments
             travelDocuments={item[TRAVEL_DOCUMENTS_ITEM_PROP]}

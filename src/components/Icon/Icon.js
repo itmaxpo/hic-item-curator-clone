@@ -24,6 +24,11 @@ import { ReactComponent as GlyphChevronDownSvg } from 'icons/glyph-chevron-down.
 import { ReactComponent as MergeSvg } from 'icons/merge.svg'
 import { ReactComponent as MergeInactiveSvg } from 'icons/mergeGray.svg'
 import { ReactComponent as UnhappySvg } from 'icons/unhappy-photo.svg'
+import { ReactComponent as ArrowRightSvg } from 'icons/triangle-right.svg'
+import { ReactComponent as PreviewSvg } from 'icons/preview.svg'
+import { ReactComponent as DocumentSvg } from 'icons/document.svg'
+import { ReactComponent as SadFileSvg } from 'icons/sadfile.svg'
+import { ReactComponent as HappyFileSvg } from 'icons/happyfile.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -138,32 +143,62 @@ const HomeIcon = props => (
 )
 
 const ChevronDownIcon = props => (
-  <StyledSvgIcon alt="home" {...props}>
+  <StyledSvgIcon alt="chevron-down" {...props}>
     <ChevronDownSvg />
   </StyledSvgIcon>
 )
 
 const MergeIcon = props => (
-  <StyledSvgIcon alt="home" {...props}>
+  <StyledSvgIcon alt="merge" {...props}>
     <MergeSvg />
   </StyledSvgIcon>
 )
 
 const MergeInactiveIcon = props => (
-  <StyledSvgIcon alt="home" {...props}>
+  <StyledSvgIcon alt="merge-inactive" {...props}>
     <MergeInactiveSvg />
   </StyledSvgIcon>
 )
 
 const GlyphChevronDownIcon = props => (
-  <StyledSvgIcon alt="home" {...props}>
+  <StyledSvgIcon alt="chevron-down" {...props}>
     <GlyphChevronDownSvg />
   </StyledSvgIcon>
 )
 
 const UnhappyIcon = props => (
-  <StyledSvgIcon alt="home" {...props}>
+  <StyledSvgIcon alt="unhappy-face" {...props}>
     <UnhappySvg />
+  </StyledSvgIcon>
+)
+
+const ArrowRightIcon = props => (
+  <StyledSvgIcon alt="arrow-right" {...props}>
+    <ArrowRightSvg />
+  </StyledSvgIcon>
+)
+
+const PreviewIcon = props => (
+  <StyledSvgIcon alt="preview" {...props}>
+    <PreviewSvg />
+  </StyledSvgIcon>
+)
+
+const DocumentIcon = props => (
+  <StyledSvgIcon alt="document" {...props}>
+    <DocumentSvg />
+  </StyledSvgIcon>
+)
+
+const SadFileIcon = props => (
+  <StyledSvgIcon alt="sad-file" {...props}>
+    <SadFileSvg />
+  </StyledSvgIcon>
+)
+
+const HappyFileIcon = props => (
+  <StyledSvgIcon alt="happy-file" {...props}>
+    <HappyFileSvg />
   </StyledSvgIcon>
 )
 
@@ -189,5 +224,10 @@ export {
   MergeIcon,
   MergeInactiveIcon,
   GlyphChevronDownIcon,
-  UnhappyIcon
+  UnhappyIcon,
+  ArrowRightIcon,
+  PreviewIcon,
+  DocumentIcon,
+  HappyFileIcon,
+  SadFileIcon
 }

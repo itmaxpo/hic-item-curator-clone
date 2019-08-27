@@ -1,18 +1,10 @@
 import styled, { css } from 'styled-components'
 import { COLORS, DropdownSelect, TextField, FlexContainer } from '@tourlane/tourlane-ui'
-import { Breadcrumbs } from '@material-ui/core'
 
 export const Wrapper = styled.div`
   min-height: 100vh;
   margin: 30px 90px;
   color: ${COLORS.NIGHTINGALE_BLACK};
-`
-
-export const StyledBreadcrumbs = styled(Breadcrumbs)`
-  font-family: SourceSansPro;
-  li:last-child > p {
-    font-weight: bold;
-  }
 `
 
 export const TitleWrapper = styled.div`

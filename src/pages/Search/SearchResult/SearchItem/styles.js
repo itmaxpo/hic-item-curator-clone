@@ -29,6 +29,12 @@ export const SearchItemBodyWrapper = styled(FlexContainer)`
   }
 `
 
+export const ContentContainer = styled(FlexContainer)`
+  flex-grow: 2;
+  margin-right: 18px !important;
+  position: relative;
+`
+
 export const ItemTitle = styled(Subline)`
   margin-top: 2px;
 `

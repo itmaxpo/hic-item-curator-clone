@@ -1,5 +1,5 @@
 import React from 'react'
-import { TitleWithContent } from '../GlobalInformation/styles'
+import { TitleWithContent } from '../OfferVisualisation/styles'
 
 /**
  * This is the TravelDocuments Tab component

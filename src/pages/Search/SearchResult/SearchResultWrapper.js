@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
-import { FlexContainer, Dropdown } from '@tourlane/tourlane-ui'
+import { FlexContainer } from '@tourlane/tourlane-ui'
 import PaginationWrapper from 'components/Pagination'
 import SearchActions from './SearchActions'
 import {
@@ -16,17 +16,9 @@ import {
   SearchResultContainer,
   PaginationCenteredWrapper,
   BottomWrapper,
-  ItemsPerPageWrapper,
   StyledLoader
 } from './styles'
 
-const itemsPerPageOptions = [
-  { value: 10, label: '10' },
-  { value: 20, label: '20' },
-  { value: 30, label: '30' },
-  { value: 40, label: '40' },
-  { value: 50, label: '50' }
-]
 /**
  * This is component, that is responsible for rendering all search results
  * Will receive Array<SearchResult> and transform it to Array<Array<SearchResult>>
@@ -43,10 +35,10 @@ export const SearchResultWrapper = withRouter(
     const [isLoading, setIsLoading] = useState(false)
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(10)
     const [allResults, setAllResults] = useState([])
 
     const enrichedItemsRef = useRef([])
+    const itemsPerPage = 10
 
     const updateItemRef = updatedItem => {
       enrichedItemsRef.current.push(updatedItem)
@@ -119,14 +111,6 @@ export const SearchResultWrapper = withRouter(
         window.scrollTo(0, 0)
         history.push(`/item/${item.id}`)
       }
-    }
-
-    const onItemsPerPageChange = newItemsPerPage => {
-      // Scroll to top only if itemsPerPage become smaller than current
-      if (newItemsPerPage < itemsPerPage) {
-        scrollToSearchActions(searchContainer)
-      }
-      setItemsPerPage(newItemsPerPage)
     }
 
     useEffect(() => {

@@ -32,3 +32,15 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: #59dd7d !important;
+}
+
+.MuiLinearProgress-colorPrimary {
+  background-color: #edeff0 !important;
+}
+
+.MuiLinearProgress-bar {
+  border-radius: 4px;
+}

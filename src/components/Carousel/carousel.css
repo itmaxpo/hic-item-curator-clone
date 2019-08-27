@@ -166,6 +166,7 @@
   flex-direction: column;
   flex-flow: column;
 }
+
 .carousel .slider-wrapper.axis-vertical {
   -ms-box-orient: horizontal;
   display: -webkit-box;

@@ -29,6 +29,7 @@ const AppWrapper = styled.div`
  */
 function App() {
   const { isAuthenticated, loading } = useAuth0()
+
   // Used to handle animation of changes between sticky header and search actions
   // In all other cases header always sticky
   const handleScroll = () => {

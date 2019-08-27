@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { isEmpty } from 'lodash'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Layout from 'components/Layout'
 import {
   Wrapper,
-  StyledBreadcrumbs,
   TitleWrapper,
   SupplierDropdown,
   TitleField,
@@ -13,9 +12,9 @@ import {
   LanguageBlock
 } from './styles'
 import TabsWrapper from 'components/Tabs'
-import { ChevronRightIcon } from 'components/Icon'
 import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
 import { H2, Base } from '@tourlane/tourlane-ui'
+import Breadcrumbs from 'components/Breadcrumbs'
 
 /**
  * Will render Item page layout with required fields
@@ -34,11 +33,6 @@ import { H2, Base } from '@tourlane/tourlane-ui'
  * @returns ItemLayout component
  */
 const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
-  // TODO: Actual location change to search page with selected item pre-filled
-  const onBreadcrumbClick = () => {
-    console.log(item)
-  }
-
   const onTitleChange = e => {
     onChange('title', e.target.value)
   }
@@ -54,11 +48,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
   return (
     <Layout>
       <Wrapper>
-        <StyledBreadcrumbs aria-label="breadcrumb" separator={<ChevronRightIcon />}>
-          {generateBreadcumbs(item, onBreadcrumbClick).map((bc, i) => (
-            <Fragment key={i}>{bc}</Fragment>
-          ))}
-        </StyledBreadcrumbs>
+        <Breadcrumbs breadcrumbs={generateBreadcumbs(item)} />
 
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
