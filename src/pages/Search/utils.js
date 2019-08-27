@@ -53,8 +53,8 @@ export const parseSearchResponse = (data, arraySize, itemType) =>
   createPages(parseItems(data, itemType), arraySize)
 
 export const calculateOffsetAndIndex = (page, itemsPerPage) => {
-  // index of page in the data array - the one chunked by 10
-  const index = (itemsPerPage * page) / 10
+  // index of page in the data array
+  const index = itemsPerPage * page
 
   // given that we always get items by chunks of 50
   // we divide the index of the missing page by 5 and ceil it
@@ -66,19 +66,24 @@ export const calculateOffsetAndIndex = (page, itemsPerPage) => {
 // inserts new page and paginates array
 export const insertPage = (pages, index, items, itemType) => {
   // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 10)
-  const flattenedPages = flatten(pages)
+  const draftNewPages = flatten(pages)
 
   // parse the items to give them the shape we use
   const parsedItems = parseItems(items, itemType)
 
-  // given that our array is paginated by 10s, we multiply it to get the index to insert into the flattened array
-  const indexToInsert = index * 10
-
   for (let i = 0; i < parsedItems.length; i++) {
-    flattenedPages[indexToInsert + i] = parsedItems[i]
+    draftNewPages[index + i] = parsedItems[i]
   }
 
-  return paginateArray(flattenedPages)
+  // to avoid creating new pages at the end
+  // we keep reducing the index of insertion
+  // until the new pages have the same size
+  // as the original
+  if (draftNewPages.length > flatten(pages).length) {
+    return insertPage(pages, index - 1, items, itemType)
+  }
+
+  return paginateArray(draftNewPages)
 }
 
 // give shape to the suppliers to feed the supplier's dropdown

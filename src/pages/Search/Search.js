@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
-import { flatten, floor, isEmpty } from 'lodash'
+import { flatten, isEmpty } from 'lodash'
 import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton } from './styles'
 import SearchBox from './SearchBox'
@@ -55,43 +55,16 @@ const SearchPage = ({ history }) => {
 
   const fetchMoreItems = async (page, itemsPerPage) => {
     const { offset, index } = calculateOffsetAndIndex(page, itemsPerPage)
-    let limit = 50
-
-    // if on last page, set limit by the number of items that are left
-    // and set index where to insert them
-    // (can't insert on last page because potentially it would create more pages)
-    const isLastPage = results.length - 1 === index
-    let isLastPageIndexToInsert
-
-    if (isLastPage) {
-      limit = totalResultsCount.current % limit
-      // 10 is the size of the pages of "results"
-      isLastPageIndexToInsert = index - floor(limit / 10)
-    }
 
     switch (itemType) {
       case AREA_ITEM_TYPE: {
-        const { data } = await getAreasInCountry('', prevPayload.current, offset, limit)
-        setResults(prevResults =>
-          insertPage(
-            prevResults,
-            isLastPageIndexToInsert ? isLastPageIndexToInsert : index,
-            data,
-            itemType
-          )
-        )
+        const { data } = await getAreasInCountry('', prevPayload.current, offset)
+        setResults(prevResults => insertPage(prevResults, index, data, itemType))
         break
       }
       case ACCOMMODATION_ITEM_TYPE: {
-        const { data } = await getAccommodations(prevPayload.current, offset, limit)
-        setResults(prevResults =>
-          insertPage(
-            prevResults,
-            isLastPageIndexToInsert ? isLastPageIndexToInsert : index,
-            data,
-            itemType
-          )
-        )
+        const { data } = await getAccommodations(prevPayload.current, offset)
+        setResults(prevResults => insertPage(prevResults, index, data, itemType))
         break
       }
       default:
