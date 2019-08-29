@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ItemLayout from './ItemLayout'
 import OfferVisualisation from './OfferVisualisation'
-import TravelDocuments from './TravelDocuments'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import {
@@ -9,11 +8,17 @@ import {
   updateItemKey,
   componentsBasedOnType,
   mockedItem,
-  OFFER_VISUALISATION_ITEM_PROP,
-  TRAVEL_DOCUMENTS_ITEM_PROP
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE
 } from './utils'
 import { cloneDeep } from 'lodash'
-import { getItemFieldsById } from 'services/contentApi'
+import {
+  getItemFieldsById,
+  // getItemAttachmentsById,
+  // updateItemFields,
+  getRoomsForAccommodation,
+  getItemPolygonCoordinatesById
+} from 'services/contentApi'
 
 /**
  * This is the Item Page component
@@ -37,11 +42,7 @@ const ItemPage = ({ match }) => {
   const [isEditing, setIsEditing] = useState(false)
 
   const onChangeOfferVisualisation = (field, prop) => {
-    setItem(updateItemKey(item, OFFER_VISUALISATION_ITEM_PROP, field, prop))
-  }
-
-  const onChangeTravelDocuments = (field, prop) => {
-    setItem(updateItemKey(item, TRAVEL_DOCUMENTS_ITEM_PROP, field, prop))
+    setItem(updateItemKey(item, 'offerVisualisation', field, prop))
   }
 
   const onChange = (field, prop) => {
@@ -69,7 +70,18 @@ const ItemPage = ({ match }) => {
     async function fetchItem() {
       try {
         const { data } = await getItemFieldsById(match.params.id)
+        console.log(data.item_type)
+        if (data.item_type === AREA_ITEM_TYPE) {
+          const { data } = await getItemPolygonCoordinatesById(match.params.id)
+          console.log(data)
+        }
+
+        if (data.item_type === ACCOMMODATION_ITEM_TYPE) {
+          const { data } = await getRoomsForAccommodation(match.params.id)
+          console.log(data)
+        }
         console.log(data)
+        // return data
       } catch (e) {
         console.warn(e)
       }
@@ -94,7 +106,7 @@ const ItemPage = ({ match }) => {
         item={item}
         isEditing={isEditing}
         onChange={onChange}
-        tabs={['Offer Visualisation', 'Travel Documents']}
+        tabs={['Offer Visualisation']}
         tabContents={[
           <OfferVisualisation
             itemId={item.id}
@@ -102,11 +114,6 @@ const ItemPage = ({ match }) => {
             isEditing={isEditing}
             onChange={onChangeOfferVisualisation}
             components={componentsBasedOnType(item.type)}
-          />,
-          <TravelDocuments
-            travelDocuments={item[TRAVEL_DOCUMENTS_ITEM_PROP]}
-            isEditing={isEditing}
-            onChange={onChangeTravelDocuments}
           />
         ]}
       />

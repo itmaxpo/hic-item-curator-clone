@@ -1,6 +1,6 @@
 // Item Type Constants
 export const COUNTRY_ITEM_TYPE = 'country'
-export const AREA_ITEM_TYPE = 'area'
+export const AREA_ITEM_TYPE = 'admin_area'
 export const ACCOMMODATION_ITEM_TYPE = 'accommodation'
 
 // Components string constants for Item Page
@@ -9,10 +9,6 @@ export const IMAGES_COMPONENT_NAME = 'images'
 export const INFORMATION_COMPONENT_NAME = 'information'
 export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
-
-// Global Item properties
-export const OFFER_VISUALISATION_ITEM_PROP = 'offerVisualisation'
-export const TRAVEL_DOCUMENTS_ITEM_PROP = 'travelDocuments'
 
 // Update item by property name
 export const updateItemByProp = (item, prop, value) => {
@@ -55,7 +51,7 @@ export const mockedItem = {
   type: ACCOMMODATION_ITEM_TYPE,
   language: 'DE',
   suppliers: [1, 2],
-  [OFFER_VISUALISATION_ITEM_PROP]: {
+  offerVisualisation: {
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
@@ -216,8 +212,5 @@ export const mockedItem = {
         value: 'https://loremflickr.com/320/240/sea'
       }
     ]
-  },
-  [TRAVEL_DOCUMENTS_ITEM_PROP]: {
-    title: 'Travel documents are not available yet'
   }
 }

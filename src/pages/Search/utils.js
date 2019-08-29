@@ -28,11 +28,18 @@ export const addElementToIndex = (arr, to, elem) => {
   return arr
 }
 
-const getItemTitle = item =>
-  get(
-    get(item, 'fields.name').filter(({ locale }) => locale === 'en-GB' || locale === 'de-DE')[0],
-    'content'
-  )
+const getItemTitle = item => {
+  // Try to get name
+  if (!isEmpty(get(item, 'fields.name'))) {
+    return get(
+      get(item, 'fields.name').filter(({ locale }) => locale === 'en-GB' || locale === 'de-DE')[0],
+      'content'
+    )
+  }
+
+  // If no name provided - using original_name
+  return get(get(item, 'fields.original_name')[0], 'content')
+}
 
 // give shape to the items
 const parseItems = (items, itemType) =>

@@ -37,7 +37,7 @@ function App() {
     const stickyElement = document.getElementById('items-sticky-actions')
     // Header should be sticky until meets sticky Search Actions
     if (stickyElement) {
-      if (header.offsetTop >= 388) {
+      if (header.offsetTop >= 500) {
         header.style.visibility = 'hidden'
         stickyElement.style.top = '0'
         stickyElement.style.boxShadow = '0 1px 4px 0 rgba(63, 65, 68, 0.3)'
@@ -48,7 +48,7 @@ function App() {
         stickyElement.style.boxShadow = '0 0 0 0 rgba(63, 65, 68, 0.3)'
         stickyElement.style.backgroundColor = 'transparent'
         // Needed for smooth animation between search actions and header
-        if (header.offsetTop >= 318) {
+        if (header.offsetTop >= 450) {
           stickyElement.style.backgroundColor = `${COLORS.SENSATION_WHITE}`
           stickyElement.style.boxShadow = '0 1px 4px 0 rgba(63, 65, 68, 0.3)'
         }

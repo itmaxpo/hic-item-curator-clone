@@ -129,10 +129,10 @@ const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
     <SearchBoxWrapper>
       <SearchBoxTitle>What item are you looking for?</SearchBoxTitle>
       <CategoryCardsWrapper justify="between" p={0} pt={1} pb={1.5}>
-        {categoryCardsMap.map(({ value, icon }) => (
+        {categoryCardsMap.map(({ value, displayName, icon }) => (
           <IconCard
             key={value}
-            label={value}
+            label={displayName}
             icon={icon}
             selected={category === value}
             onClick={onCategoryCardClick(value)}
