@@ -59,14 +59,10 @@ export const getGoToDestination = (category, country, area) => {
 }
 
 // To support names by locale, revisit filtering.
-export const parseCountriesResponse = data =>
-  data.map(country => ({
-    value: country.id,
-    label: get(country, 'fields.name').filter(name => name.locale === 'en-GB')[0].content
-  }))
-
-export const parseAreasResponse = data =>
-  data.map(area => ({
-    value: area.id,
-    label: get(area, 'fields.name')[0].content
+export const parseSearchResponse = data =>
+  data.map(item => ({
+    value: item.id,
+    label:
+      get(get(item, 'fields.name').filter(name => name.locale === 'en-GB'), '0.content') ||
+      get(item, 'fields.original_name.0.content')
   }))

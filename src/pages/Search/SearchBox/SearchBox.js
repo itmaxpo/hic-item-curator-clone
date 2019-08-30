@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef } from 'react'
-import { get } from 'lodash'
+import { get, debounce } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import {
   SearchBoxWrapper,
@@ -11,7 +11,7 @@ import {
   SearchWrapper,
   SearchFieldsWrapper
 } from './styles'
-import { getGoToDestination, parseCountriesResponse, parseAreasResponse } from './utils'
+import { getGoToDestination, parseSearchResponse } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
@@ -20,6 +20,16 @@ import { getCountries, getAreasInCountry } from 'services/searchApi'
 const initialValues = {
   name: undefined,
   supplier: undefined
+}
+
+const searchCountries = (value, callback) => {
+  getCountries(value.toLowerCase()).then(({ data }) => callback(parseSearchResponse(data)))
+}
+
+const searchAreas = (value, callback, country) => {
+  getAreasInCountry(value.toLowerCase(), country).then(({ data }) =>
+    callback(parseSearchResponse(data))
+  )
 }
 
 /**
@@ -73,25 +83,11 @@ const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
     }
   }
 
-  const searchCountries = useCallback(async value => {
-    const criteria = value.toLowerCase()
-
-    if (criteria.length >= 2) {
-      const { data } = await getCountries(criteria)
-
-      return parseCountriesResponse(data)
-    }
-  }, [])
-
-  const searchAreas = useCallback(
-    async value => {
-      const criteria = value.toLowerCase()
-
-      if (criteria.length >= 2) {
-        const { data } = await getAreasInCountry(criteria, country.value)
-        return parseAreasResponse(data)
-      }
-    },
+  const debouncedCountrySearch = useCallback(debounce(searchCountries, 400), [])
+  const debouncedAreaSearch = useCallback(
+    debounce((value, callback) => {
+      searchAreas(value, callback, get(country, 'value'))
+    }, 400),
     [country]
   )
 
@@ -104,7 +100,7 @@ const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
       label={'Area (optional)'}
       isDisabled={!country}
       placeholder="Please select ..."
-      loadOptions={searchAreas}
+      loadOptions={debouncedAreaSearch}
       onChange={value => setArea(value)}
       value={area}
     />
@@ -147,7 +143,7 @@ const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
             cacheOptions
             label="Country"
             placeholder="Please select ..."
-            loadOptions={searchCountries}
+            loadOptions={debouncedCountrySearch}
             renderMarginRight={category !== COUNTRY_ITEM_TYPE}
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
             onChange={value => setCountry(value)}

@@ -161,17 +161,6 @@ export const SearchResultWrapper = withRouter(
               ) : (
                 <PaginationCenteredWrapper />
               )}
-              {/*
-                TODO: Fix me Raulito!
-                <ItemsPerPageWrapper p={0} direction={'ltr'}>
-                  <p>Show: </p>
-                  <Dropdown
-                    value={itemsPerPage}
-                    options={itemsPerPageOptions}
-                    onChange={onItemsPerPageChange}
-                  />
-                </ItemsPerPageWrapper>
-              */}
             </BottomWrapper>
           </SearchResultContainer>
         )}

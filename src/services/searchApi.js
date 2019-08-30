@@ -13,21 +13,49 @@ const getCountries = async name => {
       item_types: ['country'],
       query: {
         bool: {
-          must: [
+          should: [
             {
-              nested: {
-                path: 'name',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        wildcard: {
-                          'name.content': `${name}*`
+              bool: {
+                must: [
+                  {
+                    nested: {
+                      path: 'name',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'name.content': `${name}*`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
+                    }
                   }
-                }
+                ]
+              }
+            },
+            {
+              bool: {
+                must: [
+                  {
+                    nested: {
+                      path: 'original_name',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'original_name.content': `${name}*`
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -41,6 +69,11 @@ const getCountries = async name => {
 
 /**
  * Returns areas of a country filtered by name
+ * This is a request to Elastic search (https://www.elastic.co/blog/lost-in-translation-boolean-operations-and-filters-in-the-bool-query)
+ * query: bool: must works similarly to logical AND
+ *        second bool works similarly to logical OR
+ * We should search for the name and original_name
+ * Bec asue sometimes there is no name || original_name
  *
  * @name getAreasInCountry
  * @param {String} name
@@ -57,37 +90,81 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
       limit,
       query: {
         bool: {
-          must: [
+          should: [
             {
-              nested: {
-                path: 'ancestors',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        match: {
-                          'ancestors.content': `kiwi://Elephant/Item/${countryId}`
+              bool: {
+                must: [
+                  {
+                    nested: {
+                      path: 'ancestors',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              match: {
+                                'ancestors.content': `kiwi://Elephant/Item/${countryId}`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
+                    }
+                  },
+                  {
+                    nested: {
+                      path: 'name',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'name.content': `${name}*`
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
                   }
-                }
+                ]
               }
             },
             {
-              nested: {
-                path: 'name',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        wildcard: {
-                          'name.content': `${name}*`
+              bool: {
+                must: [
+                  {
+                    nested: {
+                      path: 'ancestors',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              match: {
+                                'ancestors.content': `kiwi://Elephant/Item/${countryId}`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
+                    }
+                  },
+                  {
+                    nested: {
+                      path: 'original_name',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'original_name.content': `${name}*`
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
                   }
-                }
+                ]
               }
             }
           ]
@@ -120,53 +197,59 @@ const getAccommodations = async (
       limit,
       query: {
         bool: {
-          must: [
+          should: [
             {
-              nested: {
-                path: 'ancestors',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        match: {
-                          'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+              bool: {
+                must: [
+                  {
+                    nested: {
+                      path: 'ancestors',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              match: {
+                                'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              nested: {
-                path: 'dmc_id',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        wildcard: {
-                          'dmc_id.source': `${supplier}*`
+                    }
+                  },
+                  {
+                    nested: {
+                      path: 'dmc_id',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'dmc_id.source': `${supplier}*`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              nested: {
-                path: 'name',
-                query: {
-                  bool: {
-                    must: [
-                      {
-                        wildcard: {
-                          'name.content': `${name}*`
+                    }
+                  },
+                  {
+                    nested: {
+                      path: 'name',
+                      query: {
+                        bool: {
+                          must: [
+                            {
+                              wildcard: {
+                                'name.content': `${name}*`
+                              }
+                            }
+                          ]
                         }
                       }
-                    ]
+                    }
                   }
-                }
+                ]
               }
             }
           ]
