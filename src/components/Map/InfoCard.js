@@ -7,16 +7,21 @@ import { InfoCardWrapper, Name, Info } from './styles'
  *
  * @name InfoCard
  * @param {String} name
- * @param {String} info
+ * @param {Array<String>} address
+ * @param {Object} geoCoords
  * @returns {Object} InfoCard Component
  */
-const InfoCard = ({ name, info }) => {
+const InfoCard = ({ name, address, geoCoords }) => {
   return (
     <InfoCardWrapper>
       <Name>{name}</Name>
-      {info.split(',').map((infoBit, index) => (
+      {address.map((infoBit, index) => (
         <Info key={index}>{infoBit}</Info>
       ))}
+      <Info
+        style={{ marginTop: 10 }}
+        key={geoCoords.lat}
+      >{`lat: ${geoCoords.lat}, lng: ${geoCoords.lng}`}</Info>
     </InfoCardWrapper>
   )
 }

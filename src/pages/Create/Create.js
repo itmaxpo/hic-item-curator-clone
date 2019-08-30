@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { values, isEmpty } from 'lodash'
+import { withRouter } from 'react-router-dom'
 import Layout from 'components/Layout'
-import { FlexContainer, DropdownSelect, TextField, Button } from '@tourlane/tourlane-ui'
+import { FlexContainer, DropdownSelect, TextField } from '@tourlane/tourlane-ui'
 import {
   Wrapper,
   CreateBoxContainer,
   InputContainer,
   MapContainer,
   Title,
-  Location
+  Subtitle
 } from './styles'
+import { getLocationName, getLocationInfo, getLocationCoordinates } from './utils'
 import mapPlaceholder from './mapPlaceholder.png'
 import Map, { SearchBox } from 'components/Map'
+import SuppliersContext from 'contexts/Suppliers'
+import { createItem } from 'services/contentApi'
+import ProgressButton from 'components/ProgressButton'
 
 const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
-
-const supplierOptions = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'coconut', label: 'Coconut' },
-  { value: 'caramel', label: 'Caramel' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'cashew', label: 'Cashew' },
-  { value: 'cinnamon', label: 'Cinnamon' }
-]
 
 /**
  * Create Page component
@@ -35,42 +29,64 @@ const supplierOptions = [
  * @returns {Object} Search Page
  */
 
-const Create = () => {
-  const [item, setItem] = useState(undefined)
+const Create = ({ history }) => {
+  const [itemType, setItemType] = useState(undefined)
   const [name, setName] = useState(undefined)
   const [supplier, setSupplier] = useState(undefined)
 
   const [coordinates, setCoordinates] = useState(undefined)
+  const [polygon, setPolygon] = useState(undefined)
   const [locationInfo, setLocationInfo] = useState(undefined)
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
+  const [progressButtonState, setProgressButtonState] = useState('isButton')
+
+  const { suppliers } = useContext(SuppliersContext)
 
   const onLocationChangeHandler = place => {
-    const location = place.geometry && place.geometry.location
+    if (isEmpty(place)) return
 
-    const newCoordinates = {
-      lat: location.lat(),
-      lng: location.lng()
-    }
+    const { coordinates: newCoordinates, polygon } = getLocationCoordinates(place)
 
     setCoordinates(newCoordinates)
+    setPolygon(polygon)
 
     const newLocationInfo = {
-      name: place.name,
-      info: place.formatted_address
+      name: getLocationName(place),
+      address: getLocationInfo(place),
+      geoCoords: newCoordinates
     }
 
     setLocationInfo(newLocationInfo)
   }
 
+  const onCreateItemHandler = async () => {
+    setProgressButtonState('isLoading')
+    try {
+      const { data } = await createItem(
+        itemType.value,
+        name,
+        supplier.value,
+        coordinates.lat,
+        coordinates.lng
+      )
+      setProgressButtonState('isComplete')
+      history.push(`/item/${data.uuid}`)
+    } catch (e) {
+      console.warn(e)
+    } finally {
+      setProgressButtonState('isComplete')
+    }
+  }
+
   // effect to enable/disable submit button
   useEffect(() => {
-    if (values({ item, name, supplier, coordinates }).some(isEmpty)) {
+    if (values({ itemType, name, supplier, coordinates }).some(isEmpty)) {
       setIsSubmitDisabled(true)
     } else {
       setIsSubmitDisabled(false)
     }
-  }, [item, name, supplier, coordinates])
+  }, [itemType, name, supplier, coordinates])
 
   return (
     <Layout>
@@ -83,25 +99,30 @@ const Create = () => {
                 isClearable
                 placeholder="Select Item"
                 options={createOptions}
-                value={item}
-                onChange={value => setItem(value)}
+                value={itemType}
+                onChange={value => setItemType(value)}
               />
               <TextField placeholder="Name" onChange={e => setName(e.target.value)} />
               <DropdownSelect
                 isCreatable
                 isClearable
-                placeholder="Select Supplier"
-                options={supplierOptions}
+                placeholder="Supplier tag"
+                options={suppliers}
                 value={supplier}
                 onChange={value => setSupplier(value)}
               />
-              <Location>Location</Location>
+              <Subtitle>Address</Subtitle>
               <SearchBox onChange={onLocationChangeHandler} />
-              <Button disabled={isSubmitDisabled}>Submit</Button>
+              <ProgressButton
+                state={progressButtonState}
+                disabled={isSubmitDisabled}
+                label={'Create Item'}
+                onButtonClick={onCreateItemHandler}
+              />
             </InputContainer>
             <MapContainer>
               {coordinates ? (
-                <Map coordinates={coordinates} locationInfo={locationInfo} />
+                <Map coordinates={coordinates} polygon={polygon} locationInfo={locationInfo} />
               ) : (
                 <img src={mapPlaceholder} alt="map-placeholder" />
               )}
@@ -113,4 +134,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default withRouter(Create)

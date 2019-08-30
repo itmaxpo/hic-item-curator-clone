@@ -28,7 +28,7 @@ export default class MapControl extends Component {
   }
 
   clickHandler = () => {
-    this.props.onClick(this.map)
+    this.props.onClick && this.props.onClick(this.map)
   }
 
   componentWillUnmount() {

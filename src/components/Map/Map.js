@@ -9,6 +9,7 @@ import {
   Polygon,
   StreetViewPanorama
 } from 'react-google-maps'
+import { COLORS } from '@tourlane/tourlane-ui'
 import { initZoomControl } from './utils'
 import MarkerIcon from './marker.svg'
 import MapControl from './MapControl'
@@ -44,6 +45,7 @@ const Map = compose(
   if (isEmpty(props.coordinates)) return
 
   const [coordinates, setCoordinates] = useState(props.coordinates)
+  const [polygon, setPolygon] = useState(props.polygon)
 
   useEffect(() => {
     if (!isEqual(coordinates, props.coordinates)) {
@@ -51,20 +53,23 @@ const Map = compose(
     }
   }, [coordinates, props.coordinates])
 
-  const center =
-    coordinates.length > 1 ? coordinates[Math.round((coordinates.length - 1) / 2)] : coordinates
+  useEffect(() => {
+    if (!isEqual(polygon, props.polygon)) {
+      setPolygon(props.polygon)
+    }
+  }, [polygon, props.polygon])
 
   return (
     <GoogleMap
       ref={map => (googleMap.current = map)}
-      defaultZoom={14}
+      defaultZoom={polygon ? 11 : 14}
       defaultCenter={{ lng: 0, lat: 0 }}
       defaultOptions={{
         disableDefaultUI: true,
         keyboardShortcuts: false,
         styles: googleMapsStyles
       }}
-      center={center}
+      center={coordinates}
       controlSize={20}
     >
       {props.locationInfo && isInfoShown && (
@@ -80,27 +85,33 @@ const Map = compose(
           −
         </button>
       </MapControl>
-      {coordinates && coordinates.length > 1 ? (
-        <Polygon paths={coordinates} options={{ strokeWeight: 2 }} />
-      ) : (
-        <Marker
-          key={1}
-          position={coordinates}
-          icon={{
-            url: MarkerIcon,
-            anchor: new window.google.maps.Point(20, 20),
-            labelOrigin: new window.google.maps.Point(21, 20)
+      {polygon && (
+        <Polygon
+          paths={polygon}
+          options={{
+            strokeWeight: 1,
+            strokeColor: COLORS.ADVENTURE_GREEN,
+            fillColor: COLORS.ADVENTURE_GREEN
           }}
-          zIndex={1000}
-          label={{
-            text: '1',
-            color: '#FFF',
-            fontFamily: 'roboto',
-            fontWeight: '600'
-          }}
-          onClick={() => setIsInfoShown(!isInfoShown)}
         />
       )}
+      <Marker
+        key={1}
+        position={coordinates}
+        icon={{
+          url: MarkerIcon,
+          anchor: new window.google.maps.Point(20, 20),
+          labelOrigin: new window.google.maps.Point(21, 20)
+        }}
+        zIndex={1000}
+        label={{
+          text: ' ',
+          color: '#FFF',
+          fontFamily: 'roboto',
+          fontWeight: '600'
+        }}
+        onClick={() => setIsInfoShown(!isInfoShown)}
+      />
       <StreetViewPanorama defaultVisible={false} />
     </GoogleMap>
   )

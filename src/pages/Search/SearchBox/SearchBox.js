@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback, useEffect, useRef } from 'react'
+import React, { Fragment, useState, useCallback, useEffect, useRef, useContext } from 'react'
 import { get, debounce } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import {
@@ -16,6 +16,7 @@ import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
+import SuppliersContext from 'contexts/Suppliers'
 
 const initialValues = {
   name: undefined,
@@ -40,13 +41,15 @@ const searchAreas = (value, callback, country) => {
  * @param {Object} history
  * @returns {Object} Search Box
  */
-const SearchBox = ({ history, search, onItemTypeChange, suppliers }) => {
+const SearchBox = ({ history, search, onItemTypeChange }) => {
   const values = useRef(initialValues)
   const [category, setCategory] = useState(undefined)
   const [country, setCountry] = useState(undefined)
   const [area, setArea] = useState(undefined)
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [progressButtonState, setProgressButtonState] = useState('isButton')
+
+  const { suppliers } = useContext(SuppliersContext)
 
   const onValueChange = newValue => {
     values.current = { ...values.current, ...newValue }

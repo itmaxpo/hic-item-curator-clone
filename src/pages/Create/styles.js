@@ -45,7 +45,7 @@ export const Title = styled(H3)`
   margin-bottom: 20px;
 `
 
-export const Location = styled(Subline)`
+export const Subtitle = styled(Subline)`
   && {
     font-size: 22px;
     line-height: 32px;

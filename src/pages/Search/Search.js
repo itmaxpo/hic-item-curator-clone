@@ -1,11 +1,11 @@
-import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton } from './styles'
 import SearchBox from './SearchBox'
 import SearchResultWrapper from './SearchResult'
-import { parseSearchResponse, parseSuppliers, calculateOffsetAndIndex, insertPage } from './utils'
-import { getAreasInCountry, getAccommodations, getSuppliers } from 'services/searchApi'
+import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
+import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
 /**
@@ -21,7 +21,6 @@ const SearchPage = ({ history }) => {
   const prevPayload = useRef(undefined)
   const [results, setResults] = useState([])
   const [itemType, setItemType] = useState(undefined)
-  const [suppliers, setSuppliers] = useState([])
 
   const onItemTypeChangeHandler = useCallback(type => {
     setItemType(type)
@@ -88,24 +87,10 @@ const SearchPage = ({ history }) => {
     return flatten(results)
   }, [results])
 
-  // fetch suppliers on mount
-  useEffect(() => {
-    async function fetchSuppliers() {
-      const { data } = await getSuppliers()
-      setSuppliers(parseSuppliers(data))
-    }
-
-    fetchSuppliers()
-  }, [])
-
   return (
     <Layout>
       <Wrapper>
-        <SearchBox
-          search={search}
-          onItemTypeChange={onItemTypeChangeHandler}
-          suppliers={suppliers}
-        />
+        <SearchBox search={search} onItemTypeChange={onItemTypeChangeHandler} />
         {!isEmpty(flattenedResults) && (
           <SearchResultWrapper
             results={flattenedResults}

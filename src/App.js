@@ -10,6 +10,7 @@ import CreatePage from 'pages/Create'
 import { useAuth0 } from 'contexts/Auth'
 import ItemPage from 'pages/ItemPage'
 import { COLORS } from '@tourlane/tourlane-ui'
+import { SuppliersContextProvider } from './contexts/Suppliers'
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -70,15 +71,17 @@ function App() {
 
   return (
     <AppWrapper>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={SearchPage} />
-          <Route exact path="/sandbox" component={SandboxPage} />
-          <Route exact path="/item/:id" component={ItemPage} />
-          <Route exact path="/create" component={CreatePage} />
-          <Route path="*" component={MissingPage} />
-        </Switch>
-      </BrowserRouter>
+      <SuppliersContextProvider>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={SearchPage} />
+            <Route exact path="/sandbox" component={SandboxPage} />
+            <Route exact path="/item/:id" component={ItemPage} />
+            <Route exact path="/create" component={CreatePage} />
+            <Route path="*" component={MissingPage} />
+          </Switch>
+        </BrowserRouter>
+      </SuppliersContextProvider>
     </AppWrapper>
   )
 }

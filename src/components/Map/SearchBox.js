@@ -1,44 +1,44 @@
-import React, { useRef } from 'react'
-import { compose, withProps } from 'recompose'
-import { withScriptjs } from 'react-google-maps'
-import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox'
-import { TextField } from '@tourlane/tourlane-ui'
+import React, { useCallback } from 'react'
+import { debounce } from 'lodash'
+import { DropdownSelect } from '@tourlane/tourlane-ui'
+import { searchAddress } from 'services/addressApi'
+import { parseSearchBoxResponse } from './utils'
 
 /**
  * SearchBox component
- * Renders an input field to search for locations using Google Maps API
+ * Renders an input field to search for locations using OSM Api
  *
  * @name SearchBox
- * @param {String} placeholder
  * @param {String} className
+ * @param {String} placeholder
  * @param {Function} onChange
  * @returns {Object} SearchBox Component
  */
-const SearchBox = compose(
-  withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`,
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />
-  }),
-  withScriptjs
-)(({ onChange = () => {}, placeholder = 'Search Location', className }) => {
-  const searchBoxRef = useRef(null)
 
-  const onPlacesChangedHandler = () => {
-    const newPlaces = searchBoxRef.current.getPlaces()
+const addressSearch = (input, callback) => {
+  searchAddress(input).then(response => callback(parseSearchBoxResponse(response)))
+}
 
-    onChange(newPlaces[0])
+const SearchBox = ({ className, placeholder = 'Search for address', onChange = () => {} }) => {
+  const onChangeHandler = value => {
+    onChange(value)
   }
 
+  // usage policy states an absolute maximum of 1 request per second
+  // https://operations.osmfoundation.org/policies/nominatim/
+  const debouncedAddressSearch = useCallback(debounce(addressSearch, 1000), [])
+
   return (
-    <StandaloneSearchBox
+    <DropdownSelect
       className={className}
-      ref={searchBoxRef}
-      onPlacesChanged={onPlacesChangedHandler}
-    >
-      <TextField placeholder={placeholder} />
-    </StandaloneSearchBox>
+      isAsync
+      isClearable
+      cacheOptions
+      placeholder={placeholder}
+      loadOptions={debouncedAddressSearch}
+      onChange={onChangeHandler}
+    />
   )
-})
+}
 
 export default SearchBox

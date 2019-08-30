@@ -80,4 +80,59 @@ const getRoomsForAccommodation = async (id = '0def0040-4360-4cf3-90de-33c2097b2d
   return res.json()
 }
 
-export { getItemFieldsById, getItemAttachmentsById, updateItemFields, getRoomsForAccommodation }
+/**
+ * Create item
+ *
+ * @name createItem
+ * @param {String} type
+ * @param {String} name
+ * @param {String} supplier
+ * @param {Number} lat
+ * @param {Number} lon
+ * @param {String} locale
+ * @returns {Object}
+ */
+const createItem = async (type, name, supplier, lat, lon, locale = 'en-GB') => {
+  let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items`, {
+    body: {
+      item_type: type,
+      fields: [
+        {
+          field_name: 'name',
+          content: name,
+          locale,
+          source: supplier,
+          source_key: 'gecko',
+          content_type: 'string'
+        },
+        {
+          field_name: 'dmc_id',
+          content: supplier,
+          source: supplier,
+          source_key: 'gecko',
+          content_type: 'string'
+        },
+        {
+          field_name: 'geolocation',
+          content: {
+            lat,
+            lon
+          },
+          source: supplier,
+          source_key: 'gecko',
+          content_type: 'geo_point'
+        }
+      ]
+    }
+  })
+
+  return res.json()
+}
+
+export {
+  getItemFieldsById,
+  getItemAttachmentsById,
+  updateItemFields,
+  getRoomsForAccommodation,
+  createItem
+}
