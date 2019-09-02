@@ -47,7 +47,6 @@ const Create = ({ history }) => {
     if (isEmpty(place)) return
 
     const { coordinates: newCoordinates, polygon } = getLocationCoordinates(place)
-
     setCoordinates(newCoordinates)
     setPolygon(polygon)
 

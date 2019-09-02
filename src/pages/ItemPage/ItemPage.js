@@ -7,18 +7,20 @@ import {
   updateItemByProp,
   updateItemKey,
   componentsBasedOnType,
-  mockedItem,
   AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE
+  ACCOMMODATION_ITEM_TYPE,
+  parseItemByType,
+  transformToSupplyItem
 } from './utils'
-import { cloneDeep } from 'lodash'
+import { get } from 'lodash'
 import {
   getItemFieldsById,
   // getItemAttachmentsById,
-  // updateItemFields,
+  updateItemFields,
   getRoomsForAccommodation,
   getItemPolygonCoordinatesById
 } from 'services/contentApi'
+import Loader from 'components/Loader'
 
 /**
  * This is the Item Page component
@@ -34,12 +36,10 @@ import {
  */
 const ItemPage = ({ match }) => {
   // Receive here id of item from route and send request to BE to get the item
-  // const originalItem = match.params.id
-  const originalItem = mockedItem
-  // TODO: Uncomment when have BE to get item by ID
-  // const [isLoading, setIsLoading] = useState(false)
-  const [item, setItem] = useState(cloneDeep(originalItem))
+  const [item, setItem] = useState(null)
+  const [originalItem, setOriginalItem] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const onChangeOfferVisualisation = (field, prop) => {
     setItem(updateItemKey(item, 'offerVisualisation', field, prop))
@@ -50,9 +50,17 @@ const ItemPage = ({ match }) => {
   }
   // OnSave: Send request to BE, then update localCopy of the item
   // Cancel changes if BE returns error, store the changes locally (indexedDB?)
-  const onSave = updatedItem => {
-    // send BE request to store item + images
+  const onSave = async () => {
     setIsEditing(false)
+    const fields = transformToSupplyItem(item)
+    setItem(item)
+
+    try {
+      await updateItemFields(item.id, fields, item.type)
+      setOriginalItem(item)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const onEdit = () => {
@@ -61,7 +69,7 @@ const ItemPage = ({ match }) => {
 
   const onCancel = () => {
     // Reset images to original version
-    setItem(mockedItem)
+    setItem(originalItem)
     setIsEditing(!isEditing)
   }
 
@@ -69,19 +77,25 @@ const ItemPage = ({ match }) => {
   useEffect(() => {
     async function fetchItem() {
       try {
+        let item = {}
         const { data } = await getItemFieldsById(match.params.id)
-        console.log(data.item_type)
-        if (data.item_type === AREA_ITEM_TYPE) {
-          const { data } = await getItemPolygonCoordinatesById(match.params.id)
-          console.log(data)
+
+        switch (data.item_type) {
+          case AREA_ITEM_TYPE:
+            const polygon = await getItemPolygonCoordinatesById(match.params.id)
+            item = parseItemByType({ item: data, polygon: get(polygon, 'data') })
+            break
+          case ACCOMMODATION_ITEM_TYPE:
+            const rooms = await getRoomsForAccommodation(match.params.id)
+            item = parseItemByType({ item: data, accomRooms: get(rooms, 'data') })
+            break
+          default:
+            item = parseItemByType({ item: data })
         }
 
-        if (data.item_type === ACCOMMODATION_ITEM_TYPE) {
-          const { data } = await getRoomsForAccommodation(match.params.id)
-          console.log(data)
-        }
-        console.log(data)
-        // return data
+        setItem(item)
+        setOriginalItem(item)
+        setIsLoading(false)
       } catch (e) {
         console.warn(e)
       }
@@ -91,32 +105,38 @@ const ItemPage = ({ match }) => {
 
   return (
     <div>
-      <EditingWrapper>
-        {isEditing ? (
-          <>
-            <AlarmButton title={'cancel'} onClick={onCancel} />
-            <Button title={'save content'} onClick={onSave} />
-          </>
-        ) : (
-          <SecondaryButton title={'edit content'} onClick={onEdit} />
-        )}
-      </EditingWrapper>
+      {!isLoading ? (
+        <>
+          <EditingWrapper>
+            {isEditing ? (
+              <>
+                <AlarmButton title={'cancel'} onClick={onCancel} />
+                <Button title={'save content'} onClick={onSave} />
+              </>
+            ) : (
+              <SecondaryButton title={'edit content'} onClick={onEdit} />
+            )}
+          </EditingWrapper>
 
-      <ItemLayout
-        item={item}
-        isEditing={isEditing}
-        onChange={onChange}
-        tabs={['Offer Visualisation']}
-        tabContents={[
-          <OfferVisualisation
-            itemId={item.id}
-            offerVisualisation={item.offerVisualisation}
+          <ItemLayout
+            item={item}
             isEditing={isEditing}
-            onChange={onChangeOfferVisualisation}
-            components={componentsBasedOnType(item.type)}
+            onChange={onChange}
+            tabs={['Offer Visualisation']}
+            tabContents={[
+              <OfferVisualisation
+                itemId={item.id}
+                offerVisualisation={item.offerVisualisation}
+                isEditing={isEditing}
+                onChange={onChangeOfferVisualisation}
+                components={componentsBasedOnType(item.type)}
+              />
+            ]}
           />
-        ]}
-      />
+        </>
+      ) : (
+        <Loader top={'47.5%'} />
+      )}
     </div>
   )
 }

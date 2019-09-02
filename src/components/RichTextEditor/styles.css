@@ -21,6 +21,7 @@
 .public-DraftEditorPlaceholder-root {
   font-size: 20px;
   line-height: 1.4;
+  padding: 15px 20px;
 }
 
 .public-DraftEditor-content {

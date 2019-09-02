@@ -48,9 +48,22 @@ const Map = compose(
   const [polygon, setPolygon] = useState(props.polygon)
 
   useEffect(() => {
-    if (!isEqual(coordinates, props.coordinates)) {
+    // If it is polygon add all points to bounds to get center of it
+    if (!isEmpty(props.polygon)) {
+      const bounds = new googleMap.maps.LatLngBounds()
+      props.polygon.forEach(coords => bounds.extend(coords))
+      // Check if polygon provided - use boudns to find the center of the area. If not - use coordinates
+      const polygonCenter = props.polygon
+        ? { lat: bounds.getCenter().lat(), lng: bounds.getCenter().lng() }
+        : props.coordinates
+
+      if (!isEqual(coordinates, polygonCenter)) {
+        setCoordinates(polygonCenter)
+      }
+    } else if (!isEqual(coordinates, props.coordinates)) {
       setCoordinates(props.coordinates)
     }
+    // eslint-disable-next-line
   }, [coordinates, props.coordinates])
 
   useEffect(() => {

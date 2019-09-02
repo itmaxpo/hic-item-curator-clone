@@ -7,4 +7,9 @@ export const LoaderContainer = styled(FlexContainer)`
     height: 40px;
     margin: auto;
   }
+
+  ${({ top }) => `
+    position: absolute;
+    top: ${top};
+  `}
 `

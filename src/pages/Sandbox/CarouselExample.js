@@ -25,9 +25,7 @@ const imagesURLS = [
 const CarouselExample = () => {
   const [open, setOpen] = useState(false)
 
-  const onImageClick = item => {
-    console.log(item)
-  }
+  const onImageClick = item => {}
 
   const onClose = () => {
     setOpen(false)

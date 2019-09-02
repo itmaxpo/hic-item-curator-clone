@@ -42,27 +42,20 @@ const getItemAttachmentsById = async id => {
   return res.json()
 }
 
-const updateItemFields = async (id, data) => {
+const updateItemFields = async (id, fields) => {
   let res = await request('PATCH', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}`, {
     body: {
-      // fields: [
-      //   {
-      //     "field_name": "active_destination",
-      //     "content": true,
-      //     "source": "tourvest",
-      //     "source_key": "gecko"
-      //   }
-      // ]
+      fields
     }
   })
 
   return res.json()
 }
 
-const getRoomsForAccommodation = async (id = '0def0040-4360-4cf3-90de-33c2097b2d8c') => {
+const getRoomsForAccommodation = async id => {
   let res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}`, {
     body: {
-      item_types: ['rooms'],
+      item_types: ['room'],
       query: {
         bool: {
           should: [

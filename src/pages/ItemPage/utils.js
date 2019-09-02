@@ -1,3 +1,12 @@
+import {
+  parseCountryItem,
+  parseAccommodationItem,
+  parseAreaItem,
+  transformCountryItem,
+  transformAccommodationItem,
+  transformAreaItem
+} from './itemParser'
+
 // Item Type Constants
 export const COUNTRY_ITEM_TYPE = 'country'
 export const AREA_ITEM_TYPE = 'admin_area'
@@ -42,175 +51,43 @@ export const componentsBasedOnType = type => {
   }
 }
 
-// Mocked item to play with
-export const mockedItem = {
-  id: '123',
-  title: 'Arakur Ushuaia & Resort',
-  subtitle: 'Malvinas, Ushuaia, Argentina',
-  status: 'inProgress',
-  type: ACCOMMODATION_ITEM_TYPE,
-  language: 'DE',
-  suppliers: [1, 2],
-  offerVisualisation: {
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia <ul><li>1</li><li>2</li></ul>deserunt mollit anim id est laborum.
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia deserunt mollit anim id est laborum.
-    <b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
-    <b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
-    <b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
-    <b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-    nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-    sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-    location: {
-      lat: 50.4520886,
-      lng: 30.590911000000006,
-      name: 'Some address',
-      info: 'Some description'
-    },
-    rooms: [
-      { type: 'Queen Room', mealbase: 'MB INFO', description: 'Some stuff about queens' },
-      { type: 'King Room', mealbase: 'MB INFO', description: 'Some stuff about kings' },
-      { type: 'Prince Room', mealbase: '', description: 'Some stuff about princs' }
-    ],
-    photos: [
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: false,
-        value: 'https://loremflickr.com/320/240/travel'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: false,
-        value: 'https://loremflickr.com/320/240/man'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: false,
-        value: 'https://loremflickr.com/320/240/woman'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/dance'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/house'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/nature'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/sea'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/dance'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/house'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/nature'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/sea'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/dance'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/house'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/nature'
-      },
-      {
-        isLoading: false,
-        isError: false,
-        isSelected: false,
-        isVisible: true,
-        value: 'https://loremflickr.com/320/240/sea'
-      }
-    ]
+/**
+ * Receive item and additional fields and returns item
+ *
+ * @param {Object} item
+ * @param {Array<Room>} accomRooms
+ * @param {Array<Coord>} polygon
+ * @returns {Object} Item
+ */
+export const parseItemByType = ({ item, accomRooms = [], polygon = [] }) => {
+  switch (item.item_type) {
+    case COUNTRY_ITEM_TYPE:
+      return parseCountryItem(item)
+    case AREA_ITEM_TYPE:
+      return parseAreaItem(item, polygon)
+    case ACCOMMODATION_ITEM_TYPE:
+      return parseAccommodationItem(item, accomRooms)
+    default:
+      return null
+  }
+}
+
+/**
+ * Receive item and transforms item to BE compatible version
+ *
+ * @param {Object} item
+ * @param {Array<Room>} accomRooms
+ * @param {Array<Coord>} areaCoords
+ * @returns {Object} Item
+ */
+export const transformToSupplyItem = item => {
+  switch (item.type) {
+    case COUNTRY_ITEM_TYPE:
+      return transformCountryItem(item)
+    case AREA_ITEM_TYPE:
+      return transformAreaItem(item)
+    case ACCOMMODATION_ITEM_TYPE:
+      return transformAccommodationItem(item)
+    default:
   }
 }

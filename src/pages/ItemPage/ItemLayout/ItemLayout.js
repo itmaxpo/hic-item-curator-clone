@@ -15,6 +15,7 @@ import TabsWrapper from 'components/Tabs'
 import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
 import { H2, Base } from '@tourlane/tourlane-ui'
 import Breadcrumbs from 'components/Breadcrumbs'
+import { ACCOMMODATION_ITEM_TYPE } from '../utils'
 
 /**
  * Will render Item page layout with required fields
@@ -52,17 +53,23 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
 
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
-            {!isEditing ? (
-              <H2>{item.title}</H2>
+            {item.type === ACCOMMODATION_ITEM_TYPE ? (
+              <>
+                {!isEditing ? (
+                  <H2>{item.title}</H2>
+                ) : (
+                  <TitleField defaultValue={item.title} onChange={onTitleChange} />
+                )}
+              </>
             ) : (
-              <TitleField defaultValue={item.title} onChange={onTitleChange} />
+              <H2>{item.title}</H2>
             )}
 
             <LanguageBlock isEditing={isEditing}>
               <Base>Switch content to: </Base>
               <Select
                 disableUnderline
-                value={item.language}
+                value={flagEmoji.find(lang => lang.value === item.language).value}
                 onChange={onLanguageChange}
                 inputProps={{
                   name: 'flag',
@@ -78,21 +85,25 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
             </LanguageBlock>
           </TitleLangWrapper>
 
-          {!isEmpty(item.suppliers) && !isEditing ? (
-            <Base>
-              {' '}
-              Suppliers:
-              {item.suppliers.map((s, i) => (
-                <span key={i}> {`${i !== item.suppliers.length - 1 ? s + ',' : s}`}</span>
-              ))}
-            </Base>
-          ) : (
-            <SupplierDropdown
-              isMulti
-              options={suppliers}
-              defaultValue={suppliers.filter(s => item.suppliers.includes(s.value))}
-              onChange={onSuppliersChange}
-            />
+          {item.suppliers && !isEmpty(item.suppliers) && (
+            <>
+              {!isEditing ? (
+                <Base>
+                  {' '}
+                  Suppliers:
+                  {item.suppliers.map((s, i) => (
+                    <span key={i}> {`${i !== item.suppliers.length - 1 ? s + ',' : s}`}</span>
+                  ))}
+                </Base>
+              ) : (
+                <SupplierDropdown
+                  isMulti
+                  options={suppliers}
+                  defaultValue={suppliers.filter(s => item.suppliers.includes(s.value))}
+                  onChange={onSuppliersChange}
+                />
+              )}
+            </>
           )}
         </TitleWrapper>
 

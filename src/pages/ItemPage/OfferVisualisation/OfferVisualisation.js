@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { isEmpty, flatten } from 'lodash'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
 import Map from 'components/Map'
 import RichTextEditor from 'components/RichTextEditor'
@@ -45,12 +46,6 @@ const descriptions = [
  * @returns {Object} GlobalInformation Tab Component
  */
 const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, components }) => {
-  const coordinates = { lat: offerVisualisation.location.lat, lng: offerVisualisation.location.lng }
-  const locationInfo = {
-    name: offerVisualisation.location.name,
-    info: offerVisualisation.location.info
-  }
-
   // Based on the provided array of strings, that describes which component to render
   // This map returns:
   //    - necessary component to render
@@ -81,7 +76,9 @@ const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, c
               />
             ) : (
               <ShowMore collapsed={true} height={'350px'} size={'20px'} lines={12}>
-                {ReactHtmlParser(offerVisualisation.description)}
+                {!isEmpty(offerVisualisation.description)
+                  ? ReactHtmlParser(offerVisualisation.description)
+                  : 'No description'}
               </ShowMore>
             )}
           </TitleWithContent>
@@ -98,7 +95,7 @@ const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, c
                 return (
                   <SearchItemWrapper key={i} p={0} direction={'ttb'}>
                     <ItemTitle p={0} direction={'ltr'} alignItems={'center'}>
-                      <span>{room.type}</span>
+                      <span>{room.name}</span>
                       {room.mealbase && (
                         <StyledItemBadge color={COLORS.SENSATION_WHITE}>
                           <span>{room.mealbase}</span>
@@ -151,13 +148,21 @@ const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, c
       )
     },
     [LOCATION_COMPONENT_NAME]: key => {
+      const polygon = flatten(offerVisualisation.polygon).map(coordinate => ({
+        lat: coordinate[1],
+        lng: coordinate[0]
+      }))
+      // Here we will render goordinates for accommodations
+      // But for Area (polygon) we will take first geolocation
+      const coordinates = offerVisualisation.coordinates || polygon[0]
+
       return (
         <Fragment key={key}>
           <TitleWithContent>
             <br />
             <H4>Location</H4>
             <MapWrapper>
-              {coordinates && <Map coordinates={coordinates} locationInfo={locationInfo} />}
+              {coordinates && <Map coordinates={coordinates} polygon={polygon} />}
             </MapWrapper>
           </TitleWithContent>
         </Fragment>
