@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 import { COLORS, DropdownSelect, TextField, FlexContainer } from '@tourlane/tourlane-ui'
 
 export const Wrapper = styled.div`
-  min-height: 100vh;
   margin: 30px 90px;
   color: ${COLORS.NIGHTINGALE_BLACK};
 `

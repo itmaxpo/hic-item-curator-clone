@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { SadFaceIcon } from 'components/Icon'
 
 export const Wrapper = styled.div`
-  min-height: 100vh;
+  min-height: 80vh;
 `
 
 const StyledSearchBoxContainer = styled(FlexContainer)`
@@ -20,7 +20,6 @@ export const SearchBoxWrapper = ({ children }) => (
 
 export const CreateNewItemWrapper = styled(FlexContainer)`
   padding-bottom: 80px !important;
-
   > p {
     font-size: 22px;
     font-weight: 600;

@@ -16,7 +16,7 @@ const BelowHeader = styled(Flex)`
  *  - Page content
  *
  * @name Layout
- * @param {props} props
+ * @param {Object} history
  */
 const Layout = ({ className, children }) => {
   return (

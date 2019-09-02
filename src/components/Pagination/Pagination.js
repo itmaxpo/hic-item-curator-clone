@@ -12,7 +12,7 @@ import { COLORS } from '@tourlane/tourlane-ui'
  * @param {Number} pageCount
  * @param {Number} currentPage
  */
-const PaginationWrapper = ({ total, limit, pageCount, currentPage, onPageChange }) => {
+const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageChange }) => {
   return (
     <Pagination total={total} limit={limit} pageCount={pageCount} currentPage={currentPage}>
       {({

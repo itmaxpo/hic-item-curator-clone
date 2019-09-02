@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { isEmpty } from 'lodash'
+import { isEmpty, flatten } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer } from '@tourlane/tourlane-ui'
 import PaginationWrapper from 'components/Pagination'
@@ -16,7 +16,8 @@ import {
   SearchResultContainer,
   PaginationCenteredWrapper,
   BottomWrapper,
-  StyledLoader
+  StyledLoader,
+  TotalItemsWrapper
 } from './styles'
 
 /**
@@ -25,12 +26,18 @@ import {
  * for pagination feature
  * Wrapped in withRouter HOC to have access to <history>
  *
+ *
  * @name SearchResultWrapper
  * @returns {Object} Search Result
+ * @param {Array} results
+ * @param {Function} fetchMoreItems
+ * @param {Object} history from react-router
+ * @param {Function} onLoadingChange to send isLoading state to parent
+ *        (control showing create new item seaction)
  * @output {Function} updateSelectedResults (return Array<SearchResult> that are selected)
  */
 export const SearchResultWrapper = withRouter(
-  ({ results, updateSelectedResults, fetchMoreItems, history }) => {
+  ({ results, updateSelectedResults, fetchMoreItems, history, onLoadingChange }) => {
     const searchContainer = useRef(null)
     const [isLoading, setIsLoading] = useState(false)
     const [isAllSelected, setIsAllSelected] = useState(false)
@@ -39,6 +46,11 @@ export const SearchResultWrapper = withRouter(
 
     const enrichedItemsRef = useRef([])
     const itemsPerPage = 10
+    // Send isLoading state to parent to control show/hide state of create item section
+    const isLoadingChange = isLoading => {
+      onLoadingChange(isLoading)
+      setIsLoading(isLoading)
+    }
 
     const updateItemRef = updatedItem => {
       enrichedItemsRef.current.push(updatedItem)
@@ -79,7 +91,8 @@ export const SearchResultWrapper = withRouter(
 
       // check if page is empty
       if (allResults[page - 1].some(missingId)) {
-        setIsLoading(true)
+        isLoadingChange(true)
+
         try {
           // fetch more items, then we set the current page.
           await fetchMoreItems(page - 1, itemsPerPage)
@@ -87,7 +100,7 @@ export const SearchResultWrapper = withRouter(
         } catch (e) {
           console.warn(e)
         }
-        setIsLoading(false)
+        isLoadingChange(false)
       } else {
         setCurrentPage(page)
       }
@@ -153,10 +166,20 @@ export const SearchResultWrapper = withRouter(
                   <PaginationWrapper
                     total={pages * itemsPerPage}
                     limit={itemsPerPage}
-                    pageCount={allResults.length > 10 ? 10 : allResults.length}
                     currentPage={currentPage}
                     onPageChange={onPageChange}
                   />
+
+                  <TotalItemsWrapper p={0} alignItems={'center'} direction={'ltr'}>
+                    <p>
+                      <span>Total pages: </span>
+                      {allResults.length}
+                    </p>
+                    <p>
+                      <span>Total items: </span>
+                      {flatten(allResults).length}
+                    </p>
+                  </TotalItemsWrapper>
                 </PaginationCenteredWrapper>
               ) : (
                 <PaginationCenteredWrapper />

@@ -20,6 +20,7 @@ const SearchPage = ({ history }) => {
   const totalResultsCount = useRef(undefined)
   const prevPayload = useRef(undefined)
   const [results, setResults] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [itemType, setItemType] = useState(undefined)
 
   const onItemTypeChangeHandler = useCallback(type => {
@@ -96,9 +97,10 @@ const SearchPage = ({ history }) => {
             results={flattenedResults}
             updateSelectedResults={updateSelectedResults}
             fetchMoreItems={fetchMoreItems}
+            onLoadingChange={setIsLoading}
           />
         )}
-        {results && (
+        {results && !isLoading && (
           <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
             {!isEmpty(flattenedResults) ? (
               <p>Didn't find what you're looking for?</p>

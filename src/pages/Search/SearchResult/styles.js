@@ -48,3 +48,20 @@ export const StyledLoader = styled(Loader)`
     height: 200px;
   }
 `
+
+export const TotalItemsWrapper = styled(FlexContainer)`
+  position: absolute;
+  right: 0;
+  top: 13px;
+  font-size: 14px;
+  color: ${COLORS.INACTIVE_GRAY};
+
+  > p {
+    font-weight: bold;
+    margin-right: 20px;
+
+    > span {
+      font-weight: normal;
+    }
+  }
+`
