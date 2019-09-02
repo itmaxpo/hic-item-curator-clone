@@ -29,6 +29,7 @@ import { ReactComponent as PreviewSvg } from 'icons/preview.svg'
 import { ReactComponent as DocumentSvg } from 'icons/document.svg'
 import { ReactComponent as SadFileSvg } from 'icons/sadfile.svg'
 import { ReactComponent as HappyFileSvg } from 'icons/happyfile.svg'
+import { ReactComponent as SadFaceSvg } from 'icons/sadFace.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -202,6 +203,12 @@ const HappyFileIcon = props => (
   </StyledSvgIcon>
 )
 
+const SadFaceIcon = props => (
+  <StyledSvgIcon alt="sad-face" {...props}>
+    <SadFaceSvg />
+  </StyledSvgIcon>
+)
+
 export {
   AlertIcon,
   LightCloseIcon,
@@ -229,5 +236,6 @@ export {
   PreviewIcon,
   DocumentIcon,
   HappyFileIcon,
-  SadFileIcon
+  SadFileIcon,
+  SadFaceIcon
 }

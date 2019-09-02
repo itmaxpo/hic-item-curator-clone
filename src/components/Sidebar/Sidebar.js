@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Slide } from '@material-ui/core'
 
-import { MenuIcon, ChevronLeftIcon, LogoutIcon } from 'components/Icon'
+import { MenuIcon, ChevronLeftIcon, LogoutIcon, SearchIcon } from 'components/Icon'
 import {
   StyledSidebar,
   StyledCircleButton,
   StyledSubline,
   SidebarMenu,
-  MenuItem,
   LogoutContainer
 } from './styles'
 import { useAuth0 } from 'contexts/Auth/AuthProvider'
@@ -56,7 +55,10 @@ const Sidebar = ({ expanded = false }) => {
             </StyledCircleButton>
           )}
           <SidebarMenu>
-            <MenuItem />
+            <a href={'https://gecko.tlservers.com/search'}>
+              <SearchIcon />
+              <StyledSubline>Gecko</StyledSubline>
+            </a>
           </SidebarMenu>
           <LogoutContainer>
             <LogoutIcon onClick={() => logoutWithRedirect({})} />

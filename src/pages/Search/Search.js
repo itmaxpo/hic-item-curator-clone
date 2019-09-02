@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import Layout from 'components/Layout'
-import { Wrapper, CreateNewItemWrapper, CreateButton } from './styles'
+import { Wrapper, CreateNewItemWrapper, CreateButton, SadFaceIconWrapper } from './styles'
 import SearchBox from './SearchBox'
 import SearchResultWrapper from './SearchResult'
 import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
@@ -19,7 +19,7 @@ import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 const SearchPage = ({ history }) => {
   const totalResultsCount = useRef(undefined)
   const prevPayload = useRef(undefined)
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState(null)
   const [itemType, setItemType] = useState(undefined)
 
   const onItemTypeChangeHandler = useCallback(type => {
@@ -98,10 +98,19 @@ const SearchPage = ({ history }) => {
             fetchMoreItems={fetchMoreItems}
           />
         )}
-        <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
-          <p>Didn't find what you're looking for?</p>
-          <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
-        </CreateNewItemWrapper>
+        {results && (
+          <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
+            {!isEmpty(flattenedResults) ? (
+              <p>Didn't find what you're looking for?</p>
+            ) : (
+              <>
+                <SadFaceIconWrapper />
+                <p>No results</p>
+              </>
+            )}
+            <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
+          </CreateNewItemWrapper>
+        )}
       </Wrapper>
     </Layout>
   )

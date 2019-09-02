@@ -55,7 +55,15 @@ export const SidebarMenu = styled.ul`
   flex-direction: column;
   justify-items: flex-start;
   padding: 0;
-  margin: 0 30px 0 30px;
+  margin: 0 5px 0 5px;
+
+  > a {
+    text-decoration: none;
+
+    > span {
+      float: left;
+    }
+  }
 `
 
 export const MenuItem = styled.li`
