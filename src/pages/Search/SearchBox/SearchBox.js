@@ -47,7 +47,7 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
   const [country, setCountry] = useState(undefined)
   const [area, setArea] = useState(undefined)
   const [goToDestination, setGoToDestination] = useState(undefined)
-  const [progressButtonState, setProgressButtonState] = useState('isButton')
+  const [isLoading, setIsLoading] = useState(false)
 
   const { suppliers } = useContext(SuppliersContext)
 
@@ -57,12 +57,12 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
 
   const onCategoryCardClick = value => () => {
     setCategory(value)
-    // setProgressButtonState('isComplete')
+    setIsLoading(false)
   }
 
   const onSearchClick = async () => {
     if (!goToDestination) {
-      setProgressButtonState('isLoading')
+      setIsLoading(true)
       // set search results
       switch (category) {
         case AREA_ITEM_TYPE:
@@ -78,7 +78,7 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
         default:
           return
       }
-      setProgressButtonState('isComplete')
+      setIsLoading(false)
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
@@ -169,9 +169,9 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
           )}
         </SearchFieldsWrapper>
       )}
-      <SearchWrapper p={0} justify="between">
+      <SearchWrapper p={0} alignItems={'center'} justify="between">
         <Search
-          state={progressButtonState}
+          isLoading={isLoading}
           disabled={!country}
           destination={goToDestination}
           onButtonClick={onSearchClick}

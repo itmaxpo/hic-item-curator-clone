@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash'
 import Skeleton from '@material-ui/lab/Skeleton'
 import ShowMore from 'components/ShowMore'
 import ItemBadge from 'components/ItemBadge'
-// import StatusIndicator from 'components/StatusIndicator'
 import { addSToString } from 'pages/Search/utils'
 import {
   SearchItemWrapper,
@@ -18,7 +17,7 @@ import {
   ImgWrapper,
   StyledUnhappyIcon
 } from './styles'
-import { P } from '@tourlane/tourlane-ui'
+import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import LazyLoader, { Preloader } from 'components/LazyLoader'
 import { enrichItem } from './utils'
 import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
@@ -76,13 +75,15 @@ export const SearchItem = ({ item, index, onItemSelect, onItemClick, updateItemR
 
   return (
     <SearchItemWrapper p={3 / 4} direction={'ltr'}>
-      <SearchItemCheckbox
-        id={index}
-        className={'search-item-checkbox'}
-        name="isItemSelected"
-        checked={localItem.isSelected}
-        onChange={onCheckboxChange}
-      />
+      <FlexContainer p={0} alignItems={'start'}>
+        <SearchItemCheckbox
+          id={index}
+          className={'search-item-checkbox'}
+          name="isItemSelected"
+          checked={localItem.isSelected}
+          onChange={onCheckboxChange}
+        />
+      </FlexContainer>
 
       <SearchItemBodyWrapper p={0} direction={'ttb'} onClick={e => onItemClick(e, localItem)}>
         {/* TODO: Uncomment when status should be rendered */}

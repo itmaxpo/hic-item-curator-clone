@@ -1,5 +1,11 @@
 import request from './request'
+import {
+  generateSearchQueryCountry,
+  generateSearchQueryArea,
+  generateSearchQueryAccom
+} from './utils'
 
+const nameProperties = ['name', 'original_name']
 /**
  * Returns countries filtered by name
  *
@@ -11,56 +17,7 @@ const getCountries = async name => {
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
       item_types: ['country'],
-      query: {
-        bool: {
-          should: [
-            {
-              bool: {
-                must: [
-                  {
-                    nested: {
-                      path: 'name',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'name.content': `${name}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              bool: {
-                must: [
-                  {
-                    nested: {
-                      path: 'original_name',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'original_name.content': `${name}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+      query: generateSearchQueryCountry(nameProperties, name.toLowerCase())
     }
   })
 
@@ -88,88 +45,7 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
       item_types: ['admin_area'],
       offset,
       limit,
-      query: {
-        bool: {
-          should: [
-            {
-              bool: {
-                must: [
-                  {
-                    nested: {
-                      path: 'ancestors',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              match: {
-                                'ancestors.content': `kiwi://Elephant/Item/${countryId}`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    nested: {
-                      path: 'name',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'name.content': `${name}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              bool: {
-                must: [
-                  {
-                    nested: {
-                      path: 'ancestors',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              match: {
-                                'ancestors.content': `kiwi://Elephant/Item/${countryId}`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    nested: {
-                      path: 'original_name',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'original_name.content': `${name}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+      query: generateSearchQueryArea(countryId, nameProperties, name.toLowerCase())
     }
   })
 
@@ -195,66 +71,7 @@ const getAccommodations = async (
       item_types: ['accommodation'],
       offset,
       limit,
-      query: {
-        bool: {
-          should: [
-            {
-              bool: {
-                must: [
-                  {
-                    nested: {
-                      path: 'ancestors',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              match: {
-                                'ancestors.content': `kiwi://Elephant/Item/${area || country}`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    nested: {
-                      path: 'dmc_id',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'dmc_id.source': `${supplier}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    nested: {
-                      path: 'name',
-                      query: {
-                        bool: {
-                          must: [
-                            {
-                              wildcard: {
-                                'name.content': `${name}*`
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+      query: generateSearchQueryAccom(country, area, supplier, nameProperties, name.toLowerCase())
     }
   })
 

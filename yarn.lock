@@ -1544,24 +1544,24 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
-"@tourlane/iconography@^1.3.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@tourlane/iconography/-/iconography-1.4.0.tgz#ccf4f8e484ce6e249e3a16cbcfdd7233ad20c5e6"
-  integrity sha512-jFKH+RQZU2JKKmU6/pM2RZ9/DE5l+Kjymq/r3Y9azieyeT0cW7HSBRxF/OVsJxifE0px0HFL2pf+11faKVuWTA==
+"@tourlane/iconography@^1.7.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@tourlane/iconography/-/iconography-1.8.0.tgz#2499096289b0e219b733b97e60dcf7f3605223cd"
+  integrity sha512-4AjZugcn+tOp5ImfmUQ8gR0RjIaC6byUg8z5BmJcqa2h/X9kAT0OJLMybIWdF1PRspHjvwHMYURd6qnnbbJAGg==
 
-"@tourlane/tourlane-ui@^4.4.2":
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/@tourlane/tourlane-ui/-/tourlane-ui-4.4.2.tgz#f5af7fdcbe8413e45fa9522908b52652366059e2"
-  integrity sha512-bEQEw1QmykEVZKZrT9O4wvTomPIm910pgAbdiMOLWoLy37V9lGl2wJCjBSUdZdNmAtHFYzLzKd/qCXFBtmPn3A==
+"@tourlane/tourlane-ui@^5.3.4":
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/@tourlane/tourlane-ui/-/tourlane-ui-5.3.4.tgz#756a295a279820a8436203714dc9343bd684c2cd"
+  integrity sha512-ZmEBXxwFRLoXJoX2g0hUJF17vjg+D1OMM0rAuU2clHh6wUW+Gz4b/4zP+PhfElSo27i7CFqp6iGXxLjUaW73+Q==
   dependencies:
-    "@tourlane/iconography" "^1.3.0"
-    react-animations "^1.0.0"
+    "@tourlane/iconography" "^1.7.0"
     react-compound-slider "^2.1.0"
     react-day-picker "^7.3.0"
+    react-modal "^3.9.1"
     react-popper "^1.3.3"
     react-select "^3.0.4"
     react-spring "^8.0.20"
-    react-transition-group "^4.0.1"
+    react-tiny-virtual-list "^2.2.0"
 
 "@types/babel__core@^7.1.0":
   version "7.1.2"
@@ -4949,6 +4949,11 @@ executable@4.1.1:
   integrity sha512-8iA79xD3uAch729dUG8xaaBBFGaEa0wdD2VkYLFHwlqosEj/jT66AzcreRDSgV7ehnNLBW2WR5jIXwGKjVdTLg==
   dependencies:
     pify "^2.2.0"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -10057,7 +10062,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@>=15.0.0, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@>=15.0.0, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10257,11 +10262,6 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-animations@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-animations/-/react-animations-1.0.0.tgz#d96222920dfeabec8984d9b2ef2c5a5aadb40f06"
-  integrity sha512-ePPpVgdKnNEXm+LP1ww5s3n0JzebBw9QdRfxRqogzeg1PDIn6kf0pmvgeTeVZQXXpGmHImkIeTiaQR1O6xjntA==
-
 react-app-polyfill@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-1.0.1.tgz#809a858e44f9564c7f4205e173076f90048274f1"
@@ -10396,10 +10396,20 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
-react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal@^3.9.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.10.1.tgz#ba37927871830c798f51404aa6bc71ff7a5e4c16"
+  integrity sha512-2DKIfdOc8+WY+SYJ/xf/WBwOYMmNAYAyGkYlc4e1TCs9rk1xY4QBz04hB3UHGcrLChh7ce77rHAe6VPNmuLYsQ==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^4.0.3"
 
 react-paginating@^1.3.0-hook.2:
   version "1.3.0-hook.2"
@@ -10584,6 +10594,13 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.8.6:
     react-is "^16.8.6"
     scheduler "^0.13.6"
 
+react-tiny-virtual-list@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-tiny-virtual-list/-/react-tiny-virtual-list-2.2.0.tgz#eafb6fcf764e4ed41150ff9752cdaad8b35edf4a"
+  integrity sha512-MDiy2xyqfvkWrRiQNdHFdm36lfxmcLLKuYnUqcf9xIubML85cmYCgzBJrDsLNZ3uJQ5LEHH9BnxGKKSm8+C0Bw==
+  dependencies:
+    prop-types "^15.5.7"
+
 react-transition-group@^2.2.1:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
@@ -10594,7 +10611,7 @@ react-transition-group@^2.2.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-transition-group@^4.0.0, react-transition-group@^4.0.1:
+react-transition-group@^4.0.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.2.1.tgz#61fc9e36568bff9a1fe4e60fae323c8a6dbc0680"
   integrity sha512-IXrPr93VzCPupwm2O6n6C2kJIofJ/Rp5Ltihhm9UfE8lkuVX2ng/SUUl/oWjblybK9Fq2Io7LGa6maVqPB762Q==

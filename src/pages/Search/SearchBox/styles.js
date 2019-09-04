@@ -85,7 +85,7 @@ export const CategoryCardsWrapper = styled(FlexContainer)`
 
 export const SearchWrapper = styled(FlexContainer)`
   min-height: 48px;
-  width: 360px;
+  min-width: 360px;
   align-self: center;
 `
 
