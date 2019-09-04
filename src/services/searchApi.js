@@ -45,6 +45,12 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
       item_types: ['admin_area'],
       offset,
       limit,
+      sort: {
+        'name.content.raw': {
+          nested_path: 'name',
+          order: 'asc'
+        }
+      },
       query: generateSearchQueryArea(countryId, nameProperties, name.toLowerCase())
     }
   })
@@ -71,7 +77,14 @@ const getAccommodations = async (
       item_types: ['accommodation'],
       offset,
       limit,
-      query: generateSearchQueryAccom(country, area, supplier, nameProperties, name.toLowerCase())
+      sort: {
+        'name.content.raw': {
+          nested_path: 'name',
+          order: 'asc'
+        }
+      },
+      // We are asking only for 'name' property because accommodations don't have original_name
+      query: generateSearchQueryAccom(country, area, supplier, ['name'], name.toLowerCase())
     }
   })
 

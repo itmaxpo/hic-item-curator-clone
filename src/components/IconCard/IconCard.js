@@ -11,7 +11,7 @@ import { Wrapper, StyledCard, StyledSubline } from './styles'
  * @param {String} label
  * @param {Boolean} selected
  */
-const IconCard = ({ icon, label, selected, ...rest }) => {
+const IconCard = ({ icon, label, value, selected, ...rest }) => {
   const Icon = icon
 
   return (

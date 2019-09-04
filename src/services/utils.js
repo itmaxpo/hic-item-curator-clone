@@ -106,7 +106,7 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
 }
 
 /**
- * Return query to search by admin_area
+ * Return query to search by accommodation
  *
  * @param {Array<string>} propNames
  * @param {string} value

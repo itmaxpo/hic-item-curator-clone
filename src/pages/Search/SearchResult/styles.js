@@ -52,16 +52,18 @@ export const StyledLoader = styled(Loader)`
 export const TotalItemsWrapper = styled(FlexContainer)`
   position: absolute;
   right: 0;
-  top: 13px;
+  top: 38%;
   font-size: 14px;
-  color: ${COLORS.INACTIVE_GRAY};
+  color: ${COLORS.INACTIVE_GRAY} !important;
 
   > p {
     font-weight: bold;
     margin-right: 20px;
+    color: inherit;
 
     > span {
       font-weight: normal;
+      color: inherit;
     }
   }
 `

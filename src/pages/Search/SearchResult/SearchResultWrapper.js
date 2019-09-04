@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { isEmpty, flatten } from 'lodash'
 import { withRouter } from 'react-router-dom'
-import { FlexContainer } from '@tourlane/tourlane-ui'
+import { FlexContainer, ExtraSmall } from '@tourlane/tourlane-ui'
 import PaginationWrapper from 'components/Pagination'
 import SearchActions from './SearchActions'
 import {
@@ -171,14 +171,14 @@ export const SearchResultWrapper = withRouter(
                   />
 
                   <TotalItemsWrapper p={0} alignItems={'center'} direction={'ltr'}>
-                    <p>
+                    <ExtraSmall>
                       <span>Total pages: </span>
                       {allResults.length}
-                    </p>
-                    <p>
+                    </ExtraSmall>
+                    <ExtraSmall>
                       <span>Total items: </span>
                       {flatten(allResults).length}
-                    </p>
+                    </ExtraSmall>
                   </TotalItemsWrapper>
                 </PaginationCenteredWrapper>
               ) : (

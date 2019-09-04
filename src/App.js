@@ -37,6 +37,7 @@ function App() {
     const header = document.getElementById('sticky-header')
     const stickyElement = document.getElementById('items-sticky-actions')
     // Header should be sticky until meets sticky Search Actions
+    // TODO: fixed the styling when have query in URL handling
     if (stickyElement) {
       if (header.offsetTop >= 500) {
         header.style.visibility = 'hidden'

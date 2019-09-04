@@ -24,6 +24,12 @@ export const StyledCard = styled(Card)`
     margin-top: 10px;
     width: 24px;
     height: 24px;
+
+    &[alt='flag'] {
+      position: relative;
+      left: 10px;
+      top: 2.5px;
+    }
   }
 
   > p {

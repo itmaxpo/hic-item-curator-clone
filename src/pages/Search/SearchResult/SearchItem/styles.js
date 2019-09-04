@@ -37,6 +37,7 @@ export const ContentContainer = styled(FlexContainer)`
 
 export const ItemTitle = styled(Subline)`
   margin-top: 2px;
+  font-size: 22px !important;
 `
 
 export const ItemSubtitle = styled(Base)`

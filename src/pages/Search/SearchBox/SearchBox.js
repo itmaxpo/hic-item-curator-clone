@@ -22,15 +22,23 @@ const initialValues = {
   name: undefined,
   supplier: undefined
 }
-
+// Start searching after 2 characters typed
 const searchCountries = (value, callback) => {
-  getCountries(value.toLowerCase()).then(({ data }) => callback(parseSearchResponse(data)))
+  if (value.length >= 2) {
+    getCountries(value.toLowerCase()).then(({ data }) => callback(parseSearchResponse(data)))
+  } else {
+    callback(parseSearchResponse([]))
+  }
 }
-
+// Start searching after 3 characters typed
 const searchAreas = (value, callback, country) => {
-  getAreasInCountry(value.toLowerCase(), country).then(({ data }) =>
-    callback(parseSearchResponse(data))
-  )
+  if (value.length >= 3) {
+    getAreasInCountry(value.toLowerCase(), country).then(({ data }) =>
+      callback(parseSearchResponse(data))
+    )
+  } else {
+    callback(parseSearchResponse([]))
+  }
 }
 
 /**
@@ -131,6 +139,7 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
         {categoryCardsMap.map(({ value, displayName, icon }) => (
           <IconCard
             key={value}
+            value={value}
             label={displayName}
             icon={icon}
             selected={category === value}
