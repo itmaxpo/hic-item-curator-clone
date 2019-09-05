@@ -1,6 +1,5 @@
-import { P } from '@tourlane/tourlane-ui'
+import { P, Link, COLORS } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
-import { SecondaryLink } from 'components/Link'
 
 export const StyledP = styled(P)`
   & {
@@ -9,6 +8,10 @@ export const StyledP = styled(P)`
   }
 `
 
-export const StyledSecondaryLink = styled(SecondaryLink)`
-  width: 100%;
+export const StyledLink = styled(Link)`
+  color: ${COLORS.SENSATION_WHITE} !important;
+
+  &:hover {
+    color: ${COLORS.SENSATION_WHITE};
+  }
 `

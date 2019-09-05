@@ -66,3 +66,15 @@ export const parseSearchResponse = data =>
       get(get(item, 'fields.name').filter(name => name.locale === 'en-GB'), '0.content') ||
       get(item, 'fields.original_name.0.content')
   }))
+
+export const getQueryValue = (query, propLabel, propValue) => {
+  // if there is no label and value should return null to show placeholder
+  if (get(query, propValue) && get(query, propLabel)) {
+    return {
+      value: get(query, propValue),
+      label: get(query, propLabel)
+    }
+  }
+
+  return undefined
+}

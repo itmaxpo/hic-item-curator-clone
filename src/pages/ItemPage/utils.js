@@ -20,9 +20,7 @@ export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 
 // Update item by property name
-export const updateItemByProp = (item, prop, value) => {
-  return { ...item, [prop]: value }
-}
+export const updateItemByProp = (item, prop, value) => ({ ...item, [prop]: value })
 
 // Update item by global property: globalInformation/offerVisualisation/travelDocuments
 export const updateItemKey = (item, globalProp, prop, value) => {

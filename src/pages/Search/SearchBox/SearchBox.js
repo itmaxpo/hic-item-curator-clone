@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef, useContext } from 'react'
 import { get, debounce } from 'lodash'
-import { withRouter } from 'react-router-dom'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -11,17 +10,13 @@ import {
   SearchWrapper,
   SearchFieldsWrapper
 } from './styles'
-import { getGoToDestination, parseSearchResponse } from './utils'
+import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
 import SuppliersContext from 'contexts/Suppliers'
 
-const initialValues = {
-  name: undefined,
-  supplier: undefined
-}
 // Start searching after 2 characters typed
 const searchCountries = (value, callback) => {
   if (value.length >= 2) {
@@ -49,28 +44,75 @@ const searchAreas = (value, callback, country) => {
  * @param {Object} history
  * @returns {Object} Search Box
  */
-const SearchBox = ({ history, search, onItemTypeChange }) => {
+const SearchBox = ({
+  history,
+  search,
+  onItemTypeChange,
+  onLoadingChange,
+  isLoading,
+  locationQuery,
+  onQueryUpdate
+}) => {
+  // Default values for state are coming from location query
+  const typeFromQuery = get(locationQuery, 'type')
+  const countryFromQuery = getQueryValue(locationQuery, 'countryName', 'countryId')
+  const areaFromQuery = getQueryValue(locationQuery, 'areaName', 'areaId')
+  const supplierFromQuery = getQueryValue(locationQuery, 'supplier', 'supplier')
+  const accomNameFromQuery = get(locationQuery, 'name')
+
+  const initialValues = {
+    name: accomNameFromQuery,
+    supplier: supplierFromQuery
+  }
+
   const values = useRef(initialValues)
-  const [category, setCategory] = useState(undefined)
-  const [country, setCountry] = useState(undefined)
-  const [area, setArea] = useState(undefined)
+  const [category, setCategory] = useState(typeFromQuery)
+  const [country, setCountry] = useState(countryFromQuery)
+  const [area, setArea] = useState(areaFromQuery)
   const [goToDestination, setGoToDestination] = useState(undefined)
-  const [isLoading, setIsLoading] = useState(false)
 
   const { suppliers } = useContext(SuppliersContext)
 
   const onValueChange = newValue => {
     values.current = { ...values.current, ...newValue }
+
+    onQueryUpdate({
+      ...locationQuery,
+      ...values.current
+    })
   }
 
   const onCategoryCardClick = value => () => {
+    onQueryUpdate({ ...locationQuery, type: value })
     setCategory(value)
-    setIsLoading(false)
+    // Send isLoading for SearchResults
+    onLoadingChange(false)
+  }
+
+  const onCountryChange = value => {
+    onQueryUpdate({
+      ...locationQuery,
+      countryId: get(value, 'value'),
+      countryName: get(value, 'label'),
+      areaId: '',
+      areaName: ''
+    })
+    setCountry(value)
+  }
+
+  const onAreaChange = value => {
+    onQueryUpdate({
+      ...locationQuery,
+      areaId: get(value, 'value'),
+      areaName: get(value, 'label')
+    })
+    setArea(value)
   }
 
   const onSearchClick = async () => {
     if (!goToDestination) {
-      setIsLoading(true)
+      onLoadingChange(true)
+
       // set search results
       switch (category) {
         case AREA_ITEM_TYPE:
@@ -86,7 +128,8 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
         default:
           return
       }
-      setIsLoading(false)
+
+      onLoadingChange(false)
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
@@ -112,14 +155,18 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
       isDisabled={!country}
       placeholder="Please select ..."
       loadOptions={debouncedAreaSearch}
-      onChange={value => setArea(value)}
+      onChange={onAreaChange}
       value={area}
     />
   )
 
   // effect to clear area when country changes
   useEffect(() => {
-    setArea(null)
+    // This condition will prevent area value form location query to be null
+    if (!locationQuery.areaId) {
+      setArea(null)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country])
 
   // effect to get Go To destination
@@ -153,12 +200,13 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
             isAsync
             isClearable
             cacheOptions
+            value={country}
             label="Country"
             placeholder="Please select ..."
             loadOptions={debouncedCountrySearch}
             renderMarginRight={category !== COUNTRY_ITEM_TYPE}
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
-            onChange={value => setCountry(value)}
+            onChange={onCountryChange}
           />
           <AreaDropdown hidden={category === COUNTRY_ITEM_TYPE} />
           {category === ACCOMMODATION_ITEM_TYPE && (
@@ -166,11 +214,13 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
               <NameField
                 label="Name (optional)"
                 placeholder="Name of the place"
+                defaultValue={accomNameFromQuery}
                 onChange={e => onValueChange({ name: e.target.value })}
               />
               <Dropdown
                 label="Supplier (optional)"
                 placeholder="Name of supplier"
+                value={supplierFromQuery}
                 options={suppliers}
                 onChange={value => onValueChange({ supplier: get(value, 'value') })}
               />
@@ -190,4 +240,4 @@ const SearchBox = ({ history, search, onItemTypeChange }) => {
   )
 }
 
-export default withRouter(SearchBox)
+export default SearchBox

@@ -1,8 +1,8 @@
 import React from 'react'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
 import { useAuth0 } from 'contexts/Auth/AuthProvider'
-import { P } from '@tourlane/tourlane-ui'
-import { StyledP, StyledSecondaryLink } from './styles'
+import { P, Button } from '@tourlane/tourlane-ui'
+import { StyledP, StyledLink } from './styles'
 import { BackgroundSingleCard } from 'components/Background'
 
 /**
@@ -13,7 +13,7 @@ import { BackgroundSingleCard } from 'components/Background'
  * @returns {Object} Missing Page
  */
 
-const MissingPage = () => {
+const MissingPage = ({ history }) => {
   const { user } = useAuth0()
 
   return (
@@ -25,7 +25,9 @@ const MissingPage = () => {
         </StyledP>
       )}
       <P>In this case just click the magic button to go to Search page</P>
-      <StyledSecondaryLink to={'/'}>Sweet home, Alabama!</StyledSecondaryLink>
+      <Button onClick={() => history.push('/')}>
+        <StyledLink to={'/'}>Sweet home, Alabama!</StyledLink>
+      </Button>
     </BackgroundSingleCard>
   )
 }

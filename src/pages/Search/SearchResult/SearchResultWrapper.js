@@ -7,7 +7,6 @@ import SearchActions from './SearchActions'
 import {
   paginateResults,
   updatePaginatedItemByIndex,
-  updateAllPaginatedItems,
   scrollToSearchActions,
   missingId
 } from './utils'
@@ -37,9 +36,18 @@ import {
  * @output {Function} updateSelectedResults (return Array<SearchResult> that are selected)
  */
 export const SearchResultWrapper = withRouter(
-  ({ results, updateSelectedResults, fetchMoreItems, history, onLoadingChange }) => {
+  ({
+    results,
+    updateSelectedResults,
+    fetchMoreItems,
+    history,
+    onLoadingChange,
+    isLoading,
+    query,
+    onQueryUpdate
+  }) => {
     const searchContainer = useRef(null)
-    const [isLoading, setIsLoading] = useState(false)
+
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [allResults, setAllResults] = useState([])
@@ -49,7 +57,6 @@ export const SearchResultWrapper = withRouter(
     // Send isLoading state to parent to control show/hide state of create item section
     const isLoadingChange = isLoading => {
       onLoadingChange(isLoading)
-      setIsLoading(isLoading)
     }
 
     const updateItemRef = updatedItem => {
@@ -73,7 +80,12 @@ export const SearchResultWrapper = withRouter(
     }
 
     const onAllSelectClick = isSelected => {
-      const selectedResults = updateAllPaginatedItems(allResults, 'isSelected', isSelected)
+      const selectedResults = updateSelectedResults(
+        allResults,
+        currentPage - 1,
+        'isSelected',
+        isSelected
+      )
       setIsAllSelected(!isAllSelected)
       setAllResults(selectedResults)
     }
@@ -84,6 +96,8 @@ export const SearchResultWrapper = withRouter(
     }
 
     const onPageChange = async page => {
+      // If page changed diselect selected allItems
+      onAllSelectClick(false)
       updateCurrentPageEnrichedItems()
 
       // Calculate offsetTop for searchContainer to scroll to it
@@ -96,6 +110,7 @@ export const SearchResultWrapper = withRouter(
         try {
           // fetch more items, then we set the current page.
           await fetchMoreItems(page - 1, itemsPerPage)
+          onQueryUpdate({ ...query, page })
           setCurrentPage(page)
         } catch (e) {
           console.warn(e)
@@ -117,7 +132,8 @@ export const SearchResultWrapper = withRouter(
     }
 
     const onItemClick = (e, item) => {
-      if (e.target.nodeName === 'BUTTON') {
+      // Prevent clicking event before item loaded || 'show more' clicked
+      if (item.isLoading || e.target.nodeName === 'BUTTON') {
         e.preventDefault()
       } else {
         // Always should be on the top of the new page
@@ -130,10 +146,6 @@ export const SearchResultWrapper = withRouter(
       setAllResults(paginateResults(results, itemsPerPage))
     }, [results, itemsPerPage])
 
-    if (isLoading) {
-      return <StyledLoader />
-    }
-
     const pages = allResults.length
 
     return (
@@ -144,6 +156,8 @@ export const SearchResultWrapper = withRouter(
           allResults={allResults}
           onActionSelected={onActionSelected}
         />
+
+        {isLoading && <StyledLoader />}
 
         {allResults.length === 0 ? (
           <FlexContainer>No results</FlexContainer>

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { flatten, isEmpty } from 'lodash'
+import * as queryString from 'query-string'
 import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton, SadFaceIconWrapper } from './styles'
 import SearchBox from './SearchBox'
@@ -22,6 +23,7 @@ const SearchPage = ({ history }) => {
   const [results, setResults] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [itemType, setItemType] = useState(undefined)
+  const parsedQuery = queryString.parse(history.location.search)
 
   const onItemTypeChangeHandler = useCallback(type => {
     setItemType(type)
@@ -30,6 +32,10 @@ const SearchPage = ({ history }) => {
   const onSearchHandler = (searchResponse, totalResults) => {
     totalResultsCount.current = totalResults
     setResults(parseSearchResponse(searchResponse, totalResults, itemType))
+  }
+  // changes query in URL
+  const onQueryUpdate = query => {
+    history.push(`?${queryString.stringify(query)}`)
   }
 
   const search = async payload => {
@@ -73,10 +79,11 @@ const SearchPage = ({ history }) => {
 
     return
   }
-
-  const updateSelectedResults = itemsToUpdate => {
-    // console.log(itemsToUpdate)
-  }
+  // Updates allItems with changed selectedItems
+  const updateSelectedResults = (allItems, index, propName, propValue) =>
+    allItems.map((arr, i) =>
+      i !== index ? arr : arr.map(item => ({ ...item, [propName]: propValue }))
+    )
 
   const createNewItem = () => {
     // Always should be on the top of the new page
@@ -91,13 +98,24 @@ const SearchPage = ({ history }) => {
   return (
     <Layout>
       <Wrapper>
-        <SearchBox search={search} onItemTypeChange={onItemTypeChangeHandler} />
+        <SearchBox
+          search={search}
+          onItemTypeChange={onItemTypeChangeHandler}
+          history={history}
+          locationQuery={parsedQuery}
+          onQueryUpdate={onQueryUpdate}
+          isLoading={isLoading}
+          onLoadingChange={setIsLoading}
+        />
         {!isEmpty(flattenedResults) && (
           <SearchResultWrapper
             results={flattenedResults}
             updateSelectedResults={updateSelectedResults}
             fetchMoreItems={fetchMoreItems}
             onLoadingChange={setIsLoading}
+            isLoading={isLoading}
+            locationQuery={parsedQuery}
+            onQueryUpdate={onQueryUpdate}
           />
         )}
         {results && !isLoading && (
