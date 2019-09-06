@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { isEmpty, flatten } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer, ExtraSmall } from '@tourlane/tourlane-ui'
@@ -6,7 +6,7 @@ import PaginationWrapper from 'components/Pagination'
 import SearchActions from './SearchActions'
 import {
   paginateResults,
-  updatePaginatedItemByIndex,
+  // updatePaginatedItemByIndex,
   scrollToSearchActions,
   missingId
 } from './utils'
@@ -47,10 +47,10 @@ export const SearchResultWrapper = withRouter(
     onQueryUpdate
   }) => {
     const searchContainer = useRef(null)
-
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [allResults, setAllResults] = useState([])
+    const [allSelectedIds, setAllSelectedIds] = useState([])
 
     const enrichedItemsRef = useRef([])
     const itemsPerPage = 10
@@ -59,9 +59,9 @@ export const SearchResultWrapper = withRouter(
       onLoadingChange(isLoading)
     }
 
-    const updateItemRef = updatedItem => {
+    const updateItemRef = useCallback(updatedItem => {
       enrichedItemsRef.current.push(updatedItem)
-    }
+    }, [])
 
     /* this method updates the current page items
      * with the enriched version of the item.
@@ -78,16 +78,11 @@ export const SearchResultWrapper = withRouter(
 
       setAllResults(newAllResults)
     }
-
+    // If isSelected then add all current items to allSelectedIds
     const onAllSelectClick = isSelected => {
-      const selectedResults = updateSelectedResults(
-        allResults,
-        currentPage - 1,
-        'isSelected',
-        isSelected
-      )
-      setIsAllSelected(!isAllSelected)
-      setAllResults(selectedResults)
+      const allIds = isSelected ? allResults[currentPage - 1].map(item => item.id) : []
+      setAllSelectedIds(allIds)
+      setIsAllSelected(isSelected)
     }
 
     const onActionSelected = action => {
@@ -97,7 +92,9 @@ export const SearchResultWrapper = withRouter(
 
     const onPageChange = async page => {
       // If page changed diselect selected allItems
-      onAllSelectClick(false)
+      setAllSelectedIds([])
+      setIsAllSelected(false)
+
       updateCurrentPageEnrichedItems()
 
       // Calculate offsetTop for searchContainer to scroll to it
@@ -120,15 +117,13 @@ export const SearchResultWrapper = withRouter(
         setCurrentPage(page)
       }
     }
+    // Updates allSelectedIds array
+    const onItemSelect = updatedItem => {
+      const allIds = allSelectedIds.includes(updatedItem.id)
+        ? allSelectedIds.filter(id => id !== updatedItem.id)
+        : [...allSelectedIds, updatedItem.id]
 
-    const onItemSelect = (updatedItem, index) => {
-      const updatedItems = updatePaginatedItemByIndex(
-        currentPage - 1,
-        index,
-        updatedItem,
-        allResults
-      )
-      setAllResults(updatedItems)
+      setAllSelectedIds(allIds)
     }
 
     const onItemClick = (e, item) => {
@@ -155,6 +150,7 @@ export const SearchResultWrapper = withRouter(
           onAllSelectClick={onAllSelectClick}
           allResults={allResults}
           onActionSelected={onActionSelected}
+          allSelectedIds={allSelectedIds}
         />
 
         {isLoading && <StyledLoader />}
@@ -167,6 +163,7 @@ export const SearchResultWrapper = withRouter(
               <SearchItem
                 key={item.id}
                 item={item}
+                allSelectedIds={allSelectedIds}
                 index={i}
                 onItemSelect={onItemSelect}
                 onItemClick={onItemClick}

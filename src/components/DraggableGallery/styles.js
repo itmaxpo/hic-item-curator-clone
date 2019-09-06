@@ -72,6 +72,7 @@ export const GalleryList = styled.div`
   ${({ isAllShown }) =>
     !isAllShown &&
     `
+    justify-content: center;
     max-height: 300px;
     overflow: hidden;
     transform: rotate(0);

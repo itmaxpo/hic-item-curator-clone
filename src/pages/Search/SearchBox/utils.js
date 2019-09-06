@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
 
 /**
@@ -57,15 +57,25 @@ export const getGoToDestination = (category, country, area) => {
       return undefined
   }
 }
+// Get correct item name or original_name
+export const getItemName = item => {
+  const nameFields = get(item, 'fields.name')
+  const engName = nameFields.filter(name => name.locale === 'en-GB')
+  const deName = nameFields.filter(name => name.locale === 'de-DE')
+
+  return (
+    get(!isEmpty(engName) ? engName : deName, '0.content') ||
+    get(item, 'fields.original_name.0.content')
+  )
+}
 
 // To support names by locale, revisit filtering.
-export const parseSearchResponse = data =>
-  data.map(item => ({
+export const parseSearchResponse = data => {
+  return data.map(item => ({
     value: item.id,
-    label:
-      get(get(item, 'fields.name').filter(name => name.locale === 'en-GB'), '0.content') ||
-      get(item, 'fields.original_name.0.content')
+    label: getItemName(item)
   }))
+}
 
 export const getQueryValue = (query, propLabel, propValue) => {
   // if there is no label and value should return null to show placeholder

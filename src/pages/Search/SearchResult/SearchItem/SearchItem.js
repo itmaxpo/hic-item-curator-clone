@@ -29,9 +29,17 @@ import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
  * @param {Object} item
  * @param {Number} index
  * @param {Function} onSelect
+ * @param {Array<String>} allSelectedIds
  * @param {Function} onItemClick
  */
-export const SearchItem = ({ item, index, onItemSelect, onItemClick, updateItemRef }) => {
+export const SearchItem = ({
+  item,
+  index,
+  onItemSelect,
+  onItemClick,
+  updateItemRef,
+  allSelectedIds
+}) => {
   const [localItem, setLocalItem] = useState(item)
 
   const onCheckboxChange = () => {
@@ -80,7 +88,7 @@ export const SearchItem = ({ item, index, onItemSelect, onItemClick, updateItemR
           id={index}
           className={'search-item-checkbox'}
           name="isItemSelected"
-          checked={localItem.isSelected}
+          checked={allSelectedIds.includes(localItem.id)}
           onChange={onCheckboxChange}
         />
       </FlexContainer>

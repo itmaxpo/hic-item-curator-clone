@@ -6,6 +6,12 @@ export const Wrapper = styled.div`
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
+export const StyledP = styled.p`
+  height: 19px;
+  margin: 0;
+  padding: 0;
+`
+
 export const TitleWrapper = styled.div`
   position: relative;
   margin-bottom: 20px;

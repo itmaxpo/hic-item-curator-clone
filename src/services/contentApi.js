@@ -1,5 +1,25 @@
 import request from './request'
 
+const fieldsToSelect = [
+  'description',
+  'safety',
+  'currency',
+  'cuisine',
+  'climate',
+  'dress',
+  'additional_info',
+  'name',
+  'iso_code',
+  'active_destination',
+  'health',
+  'electricity',
+  'entry_requirements',
+  'transport',
+  'admin_level',
+  'address',
+  'geolocation',
+  'supplier_tag'
+]
 /**
  * Return item fields
  *
@@ -8,7 +28,11 @@ import request from './request'
  * @returns {Object}
  */
 const getItemFieldsById = async id => {
-  let res = await request('GET', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}`)
+  const selectedFields = `?selected_fields=${fieldsToSelect}`
+  let res = await request(
+    'GET',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}${selectedFields}`
+  )
 
   return res.json()
 }

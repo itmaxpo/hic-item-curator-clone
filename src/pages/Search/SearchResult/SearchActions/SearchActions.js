@@ -6,7 +6,6 @@ import { getSelectedItems } from '../utils'
 import OnHoverComponentToggle from 'components/OnHoverComponentToggle'
 
 const getAllActions = selectedItems => {
-  // const isOneSelected = selectedItems.length > 0
   const areMoreSelected = selectedItems.length > 1
 
   return [
@@ -32,9 +31,10 @@ export const SearchActions = ({
   isAllSelected,
   onAllSelectClick,
   allResults,
-  onActionSelected
+  onActionSelected,
+  allSelectedIds
 }) => {
-  const selectedItems = getSelectedItems(allResults || [])
+  const selectedItems = getSelectedItems(allResults, allSelectedIds)
   const availableActions = getAllActions(selectedItems)
 
   const onActionClick = ({ isActive, action }) => {
@@ -56,7 +56,7 @@ export const SearchActions = ({
             icon.isActive && (
               <Tooltip
                 key={i}
-                position={'bottom'}
+                position={'top'}
                 trigger={'hover'}
                 content={<Base>{icon.tooltipText}</Base>}
               >

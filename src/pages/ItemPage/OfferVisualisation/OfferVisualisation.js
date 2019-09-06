@@ -5,14 +5,8 @@ import Map from 'components/Map'
 import RichTextEditor from 'components/RichTextEditor'
 import ReactHtmlParser from 'react-html-parser'
 import ShowMore from 'components/ShowMore'
-import {
-  TitleWithContent,
-  MapWrapper,
-  SearchItemWrapper,
-  ItemTitle,
-  ItemDescription,
-  StyledItemBadge
-} from './styles'
+import Loader from 'components/Loader'
+import { TitleWithContent, MapWrapper, SearchItemWrapper } from './styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
   IMAGES_COMPONENT_NAME,
@@ -20,7 +14,7 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
-import { COLORS, H4 } from '@tourlane/tourlane-ui'
+import { H4 } from '@tourlane/tourlane-ui'
 import ImageUploader from 'components/ImageUploader'
 
 // Fake data to test components
@@ -45,7 +39,14 @@ const descriptions = [
  * @param {Array<String>} components (order of components as a STRING to render)
  * @returns {Object} GlobalInformation Tab Component
  */
-const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, components }) => {
+const OfferVisualisation = ({
+  itemId,
+  offerVisualisation,
+  isEditing,
+  onChange,
+  components,
+  isLoadingAdditionalInfo
+}) => {
   // Based on the provided array of strings, that describes which component to render
   // This map returns:
   //    - necessary component to render
@@ -90,32 +91,13 @@ const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, c
         <Fragment key={key}>
           <TitleWithContent withoutPadding>
             <H4>Rooms</H4>
-            {offerVisualisation.rooms && offerVisualisation.rooms.length > 0 ? (
-              offerVisualisation.rooms.map((room, i, arr) => {
-                return (
-                  <SearchItemWrapper key={i} p={0} direction={'ttb'}>
-                    <ItemTitle p={0} direction={'ltr'} alignItems={'center'}>
-                      <span>{room.name}</span>
-                      {room.mealbase && (
-                        <StyledItemBadge color={COLORS.SENSATION_WHITE}>
-                          <span>{room.mealbase}</span>
-                        </StyledItemBadge>
-                      )}
-                    </ItemTitle>
+            {isLoadingAdditionalInfo && <Loader top={'45%'} />}
 
-                    <ItemDescription>
-                      {room.description && (
-                        <ShowMore collapsed={true} height={'70px'} lines={3}>
-                          {ReactHtmlParser(room.description)}
-                        </ShowMore>
-                      )}
-                    </ItemDescription>
-                  </SearchItemWrapper>
-                )
-              })
+            {offerVisualisation.rooms && offerVisualisation.rooms.length > 0 ? (
+              <ExpansionPanelWrapper descriptions={offerVisualisation.rooms} />
             ) : (
               <SearchItemWrapper p={0} direction={'ttb'}>
-                <H4>No rooms available</H4>
+                No rooms available
               </SearchItemWrapper>
             )}
           </TitleWithContent>
@@ -163,6 +145,7 @@ const OfferVisualisation = ({ itemId, offerVisualisation, isEditing, onChange, c
             <H4>Location</H4>
             <MapWrapper>
               {coordinates && <Map coordinates={coordinates} polygon={polygon} />}
+              {isLoadingAdditionalInfo && <Loader top={'45%'} />}
             </MapWrapper>
           </TitleWithContent>
         </Fragment>

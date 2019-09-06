@@ -163,6 +163,7 @@ const SearchBox = ({
   // effect to clear area when country changes
   useEffect(() => {
     // This condition will prevent area value form location query to be null
+    // if there is coutry and area already in the query
     if (!locationQuery.areaId) {
       setArea(null)
     }
@@ -218,8 +219,8 @@ const SearchBox = ({
                 onChange={e => onValueChange({ name: e.target.value })}
               />
               <Dropdown
-                label="Supplier (optional)"
-                placeholder="Name of supplier"
+                label="Supplier tag (optional)"
+                placeholder="Name the supplier tag"
                 value={supplierFromQuery}
                 options={suppliers}
                 onChange={value => onValueChange({ supplier: get(value, 'value') })}

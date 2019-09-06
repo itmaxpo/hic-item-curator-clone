@@ -27,18 +27,17 @@ export const addElementToIndex = (arr, to, elem) => {
   arr.splice(to, 0, elem)
   return arr
 }
-
+// Check for EN then DE name if no such names - get original_name
 const getItemTitle = item => {
-  // Try to get name
-  if (!isEmpty(get(item, 'fields.name'))) {
-    return get(
-      get(item, 'fields.name').filter(({ locale }) => locale === 'en-GB' || locale === 'de-DE')[0],
-      'content'
-    )
-  }
+  const nameFields = get(item, 'fields.name')
+  const engField = nameFields.filter(({ locale }) => locale === 'en-GB')[0]
+  const deField = nameFields.filter(({ locale }) => locale === 'de-DE')[0]
 
-  // If no name provided - using original_name
-  return get(get(item, 'fields.original_name')[0], 'content')
+  return engField
+    ? get(engField, 'content')
+    : deField
+    ? get(deField, 'content')
+    : get(item, 'fields.original_name.0.content')
 }
 
 // give shape to the items

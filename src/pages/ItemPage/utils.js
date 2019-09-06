@@ -53,18 +53,16 @@ export const componentsBasedOnType = type => {
  * Receive item and additional fields and returns item
  *
  * @param {Object} item
- * @param {Array<Room>} accomRooms
- * @param {Array<Coord>} polygon
- * @returns {Object} Item
+ * @returns {Object} Item parsed
  */
-export const parseItemByType = ({ item, accomRooms = [], polygon = [] }) => {
+export const parseItemByType = item => {
   switch (item.item_type) {
     case COUNTRY_ITEM_TYPE:
       return parseCountryItem(item)
     case AREA_ITEM_TYPE:
-      return parseAreaItem(item, polygon)
+      return parseAreaItem(item)
     case ACCOMMODATION_ITEM_TYPE:
-      return parseAccommodationItem(item, accomRooms)
+      return parseAccommodationItem(item)
     default:
       return null
   }

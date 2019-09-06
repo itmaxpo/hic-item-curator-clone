@@ -12,7 +12,7 @@ import {
   parseItemByType,
   transformToSupplyItem
 } from './utils'
-import { get } from 'lodash'
+import { flatten } from 'lodash'
 import {
   getItemFieldsById,
   // getItemAttachmentsById,
@@ -21,6 +21,7 @@ import {
   getItemPolygonCoordinatesById
 } from 'services/contentApi'
 import Loader from 'components/Loader'
+import { FIELD_DESCRIPTION, FIELD_MEAL_BASE, getFieldName, getFieldContent } from './itemParser'
 
 /**
  * This is the Item Page component
@@ -40,6 +41,7 @@ const ItemPage = ({ match }) => {
   const [originalItem, setOriginalItem] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
 
   const onChangeOfferVisualisation = (field, prop) => {
     setItem(updateItemKey(item, 'offerVisualisation', field, prop))
@@ -59,7 +61,7 @@ const ItemPage = ({ match }) => {
       await updateItemFields(item.id, fields, item.type)
       setOriginalItem(item)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -79,29 +81,48 @@ const ItemPage = ({ match }) => {
       try {
         let item = {}
         const { data } = await getItemFieldsById(match.params.id)
-
-        switch (data.item_type) {
-          case AREA_ITEM_TYPE:
-            const polygon = await getItemPolygonCoordinatesById(match.params.id)
-            item = parseItemByType({ item: data, polygon: get(polygon, 'data') })
-            break
-          case ACCOMMODATION_ITEM_TYPE:
-            const rooms = await getRoomsForAccommodation(match.params.id)
-            item = parseItemByType({ item: data, accomRooms: get(rooms, 'data') })
-            break
-          default:
-            item = parseItemByType({ item: data })
-        }
+        item = parseItemByType(data)
 
         setItem(item)
         setOriginalItem(item)
         setIsLoading(false)
+        setIsLoadingAdditionalInfo(true)
       } catch (e) {
         console.warn(e)
       }
     }
     fetchItem()
   }, [match.params.id])
+
+  // fetch additionalInformation based on item.type
+  useEffect(() => {
+    async function fetchAdditionalinformation() {
+      switch (item.type) {
+        case AREA_ITEM_TYPE:
+          const polygon = await getItemPolygonCoordinatesById(match.params.id)
+          onChangeOfferVisualisation('polygon', flatten(polygon['data'].coordinates))
+          break
+        case ACCOMMODATION_ITEM_TYPE:
+          const accomRooms = await getRoomsForAccommodation(match.params.id)
+          const rooms = accomRooms['data'].map(room => ({
+            title: getFieldName(room) || 'No name',
+            description: getFieldContent(room, FIELD_DESCRIPTION) || 'No description',
+            badge: getFieldContent(room, FIELD_MEAL_BASE)
+          }))
+          onChangeOfferVisualisation('rooms', rooms)
+          break
+        default:
+          break
+      }
+
+      setIsLoadingAdditionalInfo(false)
+    }
+    // Only if it is first time laoded item and it is already set in localState
+    if (isLoadingAdditionalInfo && item) {
+      fetchAdditionalinformation()
+    }
+    // eslint-disable-next-line
+  }, [isLoadingAdditionalInfo, item])
 
   return (
     <div>
@@ -126,6 +147,7 @@ const ItemPage = ({ match }) => {
             tabContents={[
               <OfferVisualisation
                 itemId={item.id}
+                isLoadingAdditionalInfo={isLoadingAdditionalInfo}
                 offerVisualisation={item.offerVisualisation}
                 isEditing={isEditing}
                 onChange={onChangeOfferVisualisation}

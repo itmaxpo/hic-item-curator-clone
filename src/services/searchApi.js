@@ -4,6 +4,7 @@ import {
   generateSearchQueryArea,
   generateSearchQueryAccom
 } from './utils'
+import { isEmpty } from 'lodash'
 
 const nameProperties = ['name', 'original_name']
 /**
@@ -14,10 +15,12 @@ const nameProperties = ['name', 'original_name']
  * @returns {Object}
  */
 const getCountries = async name => {
+  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
+
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
       item_types: ['country'],
-      query: generateSearchQueryCountry(nameProperties, name.toLowerCase())
+      query: generateSearchQueryCountry(nameProperties, nameToSearch)
     }
   })
 
@@ -40,6 +43,8 @@ const getCountries = async name => {
  * @returns {Object}
  */
 const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
+  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
+
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
       item_types: ['admin_area'],
@@ -51,7 +56,7 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
           order: 'asc'
         }
       },
-      query: generateSearchQueryArea(countryId, nameProperties, name.toLowerCase())
+      query: generateSearchQueryArea(countryId, nameProperties, nameToSearch)
     }
   })
 
@@ -72,6 +77,8 @@ const getAccommodations = async (
   offset = 0,
   limit = 50
 ) => {
+  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
+
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
     body: {
       item_types: ['accommodation'],
@@ -84,7 +91,7 @@ const getAccommodations = async (
         }
       },
       // We are asking only for 'name' property because accommodations don't have original_name
-      query: generateSearchQueryAccom(country, area, supplier, ['name'], name.toLowerCase())
+      query: generateSearchQueryAccom(country, area, supplier, ['name'], nameToSearch)
     }
   })
 

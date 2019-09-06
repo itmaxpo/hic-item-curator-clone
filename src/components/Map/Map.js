@@ -56,6 +56,8 @@ const Map = compose(
       const polygonCenter = props.polygon
         ? { lat: bounds.getCenter().lat(), lng: bounds.getCenter().lng() }
         : props.coordinates
+      // Set correct zoom depending on area bounds
+      googleMap.current.fitBounds(bounds)
 
       if (!isEqual(coordinates, polygonCenter)) {
         setCoordinates(polygonCenter)

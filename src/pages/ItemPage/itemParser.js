@@ -1,12 +1,12 @@
-import { get, find, flatten, isArray } from 'lodash'
+import { get, find, isArray } from 'lodash'
 import { getCountryName } from 'services/isoCodes'
 
 // FIELD NAMES CONSTANTS
-const FIELD_ISO_CODE = 'iso_code'
-const FIELD_NAME = 'name'
-const FIELD_DESCRIPTION = 'description'
-const FIELD_GEOLOCATION = 'geolocation'
-const FIELD_MEAL_BASE = 'meal_base'
+export const FIELD_ISO_CODE = 'iso_code'
+export const FIELD_NAME = 'name'
+export const FIELD_DESCRIPTION = 'description'
+export const FIELD_GEOLOCATION = 'geolocation'
+export const FIELD_MEAL_BASE = 'meal_base'
 
 // PARSE FROM BE ITEM TO FE - START
 // HELPERS - START
@@ -17,9 +17,16 @@ const FIELD_MEAL_BASE = 'meal_base'
  *
  * @param {Object} item
  */
-const getFieldName = item => {
-  const name = isArray(item.fields) && item.fields.find(field => field.field_name === FIELD_NAME)
-  return get(name, 'content')
+export const getFieldName = item => {
+  // TODO: Remove this check when room type is fixed
+  if (isArray(item.fields)) {
+    const nameFields = item.fields.filter(field => field.field_name === FIELD_NAME)
+    const engField = nameFields.filter(name => name.locale === 'en-GB')[0]
+    const deField = nameFields.filter(name => name.locale === 'de-DE')[0]
+
+    // Return EN, if no EN then DE, if no DE - null
+    return engField ? get(engField, 'content') : deField ? get(deField, 'content') : null
+  }
 }
 
 /**
@@ -28,7 +35,7 @@ const getFieldName = item => {
  * @param {Object} item
  * @param {String} fieldName
  */
-const getFieldContent = (item, fieldName) => {
+export const getFieldContent = (item, fieldName) => {
   const field = find(get(item, 'fields'), c => c.field_name === fieldName)
   return get(field, 'content')
 }
@@ -43,6 +50,7 @@ const getFieldContent = (item, fieldName) => {
 export const parseCountryItem = item => {
   const country = {
     id: item.uuid,
+    parentId: item.parent_uuid,
     title: getCountryName(getFieldContent(item, FIELD_ISO_CODE)),
     type: item.item_type,
     language: 'DE',
@@ -73,16 +81,17 @@ export const parseCountryItem = item => {
  *
  * @param {Object} item
  */
-export const parseAreaItem = (item, polygon) => {
+export const parseAreaItem = item => {
   const area = {
     id: item.uuid,
+    parentId: item.parent_uuid,
     title: getFieldName(item),
     type: item.item_type,
     language: 'DE',
     offerVisualisation: {
       description: getFieldContent(item, FIELD_DESCRIPTION),
       photos: [],
-      polygon: flatten(polygon.coordinates)
+      polygon: []
     }
   }
 
@@ -94,22 +103,19 @@ export const parseAreaItem = (item, polygon) => {
  *
  * @param {Object} item
  */
-export const parseAccommodationItem = (item, accomRooms) => {
+export const parseAccommodationItem = item => {
   const coordinates = getFieldContent(item, FIELD_GEOLOCATION)
 
   const accom = {
     id: item.uuid,
+    parentId: item.parent_uuid,
     title: getFieldName(item),
     type: item.item_type,
     language: 'DE',
     offerVisualisation: {
       description: getFieldContent(item, FIELD_DESCRIPTION),
       photos: [],
-      rooms: accomRooms.map(room => ({
-        name: getFieldName(room) || 'Room',
-        description: getFieldContent(room, FIELD_DESCRIPTION),
-        mealbase: getFieldContent(room, FIELD_MEAL_BASE)
-      })),
+      rooms: [],
       coordinates: {
         lat: +coordinates.lat,
         lng: +coordinates.lon
@@ -172,7 +178,6 @@ export const transformAreaItem = item => {
  * @param {Object} item
  */
 export const transformAccommodationItem = item => {
-  console.log(item)
   const fields = [
     transformValueIntoField(item.title, FIELD_NAME, item.language),
     transformValueIntoField(item.offerVisualisation.description, FIELD_DESCRIPTION, item.language)

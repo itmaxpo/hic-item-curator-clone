@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { GlyphChevronDownIcon } from 'components/Icon'
-import { Wrapper, StyledHeader, StyledCollapse, StyledBody } from './styles'
+import { Wrapper, StyledHeader, StyledCollapse, StyledBody, StyledItemBadge } from './styles'
 
 /**
  * Collapsible element
@@ -9,7 +9,7 @@ import { Wrapper, StyledHeader, StyledCollapse, StyledBody } from './styles'
  * @param {Boolean} collapsed
  * @param {Aray<React.Component>} children to render in collapsed area
  */
-export const Collapsible = ({ title, collapsed = true, children }) => {
+export const Collapsible = ({ title, collapsed = true, badge = '', children }) => {
   const ref = React.createRef()
   const ref2 = React.createRef()
 
@@ -37,6 +37,7 @@ export const Collapsible = ({ title, collapsed = true, children }) => {
     <StyledCollapse>
       <StyledHeader onClick={toggleCollapse}>
         {title}
+        {badge && <StyledItemBadge>{badge}</StyledItemBadge>}
         <span ref={ref2}>
           <GlyphChevronDownIcon />
         </span>
@@ -64,7 +65,7 @@ const ExpansionPanelWrapper = ({ descriptions }) => {
   return (
     <Wrapper>
       {descriptions.map((description, i) => (
-        <Collapsible key={i} title={description.title}>
+        <Collapsible key={i} title={description.title} badge={description.badge}>
           {description.description}
         </Collapsible>
       ))}

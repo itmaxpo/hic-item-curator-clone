@@ -30,9 +30,8 @@ export const updatePaginatedItemByIndex = (page, updatedIndex, updatedItem, item
   )
 
 // Will receive selectedItems in paginated array and return unwrapped Array of selected items
-// Receives: [ [{ value: 1, isSelected: true }, { value: 2, isSelected: false }], [{ value: 1, isSelected: true }] ]
-// Returns: [{ value: 1, isSelected: true }, { value: 3, isSelected: true }]
-export const getSelectedItems = items => flatten(items).filter(item => item.isSelected)
+export const getSelectedItems = (items, selectedIds) =>
+  flatten(items).filter(item => selectedIds.includes(item.id))
 
 // Calculate offsetTop for searchContainer to scroll to it
 export const scrollToSearchActions = searchContainer => {

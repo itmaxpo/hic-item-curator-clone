@@ -43,3 +43,20 @@ export const StyledHeader = styled.button`
 export const StyledBody = styled.div`
   margin: 20px 60px;
 `
+
+export const StyledItemBadge = styled.span`
+  border-radius: 10px;
+  background-color: ${COLORS.ELEMENT_GRAY};
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: 2.86px;
+  text-align: center;
+  color: ${COLORS.SENSATION_WHITE};
+  padding: 7px 14px 7px 13px;
+  margin-left: 20px;
+  position: relative !important;
+  top: -4px !important;
+  right: 0 !important;
+`
