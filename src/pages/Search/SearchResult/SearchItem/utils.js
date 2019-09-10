@@ -1,5 +1,5 @@
 import { getItemFieldsById, getItemAttachmentsById } from 'services/contentApi'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 import { get, find } from 'lodash'
 
 export const enrichItem = async item => {

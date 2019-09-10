@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { isEmpty } from 'lodash'
+import { isEmpty, get } from 'lodash'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Layout from 'components/Layout'
@@ -10,15 +10,23 @@ import {
   TitleField,
   TitleLangWrapper,
   LanguageBlock,
-  StyledP
+  StyledP,
+  ActiveTitleWrapper,
+  CheckboxWrapper
 } from './styles'
 import TabsWrapper from 'components/Tabs'
 import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
-import { H2, Base } from '@tourlane/tourlane-ui'
+import { H2, Base, Checkbox } from '@tourlane/tourlane-ui'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
-import { getFieldName } from '../itemParser'
-
+import {
+  getFieldName,
+  FIELD_NAME,
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  FIELD_ACTIVE_DESTINATION
+} from '../itemParser'
+import { WorldIcon } from 'components/Icon'
 /**
  * Will render Item page layout with required fields
  * Render provided tab contents and breadcrumbs
@@ -37,11 +45,12 @@ import { getFieldName } from '../itemParser'
  */
 const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
   // used to generate breadcrumbs
-  const allItemParents = useRef([{ id: item.id, name: item.title }])
+  const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
+  const allItemParents = useRef([{ id: item.id, name: breadcrumbName }])
   const [areItemsLoaded, setAreItemsLoaded] = useState(false)
 
   const onTitleChange = e => {
-    onChange('title', e.target.value)
+    onChange(FIELD_NAME, e.target.value)
   }
 
   const onSuppliersChange = val => {
@@ -50,6 +59,10 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
 
   const onLanguageChange = e => {
     onChange('language', e.target.value)
+  }
+
+  const onIsActiveDestinationChange = e => {
+    onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
 
   useEffect(() => {
@@ -61,7 +74,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
       if (itemName) {
         allItemParents.current.unshift({
           id: data.uuid,
-          name: getFieldName(data)
+          name: itemName
         })
       }
 
@@ -95,9 +108,25 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
-              <H2>{item.title}</H2>
+              <ActiveTitleWrapper alignItems={'center'}>
+                <H2>{item.name}</H2>
+                <span>{item[FIELD_ACTIVE_DESTINATION] && <WorldIcon />}</span>
+              </ActiveTitleWrapper>
             ) : (
-              <TitleField defaultValue={item.title} onChange={onTitleChange} />
+              <ActiveTitleWrapper alignItems={'center'}>
+                <TitleField defaultValue={item.name} onChange={onTitleChange} />
+                {(item.type === COUNTRY_ITEM_TYPE || item.type === AREA_ITEM_TYPE) && (
+                  <CheckboxWrapper>
+                    <span>Active: </span>
+                    <Checkbox
+                      value={item[FIELD_ACTIVE_DESTINATION]}
+                      name="isActiveDestination"
+                      defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
+                      onChange={onIsActiveDestinationChange}
+                    />
+                  </CheckboxWrapper>
+                )}
+              </ActiveTitleWrapper>
             )}
 
             <LanguageBlock isEditing={isEditing}>

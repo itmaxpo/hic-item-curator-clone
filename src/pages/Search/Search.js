@@ -7,7 +7,7 @@ import SearchBox from './SearchBox'
 import SearchResultWrapper from './SearchResult'
 import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 
 /**
  * This is the Search Page component

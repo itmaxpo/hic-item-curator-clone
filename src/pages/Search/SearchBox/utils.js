@@ -1,5 +1,9 @@
 import { get, isEmpty } from 'lodash'
-import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+import {
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE
+} from 'pages/ItemPage/itemParser'
 
 /**
  * Defines if search button should be disabled.
@@ -71,10 +75,14 @@ export const getItemName = item => {
 
 // To support names by locale, revisit filtering.
 export const parseSearchResponse = data => {
-  return data.map(item => ({
-    value: item.id,
-    label: getItemName(item)
-  }))
+  const getIsActive = val => !!get(val, 'fields.active_destination.0.content')
+  // Sorted by active_destination
+  return data
+    .sort((v1, v2) => getIsActive(v2) - getIsActive(v1))
+    .map(item => ({
+      value: item.id,
+      label: getItemName(item)
+    }))
 }
 
 export const getQueryValue = (query, propLabel, propValue) => {

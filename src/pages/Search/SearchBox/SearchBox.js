@@ -13,7 +13,11 @@ import {
 import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
-import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+import {
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE
+} from 'pages/ItemPage/itemParser'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
 import SuppliersContext from 'contexts/Suppliers'
 
@@ -133,7 +137,7 @@ const SearchBox = ({
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
-      history.push(`/item/${itemId}`)
+      history.push(`/item/${itemId}?language=en-GB`)
     }
   }
 

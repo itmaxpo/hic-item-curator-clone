@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import { get } from 'lodash'
 import ItemLayout from './ItemLayout'
+import * as queryString from 'query-string'
 import OfferVisualisation from './OfferVisualisation'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import {
   updateItemByProp,
-  updateItemKey,
   componentsBasedOnType,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE,
-  parseItemByType,
-  transformToSupplyItem
+  changeItemLocale,
+  updateItemLocales
 } from './utils'
 import { flatten } from 'lodash'
 import {
@@ -21,7 +20,16 @@ import {
   getItemPolygonCoordinatesById
 } from 'services/contentApi'
 import Loader from 'components/Loader'
-import { FIELD_DESCRIPTION, FIELD_MEAL_BASE, getFieldName, getFieldContent } from './itemParser'
+import {
+  FIELD_DESCRIPTION,
+  FIELD_MEAL_BASE,
+  getFieldName,
+  getFieldContent,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE,
+  parseItemByType,
+  transformToSupplyItem
+} from './itemParser'
 
 /**
  * This is the Item Page component
@@ -35,7 +43,7 @@ import { FIELD_DESCRIPTION, FIELD_MEAL_BASE, getFieldName, getFieldContent } fro
  * @param {Object} match (access to query params to retreive item: id)
  * @returns {Object} Item Page
  */
-const ItemPage = ({ match }) => {
+const ItemPage = ({ match, history }) => {
   // Receive here id of item from route and send request to BE to get the item
   const [item, setItem] = useState(null)
   const [originalItem, setOriginalItem] = useState(null)
@@ -43,23 +51,32 @@ const ItemPage = ({ match }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
 
-  const onChangeOfferVisualisation = (field, prop) => {
-    setItem(updateItemKey(item, 'offerVisualisation', field, prop))
-  }
-
   const onChange = (field, prop) => {
-    setItem(updateItemByProp(item, field, prop))
+    if (field === 'language') {
+      // Update language in URL
+      history.push(`?${queryString.stringify({ [field]: prop })}`)
+      setItem(changeItemLocale(item, prop))
+    } else {
+      setItem(updateItemByProp(item, field, prop))
+    }
   }
   // OnSave: Send request to BE, then update localCopy of the item
   // Cancel changes if BE returns error, store the changes locally (indexedDB?)
   const onSave = async () => {
     setIsEditing(false)
+
     const fields = transformToSupplyItem(item)
-    setItem(item)
+    // Updating current locale in local item
+    const currentItemWithUpdatedLocale = {
+      ...item,
+      locales: updateItemLocales(item)
+    }
+
+    setItem(currentItemWithUpdatedLocale)
 
     try {
       await updateItemFields(item.id, fields, item.type)
-      setOriginalItem(item)
+      setOriginalItem(currentItemWithUpdatedLocale)
     } catch (e) {
       console.error(e)
     }
@@ -77,11 +94,12 @@ const ItemPage = ({ match }) => {
 
   // fetch item by query params
   useEffect(() => {
+    const language = get(queryString.parse(window.location.search), 'language')
+
     async function fetchItem() {
       try {
-        let item = {}
         const { data } = await getItemFieldsById(match.params.id)
-        item = parseItemByType(data)
+        const item = parseItemByType(data, language)
 
         setItem(item)
         setOriginalItem(item)
@@ -96,20 +114,22 @@ const ItemPage = ({ match }) => {
 
   // fetch additionalInformation based on item.type
   useEffect(() => {
+    const language = get(queryString.parse(window.location.search), 'language')
+
     async function fetchAdditionalinformation() {
       switch (item.type) {
         case AREA_ITEM_TYPE:
           const polygon = await getItemPolygonCoordinatesById(match.params.id)
-          onChangeOfferVisualisation('polygon', flatten(polygon['data'].coordinates))
+          onChange('polygon', flatten(polygon['data'].coordinates))
           break
         case ACCOMMODATION_ITEM_TYPE:
           const accomRooms = await getRoomsForAccommodation(match.params.id)
           const rooms = accomRooms['data'].map(room => ({
-            title: getFieldName(room) || 'No name',
-            description: getFieldContent(room, FIELD_DESCRIPTION) || 'No description',
-            badge: getFieldContent(room, FIELD_MEAL_BASE)
+            label: getFieldName(room) || 'No name',
+            value: getFieldContent(room, FIELD_DESCRIPTION, language) || 'No description',
+            badge: getFieldContent(room, FIELD_MEAL_BASE, language)
           }))
-          onChangeOfferVisualisation('rooms', rooms)
+          onChange('rooms', rooms)
           break
         default:
           break
@@ -146,11 +166,10 @@ const ItemPage = ({ match }) => {
             tabs={['Offer Visualisation']}
             tabContents={[
               <OfferVisualisation
-                itemId={item.id}
+                item={item}
                 isLoadingAdditionalInfo={isLoadingAdditionalInfo}
-                offerVisualisation={item.offerVisualisation}
                 isEditing={isEditing}
-                onChange={onChangeOfferVisualisation}
+                onChange={onChange}
                 components={componentsBasedOnType(item.type)}
               />
             ]}

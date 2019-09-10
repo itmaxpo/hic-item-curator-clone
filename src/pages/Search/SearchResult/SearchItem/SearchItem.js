@@ -20,7 +20,7 @@ import {
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import LazyLoader, { Preloader } from 'components/LazyLoader'
 import { enrichItem } from './utils'
-import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/utils'
+import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 
 /**
  * This component is rendering item with ability to select/deselect

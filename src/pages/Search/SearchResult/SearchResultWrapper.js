@@ -133,7 +133,7 @@ export const SearchResultWrapper = withRouter(
       } else {
         // Always should be on the top of the new page
         window.scrollTo(0, 0)
-        history.push(`/item/${item.id}`)
+        history.push(`/item/${item.id}?language=en-GB`)
       }
     }
 

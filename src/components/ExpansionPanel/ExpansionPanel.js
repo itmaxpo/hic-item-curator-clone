@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { GlyphChevronDownIcon } from 'components/Icon'
 import { Wrapper, StyledHeader, StyledCollapse, StyledBody, StyledItemBadge } from './styles'
-
+import ReactHtmlParser from 'react-html-parser'
 /**
  * Collapsible element
  *
@@ -59,14 +59,14 @@ export const Collapsible = ({ title, collapsed = true, badge = '', children }) =
 /**
  * Uses Array of Collapsible elements
  *
- * @param {Array<{ title: String, description: String }>} descriptions
+ * @param {Array<{ label: String, value: String }>} descriptions
  */
 const ExpansionPanelWrapper = ({ descriptions }) => {
   return (
     <Wrapper>
       {descriptions.map((description, i) => (
-        <Collapsible key={i} title={description.title} badge={description.badge}>
-          {description.description}
+        <Collapsible key={i} title={description.label}>
+          {ReactHtmlParser(description.value || 'No information found')}
         </Collapsible>
       ))}
     </Wrapper>

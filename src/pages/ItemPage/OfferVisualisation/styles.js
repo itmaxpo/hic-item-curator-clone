@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { FlexContainer, COLORS } from '@tourlane/tourlane-ui'
+import RichTextEditor from 'components/RichTextEditor'
 
 export const TitleWithContent = styled.div`
   margin-bottom: 40px;
@@ -31,4 +32,8 @@ export const SearchItemWrapper = styled(FlexContainer)`
   &:last-child {
     border-bottom: 1px solid ${COLORS.LINE_GRAY};
   }
+`
+
+export const StyledRichTextEditor = styled(RichTextEditor)`
+  margin: 20px 60px 0 60px;
 `

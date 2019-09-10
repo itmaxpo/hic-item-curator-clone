@@ -12,6 +12,22 @@ export const StyledP = styled.p`
   padding: 0;
 `
 
+export const ActiveTitleWrapper = styled(FlexContainer)`
+  > span {
+    position: relative;
+    top: 5px;
+    margin-left: 10px;
+
+    svg path {
+      fill: ${COLORS.ADVENTURE_GREEN};
+    }
+  }
+
+  > input {
+    margin-left: 20px;
+  }
+`
+
 export const TitleWrapper = styled.div`
   position: relative;
   margin-bottom: 20px;
@@ -38,16 +54,29 @@ export const TitleWrapper = styled.div`
 `
 
 export const SupplierDropdown = styled(DropdownSelect)`
-  width: 780px;
+  width: 580px;
   margin-bottom: 20px;
   background-color: ${COLORS.SENSATION_WHITE}
   z-index: 2;
 `
 
+export const CheckboxWrapper = styled.div`
+  position: relative;
+  top: -5px;
+  font-weight: 600;
+
+  > label {
+    position: relative;
+    top: 6.5px;
+    margin-left: 10px;
+  }
+`
+
 export const TitleField = styled(TextField)`
-  width: 780px;
+  width: 580px;
   margin-bottom: 20px;
   margin-top: 20px;
+  margin-right: 20px;
   font-family: PlayfairDisplay, serif;
 `
 
@@ -76,6 +105,10 @@ export const LanguageBlock = styled.div`
   .MuiSelect-icon {
     width: 20px;
     color: ${COLORS.ELEMENT_GRAY}
+  }
+
+  .MuiInput-root {
+    font-weight: normal !important;
   }
 
   ${({ isEditing }) =>

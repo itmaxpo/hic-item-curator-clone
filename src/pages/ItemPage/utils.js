@@ -1,16 +1,13 @@
 import {
-  parseCountryItem,
-  parseAccommodationItem,
-  parseAreaItem,
-  transformCountryItem,
-  transformAccommodationItem,
-  transformAreaItem
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE,
+  itemSpecificFields,
+  itemSameFields
 } from './itemParser'
 
-// Item Type Constants
-export const COUNTRY_ITEM_TYPE = 'country'
-export const AREA_ITEM_TYPE = 'admin_area'
-export const ACCOMMODATION_ITEM_TYPE = 'accommodation'
+// Item Locale Based Fields
+export const localeBasedFields = ['title', 'description', 'photos']
 
 // Components string constants for Item Page
 export const DESCRIPTION_COMPONENT_NAME = 'description'
@@ -50,40 +47,32 @@ export const componentsBasedOnType = type => {
 }
 
 /**
- * Receive item and additional fields and returns item
- *
- * @param {Object} item
- * @returns {Object} Item parsed
+ * Update item with selected locale fields
+ * Go through all locale based fields and change values
+ * to currently selected language
  */
-export const parseItemByType = item => {
-  switch (item.item_type) {
-    case COUNTRY_ITEM_TYPE:
-      return parseCountryItem(item)
-    case AREA_ITEM_TYPE:
-      return parseAreaItem(item)
-    case ACCOMMODATION_ITEM_TYPE:
-      return parseAccommodationItem(item)
-    default:
-      return null
+export const changeItemLocale = (item, language) => {
+  return {
+    ...item,
+    language,
+    ...item.locales[language]
   }
 }
 
 /**
- * Receive item and transforms item to BE compatible version
- *
- * @param {Object} item
- * @param {Array<Room>} accomRooms
- * @param {Array<Coord>} areaCoords
- * @returns {Object} Item
+ * Store current item and update selected language values
  */
-export const transformToSupplyItem = item => {
-  switch (item.type) {
-    case COUNTRY_ITEM_TYPE:
-      return transformCountryItem(item)
-    case AREA_ITEM_TYPE:
-      return transformAreaItem(item)
-    case ACCOMMODATION_ITEM_TYPE:
-      return transformAccommodationItem(item)
-    default:
+export const updateItemLocales = item => {
+  const isFieldInLocale = field =>
+    itemSameFields.includes(field) || itemSpecificFields[item.type].includes(field)
+
+  const locale = Object.keys(item).reduce(
+    (accum, field) => (isFieldInLocale(field) ? { ...accum, [field]: item[field] } : accum),
+    {}
+  )
+
+  return {
+    ...item.locales,
+    [item.language]: locale
   }
 }

@@ -6,7 +6,7 @@ import RichTextEditor from 'components/RichTextEditor'
 import ReactHtmlParser from 'react-html-parser'
 import ShowMore from 'components/ShowMore'
 import Loader from 'components/Loader'
-import { TitleWithContent, MapWrapper, SearchItemWrapper } from './styles'
+import { TitleWithContent, MapWrapper, SearchItemWrapper, StyledRichTextEditor } from './styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
   IMAGES_COMPONENT_NAME,
@@ -16,15 +16,24 @@ import {
 } from '../utils'
 import { H4 } from '@tourlane/tourlane-ui'
 import ImageUploader from 'components/ImageUploader'
+import { itemSpecificFields } from '../itemParser'
+import { capitalize } from 'pages/Search/utils'
+import { StyledHeader } from 'components/ExpansionPanel/styles'
 
 // Fake data to test components
-const descriptions = [
-  { title: 'Health', description: 'Some descriptions about health' },
-  { title: 'Stuff 2', description: 'Some descriptions about stuff 2' },
-  { title: 'Stuff 3', description: 'Some descriptions about stuff 3' },
-  { title: 'Insurance', description: 'Some descriptions about insurance' },
-  { title: 'Money', description: 'Some descriptions about money' }
-]
+const descriptions = item => {
+  // active_destination ==> 'Active destination'
+  const parseCountryFieldName = fieldName => capitalize(fieldName.split('_').join(' '))
+
+  return itemSpecificFields[item.type]
+    .filter(f => f !== 'active_destination')
+    .sort()
+    .map(field => ({
+      label: parseCountryFieldName(field),
+      field: field,
+      value: !isEmpty(item[field]) && item[field]
+    }))
+}
 // END of fake data
 
 /**
@@ -32,21 +41,13 @@ const descriptions = [
  * Use it to render OfferVisualisation tab
  *
  * @name OfferVisualisation
- * @param {String} itemId
- * @param {Object} offerVisualisation (current offerVisualisation)
+ * @param {Object} item
  * @param {Boolean} isEditing (isEditing mode flag)
- * @param {Function} onChange (on offerVisualisation change)
+ * @param {Function} onChange
  * @param {Array<String>} components (order of components as a STRING to render)
  * @returns {Object} GlobalInformation Tab Component
  */
-const OfferVisualisation = ({
-  itemId,
-  offerVisualisation,
-  isEditing,
-  onChange,
-  components,
-  isLoadingAdditionalInfo
-}) => {
+const OfferVisualisation = ({ item, isEditing, onChange, components, isLoadingAdditionalInfo }) => {
   // Based on the provided array of strings, that describes which component to render
   // This map returns:
   //    - necessary component to render
@@ -71,15 +72,13 @@ const OfferVisualisation = ({
             <H4>Description</H4>
             {isEditing ? (
               <RichTextEditor
-                placeholder={`Please write something about the accommodation.\nIn case you are using external copy (WETU) please mark it as such!`}
-                value={offerVisualisation.description}
+                placeholder={`Please write something about the ${item.type}`}
+                value={item.description}
                 onChange={onDescriptionUpdate}
               />
             ) : (
               <ShowMore collapsed={true} height={'350px'} size={'20px'} lines={12}>
-                {!isEmpty(offerVisualisation.description)
-                  ? ReactHtmlParser(offerVisualisation.description)
-                  : 'No description'}
+                {!isEmpty(item.description) ? ReactHtmlParser(item.description) : 'No description'}
               </ShowMore>
             )}
           </TitleWithContent>
@@ -93,8 +92,8 @@ const OfferVisualisation = ({
             <H4>Rooms</H4>
             {isLoadingAdditionalInfo && <Loader top={'45%'} />}
 
-            {offerVisualisation.rooms && offerVisualisation.rooms.length > 0 ? (
-              <ExpansionPanelWrapper descriptions={offerVisualisation.rooms} />
+            {item.rooms && item.rooms.length > 0 ? (
+              <ExpansionPanelWrapper descriptions={item.rooms} />
             ) : (
               <SearchItemWrapper p={0} direction={'ttb'}>
                 No rooms available
@@ -111,8 +110,8 @@ const OfferVisualisation = ({
             <H4>Images</H4>
             <ImageUploader
               isEditing={isEditing}
-              itemId={itemId}
-              images={offerVisualisation.photos}
+              itemId={item.id}
+              images={item.photos}
               onImagesUpdate={images => onChange('photos', images)}
             />
           </TitleWithContent>
@@ -120,23 +119,45 @@ const OfferVisualisation = ({
       )
     },
     [INFORMATION_COMPONENT_NAME]: key => {
+      const parsedDescriptions = descriptions(item)
+
+      const countryFieldDescriptionUpdate = (description, field) => {
+        onChange(field, description)
+      }
+
       return (
         <Fragment key={key}>
           <TitleWithContent>
             <H4>Information</H4>
           </TitleWithContent>
-          <ExpansionPanelWrapper descriptions={descriptions} />
+          {isEditing ? (
+            <>
+              {parsedDescriptions.map((desc, i) => (
+                <Fragment key={i}>
+                  <StyledHeader>{desc.label}</StyledHeader>
+                  <StyledRichTextEditor
+                    key={i}
+                    placeholder={`Please write something about the ${desc.label.toLowerCase()}`}
+                    value={desc.value}
+                    onChange={val => countryFieldDescriptionUpdate(val, desc.field)}
+                  />
+                </Fragment>
+              ))}
+            </>
+          ) : (
+            <ExpansionPanelWrapper descriptions={parsedDescriptions} />
+          )}
         </Fragment>
       )
     },
     [LOCATION_COMPONENT_NAME]: key => {
-      const polygon = flatten(offerVisualisation.polygon).map(coordinate => ({
+      const polygon = flatten(item.polygon).map(coordinate => ({
         lat: coordinate[1],
         lng: coordinate[0]
       }))
       // Here we will render goordinates for accommodations
       // But for Area (polygon) we will take first geolocation
-      const coordinates = offerVisualisation.coordinates || polygon[0]
+      const coordinates = item.coordinates || polygon[0]
 
       return (
         <Fragment key={key}>
