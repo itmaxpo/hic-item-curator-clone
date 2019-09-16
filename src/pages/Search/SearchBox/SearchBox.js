@@ -66,7 +66,7 @@ const SearchBox = ({
 
   const initialValues = {
     name: accomNameFromQuery,
-    supplier: supplierFromQuery
+    supplier: get(supplierFromQuery, 'value', '')
   }
 
   const values = useRef(initialValues)

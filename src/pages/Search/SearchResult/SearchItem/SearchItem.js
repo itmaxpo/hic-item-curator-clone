@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
+import ReactHtmlParser from 'react-html-parser'
 import { isEmpty } from 'lodash'
 import Skeleton from '@material-ui/lab/Skeleton'
 import ShowMore from 'components/ShowMore'
@@ -74,8 +75,8 @@ export const SearchItem = ({
       return <StyledUnhappyIcon />
     } else {
       return (
-        <LazyLoader src={localItem.photos[0]}>
-          <ImgWrapper width={'100%'} src={localItem.photos[0]} alt={localItem.photos[0]} />
+        <LazyLoader src={localItem.photos[0].url}>
+          <ImgWrapper width={'100%'} src={localItem.photos[0].url} alt={localItem.photos[0].url} />
         </LazyLoader>
       )
     }
@@ -113,7 +114,7 @@ export const SearchItem = ({
             </Fragment>
           ) : (
             <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-              {localItem.description}
+              {ReactHtmlParser(localItem.description)}
             </ShowMore>
           )}
         </ItemDescription>

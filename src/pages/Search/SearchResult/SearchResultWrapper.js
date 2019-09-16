@@ -53,7 +53,7 @@ export const SearchResultWrapper = withRouter(
     const [allSelectedIds, setAllSelectedIds] = useState([])
 
     const enrichedItemsRef = useRef([])
-    const itemsPerPage = 10
+    const itemsPerPage = 20
     // Send isLoading state to parent to control show/hide state of create item section
     const isLoadingChange = isLoading => {
       onLoadingChange(isLoading)
