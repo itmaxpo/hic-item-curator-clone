@@ -89,11 +89,12 @@ const ItemPage = ({ match, history }) => {
     // Updating current locale in local item
     const currentLocales = updateItemLocales(item)
     dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
-
+    // TODO: HAve a PROMISE based if have any issues with || requests
     try {
       const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
       // Update images
-      await updateItemAttachmentsById(item.id, item.visibleImages, imagesNotVisibleAnymore)
+      await updateItemAttachmentsById(item.id, imagesNotVisibleAnymore, false)
+      await updateItemAttachmentsById(item.id, item.visibleImages, true)
       // Update item fields
       await updateItemFields(item.id, fields, item.type)
       // Set original item to current item

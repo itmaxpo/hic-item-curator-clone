@@ -74,8 +74,8 @@ const getItemAttachmentsById = async (id, offset = 0) => {
  * @param {String} attachments
  * @returns {Object}
  */
-const updateItemAttachmentsById = async (id, attachments, imagesNotVisibleAnymore) => {
-  let req = (att, isVisible) =>
+const updateItemAttachmentsById = async (id, attachments, isVisible) => {
+  let req = att =>
     request(
       'PATCH',
       `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments/${att.id}`,
@@ -90,10 +90,7 @@ const updateItemAttachmentsById = async (id, attachments, imagesNotVisibleAnymor
       }
     )
 
-  const promises = await Promise.all([
-    ...imagesNotVisibleAnymore.map(att => req(att, false).then(res => res.json())),
-    ...attachments.map(att => req(att, true).then(res => res.json()))
-  ])
+  const promises = await Promise.all([...attachments.map(att => req(att).then(res => res.json()))])
 
   return promises
 }
