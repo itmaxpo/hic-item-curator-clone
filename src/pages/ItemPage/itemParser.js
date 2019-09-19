@@ -1,4 +1,4 @@
-import { get, find, isArray } from 'lodash'
+import { get, find, isArray, isObject } from 'lodash'
 
 // ITEM TYPES
 export const COUNTRY_ITEM_TYPE = 'country'
@@ -32,7 +32,7 @@ export const FIELD_PHOTOS = 'photos'
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
 // ITEM SAME FIELDS WITHOUT LOCALE
-export const itemSameFieldsNoLocale = [FIELD_ACTIVE_DESTINATION]
+export const itemSameFieldsNoLocale = []
 // ITEM TYPE SPECIFIC FIELDS
 export const itemSpecificFields = {
   [COUNTRY_ITEM_TYPE]: [
@@ -115,13 +115,7 @@ export const getItemSpecificFields = (item, locale) => {
  */
 export const setItemSameFieldsNoLocale = item => {
   return itemSameFieldsNoLocale
-    .map(field => {
-      if (typeof item[field] !== 'boolean') {
-        return item[field] && transformValueIntoFieldNoLocale(item[field], field)
-      } else {
-        return transformValueIntoFieldNoLocale(item[field], field)
-      }
-    })
+    .map(field => item[field] && transformValueIntoFieldNoLocale(item[field], field))
     .filter(field => !!field)
 }
 
@@ -184,11 +178,21 @@ export const getFieldName = item => {
  * @param {String} fieldName
  */
 export const getFieldContent = (item, fieldName, language = null) => {
-  const field = language
-    ? find(get(item, 'fields'), c => c.field_name === fieldName && c.locale === language)
-    : find(get(item, 'fields'), c => c.field_name === fieldName)
+  if (isArray(get(item, 'fields'))) {
+    const field = language
+      ? find(get(item, 'fields'), c => c.field_name === fieldName && c.locale === language)
+      : find(get(item, 'fields'), c => c.field_name === fieldName)
 
-  return get(field, 'content')
+    return get(field, 'content')
+  } else if (isObject(get(item, 'fields'))) {
+    const field = language
+      ? find(get(item, 'fields')[fieldName], c => c.locale === language)
+      : get(item, 'fields')[fieldName][0]
+
+    return get(field, 'content')
+  }
+
+  return undefined
 }
 
 // Fields of item based on language (All locales)
@@ -197,7 +201,6 @@ const getItemLocales = item =>
     (accum, locale) => ({
       ...accum,
       [locale]: {
-        photos: [],
         ...getItemSameFields(item, locale),
         ...getItemSpecificFields(item, locale)
       }
@@ -222,7 +225,8 @@ export const parseItemByType = (item, language) => {
     language,
     rooms: [],
     polygon: [],
-    photos: [],
+    allImages: [],
+    visibleImages: [],
     coordinates: coordinates
       ? {
           lat: +coordinates.lat,
@@ -275,8 +279,6 @@ const transformValueIntoFieldNoLocale = (value, type) => ({
  */
 export const transformToSupplyItem = item => {
   const fields = [
-    // Fields the same in all types
-    // photos,
     ...setItemSameFieldsNoLocale(item),
     ...setItemSameFields(item),
     ...setItemSpecificFields(item)

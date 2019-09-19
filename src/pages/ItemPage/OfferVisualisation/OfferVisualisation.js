@@ -47,7 +47,14 @@ const descriptions = item => {
  * @param {Array<String>} components (order of components as a STRING to render)
  * @returns {Object} GlobalInformation Tab Component
  */
-const OfferVisualisation = ({ item, isEditing, onChange, components, isLoadingAdditionalInfo }) => {
+const OfferVisualisation = ({
+  item,
+  isEditing,
+  onChange,
+  onImagesAdd,
+  components,
+  isLoadingAdditionalInfo
+}) => {
   // Based on the provided array of strings, that describes which component to render
   // This map returns:
   //    - necessary component to render
@@ -109,10 +116,12 @@ const OfferVisualisation = ({ item, isEditing, onChange, components, isLoadingAd
           <TitleWithContent>
             <H4>Images</H4>
             <ImageUploader
+              id={item.id}
               isEditing={isEditing}
-              itemId={item.id}
-              images={item.photos}
-              onImagesUpdate={images => onChange('photos', images)}
+              onImagesUpdate={onChange}
+              onImagesAdd={onImagesAdd}
+              allImages={item.allImages}
+              visibleImages={item.visibleImages}
             />
           </TitleWithContent>
         </Fragment>

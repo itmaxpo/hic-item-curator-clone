@@ -81,7 +81,7 @@ export const TitleField = styled(TextField)`
 `
 
 export const TitleLangWrapper = styled(FlexContainer)`
-  font-family: SourceSansPro;
+  font-family: 'Source Sans Pro', sans-serif;
 `
 
 export const LanguageDropdown = styled.select`
@@ -91,7 +91,7 @@ export const LanguageDropdown = styled.select`
 `
 
 export const LanguageBlock = styled.div`
-  font-family: SourceSansPro;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.44;
@@ -108,7 +108,8 @@ export const LanguageBlock = styled.div`
   }
 
   .MuiInput-root {
-    font-weight: normal !important;
+    // font-weight: normal !important;
+    font-family: "Source Sans Pro", sans-serif;
   }
 
   ${({ isEditing }) =>

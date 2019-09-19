@@ -8,7 +8,8 @@ import {
   PlaceholderText,
   BottomLine,
   DeleteIconWrapper,
-  ToggleAll
+  ToggleAll,
+  ToggleWrapper
 } from './styles'
 import ItemPhoto from './ItemPhoto'
 import ImageCarousel from 'components/Carousel'
@@ -24,12 +25,14 @@ import { Tooltip, Base } from '@tourlane/tourlane-ui'
  * @param {String} title (title of the gallery)
  * @param {options} options for SortableJS
  * @param {Function} onChange
+ * @param {Function} onDelete
  * @param {Boolean} disabled Can handle disabled state
  *        to just show images without ability to drag'n'drop
  */
 const DraggableGallery = ({
   images,
   onChange,
+  onDelete = () => {},
   placeholder = 'Drop files here',
   title = 'Images',
   options = null,
@@ -80,9 +83,8 @@ const DraggableGallery = ({
     onChange(updatedImages)
   }
   // When DeleteIcon is clicked (Now disabled)
-  const onDelete = () => {
-    const updatedImages = images.filter(image => !image.isSelected)
-    onChange(updatedImages)
+  const onDeleteItems = () => {
+    onDelete(images)
   }
 
   const onItemViewClick = () => {
@@ -122,7 +124,7 @@ const DraggableGallery = ({
       {selectedImages.length > 0 && !disabled && (
         <DeleteIconWrapper>
           <Tooltip position={'top'} trigger={'hover'} content={<Base>Delete</Base>}>
-            <DeleteIcon onClick={onDelete} />
+            <DeleteIcon onClick={onDeleteItems} />
           </Tooltip>
         </DeleteIconWrapper>
       )}
@@ -131,25 +133,37 @@ const DraggableGallery = ({
           {images.length > 0 && <GalleryTitle isVisible={isVisible}>{title}</GalleryTitle>}
           <GalleryList isAllShown={isAllShown}>
             {images.length > 0 ? listItems : <PlaceholderText>{placeholder}</PlaceholderText>}
-            {/* If there are more then 10 images add ToggleAll element to toggle vibility of all images */}
-            {images.length > 10 && (
+          </GalleryList>
+
+          {images.length > 10 && (
+            <ToggleWrapper>
               <ToggleAll isAllShown={isAllShown}>
                 {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
                 <GlyphChevronDownIcon onClick={onShowAllClick} />
               </ToggleAll>
-            )}
-          </GalleryList>
+            </ToggleWrapper>
+          )}
         </>
       ) : (
         <>
           {images.length > 0 && <GalleryTitle isVisible={isVisible}>{title}</GalleryTitle>}
           <ItemList
+            isAllShown={isAllShown}
             // Sortable options (https://github.com/RubaXa/Sortable#options)
             options={actualOptions}
             onChange={(order, sortable, evt) => onDragEnd(order, evt)}
           >
             {images.length > 0 ? listItems : <PlaceholderText>{placeholder}</PlaceholderText>}
           </ItemList>
+
+          {images.length > 10 && (
+            <ToggleWrapper>
+              <ToggleAll isAllShown={isAllShown}>
+                {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
+                <GlyphChevronDownIcon onClick={onShowAllClick} />
+              </ToggleAll>
+            </ToggleWrapper>
+          )}
         </>
       )}
       {isVisible && <BottomLine />}

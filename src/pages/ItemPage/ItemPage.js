@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useReducer } from 'react'
 import { get } from 'lodash'
 import ItemLayout from './ItemLayout'
 import * as queryString from 'query-string'
 import OfferVisualisation from './OfferVisualisation'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
-import {
-  updateItemByProp,
-  componentsBasedOnType,
-  changeItemLocale,
-  updateItemLocales
-} from './utils'
+import { componentsBasedOnType, changeItemLocale, updateItemLocales } from './utils'
 import { flatten } from 'lodash'
 import {
   getItemFieldsById,
   // getItemAttachmentsById,
   updateItemFields,
   getRoomsForAccommodation,
-  getItemPolygonCoordinatesById
+  getItemPolygonCoordinatesById,
+  getItemAttachmentsById,
+  updateItemAttachmentsById
 } from 'services/contentApi'
 import Loader from 'components/Loader'
 import {
@@ -30,6 +27,21 @@ import {
   parseItemByType,
   transformToSupplyItem
 } from './itemParser'
+
+// Reducer to handle images all and visible changes
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'updateField':
+      return {
+        ...state,
+        [action.field]: action.value
+      }
+    case 'updateAll':
+      return action.value
+    default:
+      throw new Error()
+  }
+}
 
 /**
  * This is the Item Page component
@@ -44,20 +56,28 @@ import {
  * @returns {Object} Item Page
  */
 const ItemPage = ({ match, history }) => {
+  const allImagesOriginal = useRef([])
+  const visibleImagesOriginal = useRef([])
   // Receive here id of item from route and send request to BE to get the item
-  const [item, setItem] = useState(null)
-  const [originalItem, setOriginalItem] = useState(null)
+  const [{ ...item }, dispatch] = useReducer(reducer, { id: match.params.id })
+  const originalItem = useRef(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
+
+  const onImagesAdd = (prop, images) => {
+    // We need to update original to store all uploaded images
+    allImagesOriginal.current = [...images, ...allImagesOriginal.current]
+    onChange(prop, [...images, ...item.allImages])
+  }
 
   const onChange = (field, prop) => {
     if (field === 'language') {
       // Update language in URL
       history.push(`?${queryString.stringify({ [field]: prop })}`)
-      setItem(changeItemLocale(item, prop))
+      dispatch({ type: 'updateField', field, value: changeItemLocale(item, prop) })
     } else {
-      setItem(updateItemByProp(item, field, prop))
+      dispatch({ type: 'updateField', field, value: prop })
     }
   }
   // OnSave: Send request to BE, then update localCopy of the item
@@ -67,16 +87,23 @@ const ItemPage = ({ match, history }) => {
 
     const fields = transformToSupplyItem(item)
     // Updating current locale in local item
-    const currentItemWithUpdatedLocale = {
-      ...item,
-      locales: updateItemLocales(item)
-    }
-
-    setItem(currentItemWithUpdatedLocale)
+    const currentLocales = updateItemLocales(item)
+    dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
 
     try {
+      const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
+      // Update images
+      await updateItemAttachmentsById(item.id, item.visibleImages, imagesNotVisibleAnymore)
+      // Update item fields
       await updateItemFields(item.id, fields, item.type)
-      setOriginalItem(currentItemWithUpdatedLocale)
+      // Set original item to current item
+      originalItem.current = { ...item, locales: currentLocales }
+      // Update originals for Images
+      allImagesOriginal.current = [
+        ...allImagesOriginal.current.filter(img => !img.isVisible),
+        ...item.visibleImages
+      ]
+      visibleImagesOriginal.current = [...item.visibleImages]
     } catch (e) {
       console.error(e)
     }
@@ -88,7 +115,7 @@ const ItemPage = ({ match, history }) => {
 
   const onCancel = () => {
     // Reset images to original version
-    setItem(originalItem)
+    dispatch({ type: 'updateAll', value: originalItem.current })
     setIsEditing(!isEditing)
   }
 
@@ -101,8 +128,8 @@ const ItemPage = ({ match, history }) => {
         const { data } = await getItemFieldsById(match.params.id)
         const item = parseItemByType(data, language)
 
-        setItem(item)
-        setOriginalItem(item)
+        dispatch({ type: 'updateAll', value: item })
+        originalItem.current = item
         setIsLoading(false)
         setIsLoadingAdditionalInfo(true)
       } catch (e) {
@@ -115,21 +142,70 @@ const ItemPage = ({ match, history }) => {
   // fetch additionalInformation based on item.type
   useEffect(() => {
     const language = get(queryString.parse(window.location.search), 'language')
+    let fetchedImages = [],
+      offset = 0
 
-    async function fetchAdditionalinformation() {
+    const fetchAdditionalinformation = async () => {
+      const fetchImagesRecursively = async () => {
+        const attachments = await getItemAttachmentsById(match.params.id, offset)
+        fetchedImages.push(...attachments.data)
+        offset += 50
+
+        if (offset <= attachments.meta.total_count) {
+          await fetchImagesRecursively(offset)
+        } else {
+          const attachments = await getItemAttachmentsById(match.params.id, offset)
+          fetchedImages.push(...attachments.data)
+        }
+
+        return fetchedImages
+      }
+
+      await fetchImagesRecursively()
+
+      const photos = fetchedImages.map(att => ({
+        id: att.uuid,
+        order: get(att, 'tags.order'),
+        value: att.url,
+        isLoading: false,
+        isError: false,
+        isSelected: false,
+        isVisible: !!get(att, 'tags.visible'),
+        tags: att.tags
+      }))
+      // Only visibleImages have order
+      const visiblePhotos = photos
+        .filter(att => att.isVisible)
+        .sort((img1, img2) => img1.order - img2.order)
+
+      allImagesOriginal.current = photos
+      visibleImagesOriginal.current = visiblePhotos
+
+      onChange('allImages', photos)
+      onChange('visibleImages', visiblePhotos)
+
+      originalItem.current = {
+        ...originalItem.current,
+        allImages: allImagesOriginal.current,
+        visibleImages: visibleImagesOriginal.current
+      }
+
       switch (item.type) {
         case AREA_ITEM_TYPE:
           const polygon = await getItemPolygonCoordinatesById(match.params.id)
-          onChange('polygon', flatten(polygon['data'].coordinates))
+          const parsedPolygon = flatten(polygon['data'].coordinates)
+          onChange('polygon', parsedPolygon)
+          originalItem.current = { ...originalItem.current, polygon: parsedPolygon }
           break
         case ACCOMMODATION_ITEM_TYPE:
           const accomRooms = await getRoomsForAccommodation(match.params.id)
           const rooms = accomRooms['data'].map(room => ({
             label: getFieldName(room) || 'No name',
             value: getFieldContent(room, FIELD_DESCRIPTION, language) || 'No description',
-            badge: getFieldContent(room, FIELD_MEAL_BASE, language)
+            badge: getFieldContent(room, FIELD_MEAL_BASE)
           }))
           onChange('rooms', rooms)
+          originalItem.current = { ...originalItem.current, rooms }
           break
         default:
           break
@@ -137,12 +213,13 @@ const ItemPage = ({ match, history }) => {
 
       setIsLoadingAdditionalInfo(false)
     }
+
     // Only if it is first time laoded item and it is already set in localState
-    if (isLoadingAdditionalInfo && item) {
+    if (isLoadingAdditionalInfo) {
       fetchAdditionalinformation()
     }
     // eslint-disable-next-line
-  }, [isLoadingAdditionalInfo, item])
+  }, [isLoadingAdditionalInfo])
 
   return (
     <div>
@@ -169,6 +246,7 @@ const ItemPage = ({ match, history }) => {
                 item={item}
                 isLoadingAdditionalInfo={isLoadingAdditionalInfo}
                 isEditing={isEditing}
+                onImagesAdd={onImagesAdd}
                 onChange={onChange}
                 components={componentsBasedOnType(item.type)}
               />

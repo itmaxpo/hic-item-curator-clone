@@ -30,7 +30,7 @@ export const enrichItem = async item => {
   })
 }
 
-const parseAttachmentsResponse = response => (response ? { photos: response.data } : null)
+const parseAttachmentsResponse = response => (response ? { allImages: response.data } : null)
 
 const parseFieldsResponse = response =>
   response

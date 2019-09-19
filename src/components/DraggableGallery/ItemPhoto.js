@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import {
   Item,
   ImgWrapper,
-  ProgressWrapper,
-  ProgressBar,
   CoverImageBlock,
   ImgWrapperHoveredBlock,
-  ItemWrapper
+  ItemWrapper,
+  CheckboxWrapper
 } from './styles'
 import { Big } from '@tourlane/tourlane-ui'
-
+import LazyLoader from 'components/LazyLoader'
 /**
  * Components responsible for rendering particular image in DraggableGallery
  *
@@ -25,39 +24,40 @@ const ItemPhoto = ({ index, image, onItemViewClick, onItemSelected, isVisible, d
 
   return (
     <Item key={index} data-id={index}>
-      {image.isLoading ? (
-        <ProgressWrapper>
-          <ProgressBar />
-        </ProgressWrapper>
-      ) : (
-        <ItemWrapper
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {isHovered && (
-            <ImgWrapperHoveredBlock>
-              {disabled ? (
-                <Big onClick={onItemViewClick}>View image</Big>
-              ) : (
-                <span></span>
-                // {/* TODO: Uncomment this when delete button need to be enabled */}
-                // <CheckboxWrapper
-                //   defaultChecked={image.isSelected}
-                //   onChange={e => onItemSelected(index)}
-                // />
-              )}
-            </ImgWrapperHoveredBlock>
-          )}
+      <ItemWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        {isHovered && (
+          <ImgWrapperHoveredBlock>
+            {disabled || !isVisible ? (
+              <Big onClick={onItemViewClick}>View image</Big>
+            ) : (
+              <CheckboxWrapper
+                defaultChecked={image.isSelected}
+                onChange={e => onItemSelected(index)}
+              />
+            )}
+          </ImgWrapperHoveredBlock>
+        )}
+
+        <LazyLoader src={image.value} height={'110px'}>
           <ImgWrapper
             isVisible={isVisible && index === 0}
             width={'100%'}
             src={image.value}
             alt={image.value}
           />
-          {/* Need CopverImageBlack only for visible image gallery */}
-          {isVisible && index === 0 && <CoverImageBlock>Cover image</CoverImageBlock>}
-        </ItemWrapper>
-      )}
+        </LazyLoader>
+
+        {/* If item.isSelected show checkBox */}
+        {image.isSelected && (
+          <CheckboxWrapper
+            defaultChecked={image.isSelected}
+            onChange={e => onItemSelected(index)}
+          />
+        )}
+
+        {/* Need CopverImageBlack only for visible image gallery */}
+        {isVisible && index === 0 && <CoverImageBlock>Cover image</CoverImageBlock>}
+      </ItemWrapper>
     </Item>
   )
 }

@@ -65,7 +65,7 @@ const ExpansionPanelWrapper = ({ descriptions }) => {
   return (
     <Wrapper>
       {descriptions.map((description, i) => (
-        <Collapsible key={i} title={description.label}>
+        <Collapsible key={i} title={description.label} badge={description.badge}>
           {ReactHtmlParser(description.value || 'No information found')}
         </Collapsible>
       ))}

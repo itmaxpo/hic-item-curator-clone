@@ -13,7 +13,7 @@ import { Wrapper, Preloader } from './styles'
  * @returns {Object} Lazy Loader
  */
 const LazyLoader = ({ onLoad = () => null, src, children, ...props }) => {
-  const [isLoaded, setLoaded] = useState(false)
+  const [isLoaded, setLoaded] = useState(true)
   const [errors, setErrors] = useState([])
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const LazyLoader = ({ onLoad = () => null, src, children, ...props }) => {
     <Wrapper {...props}>
       {isLoaded && <BlurInTransition animationDuration="1000ms">{children}</BlurInTransition>}
       {!isLoaded && <Preloader />}
+      {props.isLoading && <Preloader />}
     </Wrapper>
   )
 }

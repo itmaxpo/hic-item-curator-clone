@@ -31,7 +31,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     const files = evt.target.files
     if (onFilesAdded) {
       const array = fileListToArray(files)
-      onFilesAdded(array)
+      onFilesAdded(array, imageSource)
     }
   }
 
@@ -53,7 +53,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     const files = evt.dataTransfer.files
     if (onFilesAdded) {
       const array = fileListToArray(files)
-      onFilesAdded(array)
+      onFilesAdded(array, imageSource)
     }
 
     setHighlight(false)

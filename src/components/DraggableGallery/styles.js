@@ -8,25 +8,32 @@ export const GalleryWrapper = styled(FlexContainer)`
   background-color: ${COLORS.BACKGROUND_GRAY};
   min-height: 205px;
   border-radius: 4px;
-  padding: 20px 1% 0 1px !important;
+  padding: 20px 1% 0 1% !important;
   margin-top: 20px !important;
   position: relative;
-
-  ${({ isVisible, disabled }) =>
-    isVisible && !disabled && `border: 1px dashed ${COLORS.ELEMENT_GRAY}`}
 `
 
-const galleryItems = css`
+const galleryItems = isAllShown => css`
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  padding: 0 10px;
+  justify-content: center;
   width: 98%;
+  padding: 20px 1% 20px 1px;
+
+  ${!isAllShown &&
+    `
+    justify-content: center;
+    max-height: 250px;
+    overflow: hidden;
+    transform: rotate(0);
+    transition: all .1s linear;
+  `}
 
   > li {
     width: 18%;
     height: 110px;
-    margin: 20px 1%;
+    margin: 10px 1%;
     max-height: 110px;
     border-radius: 4px;
     background-color: ${COLORS.LINE_GRAY};
@@ -62,22 +69,11 @@ export const ProgressBar = () => (
 )
 
 export const ItemList = styled(Sortable)`
-  ${galleryItems}
+  ${({ isAllShown }) => galleryItems(isAllShown)}
 `
 
 export const GalleryList = styled.div`
-  ${galleryItems}
-  padding: 20px 1% 20px 1px !important;
-
-  ${({ isAllShown }) =>
-    !isAllShown &&
-    `
-    justify-content: center;
-    max-height: 300px;
-    overflow: hidden;
-    transform: rotate(0);
-    transition: all .1s linear;
-  `}
+  ${({ isAllShown }) => galleryItems(isAllShown)}
 `
 
 export const Item = styled.li`
@@ -90,7 +86,7 @@ export const CoverImageBlock = styled.div`
   left: -6%;
   text-align: center;
   width: 110%;
-  height: 146px;
+  height: 150px;
   color: ${COLORS.INACTIVE_GRAY};
   border: 1px dashed ${COLORS.INACTIVE_GRAY};
   font-family: 'Source Sans Pro';
@@ -99,7 +95,7 @@ export const CoverImageBlock = styled.div`
 `
 
 export const CheckboxWrapper = styled(Checkbox)`
-  position: relative;
+  position: absolute;
   left: calc(100% - 34px);
   top: 10px;
 `
@@ -133,7 +129,7 @@ export const ImgWrapper = styled.img`
   ${({ isVisible }) =>
     isVisible &&
     `
-    border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
+      border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
   `} // Uncomment this if we need image to fit full width & height of parent block
   // object-fit: contain;
 `
@@ -162,9 +158,6 @@ export const BottomLine = styled.hr`
 `
 
 export const ToggleAll = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 44.555555%;
   background-color: ${COLORS.LINE_GRAY};
   font-family: 'Source Sans Pro', sans-serif;
   text-align: center;
@@ -174,6 +167,7 @@ export const ToggleAll = styled.div`
   color: ${COLORS.NIGHTINGALE_BLACK};
   padding: 6px 28px;
   border-radius: 21px;
+  position: relative;
 
   > [alt='chevron-down'] {
     position: absolute;
@@ -188,11 +182,14 @@ export const ToggleAll = styled.div`
   ${({ isAllShown }) =>
     isAllShown &&
     `
-    bottom: 25px;
-
     > [alt="chevron-down"] {
       transform: rotate(180deg);
       transition: all .1s linear;
     }
     `}
+`
+
+export const ToggleWrapper = styled(FlexContainer)`
+  margin-bottom: 20px !important;
+  padding: 0 0 20px 0 !important;
 `

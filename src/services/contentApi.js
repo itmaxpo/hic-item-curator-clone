@@ -57,10 +57,98 @@ export const getItemPolygonCoordinatesById = async id => {
  * @param {String} id
  * @returns {Object}
  */
-const getItemAttachmentsById = async id => {
+const getItemAttachmentsById = async (id, offset = 0) => {
   let res = await request(
     'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments`
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments?limit=50&offset=${offset}`
+  )
+
+  return res.json()
+}
+
+/**
+ * Update item attachment by id
+ *
+ * @name updateItemAttachmentsById
+ * @param {String} id
+ * @param {String} attachments
+ * @returns {Object}
+ */
+const updateItemAttachmentsById = async (id, attachments, imagesNotVisibleAnymore) => {
+  let req = (att, isVisible) =>
+    request(
+      'PATCH',
+      `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments/${att.id}`,
+      {
+        body: {
+          tags: {
+            ...att.tags,
+            visible: isVisible,
+            order: att.order
+          }
+        }
+      }
+    )
+
+  const promises = await Promise.all([
+    ...imagesNotVisibleAnymore.map(att => req(att, false).then(res => res.json())),
+    ...attachments.map(att => req(att, true).then(res => res.json()))
+  ])
+
+  return promises
+}
+
+/**
+ * Send item attachments to receive s3_key
+ *
+ * @name getItemAttachmentsPresignedPost
+ * @param {String} id
+ * @param {FileObject} file
+ * @returns {Object}
+ */
+export const getItemAttachmentsPresignedPost = async (id, file) => {
+  let res = await request(
+    'POST',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/presigned_posts`,
+    {
+      body: {
+        filename: file.fileName,
+        mime_type: 'image/jpeg'
+      }
+    }
+  )
+
+  return res.json()
+}
+
+export const uploadingImage = async (url, fileData) => {
+  let res = await fetch(url, {
+    method: 'post',
+    body: fileData
+  })
+
+  return res
+}
+
+/**
+ * Send item attachments with s3_key
+ *
+ * @name setItemAttachmentsById
+ * @param {String} id
+ * @returns {Object}
+ */
+export const setItemAttachmentsById = async (id, filename, s3_key, source_key) => {
+  let res = await request(
+    'POST',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments`,
+    {
+      body: {
+        filename,
+        mime_type: 'image/jpeg',
+        s3_key,
+        source_key
+      }
+    }
   )
 
   return res.json()
@@ -149,6 +237,7 @@ const createItem = async (type, name, supplier, lat, lon, locale = 'en-GB') => {
 export {
   getItemFieldsById,
   getItemAttachmentsById,
+  updateItemAttachmentsById,
   updateItemFields,
   getRoomsForAccommodation,
   createItem

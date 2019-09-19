@@ -93,7 +93,7 @@ const mockedItem = {
       { type: 'King Room', mealbase: 'MB INFO', description: 'Some stuff about kings' },
       { type: 'Prince Room', mealbase: '', description: 'Some stuff about princs' }
     ],
-    photos: [
+    allImages: [
       {
         isLoading: false,
         isError: false,
@@ -199,6 +199,7 @@ const mockedItem = {
         isVisible: true,
         value: 'https://loremflickr.com/320/240/sea'
       }
-    ]
+    ],
+    visibleImages: []
   }
 }

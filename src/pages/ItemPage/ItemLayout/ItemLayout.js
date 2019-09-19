@@ -11,21 +11,14 @@ import {
   TitleLangWrapper,
   LanguageBlock,
   StyledP,
-  ActiveTitleWrapper,
-  CheckboxWrapper
+  ActiveTitleWrapper
 } from './styles'
 import TabsWrapper from 'components/Tabs'
 import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
-import { H2, Base, Checkbox } from '@tourlane/tourlane-ui'
+import { H2, Base } from '@tourlane/tourlane-ui'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
-import {
-  getFieldName,
-  FIELD_NAME,
-  COUNTRY_ITEM_TYPE,
-  AREA_ITEM_TYPE,
-  FIELD_ACTIVE_DESTINATION
-} from '../itemParser'
+import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
 import { WorldIcon } from 'components/Icon'
 /**
  * Will render Item page layout with required fields
@@ -59,10 +52,6 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
 
   const onLanguageChange = e => {
     onChange('language', e.target.value)
-  }
-
-  const onIsActiveDestinationChange = e => {
-    onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
 
   useEffect(() => {
@@ -115,17 +104,6 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
             ) : (
               <ActiveTitleWrapper alignItems={'center'}>
                 <TitleField defaultValue={item.name} onChange={onTitleChange} />
-                {(item.type === COUNTRY_ITEM_TYPE || item.type === AREA_ITEM_TYPE) && (
-                  <CheckboxWrapper>
-                    <span>Active: </span>
-                    <Checkbox
-                      value={item[FIELD_ACTIVE_DESTINATION]}
-                      name="isActiveDestination"
-                      defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
-                      onChange={onIsActiveDestinationChange}
-                    />
-                  </CheckboxWrapper>
-                )}
               </ActiveTitleWrapper>
             )}
 
