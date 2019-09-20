@@ -75,7 +75,7 @@ const ItemPage = ({ match, history }) => {
     if (field === 'language') {
       // Update language in URL
       history.push(`?${queryString.stringify({ [field]: prop })}`)
-      dispatch({ type: 'updateField', field, value: changeItemLocale(item, prop) })
+      dispatch({ type: 'updateAll', field, value: changeItemLocale(item, prop) })
     } else {
       dispatch({ type: 'updateField', field, value: prop })
     }
@@ -122,7 +122,7 @@ const ItemPage = ({ match, history }) => {
 
   // fetch item by query params
   useEffect(() => {
-    const language = get(queryString.parse(window.location.search), 'language')
+    const language = get(queryString.parse(window.location.search), 'language') || 'en-GB'
 
     async function fetchItem() {
       try {
