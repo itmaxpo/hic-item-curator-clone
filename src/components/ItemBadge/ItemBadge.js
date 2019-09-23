@@ -7,9 +7,9 @@ import { BadgeWrapper } from './styles'
  * @param {Array<React.Component>} children
  * @param {String} width
  */
-const ItemBadge = ({ width, color, children }) => {
+const ItemBadge = ({ width, color, background, children }) => {
   return (
-    <BadgeWrapper width={width} color={color}>
+    <BadgeWrapper width={width} color={color} background={background}>
       {children}
     </BadgeWrapper>
   )

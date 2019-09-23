@@ -32,7 +32,7 @@ export const FIELD_PHOTOS = 'photos'
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
 // ITEM SAME FIELDS WITHOUT LOCALE
-export const itemSameFieldsNoLocale = []
+export const itemSameFieldsNoLocale = [FIELD_ACTIVE_DESTINATION]
 // ITEM TYPE SPECIFIC FIELDS
 export const itemSpecificFields = {
   [COUNTRY_ITEM_TYPE]: [
@@ -115,7 +115,11 @@ export const getItemSpecificFields = (item, locale) => {
  */
 export const setItemSameFieldsNoLocale = item => {
   return itemSameFieldsNoLocale
-    .map(field => item[field] && transformValueIntoFieldNoLocale(item[field], field))
+    .map(field =>
+      typeof item[field] === 'boolean'
+        ? transformValueIntoFieldNoLocale(item[field], field)
+        : item[field] && transformValueIntoFieldNoLocale(item[field], field)
+    )
     .filter(field => !!field)
 }
 
