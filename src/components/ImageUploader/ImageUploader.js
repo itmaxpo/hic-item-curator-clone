@@ -62,50 +62,52 @@ const ImageUploader = ({
     }))
     // Set images locally to show isLoading state
     onImagesUpdate('allImages', [...filesToFetch, ...allImages])
-    // Fetch images and presigned_posts
-    filesToFetch.forEach((file, i) => {
-      try {
-        if (file.isError) {
-          throw Error({ message: 'file size exceeds' })
-        } else {
-          getItemAttachmentsPresignedPost(id, file).then(uploadedPost => {
-            const url = uploadedPost.data.url
-            const s3Key = uploadedPost.data.fields.key
-            const s3stuff = uploadedPost.data.fields
+    // Filter to handle only JPEG/PNG images and fetch images and presigned_posts
+    filesToFetch
+      .filter(file => file.type === 'image/jpeg' || file.type === 'image/png')
+      .forEach((file, i) => {
+        try {
+          if (file.isError) {
+            throw Error({ message: 'file size exceeds' })
+          } else {
+            getItemAttachmentsPresignedPost(id, file).then(uploadedPost => {
+              const url = uploadedPost.data.url
+              const s3Key = uploadedPost.data.fields.key
+              const s3stuff = uploadedPost.data.fields
 
-            const fileData = new FormData()
+              const fileData = new FormData()
 
-            Object.keys(uploadedPost.data.fields).forEach(key => {
-              fileData.append(key, uploadedPost.data.fields[key])
-            })
-            fileData.append('file', file.file)
+              Object.keys(uploadedPost.data.fields).forEach(key => {
+                fileData.append(key, uploadedPost.data.fields[key])
+              })
+              fileData.append('file', file.file)
 
-            uploadingImage(url, fileData, s3stuff).then(data => {
-              setItemAttachmentsById(id, file.fileName, s3Key, imageSource).then(fileUrl => {
-                const fetchedFile = {
-                  id: fileUrl.data.uuid,
-                  order: undefined,
-                  value: fileUrl.data.url,
-                  isLoading: false,
-                  isError: false,
-                  isSelected: false,
-                  isVisible: false,
-                  tags: fileUrl.data.tags
-                }
+              uploadingImage(url, fileData, s3stuff).then(data => {
+                setItemAttachmentsById(id, file.fileName, s3Key, imageSource).then(fileUrl => {
+                  const fetchedFile = {
+                    id: fileUrl.data.uuid,
+                    order: undefined,
+                    value: fileUrl.data.url,
+                    isLoading: false,
+                    isError: false,
+                    isSelected: false,
+                    isVisible: false,
+                    tags: fileUrl.data.tags
+                  }
 
-                fetchedImages.current = [fetchedFile, ...fetchedImages.current]
+                  fetchedImages.current = [fetchedFile, ...fetchedImages.current]
 
-                if (fetchedImages.current.length === files.length) {
-                  onImagesAdd('allImages', [...fetchedImages.current])
-                }
+                  if (fetchedImages.current.length === files.length) {
+                    onImagesAdd('allImages', [...fetchedImages.current])
+                  }
+                })
               })
             })
-          })
+          }
+        } catch (e) {
+          console.error(e)
         }
-      } catch (e) {
-        console.error(e)
-      }
-    })
+      })
   }
 
   const onAllImagesUpdate = (items, type) => {
