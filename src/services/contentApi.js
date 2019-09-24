@@ -194,7 +194,7 @@ const getRoomsForAccommodation = async id => {
  * @param {String} locale
  * @returns {Object}
  */
-const createItem = async (type, name, supplier, lat, lon, locale = 'en-GB') => {
+const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-GB') => {
   let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items`, {
     body: {
       item_type: type,
@@ -222,6 +222,13 @@ const createItem = async (type, name, supplier, lat, lon, locale = 'en-GB') => {
           },
           source: supplier,
           source_key: 'gecko',
+          content_type: 'geo_point'
+        },
+        {
+          field_name: 'address',
+          content: address,
+          source: 'item_curator',
+          source_key: 'item_curator',
           content_type: 'geo_point'
         }
       ]

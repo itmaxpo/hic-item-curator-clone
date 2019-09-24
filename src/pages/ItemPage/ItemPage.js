@@ -114,6 +114,11 @@ const ItemPage = ({ match, history }) => {
     setIsEditing(true)
   }
 
+  const onGeolocationUpdate = (geolocation, address) => {
+    const updatedItem = { ...item, geolocation, address }
+    dispatch({ type: 'updateAll', value: updatedItem })
+  }
+
   const onCancel = () => {
     // Reset images to original version
     dispatch({ type: 'updateAll', value: originalItem.current })
@@ -249,6 +254,7 @@ const ItemPage = ({ match, history }) => {
                 isEditing={isEditing}
                 onImagesAdd={onImagesAdd}
                 onChange={onChange}
+                onGeolocationUpdate={onGeolocationUpdate}
                 components={componentsBasedOnType(item.type)}
               />
             ]}

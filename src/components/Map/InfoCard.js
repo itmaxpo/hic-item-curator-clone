@@ -1,5 +1,5 @@
 import React from 'react'
-import { InfoCardWrapper, Name, Info } from './styles'
+import { InfoCardWrapper, Info } from './styles'
 
 /**
  * InfoCard component
@@ -11,17 +11,19 @@ import { InfoCardWrapper, Name, Info } from './styles'
  * @param {Object} geoCoords
  * @returns {Object} InfoCard Component
  */
-const InfoCard = ({ name, address, geoCoords }) => {
+const InfoCard = ({ address, geoCoords }) => {
   return (
     <InfoCardWrapper>
-      <Name>{name}</Name>
-      {address.map((infoBit, index) => (
-        <Info key={index}>{infoBit}</Info>
+      {address.split(',').map((infoBit, index, arr) => (
+        <Info key={index}>
+          {infoBit.trim()}
+          {index === arr.length - 1 ? '' : ','}
+          <br />
+        </Info>
       ))}
-      <Info
-        style={{ marginTop: 10 }}
-        key={geoCoords.lat}
-      >{`lat: ${geoCoords.lat}, lng: ${geoCoords.lng}`}</Info>
+      <Info style={{ marginTop: 10 }} key={geoCoords.lat}>{`lat: ${geoCoords.lat}, lng: ${
+        geoCoords.lon ? geoCoords.lon : geoCoords.lng
+      }`}</Info>
     </InfoCardWrapper>
   )
 }

@@ -13,6 +13,7 @@ export const FIELD_ISO_CODE = 'iso_code'
 export const FIELD_NAME = 'name'
 export const FIELD_DESCRIPTION = 'description'
 export const FIELD_GEOLOCATION = 'geolocation'
+export const FIELD_ADDRESS = 'address'
 export const FIELD_MEAL_BASE = 'meal_base'
 export const FIELD_ACTIVE_DESTINATION = 'active_destination'
 export const FIELD_SAFETY = 'safety'
@@ -33,6 +34,12 @@ export const FIELD_PHOTOS = 'photos'
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
 // ITEM SAME FIELDS WITHOUT LOCALE
 export const itemSameFieldsNoLocale = []
+// ITEM TYPE SPECIFIC FIELDS WITHOUT LOCALE
+export const itemSpecificFieldsNoLocale = {
+  [COUNTRY_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
+  [AREA_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
+  [ACCOMMODATION_ITEM_TYPE]: [FIELD_ADDRESS, FIELD_GEOLOCATION]
+}
 // ITEM TYPE SPECIFIC FIELDS
 export const itemSpecificFields = {
   [COUNTRY_ITEM_TYPE]: [
@@ -61,6 +68,15 @@ export const itemSpecificFields = {
  */
 export const getItemSameFieldsNoLocale = item =>
   itemSameFieldsNoLocale.reduce(
+    (accum, field) => ({
+      ...accum,
+      [field]: getFieldContent(item, field)
+    }),
+    {}
+  )
+
+export const getItemSpecificFieldsNoLocale = item =>
+  itemSpecificFieldsNoLocale[item.item_type].reduce(
     (accum, field) => ({
       ...accum,
       [field]: getFieldContent(item, field)
@@ -115,7 +131,23 @@ export const getItemSpecificFields = (item, locale) => {
  */
 export const setItemSameFieldsNoLocale = item => {
   return itemSameFieldsNoLocale
-    .map(field => item[field] && transformValueIntoFieldNoLocale(item[field], field))
+    .map(field =>
+      typeof item[field] === 'boolean'
+        ? transformValueIntoFieldNoLocale(item[field], field)
+        : item[field] && transformValueIntoFieldNoLocale(item[field], field)
+    )
+    .filter(field => !!field)
+}
+
+export const setItemSpecificFieldsNoLocale = item => {
+  const fields = itemSpecificFieldsNoLocale[item.type]
+
+  return fields
+    .map(field =>
+      typeof item[field] === 'boolean'
+        ? transformValueIntoFieldNoLocale(item[field], field)
+        : item[field] && transformValueIntoFieldNoLocale(item[field], field)
+    )
     .filter(field => !!field)
 }
 
@@ -184,6 +216,7 @@ export const getFieldContent = (item, fieldName, language = null) => {
       : find(get(item, 'fields'), c => c.field_name === fieldName)
 
     return get(field, 'content')
+    // THis check is need for ROOM TYPE
   } else if (isObject(get(item, 'fields'))) {
     const field = language
       ? find(get(item, 'fields')[fieldName], c => c.locale === language)
@@ -216,7 +249,7 @@ const getItemLocales = item =>
  * @param {Object} item
  */
 export const parseItemByType = (item, language) => {
-  const coordinates = getFieldContent(item, FIELD_GEOLOCATION)
+  const geolocation = getFieldContent(item, FIELD_GEOLOCATION)
   // First fields similar for all types then specific fields for each type
   return {
     id: item.uuid,
@@ -227,14 +260,15 @@ export const parseItemByType = (item, language) => {
     polygon: [],
     allImages: [],
     visibleImages: [],
-    coordinates: coordinates
+    geolocation: geolocation
       ? {
-          lat: +coordinates.lat,
-          lng: +coordinates.lon
+          lat: +geolocation.lat,
+          lng: +geolocation.lon
         }
       : null,
     ...getItemSameFieldsNoLocale(item),
     ...getItemSameFields(item, language),
+    ...getItemSpecificFieldsNoLocale(item),
     ...getItemSpecificFields(item, language),
     locales: getItemLocales(item)
   }
@@ -281,6 +315,7 @@ export const transformToSupplyItem = item => {
   const fields = [
     ...setItemSameFieldsNoLocale(item),
     ...setItemSameFields(item),
+    ...setItemSpecificFieldsNoLocale(item),
     ...setItemSpecificFields(item)
   ]
 

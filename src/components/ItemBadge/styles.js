@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
 export const BadgeWrapper = styled.div`
-  background-color: ${COLORS.LINE_GRAY};
   width: ${({ width }) => width};
   box-sizing: border-box;
   padding: 6px 16px;
@@ -10,6 +9,7 @@ export const BadgeWrapper = styled.div`
   letter-spacing: normal;
   text-align: center;
   ${({ color }) => `color: ${color ? color : COLORS.NIGHTINGALE_BLACK}`};
+  ${({ background }) => `background-color: ${background ? background : COLORS.LINE_GRAY}`};
 
   > p {
     line-height: 1.4;

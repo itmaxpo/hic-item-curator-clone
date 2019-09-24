@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { isEmpty, get } from 'lodash'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import Layout from 'components/Layout'
 import {
   Wrapper,
@@ -11,15 +9,23 @@ import {
   TitleLangWrapper,
   LanguageBlock,
   StyledP,
-  ActiveTitleWrapper
+  ActiveTitleWrapper,
+  ActiveWrapper,
+  CheckboxWrapper
 } from './styles'
 import TabsWrapper from 'components/Tabs'
-import { flagEmoji, suppliers, generateBreadcumbs } from './utils'
-import { H2, Base } from '@tourlane/tourlane-ui'
+import { customMarkets, suppliers, generateBreadcumbs } from './utils'
+import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
+import { SelectMarket } from '@tourlane/rooster'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
-import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
-import { WorldIcon } from 'components/Icon'
+import {
+  getFieldName,
+  FIELD_NAME,
+  FIELD_ACTIVE_DESTINATION,
+  ACCOMMODATION_ITEM_TYPE
+} from '../itemParser'
+import ItemBadge from 'components/ItemBadge'
 /**
  * Will render Item page layout with required fields
  * Render provided tab contents and breadcrumbs
@@ -50,8 +56,12 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
     onChange('suppliers', val.map(v => v.value))
   }
 
-  const onLanguageChange = e => {
-    onChange('language', e.target.value)
+  const onLanguageChange = language => {
+    language && onChange('language', customMarkets[language.title])
+  }
+
+  const onActiveDestinationChange = e => {
+    onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
 
   useEffect(() => {
@@ -97,33 +107,44 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
-              <ActiveTitleWrapper alignItems={'center'}>
+              <ActiveTitleWrapper direction={'ttb'}>
                 <H2>{item.name}</H2>
-                <span>{item[FIELD_ACTIVE_DESTINATION] && <WorldIcon />}</span>
+                <ActiveWrapper>
+                  {item[FIELD_ACTIVE_DESTINATION] && (
+                    <ItemBadge
+                      width={'85px'}
+                      background={COLORS.ADVENTURE_GREEN}
+                      color={COLORS.SENSATION_WHITE}
+                    >
+                      <H4>Active</H4>
+                    </ItemBadge>
+                  )}
+                </ActiveWrapper>
               </ActiveTitleWrapper>
             ) : (
-              <ActiveTitleWrapper alignItems={'center'}>
+              <ActiveTitleWrapper direction={'ttb'}>
                 <TitleField defaultValue={item.name} onChange={onTitleChange} />
+                {item.type !== ACCOMMODATION_ITEM_TYPE && (
+                  <CheckboxWrapper p={0} direction={'ltr'}>
+                    <Checkbox
+                      defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
+                      onChange={onActiveDestinationChange}
+                    />
+                    <span>Is active destination</span>
+                  </CheckboxWrapper>
+                )}
               </ActiveTitleWrapper>
             )}
 
-            <LanguageBlock isEditing={isEditing}>
+            <LanguageBlock p={0} direction={'ltr'} isEditing={isEditing}>
               <Base>Switch content to: </Base>
-              <Select
-                disableUnderline
-                value={flagEmoji.find(lang => lang.value === item.language).value}
-                onChange={onLanguageChange}
-                inputProps={{
-                  name: 'flag',
-                  id: 'flag-simple'
-                }}
-              >
-                {flagEmoji.map(lang => (
-                  <MenuItem key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </MenuItem>
-                ))}
-              </Select>
+              {item.language && (
+                <SelectMarket
+                  showOnTop={false}
+                  onSelect={lang => onLanguageChange(lang)}
+                  preSelectedMarket={item.language}
+                />
+              )}
             </LanguageBlock>
           </TitleLangWrapper>
 

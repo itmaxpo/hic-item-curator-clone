@@ -12,6 +12,19 @@ export const StyledP = styled.p`
   padding: 0;
 `
 
+export const ActiveWrapper = styled.div`
+  > div {
+    height: 26px;
+    padding: 0;
+  }
+
+  && h4 {
+    font-size: 10px;
+    color: ${COLORS.SENSATION_WHITE};
+    font-weight: bold;
+  }
+`
+
 export const ActiveTitleWrapper = styled(FlexContainer)`
   > span {
     position: relative;
@@ -28,20 +41,19 @@ export const ActiveTitleWrapper = styled(FlexContainer)`
   }
 `
 
+export const CheckboxWrapper = styled(FlexContainer)`
+  font-weight: 600;
+
+  > span {
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+  }
+`
+
 export const TitleWrapper = styled.div`
   position: relative;
-  margin-bottom: 20px;
   z-index: 2; // Needed for dropdowm to overlap
-
-  ${({ isEditing }) =>
-    isEditing
-      ? css`
-          max-height: 160px; // Needed for animation
-          transition: max-height 0.5s ease-out;
-        `
-      : css`
-          max-height: 100px; // Needed for animation
-        `}
 
   h2 {
     margin: 20px 0 10px 0;
@@ -58,18 +70,6 @@ export const SupplierDropdown = styled(DropdownSelect)`
   margin-bottom: 20px;
   background-color: ${COLORS.SENSATION_WHITE}
   z-index: 2;
-`
-
-export const CheckboxWrapper = styled.div`
-  position: relative;
-  top: -5px;
-  font-weight: 600;
-
-  > label {
-    position: relative;
-    top: 6.5px;
-    margin-left: 10px;
-  }
 `
 
 export const TitleField = styled(TextField)`
@@ -90,7 +90,7 @@ export const LanguageDropdown = styled.select`
   background-color: 0;
 `
 
-export const LanguageBlock = styled.div`
+export const LanguageBlock = styled(FlexContainer)`
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
   font-weight: 600;
@@ -100,6 +100,7 @@ export const LanguageBlock = styled.div`
 
   p {
     display: inline-block;
+    margin-right: 10px;
   }
 
   .MuiSelect-icon {

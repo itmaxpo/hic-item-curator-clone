@@ -2,14 +2,14 @@ import React from 'react'
 import { Base } from '@tourlane/tourlane-ui'
 
 // Mocked languages
-export const flagEmoji = [
-  { label: 'DE 🇩🇪', value: 'de-DE' },
-  { label: 'EN 🇬🇧', value: 'en-GB' },
-  { label: 'FR 🇫🇷', value: 'fr-FR' },
-  { label: 'USA 🇺🇸', value: 'en-US' },
-  // { label: 'ES 🇪🇸', value: 'es-ES' },
-  { label: 'NL 🇳🇱', value: 'nl-NL' }
-]
+export const customMarkets = {
+  Deutsch: 'de-DE',
+  'English (US)': 'en-US',
+  'English (UK)': 'en-GB',
+  Nederlands: 'nl-NL',
+  Français: 'fr-FR',
+  España: 'es-ES'
+}
 // Mocked suppliers
 export const suppliers = [
   { value: 1, label: 'First' },
