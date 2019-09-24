@@ -62,10 +62,6 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
     language && onChange('language', customMarkets[language.title])
   }
 
-  const onLanguageChange = language => {
-    language && onChange('language', customMarkets[language.title])
-  }
-
   const onActiveDestinationChange = e => {
     onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
