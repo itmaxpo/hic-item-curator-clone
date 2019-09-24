@@ -1,5 +1,5 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react'
-import { getSuppliers } from 'services/searchApi'
+import { getSuppliers } from 'services/contentApi'
 import { parseSuppliers } from './utils'
 
 const SuppliersContext = createContext({
@@ -16,17 +16,29 @@ const { Provider } = SuppliersContext
 
 const SuppliersContextProvider = ({ children }) => {
   const [suppliers, setSuppliers] = useState([])
-
-  const contextValue = useMemo(() => ({ suppliers }), [suppliers])
+  const contextValue = useMemo(() => ({ suppliers, setSuppliers }), [suppliers])
 
   // fetch suppliers on mount
   useEffect(() => {
-    async function fetchSuppliers() {
-      const { data } = await getSuppliers()
-      setSuppliers(parseSuppliers(data))
+    let fetchedSuppliers = [],
+      offset = 0
+
+    async function fetchSuppliersRecursively() {
+      const suppliers = await getSuppliers(offset)
+      fetchedSuppliers.push(...suppliers.data)
+      offset += 50
+
+      if (offset <= suppliers.meta.total_count) {
+        await fetchSuppliersRecursively()
+      } else {
+        const suppliersLast = await getSuppliers(offset)
+        fetchedSuppliers.push(...suppliersLast.data)
+      }
+
+      setSuppliers(parseSuppliers(fetchedSuppliers))
     }
 
-    fetchSuppliers()
+    fetchSuppliersRecursively()
   }, [])
 
   return <Provider value={contextValue}>{children}</Provider>

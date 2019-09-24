@@ -10,14 +10,6 @@ export const customMarkets = {
   Français: 'fr-FR',
   España: 'es-ES'
 }
-// Mocked suppliers
-export const suppliers = [
-  { value: 1, label: 'First' },
-  { value: 2, label: 'Second' },
-  { value: 3, label: 'Third' },
-  { value: 4, label: 'Fourth' },
-  { value: 5, label: 'Fifth' }
-]
 // Receives type and return Array<React.Component> based on it to properly render Breadcrumbs
 export const generateBreadcumbs = allParents =>
   allParents.length > 0

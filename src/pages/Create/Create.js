@@ -15,8 +15,9 @@ import { getLocationCoordinates } from './utils'
 import mapPlaceholder from './mapPlaceholder.png'
 import Map, { SearchBox } from 'components/Map'
 import SuppliersContext from 'contexts/Suppliers'
-import { createItem } from 'services/contentApi'
+import { createItem, createSupplier } from 'services/contentApi'
 import ProgressButton from 'components/ProgressButton'
+import { parseSuppliers } from 'contexts/Suppliers/utils'
 
 const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
 
@@ -41,7 +42,7 @@ const Create = ({ history }) => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
   const [progressButtonState, setProgressButtonState] = useState('isButton')
 
-  const { suppliers } = useContext(SuppliersContext)
+  const { suppliers, setSuppliers } = useContext(SuppliersContext)
 
   const onLocationChangeHandler = place => {
     if (isEmpty(place)) return
@@ -61,6 +62,11 @@ const Create = ({ history }) => {
   const onCreateItemHandler = async () => {
     setProgressButtonState('isLoading')
     try {
+      if (!suppliers.some(supp => supp.value === supplier.value)) {
+        const newSupplier = await createSupplier(supplier.value)
+        setSuppliers([...suppliers, ...parseSuppliers([newSupplier.data])])
+      }
+
       const { data } = await createItem(
         itemType.value,
         name,

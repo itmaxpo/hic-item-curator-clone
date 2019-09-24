@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { isEmpty, get } from 'lodash'
 import Layout from 'components/Layout'
 import {
@@ -14,7 +14,7 @@ import {
   CheckboxWrapper
 } from './styles'
 import TabsWrapper from 'components/Tabs'
-import { customMarkets, suppliers, generateBreadcumbs } from './utils'
+import { customMarkets, generateBreadcumbs } from './utils'
 import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import Breadcrumbs from 'components/Breadcrumbs'
@@ -26,6 +26,7 @@ import {
   ACCOMMODATION_ITEM_TYPE
 } from '../itemParser'
 import ItemBadge from 'components/ItemBadge'
+import SuppliersContext from 'contexts/Suppliers'
 /**
  * Will render Item page layout with required fields
  * Render provided tab contents and breadcrumbs
@@ -47,13 +48,14 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
   const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
   const allItemParents = useRef([{ id: item.id, name: breadcrumbName }])
   const [areItemsLoaded, setAreItemsLoaded] = useState(false)
+  const { suppliers } = useContext(SuppliersContext)
 
   const onTitleChange = e => {
     onChange(FIELD_NAME, e.target.value)
   }
 
   const onSuppliersChange = val => {
-    onChange('suppliers', val.map(v => v.value))
+    onChange('supplier_tag', val.value)
   }
 
   const onLanguageChange = language => {
@@ -107,7 +109,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
         <TitleWrapper isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
-              <ActiveTitleWrapper direction={'ttb'}>
+              <ActiveTitleWrapper p={0} direction={'ttb'}>
                 <H2>{item.name}</H2>
                 <ActiveWrapper>
                   {item[FIELD_ACTIVE_DESTINATION] && (
@@ -122,7 +124,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
                 </ActiveWrapper>
               </ActiveTitleWrapper>
             ) : (
-              <ActiveTitleWrapper direction={'ttb'}>
+              <ActiveTitleWrapper p={0} direction={'ttb'}>
                 <TitleField defaultValue={item.name} onChange={onTitleChange} />
                 {item.type !== ACCOMMODATION_ITEM_TYPE && (
                   <CheckboxWrapper p={0} direction={'ltr'}>
@@ -148,21 +150,17 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
             </LanguageBlock>
           </TitleLangWrapper>
 
-          {item.suppliers && !isEmpty(item.suppliers) && (
+          {item.supplier_tag && !isEmpty(item.supplier_tag) && (
             <>
               {!isEditing ? (
                 <Base>
                   {' '}
-                  Suppliers:
-                  {item.suppliers.map((s, i) => (
-                    <span key={i}> {`${i !== item.suppliers.length - 1 ? s + ',' : s}`}</span>
-                  ))}
+                  Suppliers: <span>{item.supplier_tag}</span>
                 </Base>
               ) : (
                 <SupplierDropdown
-                  isMulti
                   options={suppliers}
-                  defaultValue={suppliers.filter(s => item.suppliers.includes(s.value))}
+                  defaultValue={suppliers.filter(s => item.supplier_tag === s.value)}
                   onChange={onSuppliersChange}
                 />
               )}

@@ -30,6 +30,7 @@ export const FIELD_ADMIN_LEVEL = 'admin_level'
 export const FIELD_POLYGON = 'polygon'
 export const FIELD_ROOMS = 'rooms'
 export const FIELD_PHOTOS = 'photos'
+export const FIELD_SUPPLIER_TAG = 'supplier_tag'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
@@ -39,7 +40,7 @@ export const itemSameFieldsNoLocale = []
 export const itemSpecificFieldsNoLocale = {
   [COUNTRY_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
   [AREA_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
-  [ACCOMMODATION_ITEM_TYPE]: [FIELD_ADDRESS, FIELD_GEOLOCATION]
+  [ACCOMMODATION_ITEM_TYPE]: [FIELD_ADDRESS, FIELD_GEOLOCATION, FIELD_SUPPLIER_TAG]
 }
 // ITEM TYPE SPECIFIC FIELDS
 export const itemSpecificFields = {

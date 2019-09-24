@@ -98,16 +98,4 @@ const getAccommodations = async (
   return res.json()
 }
 
-/**
- * Returns suppliers (dmcs)
- *
- * @name getSuppliers
- * @returns {Object}
- */
-const getSuppliers = async () => {
-  let res = await request('GET', process.env.REACT_APP_KIWI_SUPPLIERS_API)
-
-  return res.json()
-}
-
-export { getCountries, getAreasInCountry, getAccommodations, getSuppliers }
+export { getCountries, getAreasInCountry, getAccommodations }

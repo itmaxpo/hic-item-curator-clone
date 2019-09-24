@@ -54,6 +54,7 @@ export const CheckboxWrapper = styled(FlexContainer)`
 export const TitleWrapper = styled.div`
   position: relative;
   z-index: 2; // Needed for dropdowm to overlap
+  padding-bottom: 20px;
 
   h2 {
     margin: 20px 0 10px 0;

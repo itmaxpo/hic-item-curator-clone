@@ -52,6 +52,40 @@ export const getItemPolygonCoordinatesById = async id => {
 }
 
 /**
+ * Return suppliers
+ *
+ * @name getSuppliers
+ * @param {Number} offset
+ * @returns {Object}
+ */
+export const getSuppliers = async (offset = 0) => {
+  let res = await request(
+    'GET',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers?limit=50&offset=${offset}`
+  )
+
+  return res.json()
+}
+
+/**
+ * Create supplier
+ *
+ * @name createSupplier
+ * @param {Number} offset
+ * @param {String} supplier
+ * @returns {Object}
+ */
+export const createSupplier = async supplier => {
+  let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers`, {
+    body: {
+      name: supplier
+    }
+  })
+
+  return res.json()
+}
+
+/**
  * Return item attachments
  *
  * @name getItemAttachmentsById
@@ -209,7 +243,7 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
           content_type: 'string'
         },
         {
-          field_name: 'dmc_id',
+          field_name: 'supplier_tag',
           content: supplier,
           source: SOURCE,
           source_key: SOURCE,
