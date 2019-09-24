@@ -1,12 +1,18 @@
 import React, { Fragment } from 'react'
 import { isEmpty, flatten } from 'lodash'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
-import Map from 'components/Map'
+import Map, { SearchBox } from 'components/Map'
 import RichTextEditor from 'components/RichTextEditor'
 import ReactHtmlParser from 'react-html-parser'
 import ShowMore from 'components/ShowMore'
 import Loader from 'components/Loader'
-import { TitleWithContent, MapWrapper, SearchItemWrapper, StyledRichTextEditor } from './styles'
+import {
+  TitleWithContent,
+  MapWrapper,
+  SearchItemWrapper,
+  StyledRichTextEditor,
+  GeoWrapper
+} from './styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
   IMAGES_COMPONENT_NAME,
@@ -14,9 +20,15 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
-import { H4 } from '@tourlane/tourlane-ui'
+import { H4, Base } from '@tourlane/tourlane-ui'
 import ImageUploader from 'components/ImageUploader'
-import { itemSpecificFields } from '../itemParser'
+import {
+  itemSpecificFields,
+  ACCOMMODATION_ITEM_TYPE,
+  FIELD_ADDRESS,
+  FIELD_NAME,
+  FIELD_GEOLOCATION
+} from '../itemParser'
 import { capitalize } from 'pages/Search/utils'
 import { StyledHeader } from 'components/ExpansionPanel/styles'
 
@@ -44,6 +56,7 @@ const descriptions = item => {
  * @param {Object} item
  * @param {Boolean} isEditing (isEditing mode flag)
  * @param {Function} onChange
+ * @param {Function} onGeolocationUpdate
  * @param {Array<String>} components (order of components as a STRING to render)
  * @returns {Object} GlobalInformation Tab Component
  */
@@ -51,6 +64,7 @@ const OfferVisualisation = ({
   item,
   isEditing,
   onChange,
+  onGeolocationUpdate,
   onImagesAdd,
   components,
   isLoadingAdditionalInfo
@@ -166,15 +180,36 @@ const OfferVisualisation = ({
       }))
       // Here we will render goordinates for accommodations
       // But for Area (polygon) we will take first geolocation
-      const coordinates = item.coordinates || polygon[0]
+      // Transform from lon to lng to show on the map
+      const geolocation = item[FIELD_GEOLOCATION]
+        ? { lat: item[FIELD_GEOLOCATION].lat, lng: item[FIELD_GEOLOCATION].lon }
+        : polygon[0]
+
+      const locationInfo = {
+        address: item[FIELD_ADDRESS] || item[FIELD_NAME],
+        geoCoords: item[FIELD_GEOLOCATION]
+      }
+      // Updating address and geolcoation with a seaparate request
+      const onLocationChangeHandler = place => {
+        onGeolocationUpdate({ lat: +place.lat, lon: +place.lon }, place.label)
+      }
 
       return (
         <Fragment key={key}>
           <TitleWithContent>
             <br />
             <H4>Location</H4>
+            {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
+              <GeoWrapper p={0} direction={'ltr'} alignItems={'center'}>
+                <Base>Update address: </Base>
+                <SearchBox onChange={onLocationChangeHandler} />
+                <br />
+              </GeoWrapper>
+            )}
             <MapWrapper>
-              {coordinates && <Map coordinates={coordinates} polygon={polygon} />}
+              {geolocation && (
+                <Map coordinates={geolocation} polygon={polygon} locationInfo={locationInfo} />
+              )}
               {isLoadingAdditionalInfo && <Loader top={'45%'} />}
             </MapWrapper>
           </TitleWithContent>

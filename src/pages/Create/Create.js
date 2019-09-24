@@ -11,7 +11,7 @@ import {
   Title,
   Subtitle
 } from './styles'
-import { getLocationName, getLocationInfo, getLocationCoordinates } from './utils'
+import { getLocationCoordinates } from './utils'
 import mapPlaceholder from './mapPlaceholder.png'
 import Map, { SearchBox } from 'components/Map'
 import SuppliersContext from 'contexts/Suppliers'
@@ -51,8 +51,7 @@ const Create = ({ history }) => {
     setPolygon(polygon)
 
     const newLocationInfo = {
-      name: getLocationName(place),
-      address: getLocationInfo(place),
+      address: place.label,
       geoCoords: newCoordinates
     }
 
@@ -67,7 +66,8 @@ const Create = ({ history }) => {
         name,
         supplier.value,
         coordinates.lat,
-        coordinates.lng
+        coordinates.lng,
+        locationInfo.address
       )
       setProgressButtonState('isComplete')
       history.push(`/item/${data.uuid}`)
