@@ -1,4 +1,5 @@
 import { get, find, isArray, isObject } from 'lodash'
+import { SOURCE } from 'utils/constants'
 
 // ITEM TYPES
 export const COUNTRY_ITEM_TYPE = 'country'
@@ -235,11 +236,55 @@ const getItemLocales = item =>
       ...accum,
       [locale]: {
         ...getItemSameFields(item, locale),
-        ...getItemSpecificFields(item, locale)
+        ...getItemSpecificFields(item, locale),
+        description: get(getDescription(item, locale), 'content'),
+        descriptionInspiration: getItemDescriptionInspiration(item, locale)
       }
     }),
     {}
   )
+
+/*
+ * Returns descriptionInspiration property [{ source: 'WETU', value: 'new inspiration baby'}]
+ * which is any description on the item coming from a source different than item_curator
+ *
+ */
+const getItemDescriptionInspiration = (item, _locale) => {
+  const externalSourceDescriptions = item.fields.filter(
+    ({ field_name, source, locale }) =>
+      field_name === FIELD_DESCRIPTION && source !== SOURCE && locale === _locale
+  )
+
+  return externalSourceDescriptions.map(({ content, source }) => ({ value: content, source }))
+}
+
+/*
+ * Returns description (String) of an item based on the source and language
+ *
+ * WARNING: Nasty hardcoded logic ahead!
+ *
+ * We prioritize descriptions by it's source:
+ * 1) Item curator
+ * 2) WETU
+ * 3) Anything else
+ */
+const getDescription = (item, _locale) => {
+  const descriptions = item.fields.filter(
+    ({ field_name, locale }) => field_name === FIELD_DESCRIPTION && locale === _locale
+  )
+
+  if (!descriptions.length) return
+
+  const sourcePriorityOrder = [SOURCE, 'WETU']
+
+  for (let key of sourcePriorityOrder) {
+    const foundKey = descriptions.find(({ source }) => source === key)
+    if (foundKey) {
+      return foundKey
+    }
+  }
+  return descriptions[0]
+}
 // HELPERS - END
 
 // PARSE METHODS - START
@@ -250,6 +295,7 @@ const getItemLocales = item =>
  */
 export const parseItemByType = (item, language) => {
   const geolocation = getFieldContent(item, FIELD_GEOLOCATION)
+
   // First fields similar for all types then specific fields for each type
   return {
     id: item.uuid,
@@ -270,6 +316,8 @@ export const parseItemByType = (item, language) => {
     ...getItemSameFields(item, language),
     ...getItemSpecificFieldsNoLocale(item),
     ...getItemSpecificFields(item, language),
+    description: get(getDescription(item, language), 'content'),
+    descriptionInspiration: getItemDescriptionInspiration(item, language),
     locales: getItemLocales(item)
   }
 }
@@ -286,8 +334,8 @@ export const parseItemByType = (item, language) => {
 const transformValueIntoField = (value, type, language = null) => ({
   field_name: type,
   content: value,
-  source: 'item_curator',
-  source_key: 'item_curator',
+  source: SOURCE,
+  source_key: SOURCE,
   locale: language
 })
 
@@ -299,8 +347,8 @@ const transformValueIntoField = (value, type, language = null) => ({
 const transformValueIntoFieldNoLocale = (value, type) => ({
   field_name: type,
   content: value,
-  source: 'item_curator',
-  source_key: 'item_curator'
+  source: SOURCE,
+  source_key: SOURCE
 })
 // HELPERS - END
 

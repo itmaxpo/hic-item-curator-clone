@@ -63,7 +63,7 @@ const ItemPage = ({ match, history }) => {
   const originalItem = useRef(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
+  const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(false)
 
   const onImagesAdd = (prop, images) => {
     // We need to update original to store all uploaded images
@@ -151,7 +151,7 @@ const ItemPage = ({ match, history }) => {
     let fetchedImages = [],
       offset = 0
 
-    const fetchAdditionalinformation = async () => {
+    const fetchAdditionalInformation = async () => {
       const fetchImagesRecursively = async () => {
         const attachments = await getItemAttachmentsById(match.params.id, offset)
         fetchedImages.push(...attachments.data)
@@ -163,8 +163,6 @@ const ItemPage = ({ match, history }) => {
           const attachments = await getItemAttachmentsById(match.params.id, offset)
           fetchedImages.push(...attachments.data)
         }
-
-        return fetchedImages
       }
 
       await fetchImagesRecursively()
@@ -210,19 +208,19 @@ const ItemPage = ({ match, history }) => {
             value: getFieldContent(room, FIELD_DESCRIPTION, language) || 'No description',
             badge: getFieldContent(room, FIELD_MEAL_BASE)
           }))
+
           onChange('rooms', rooms)
           originalItem.current = { ...originalItem.current, rooms }
           break
         default:
           break
       }
-
       setIsLoadingAdditionalInfo(false)
     }
 
     // Only if it is first time laoded item and it is already set in localState
     if (isLoadingAdditionalInfo) {
-      fetchAdditionalinformation()
+      fetchAdditionalInformation()
     }
     // eslint-disable-next-line
   }, [isLoadingAdditionalInfo])

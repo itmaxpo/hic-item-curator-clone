@@ -11,6 +11,13 @@ export const Wrapper = styled.div`
     box-shadow: 0 2px 17px 0 rgba(63,65,68,0.3);
   }
 
+  & .DraftEditor-editorContainer {
+    height: 100%;
+    & div {
+      height: 100%;
+    }
+  }
+
   ${props =>
     props.isEditing &&
     css`

@@ -1,4 +1,5 @@
 import request from './request'
+import { SOURCE } from 'utils/constants'
 
 const fieldsToSelect = [
   'description',
@@ -203,15 +204,15 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
           field_name: 'name',
           content: name,
           locale,
-          source: supplier,
-          source_key: 'gecko',
+          source: SOURCE,
+          source_key: SOURCE,
           content_type: 'string'
         },
         {
           field_name: 'dmc_id',
           content: supplier,
-          source: supplier,
-          source_key: 'gecko',
+          source: SOURCE,
+          source_key: SOURCE,
           content_type: 'string'
         },
         {
@@ -220,15 +221,15 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
             lat,
             lon
           },
-          source: supplier,
-          source_key: 'gecko',
+          source: SOURCE,
+          source_key: SOURCE,
           content_type: 'geo_point'
         },
         {
           field_name: 'address',
           content: address,
-          source: 'item_curator',
-          source_key: 'item_curator',
+          source: SOURCE,
+          source_key: SOURCE,
           content_type: 'geo_point'
         }
       ]

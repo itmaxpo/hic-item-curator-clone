@@ -2,9 +2,6 @@ import React, { Fragment } from 'react'
 import { isEmpty, flatten } from 'lodash'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
 import Map, { SearchBox } from 'components/Map'
-import RichTextEditor from 'components/RichTextEditor'
-import ReactHtmlParser from 'react-html-parser'
-import ShowMore from 'components/ShowMore'
 import Loader from 'components/Loader'
 import {
   TitleWithContent,
@@ -31,6 +28,7 @@ import {
 } from '../itemParser'
 import { capitalize } from 'pages/Search/utils'
 import { StyledHeader } from 'components/ExpansionPanel/styles'
+import Description from './Description'
 
 // Fake data to test components
 const descriptions = item => {
@@ -70,42 +68,18 @@ const OfferVisualisation = ({
   isLoadingAdditionalInfo
 }) => {
   // Based on the provided array of strings, that describes which component to render
-  // This map returns:
-  //    - necessary component to render
-  //    - is handling isEditing state changes
-  //    - uses onChange to send updated property to ItemPage
+  //
+  // This function returns a map of the Components to be rendered for each element in the components array,
+  // based on isEditing prop, Components will change their behavior/looks
+  //
+  // onChange callback is used to update item's property in the ItemPage
   //
   // This map always receives:
   //    - <key> to provide a specific key for every element to render them properly
-  //
-  // There can be 2 different types of logic:
-  //  1) You can handle isEditing state changes as two separate components (e.g. DESCRIPTION (lines 58-77))
-  //  2) Component can handle isEditing state (e.g. IMAGES (lines 112-128))
   const componentsRenderingMap = {
-    [DESCRIPTION_COMPONENT_NAME]: key => {
-      const onDescriptionUpdate = description => {
-        onChange('description', description)
-      }
-
-      return (
-        <Fragment key={key}>
-          <TitleWithContent>
-            <H4>Description</H4>
-            {isEditing ? (
-              <RichTextEditor
-                placeholder={`Please write something about the ${item.type}`}
-                value={item.description}
-                onChange={onDescriptionUpdate}
-              />
-            ) : (
-              <ShowMore collapsed={true} height={'350px'} size={'20px'} lines={12}>
-                {!isEmpty(item.description) ? ReactHtmlParser(item.description) : 'No description'}
-              </ShowMore>
-            )}
-          </TitleWithContent>
-        </Fragment>
-      )
-    },
+    [DESCRIPTION_COMPONENT_NAME]: key => (
+      <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
+    ),
     [ROOMS_COMPONENT_NAME]: key => {
       return (
         <Fragment key={key}>
@@ -154,7 +128,7 @@ const OfferVisualisation = ({
             <H4>Information</H4>
           </TitleWithContent>
           {isEditing ? (
-            <>
+            <Fragment>
               {parsedDescriptions.map((desc, i) => (
                 <Fragment key={i}>
                   <StyledHeader>{desc.label}</StyledHeader>
@@ -166,7 +140,7 @@ const OfferVisualisation = ({
                   />
                 </Fragment>
               ))}
-            </>
+            </Fragment>
           ) : (
             <ExpansionPanelWrapper descriptions={parsedDescriptions} />
           )}

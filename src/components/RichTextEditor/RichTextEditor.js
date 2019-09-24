@@ -160,11 +160,10 @@ const RichTextEditor = ({
   }
 
   return (
-    <div>
+    <div className={className}>
       {label && <StyledLabel>{label}</StyledLabel>}
       <div>
         <Wrapper
-          className={className}
           onClick={handleWrapperClick}
           textWrap={textWrap}
           resizable={resizable}

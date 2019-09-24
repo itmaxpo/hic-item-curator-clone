@@ -1,7 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GlyphChevronDownIcon } from 'components/Icon'
-import { Wrapper, StyledHeader, StyledCollapse, StyledBody, StyledItemBadge } from './styles'
+import { Flex } from '@tourlane/tourlane-ui'
+import { Wrapper, StyledHeader, StyledCollapse, StyledBody, BadgeContainer } from './styles'
 import ReactHtmlParser from 'react-html-parser'
+
+const Badge = ({ color, children }) => (
+  <BadgeContainer color={color}>
+    <span>{children}</span>
+  </BadgeContainer>
+)
 /**
  * Collapsible element
  *
@@ -9,35 +16,41 @@ import ReactHtmlParser from 'react-html-parser'
  * @param {Boolean} collapsed
  * @param {Aray<React.Component>} children to render in collapsed area
  */
-export const Collapsible = ({ title, collapsed = true, badge = '', children }) => {
+export const Collapsible = ({
+  title,
+  collapsed = true,
+  spacing,
+  badge = '',
+  badgeColor,
+  children
+}) => {
   const ref = React.createRef()
   const ref2 = React.createRef()
 
-  useEffect(() => {
-    if (!collapsed) {
-      ref.current.style.height = `${ref.current.scrollHeight}px`
-    } else {
-      ref.current.style.height = `0px`
-      ref.current.style.marginTop = '0px'
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collapsed])
+  const [isCollapsed, setIsCollapsed] = useState(collapsed)
 
   const toggleCollapse = () => {
-    if (ref.current.style.height !== '0px') {
-      ref.current.style.height = '0px'
-      ref2.current.style.transform = 'rotate(360deg)'
-    } else {
-      ref.current.style.height = `${ref.current.scrollHeight}px`
-      ref2.current.style.transform = 'rotate(180deg)'
-    }
+    setIsCollapsed(!isCollapsed)
   }
 
+  useEffect(() => {
+    if (!isCollapsed) {
+      ref.current.style.height = `${ref.current.scrollHeight}px`
+      ref2.current.style.transform = 'rotate(180deg)'
+    } else {
+      ref.current.style.height = `0px`
+      ref2.current.style.transform = 'rotate(360deg)'
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCollapsed])
+
   return (
-    <StyledCollapse>
+    <StyledCollapse spacing={spacing}>
       <StyledHeader onClick={toggleCollapse}>
-        {title}
-        {badge && <StyledItemBadge>{badge}</StyledItemBadge>}
+        <Flex alignItems="center">
+          {title}
+          {badge && <Badge color={badgeColor}>{badge}</Badge>}
+        </Flex>
         <span ref={ref2}>
           <GlyphChevronDownIcon />
         </span>
@@ -48,7 +61,7 @@ export const Collapsible = ({ title, collapsed = true, badge = '', children }) =
           overflow: 'hidden',
           transition: 'height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
         }}
-        onClick={toggleCollapse}
+        collapsed={isCollapsed}
       >
         {children}
       </StyledBody>
@@ -61,11 +74,18 @@ export const Collapsible = ({ title, collapsed = true, badge = '', children }) =
  *
  * @param {Array<{ label: String, value: String }>} descriptions
  */
-const ExpansionPanelWrapper = ({ descriptions }) => {
+const ExpansionPanelWrapper = ({ descriptions, spacing = 'M' }) => {
   return (
     <Wrapper>
       {descriptions.map((description, i) => (
-        <Collapsible key={i} title={description.label} badge={description.badge}>
+        <Collapsible
+          key={i}
+          badge={description.badge}
+          badgeColor={description.badgeColor}
+          title={description.label}
+          spacing={spacing}
+          collapsed={description.collapsed}
+        >
           {ReactHtmlParser(description.value || 'No information found')}
         </Collapsible>
       ))}

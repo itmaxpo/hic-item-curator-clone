@@ -70,7 +70,7 @@ const Create = ({ history }) => {
         locationInfo.address
       )
       setProgressButtonState('isComplete')
-      history.push(`/item/${data.uuid}`)
+      history.push(`/item/${data.uuid}?language=en-GB`)
     } catch (e) {
       console.warn(e)
     } finally {
