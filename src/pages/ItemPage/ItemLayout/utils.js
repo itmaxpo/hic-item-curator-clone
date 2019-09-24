@@ -10,6 +10,7 @@ export const customMarkets = {
   Français: 'fr-FR',
   España: 'es-ES'
 }
+
 // Receives type and return Array<React.Component> based on it to properly render Breadcrumbs
 export const generateBreadcumbs = allParents =>
   allParents.length > 0

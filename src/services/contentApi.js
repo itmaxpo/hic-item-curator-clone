@@ -265,6 +265,13 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
           source: SOURCE,
           source_key: SOURCE,
           content_type: 'geo_point'
+        },
+        {
+          field_name: 'address',
+          content: address,
+          source: 'item_curator',
+          source_key: 'item_curator',
+          content_type: 'geo_point'
         }
       ]
     }
