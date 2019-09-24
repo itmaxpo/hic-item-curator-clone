@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 // SEARCH API UTILS START
 
 /**
@@ -115,59 +116,100 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
 export const generateSearchQueryAccom = (country, area, supplier, propNames, value) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const values = value.includes(' ') ? value.split(' ') : [value]
-
-  const generateQueryByProp = propName => ({
-    bool: {
-      must: [
-        {
-          nested: {
-            path: 'ancestors',
-            query: {
-              bool: {
-                must: [
-                  {
-                    match: {
-                      'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+  // This query is based on supplier:
+  //  - if supplier is not Empty then we add this as a searching aprameter
+  //  - if not we ignore it
+  const generateQueryByProp = propName => {
+    return !isEmpty(supplier)
+      ? {
+          bool: {
+            must: [
+              {
+                nested: {
+                  path: 'ancestors',
+                  query: {
+                    bool: {
+                      must: [
+                        {
+                          match: {
+                            'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+                          }
+                        }
+                      ]
                     }
                   }
-                ]
-              }
-            }
-          }
-        },
-        {
-          nested: {
-            path: 'supplier_tag',
-            query: {
-              bool: {
-                must: [
-                  {
-                    wildcard: {
-                      'supplier_tag.content': `${supplier.toLowerCase() || ''}`
+                }
+              },
+              {
+                nested: {
+                  path: 'supplier_tag',
+                  query: {
+                    bool: {
+                      must: [
+                        {
+                          wildcard: {
+                            'supplier_tag.content': `${supplier.toLowerCase()}`
+                          }
+                        }
+                      ]
                     }
                   }
-                ]
-              }
-            }
-          }
-        },
-        {
-          nested: {
-            path: propName,
-            query: {
-              bool: {
-                must: values.map(val => ({
-                  wildcard: {
-                    [`${propName}.content`]: `${val}*`
+                }
+              },
+              {
+                nested: {
+                  path: propName,
+                  query: {
+                    bool: {
+                      must: values.map(val => ({
+                        wildcard: {
+                          [`${propName}.content`]: `${val}*`
+                        }
+                      }))
+                    }
                   }
-                }))
+                }
               }
-            }
+            ]
           }
         }
-      ]
-    }
-  })
+      : {
+          bool: {
+            must: [
+              {
+                nested: {
+                  path: 'ancestors',
+                  query: {
+                    bool: {
+                      must: [
+                        {
+                          match: {
+                            'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                nested: {
+                  path: propName,
+                  query: {
+                    bool: {
+                      must: values.map(val => ({
+                        wildcard: {
+                          [`${propName}.content`]: `${val}*`
+                        }
+                      }))
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+  }
 
   return {
     bool: {

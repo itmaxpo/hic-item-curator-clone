@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { isEmpty, get } from 'lodash'
+import { get } from 'lodash'
 import Layout from 'components/Layout'
 import {
   Wrapper,
@@ -150,15 +150,18 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
             </LanguageBlock>
           </TitleLangWrapper>
 
-          {item.supplier_tag && !isEmpty(item.supplier_tag) && (
+          {item.type === ACCOMMODATION_ITEM_TYPE && (
             <>
               {!isEditing ? (
-                <Base>
-                  {' '}
-                  Suppliers: <span>{item.supplier_tag}</span>
-                </Base>
+                item.supplier_tag && (
+                  <Base>
+                    {' '}
+                    Suppliers: <span>{item.supplier_tag}</span>
+                  </Base>
+                )
               ) : (
                 <SupplierDropdown
+                  placeholder={'Select supplier tag...'}
                   options={suppliers}
                   defaultValue={suppliers.filter(s => item.supplier_tag === s.value)}
                   onChange={onSuppliersChange}
