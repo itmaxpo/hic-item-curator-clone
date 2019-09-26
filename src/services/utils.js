@@ -116,11 +116,9 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
 export const generateSearchQueryAccom = (country, area, supplier, propNames, value) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const values = value.includes(' ') ? value.split(' ') : [value]
-  // This query is based on supplier:
-  //  - if supplier is not Empty then we add this as a searching aprameter
-  //  - if not we ignore it
-  const generateQueryByProp = propName => {
-    return !isEmpty(supplier)
+
+  const generateQueryByProp = propName =>
+    !isEmpty(supplier)
       ? {
           bool: {
             must: [
@@ -148,7 +146,7 @@ export const generateSearchQueryAccom = (country, area, supplier, propNames, val
                       must: [
                         {
                           wildcard: {
-                            'supplier_tag.content': `${supplier.toLowerCase()}`
+                            'supplier_tag.content': supplier.toLowerCase()
                           }
                         }
                       ]
@@ -209,7 +207,6 @@ export const generateSearchQueryAccom = (country, area, supplier, propNames, val
             ]
           }
         }
-  }
 
   return {
     bool: {

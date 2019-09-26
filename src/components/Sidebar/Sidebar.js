@@ -32,6 +32,7 @@ const Sidebar = ({ expanded = false }) => {
     <>
       {!isExpanded && (
         <StyledCircleButton
+          id={'not-expanded-button'}
           isExpanded={isExpanded}
           visibleOnHover={false}
           onClick={() => {
