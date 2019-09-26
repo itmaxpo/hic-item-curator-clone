@@ -43,7 +43,7 @@ export const SearchResultWrapper = withRouter(
     history,
     onLoadingChange,
     isLoading,
-    query,
+    locationQuery,
     onQueryUpdate
   }) => {
     const searchContainer = useRef(null)
@@ -99,7 +99,6 @@ export const SearchResultWrapper = withRouter(
 
       // Calculate offsetTop for searchContainer to scroll to it
       scrollToSearchActions(searchContainer)
-
       // check if page is empty
       if (allResults[page - 1].some(missingId)) {
         isLoadingChange(true)
@@ -107,7 +106,6 @@ export const SearchResultWrapper = withRouter(
         try {
           // fetch more items, then we set the current page.
           await fetchMoreItems(page - 1, itemsPerPage)
-          onQueryUpdate({ ...query, page })
           setCurrentPage(page)
         } catch (e) {
           console.warn(e)

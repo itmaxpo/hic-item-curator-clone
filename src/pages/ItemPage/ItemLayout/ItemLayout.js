@@ -142,6 +142,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
               <Base>Switch content to: </Base>
               {item.language && (
                 <SelectMarket
+                  disabled={isEditing}
                   showOnTop={false}
                   onSelect={lang => onLanguageChange(lang)}
                   preSelectedMarket={item.language}
