@@ -36,7 +36,7 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN_2" > ~/.npmrc
       - run:
           working_directory: item_curator
-          command: yarn install
+          command: npm install
       - save_cache:
           key: v1-node-modules-cache-{{ checksum "item_curator/package-lock.json" }}
           paths:
@@ -57,7 +57,7 @@ jobs:
           at: ~/
       - run:
           working_directory: item_curator
-          command: yarn lint
+          command: npm run lint
 
   test_e2e:
     executor: item_curator_executor
@@ -65,15 +65,15 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      # - run:
-      #     working_directory: item_curator
-      #     name: Run cypress tests using test splitting
-      #     command: |
-      #       TESTFILES=$(circleci tests glob "cypress/**/*.spec.js" | circleci tests split --split-by=timings)
-      #       for file in $TESTFILES
-      #       do
-      #         npx start-server-and-test 'yarn start:staging' '3000' "yarn cy:run -- --spec ${file}"
-      #       done
+      - run:
+          working_directory: item_curator
+          name: Run cypress tests using test splitting
+          command: |
+            TESTFILES=$(circleci tests glob "cypress/**/*.spec.js" | circleci tests split --split-by=timings)
+            for file in $TESTFILES
+            do
+              npx start-server-and-test 'npm run start:staging' '3000' "npm run cy:run"
+            done
       - store_test_results:
           path: /tmp/results
       - store_artifacts:
@@ -86,7 +86,7 @@ jobs:
           at: ~/
       - run:
           working_directory: item_curator
-          command: yarn test:ci
+          command: npm run test:ci
 
 workflows:
   version: 2

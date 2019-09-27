@@ -74,8 +74,12 @@ const ItemPage = ({ match, history }) => {
   const onChange = (field, prop) => {
     if (field === 'language') {
       // Update language in URL
+      const localeUpdatedItem = changeItemLocale(item, prop)
       history.push(`?${queryString.stringify({ [field]: prop })}`)
-      dispatch({ type: 'updateAll', field, value: changeItemLocale(item, prop) })
+      dispatch({ type: 'updateAll', field, value: localeUpdatedItem })
+      // There is a need to reset originalItem on languageChange
+      // Because onCancel originalItem set as item
+      originalItem.current = localeUpdatedItem
     } else {
       dispatch({ type: 'updateField', field, value: prop })
     }
