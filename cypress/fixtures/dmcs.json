@@ -1,0 +1,115 @@
+{
+  "data": [
+    {
+      "name": "aot",
+      "activities": true,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "Australia",
+          "code": "au"
+        },
+        {
+          "name": "New Zeland",
+          "code": "nz"
+        },
+        {
+          "name": "Fiji",
+          "code": "fj"
+        },
+        {
+          "name": "Cook Islands",
+          "code": "ck"
+        }
+      ]
+    },
+    {
+      "name": "egoli",
+      "activities": false,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "Namibia",
+          "code": "na"
+        },
+        {
+          "name": "South Africa",
+          "code": "za"
+        },
+        {
+          "name": "Zimbabwe",
+          "code": "zw"
+        },
+        {
+          "name": "Botswana",
+          "code": "bw"
+        },
+        {
+          "name": "Swaziland",
+          "code": "sz"
+        }
+      ]
+    },
+    {
+      "name": "illusions",
+      "activities": false,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "United States",
+          "code": "us"
+        }
+      ]
+    },
+    {
+      "name": "jonview",
+      "activities": true,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "Canada",
+          "code": "ca"
+        }
+      ]
+    },
+    {
+      "name": "PrivateSafaris",
+      "activities": false,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "South Africa",
+          "code": "za"
+        }
+      ]
+    },
+    {
+      "name": "tourvest",
+      "activities": false,
+      "booking": false,
+      "availability & price": true,
+      "countries": [
+        {
+          "name": "South Africa",
+          "code": "za"
+        },
+        {
+          "name": "Botswana",
+          "code": "bw"
+        },
+        {
+          "name": "Zimbabwe",
+          "code": "zw"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "count": 6
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
 import { tokenManager } from 'services/tokenManager'
+import { userMock, auth0ClientMock } from './mocks'
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname)
@@ -27,7 +28,11 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true)
   const [popupOpen, setPopupOpen] = useState(false)
 
+  const inTestingMode = !!window.Cypress
+
   useEffect(() => {
+    if (inTestingMode) return
+
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions)
       setAuth0(auth0FromHook)
@@ -59,6 +64,19 @@ export const Auth0Provider = ({
       setLoading(false)
     }
     initAuth0()
+    // eslint-disable-next-line
+  }, [])
+
+  // effect to run if running app in E2E testing mode.
+  // mocks auth0client.
+  // only runs on mount.
+  useEffect(() => {
+    if (inTestingMode) {
+      setIsAuthenticated(true)
+      setUser(userMock)
+      setAuth0(auth0ClientMock)
+      setLoading(false)
+    }
     // eslint-disable-next-line
   }, [])
 

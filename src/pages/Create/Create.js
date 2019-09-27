@@ -95,30 +95,40 @@ const Create = ({ history }) => {
 
   return (
     <Layout>
-      <Wrapper>
+      <Wrapper data-test="createItemPage">
         <CreateBoxContainer direction="ttb">
           <Title>Create new item</Title>
           <FlexContainer p={0}>
             <InputContainer direction="ttb" justify="between">
-              <DropdownSelect
-                isClearable
-                placeholder="Select Item"
-                options={createOptions}
-                value={itemType}
-                onChange={value => setItemType(value)}
+              <div data-test="item">
+                <DropdownSelect
+                  isClearable
+                  placeholder="Select Item"
+                  options={createOptions}
+                  value={itemType}
+                  onChange={value => setItemType(value)}
+                />
+              </div>
+              <TextField
+                data-test="name"
+                placeholder="Name"
+                onChange={e => setName(e.target.value)}
               />
-              <TextField placeholder="Name" onChange={e => setName(e.target.value)} />
-              <DropdownSelect
-                isCreatable
-                isClearable
-                placeholder="Supplier tag"
-                options={suppliers}
-                value={supplier}
-                onChange={value => setSupplier(value)}
-              />
+              <div data-test="supplier">
+                <DropdownSelect
+                  isClearable
+                  placeholder="Supplier tag"
+                  options={suppliers}
+                  value={supplier}
+                  onChange={value => setSupplier(value)}
+                />
+              </div>
               <Subtitle>Address</Subtitle>
-              <SearchBox onChange={onLocationChangeHandler} />
+              <div data-test="address">
+                <SearchBox onChange={onLocationChangeHandler} />
+              </div>
               <ProgressButton
+                data-test="submit"
                 state={progressButtonState}
                 disabled={isSubmitDisabled}
                 label={'Create Item'}

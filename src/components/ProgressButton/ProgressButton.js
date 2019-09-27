@@ -8,7 +8,7 @@ import { ButtonWrapper } from './styles'
  * Render a button that, when clicked, renders a fake progress bar that slowly increments.
  * This is used to show UI feedback on long tasks.
  */
-const ProgressButton = ({ label, onButtonClick, disabled, isLoading }) => {
+const ProgressButton = ({ label, onButtonClick, disabled, isLoading, ...rest }) => {
   // eslint-disable-next-line
   const [progress, setProgress] = useState(0)
 
@@ -39,6 +39,7 @@ const ProgressButton = ({ label, onButtonClick, disabled, isLoading }) => {
         isLoading={isLoading}
         onClick={onButtonClickHandler}
         fullWidth
+        {...rest}
       >
         {label}
       </ButtonWithProgressBar>
