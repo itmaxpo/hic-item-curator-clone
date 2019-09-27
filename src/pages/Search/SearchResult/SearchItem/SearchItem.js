@@ -1,7 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ReactHtmlParser from 'react-html-parser'
-import { isEmpty } from 'lodash'
-import Skeleton from '@material-ui/lab/Skeleton'
+import { isEmpty, map } from 'lodash'
 import ShowMore from 'components/ShowMore'
 import ItemBadge from 'components/ItemBadge'
 import { addSToString } from 'pages/Search/utils'
@@ -21,7 +20,6 @@ import {
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import LazyLoader, { Preloader } from 'components/LazyLoader'
 import { enrichItem } from './utils'
-import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -30,7 +28,7 @@ import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
  * @param {Object} item
  * @param {Number} index
  * @param {Function} onSelect
- * @param {Array<String>} allSelectedIds
+ * @param {Array<String>} selectedItems
  * @param {Function} onItemClick
  */
 export const SearchItem = ({
@@ -39,9 +37,16 @@ export const SearchItem = ({
   onItemSelect,
   onItemClick,
   updateItemRef,
-  allSelectedIds
+  selectedItems,
+  areaName
 }) => {
   const [localItem, setLocalItem] = useState(item)
+
+  // Subtitle needs to be a separated state because for accommodations we have to
+  // fetch the item's parent fields to get the area.
+  const [subtitle, setSubtitle] = useState(item.country)
+
+  const [isLoading, setIsLoading] = useState(item.isLoading)
 
   const onCheckboxChange = () => {
     const selectedItem = { ...localItem, isSelected: !localItem.isSelected }
@@ -53,10 +58,18 @@ export const SearchItem = ({
   }, [item])
 
   useEffect(() => {
+    if (areaName) {
+      setSubtitle(`${areaName}, ${item.country}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areaName])
+
+  useEffect(() => {
     // Enrich item and update it's ref in parent
     // so we don't enrich the same item twice.
     async function getEnrichedItem() {
-      if (localItem.isLoading && localItem) {
+      if (isLoading) {
+        setIsLoading(false)
         const enrichedItem = await enrichItem(localItem)
         updateItemRef(enrichedItem)
         setLocalItem(enrichedItem)
@@ -64,23 +77,29 @@ export const SearchItem = ({
     }
 
     getEnrichedItem()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localItem, updateItemRef])
 
-  const noPictures = localItem.isLoading === false && isEmpty(localItem.photos)
+  const Image = useCallback(() => {
+    const noPictures = isLoading === false && isEmpty(localItem.allImages)
 
-  const Image = () => {
-    if (localItem.isLoading) return <Preloader />
+    if (isLoading) return <Preloader />
 
     if (noPictures) {
       return <StyledUnhappyIcon />
     } else {
       return (
-        <LazyLoader src={localItem.photos[0].url}>
-          <ImgWrapper width={'100%'} src={localItem.photos[0].url} alt={localItem.photos[0].url} />
+        <LazyLoader src={localItem.allImages[0].url}>
+          <ImgWrapper
+            width={'100%'}
+            src={localItem.allImages[0].url}
+            alt={localItem.allImages[0].url}
+          />
         </LazyLoader>
       )
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localItem.allImages])
 
   return (
     <SearchItemWrapper p={3 / 4} direction={'ltr'}>
@@ -89,7 +108,7 @@ export const SearchItem = ({
           id={index}
           className={'search-item-checkbox'}
           name="isItemSelected"
-          checked={allSelectedIds.includes(localItem.id)}
+          checked={map(selectedItems, 'id').includes(localItem.id)}
           onChange={onCheckboxChange}
         />
       </FlexContainer>
@@ -104,19 +123,11 @@ export const SearchItem = ({
         <ItemTitle>
           <span>{localItem.title}</span>
         </ItemTitle>
-        <ItemSubtitle>{localItem.subtitle}</ItemSubtitle>
+        <ItemSubtitle>{subtitle}</ItemSubtitle>
         <ItemDescription>
-          {/* At the moment, only accommodations have description */}
-          {localItem.isLoading && localItem.type === ACCOMMODATION_ITEM_TYPE ? (
-            <Fragment>
-              <Skeleton />
-              <Skeleton width="60%" />
-            </Fragment>
-          ) : (
-            <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-              {ReactHtmlParser(localItem.description)}
-            </ShowMore>
-          )}
+          <ShowMore collapsed={true} height={'60px'} size={'18px'}>
+            {ReactHtmlParser(localItem.description)}
+          </ShowMore>
         </ItemDescription>
       </SearchItemBodyWrapper>
 
@@ -125,7 +136,7 @@ export const SearchItem = ({
         <BadgeWrapperPhoto>
           <ItemBadge width={'95px'}>
             <P>
-              {localItem.photos.length} Photo{addSToString(localItem.photos.length)}
+              {localItem.allImages.length} Photo{addSToString(localItem.allImages.length)}
             </P>
           </ItemBadge>
         </BadgeWrapperPhoto>

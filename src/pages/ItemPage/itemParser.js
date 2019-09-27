@@ -1,5 +1,6 @@
 import { get, find, isArray, isObject } from 'lodash'
 import { SOURCE } from 'utils/constants'
+import { getFieldBySourcePriority } from 'utils/helpers'
 
 // ITEM TYPES
 export const COUNTRY_ITEM_TYPE = 'country'
@@ -262,12 +263,6 @@ const getItemDescriptionInspiration = (item, _locale) => {
 /*
  * Returns description (String) of an item based on the source and language
  *
- * WARNING: Nasty hardcoded logic ahead!
- *
- * We prioritize descriptions by it's source:
- * 1) Item curator
- * 2) WETU
- * 3) Anything else
  */
 const getDescription = (item, _locale) => {
   const descriptions = item.fields.filter(
@@ -276,15 +271,7 @@ const getDescription = (item, _locale) => {
 
   if (!descriptions.length) return
 
-  const sourcePriorityOrder = [SOURCE, 'WETU']
-
-  for (let key of sourcePriorityOrder) {
-    const foundKey = descriptions.find(({ source }) => source === key)
-    if (foundKey) {
-      return foundKey
-    }
-  }
-  return descriptions[0]
+  return getFieldBySourcePriority(descriptions)
 }
 // HELPERS - END
 

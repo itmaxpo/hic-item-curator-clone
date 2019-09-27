@@ -8,7 +8,7 @@ import { HoveredBlock } from './styles'
  * @param {<Component>} component
  * @param {<Component>} hoveredComponent
  */
-const OnHoverComponentToggle = ({ component, hoveredComponent }) => {
+const OnHoverComponentToggle = ({ component, hoveredComponent, ...rest }) => {
   const [isHovering, setIsHovering] = useState(false)
 
   const handleMouseHover = () => {
@@ -16,8 +16,8 @@ const OnHoverComponentToggle = ({ component, hoveredComponent }) => {
   }
 
   return (
-    <HoveredBlock onMouseEnter={handleMouseHover} onMouseLeave={handleMouseHover}>
-      {isHovering ? component : hoveredComponent}
+    <HoveredBlock onMouseEnter={handleMouseHover} onMouseLeave={handleMouseHover} {...rest}>
+      {isHovering ? hoveredComponent : component}
     </HoveredBlock>
   )
 }

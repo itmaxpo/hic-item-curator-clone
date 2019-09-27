@@ -1,48 +1,45 @@
 import React from 'react'
 import { Checkbox, Tooltip, Base } from '@tourlane/tourlane-ui'
-import { SearchActionsWrapper, ActionIcons } from './styles'
+import { ActionsWrapper, ActionIcons } from './styles'
 import { MergeIcon, MergeInactiveIcon } from 'components/Icon'
-import { getSelectedItems } from '../utils'
 import OnHoverComponentToggle from 'components/OnHoverComponentToggle'
 
 const getAllActions = selectedItems => {
-  const areMoreSelected = selectedItems.length > 1
-
   return [
     {
       icon: <MergeInactiveIcon />,
       iconHovered: <MergeIcon />,
       tooltipText: 'Merge',
-      isActive: areMoreSelected,
+      isActive: selectedItems.length > 1,
       action: 'merge'
     }
   ]
 }
 
 /**
- * This component is rendering all search actions, like merge
+ * This component renders a toolbar with actions for items, like merge
  *
  * @param {Boolean} isAllSelected             ('Select all' checkbox checked value)
- * @param {Function} onAllSelectClick        (when 'Select all' clicked)
+ * @param {Function} onAllSelectClick         (callback executed when 'Select all' clicked)
  * @param {Array<Array<Object>>} allResults   (all search results as paginated array: Array of Array's)
- * @param {Function} onActionSelected         (when specific action selected)
+ * @param {Function} onActionClick            (callback executed when specific action is clicked)
+ * @param {Array<Object>} selectedItems       (selected search results items)
  */
-export const SearchActions = ({
+export const Actions = ({
   isAllSelected,
   onAllSelectClick,
   allResults,
-  onActionSelected,
-  allSelectedIds
+  onActionClick,
+  selectedItems
 }) => {
-  const selectedItems = getSelectedItems(allResults, allSelectedIds)
   const availableActions = getAllActions(selectedItems)
 
-  const onActionClick = ({ isActive, action }) => {
-    isActive && onActionSelected(action)
+  const onClick = ({ action }) => {
+    onActionClick(action, selectedItems)
   }
 
   return (
-    <SearchActionsWrapper p={3 / 4} alignItems={'center'} id={'items-sticky-actions'}>
+    <ActionsWrapper p={3 / 4} alignItems={'center'} id={'items-sticky-actions'}>
       <Checkbox
         value={isAllSelected}
         name="isAllItemsSelected"
@@ -52,25 +49,25 @@ export const SearchActions = ({
 
       <ActionIcons>
         {availableActions.map(
-          (icon, i) =>
-            icon.isActive && (
+          (action, i) =>
+            action.isActive && (
               <Tooltip
                 key={i}
                 position={'top'}
                 trigger={'hover'}
-                content={<Base>{icon.tooltipText}</Base>}
+                content={<Base>{action.tooltipText}</Base>}
               >
                 <OnHoverComponentToggle
-                  component={icon.icon}
-                  hoveredComponent={icon.iconHovered}
-                  onClick={() => onActionClick(icon)}
+                  component={action.icon}
+                  hoveredComponent={action.iconHovered}
+                  onClick={() => onClick(action)}
                 />
               </Tooltip>
             )
         )}
       </ActionIcons>
-    </SearchActionsWrapper>
+    </ActionsWrapper>
   )
 }
 
-export default SearchActions
+export default Actions

@@ -21,8 +21,8 @@ import { ReactComponent as FlagSvg } from 'icons/flag.svg'
 import { ReactComponent as HomeSvg } from 'icons/home.svg'
 import { ReactComponent as ChevronDownSvg } from 'icons/down.svg'
 import { ReactComponent as GlyphChevronDownSvg } from 'icons/glyph-chevron-down.svg'
-import { ReactComponent as MergeSvg } from 'icons/merge.svg'
-import { ReactComponent as MergeInactiveSvg } from 'icons/mergeGray.svg'
+import { ReactComponent as MergeSvg } from 'icons/merge-active.svg'
+import { ReactComponent as MergeInactiveSvg } from 'icons/merge-inactive.svg'
 import { ReactComponent as UnhappySvg } from 'icons/unhappy-photo.svg'
 import { ReactComponent as ArrowRightSvg } from 'icons/triangle-right.svg'
 import { ReactComponent as PreviewSvg } from 'icons/preview.svg'
@@ -30,6 +30,8 @@ import { ReactComponent as DocumentSvg } from 'icons/document.svg'
 import { ReactComponent as SadFileSvg } from 'icons/sadfile.svg'
 import { ReactComponent as HappyFileSvg } from 'icons/happyfile.svg'
 import { ReactComponent as SadFaceSvg } from 'icons/sadFace.svg'
+import { ReactComponent as MergeBigSvg } from 'icons/merge-big.svg'
+import { ReactComponent as CheckSvg } from 'icons/check.svg'
 
 const StyledSvgIcon = styled(SvgIcon)`
   display: flex;
@@ -209,6 +211,18 @@ const SadFaceIcon = props => (
   </StyledSvgIcon>
 )
 
+const MergeBigIcon = props => (
+  <StyledSvgIcon alt="merge" {...props}>
+    <MergeBigSvg />
+  </StyledSvgIcon>
+)
+
+const CheckIcon = props => (
+  <StyledSvgIcon alt="check" {...props}>
+    <CheckSvg />
+  </StyledSvgIcon>
+)
+
 export {
   AlertIcon,
   LightCloseIcon,
@@ -237,5 +251,7 @@ export {
   DocumentIcon,
   HappyFileIcon,
   SadFileIcon,
-  SadFaceIcon
+  SadFaceIcon,
+  MergeBigIcon,
+  CheckIcon
 }

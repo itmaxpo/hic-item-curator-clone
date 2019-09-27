@@ -8,12 +8,11 @@ import CircleButton from 'components/CircleButton'
 import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
 import { Column, TitleContainer, StyledRichTextEditor, StyledTitleWithContent } from './styles'
-import { parseInspirations } from './utils'
+import { parseInspirations, getRichTextValue } from './utils'
 
 const ContentInspiration = ({ description, inspirations }) => (
   <Card>
     <ExpansionPanelWrapper
-      key={description}
       descriptions={parseInspirations(description, inspirations)}
       spacing="S"
     />
@@ -26,12 +25,6 @@ const CollapseButton = ({ isExpanded, onClick }) => (
   </CircleButton>
 )
 
-const getEditorText = value => {
-  const emptyDiv = document.createElement('div')
-  emptyDiv.innerHTML = value
-  return emptyDiv.innerText.trim()
-}
-
 const Description = ({ type, description, descriptionInspiration, onChange, isEditing }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const isDescriptionInspirationPresent = !isEmpty(descriptionInspiration)
@@ -41,7 +34,7 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
   }
 
   // safeguard in case there were description saved with empty text
-  const _description = isEmpty(getEditorText(description)) ? '' : description
+  const _description = isEmpty(getRichTextValue(description)) ? '' : description
 
   useEffect(() => {
     if (!isEditing) setIsExpanded(false)

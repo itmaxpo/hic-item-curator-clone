@@ -1,4 +1,5 @@
 import { isEmpty, chunk, get, ceil, flatten } from 'lodash'
+import { getFieldBySourcePriority } from 'utils/helpers'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
@@ -27,27 +28,44 @@ export const addElementToIndex = (arr, to, elem) => {
   arr.splice(to, 0, elem)
   return arr
 }
-// Check for EN then DE name if no such names - get original_name
-const getItemTitle = item => {
-  const nameFields = get(item, 'fields.name')
-  const engField = nameFields.filter(({ locale }) => locale === 'en-GB')[0]
-  const deField = nameFields.filter(({ locale }) => locale === 'de-DE')[0]
+
+// Check for EN then DE value then whatever is there
+const getFieldValue = field => {
+  const engField = field.filter(({ locale }) => locale === 'en-GB')
+  const deField = field.filter(({ locale }) => locale === 'de-DE')
+
+  return (
+    get(getFieldBySourcePriority(engField), 'content') ||
+    get(getFieldBySourcePriority(deField), 'content') ||
+    get(field[0], 'content')
+  )
+}
+
+// Check for names based on this order: EN name -> DE name -> original_name -> whatever other name
+const getItemTitle = (nameField, item) => {
+  const engField = nameField.filter(({ locale }) => locale === 'en-GB')[0]
+  const deField = nameField.filter(({ locale }) => locale === 'de-DE')[0]
+  const originalName = get(item, 'fields.original_name.0.content')
 
   return engField
     ? get(engField, 'content')
     : deField
     ? get(deField, 'content')
-    : get(item, 'fields.original_name.0.content')
+    : originalName
+    ? originalName
+    : get(nameField, '0.content')
 }
 
 // give shape to the items
-const parseItems = (items, itemType) =>
+const parseItems = (items, itemType, country) =>
   items.map(item => ({
     id: item.id,
+    parentId: item.parent_uuid,
+    country,
     type: itemType,
-    title: getItemTitle(item),
-    description: '',
-    photos: [],
+    title: getItemTitle(item.fields.name, item),
+    description: getFieldValue(item.fields.description) || 'No description found.',
+    allImages: [],
     isLoading: true
   }))
 
@@ -61,8 +79,8 @@ export const createPages = (items, arraySize) =>
 
 // parse search response data
 // sets the structure of the item also sets the pages (array of arrays - chunks of 10 items)
-export const parseSearchResponse = (data, arraySize, itemType) =>
-  createPages(parseItems(data, itemType), arraySize)
+export const parseSearchResponse = (data, arraySize, itemType, country) =>
+  createPages(parseItems(data, itemType, country), arraySize)
 
 export const calculateOffsetAndIndex = (page, itemsPerPage) => {
   // index of page in the data array

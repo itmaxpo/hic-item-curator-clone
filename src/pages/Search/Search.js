@@ -8,6 +8,7 @@ import SearchResultWrapper from './SearchResult'
 import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
+import { getQueryValue } from './SearchBox/utils'
 
 /**
  * This is the Search Page component
@@ -30,8 +31,10 @@ const SearchPage = ({ history }) => {
   }, [])
 
   const onSearchHandler = (searchResponse, totalResults) => {
+    const country = getQueryValue(parsedQuery, 'countryName', 'countryId').label
+
     totalResultsCount.current = totalResults
-    setResults(parseSearchResponse(searchResponse, totalResults, itemType))
+    setResults(parseSearchResponse(searchResponse, totalResults, itemType, country))
   }
   // changes query in URL
   const onQueryUpdate = query => {
@@ -116,6 +119,7 @@ const SearchPage = ({ history }) => {
             isLoading={isLoading}
             locationQuery={parsedQuery}
             onQueryUpdate={onQueryUpdate}
+            itemType={itemType}
           />
         )}
         {results && !isLoading && (

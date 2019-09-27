@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { isEmpty, flatten } from 'lodash'
+import { isEmpty, map, flatten, uniqBy } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer, ExtraSmall } from '@tourlane/tourlane-ui'
 import PaginationWrapper from 'components/Pagination'
-import SearchActions from './SearchActions'
+import Actions from './Actions'
 import {
   paginateResults,
-  // updatePaginatedItemByIndex,
-  scrollToSearchActions,
-  missingId
+  scrollToActions,
+  missingId,
+  getParentNameList,
+  getItemsNames,
+  updateItemsWithNames,
+  getItemNameById
 } from './utils'
 import SearchItem from './SearchItem'
 import {
@@ -18,6 +21,8 @@ import {
   StyledLoader,
   TotalItemsWrapper
 } from './styles'
+import MergeItems from './MergeItems'
+import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 
 /**
  * This is component, that is responsible for rendering all search results
@@ -44,16 +49,23 @@ export const SearchResultWrapper = withRouter(
     onLoadingChange,
     isLoading,
     locationQuery,
-    onQueryUpdate
+    onQueryUpdate,
+    itemType
   }) => {
+    const itemsPerPage = 20
+
     const searchContainer = useRef(null)
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [allResults, setAllResults] = useState([])
-    const [allSelectedIds, setAllSelectedIds] = useState([])
+    const [selectedItems, setSelectedItems] = useState([])
+    const [isMergeOpen, setIsMergeOpen] = useState(false)
+
+    const [allResults, setAllResults] = useState(paginateResults(results, itemsPerPage))
+    const [parentNameList, setParentNameList] = useState(
+      uniqBy(getParentNameList(allResults[currentPage - 1]), 'id')
+    )
 
     const enrichedItemsRef = useRef([])
-    const itemsPerPage = 20
     // Send isLoading state to parent to control show/hide state of create item section
     const isLoadingChange = isLoading => {
       onLoadingChange(isLoading)
@@ -78,27 +90,33 @@ export const SearchResultWrapper = withRouter(
 
       setAllResults(newAllResults)
     }
-    // If isSelected then add all current items to allSelectedIds
+    // If isSelected then add all current items to selectedItems
     const onAllSelectClick = isSelected => {
-      const allIds = isSelected ? allResults[currentPage - 1].map(item => item.id) : []
-      setAllSelectedIds(allIds)
+      const selected = isSelected ? allResults[currentPage - 1] : []
+      setSelectedItems(selected)
       setIsAllSelected(isSelected)
     }
 
-    const onActionSelected = action => {
-      // TODO: When merge action would be clarified - process it here
-      // USE: updateSelectedResults
+    const onActionClick = (action, items) => {
+      switch (action) {
+        case 'merge':
+          setIsMergeOpen(true)
+          break
+        default:
+          break
+      }
     }
 
     const onPageChange = async page => {
       // If page changed diselect selected allItems
-      setAllSelectedIds([])
+      setSelectedItems([])
       setIsAllSelected(false)
 
       updateCurrentPageEnrichedItems()
 
       // Calculate offsetTop for searchContainer to scroll to it
-      scrollToSearchActions(searchContainer)
+      scrollToActions(searchContainer)
+
       // check if page is empty
       if (allResults[page - 1].some(missingId)) {
         isLoadingChange(true)
@@ -115,13 +133,13 @@ export const SearchResultWrapper = withRouter(
         setCurrentPage(page)
       }
     }
-    // Updates allSelectedIds array
+    // Updates selectedItems array
     const onItemSelect = updatedItem => {
-      const allIds = allSelectedIds.includes(updatedItem.id)
-        ? allSelectedIds.filter(id => id !== updatedItem.id)
-        : [...allSelectedIds, updatedItem.id]
+      const allIds = map(selectedItems, 'id').includes(updatedItem.id)
+        ? selectedItems.filter(({ id }) => id !== updatedItem.id)
+        : [...selectedItems, updatedItem]
 
-      setAllSelectedIds(allIds)
+      setSelectedItems(allIds)
     }
 
     const onItemClick = (e, item) => {
@@ -139,16 +157,44 @@ export const SearchResultWrapper = withRouter(
       setAllResults(paginateResults(results, itemsPerPage))
     }, [results, itemsPerPage])
 
+    // on page changes, feed the parentNameList with the new parent ids with fetched names
+    useEffect(() => {
+      async function getParentNames() {
+        let newParentNameList = uniqBy(
+          [...parentNameList, ...getParentNameList(allResults[currentPage - 1])],
+          'id'
+        )
+
+        const itemsToFetchNames = newParentNameList.filter(({ fetched }) => fetched === false)
+
+        const parentNames = await getItemsNames(itemsToFetchNames)
+
+        newParentNameList = updateItemsWithNames(newParentNameList, parentNames)
+
+        setParentNameList(newParentNameList)
+      }
+
+      if (itemType === ACCOMMODATION_ITEM_TYPE) getParentNames()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage])
+
     const pages = allResults.length
 
     return (
       <FlexContainer p={0} direction="ttb" id={'search-container'}>
-        <SearchActions
+        <MergeItems
+          isOpen={isMergeOpen}
+          onClose={() => {
+            setIsMergeOpen(false)
+          }}
+          items={selectedItems}
+        />
+        <Actions
           isAllSelected={isAllSelected}
           onAllSelectClick={onAllSelectClick}
           allResults={allResults}
-          onActionSelected={onActionSelected}
-          allSelectedIds={allSelectedIds}
+          onActionClick={onActionClick}
+          selectedItems={selectedItems}
         />
 
         {isLoading && <StyledLoader />}
@@ -161,7 +207,8 @@ export const SearchResultWrapper = withRouter(
               <SearchItem
                 key={item.id}
                 item={item}
-                allSelectedIds={allSelectedIds}
+                areaName={getItemNameById(parentNameList, item.parentId)}
+                selectedItems={selectedItems}
                 index={i}
                 onItemSelect={onItemSelect}
                 onItemClick={onItemClick}

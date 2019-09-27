@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 `
 
 export const Preloader = () => (
-  <Loader top={'17%'}>
+  <Loader top={'32%'}>
     <ClipLoader color={COLORS.ADVENTURE_GREEN} />
   </Loader>
 )

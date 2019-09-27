@@ -1,44 +1,19 @@
-import { getItemFieldsById, getItemAttachmentsById } from 'services/contentApi'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
-import { get, find } from 'lodash'
+import { getItemAttachmentsById } from 'services/contentApi'
 
+// enriched item with attachments and parent administrative area
 export const enrichItem = async item => {
-  const arrayOfPromises = []
-
-  switch (item.type) {
-    case AREA_ITEM_TYPE: {
-      arrayOfPromises.push(getItemAttachmentsById(item.id))
-      break
-    }
-    case ACCOMMODATION_ITEM_TYPE: {
-      arrayOfPromises.push(getItemAttachmentsById(item.id), getItemFieldsById(item.id))
-      break
-    }
-    default:
-      return
-  }
+  // add to array if needing to enrich item with different api calls
+  const arrayOfPromises = [getItemAttachmentsById(item.id)]
 
   return await Promise.all(arrayOfPromises).then(values => {
-    const [attachmentsResponse, fieldsResponse] = values
+    const [attachmentsResponse] = values
 
     return {
       ...item,
       ...parseAttachmentsResponse(attachmentsResponse),
-      ...parseFieldsResponse(fieldsResponse),
       isLoading: false
     }
   })
 }
 
 const parseAttachmentsResponse = response => (response ? { allImages: response.data } : null)
-
-const parseFieldsResponse = response =>
-  response
-    ? {
-        description: get(
-          find(response.data.fields, field => field.field_name === 'description'),
-          'content',
-          'No description found.'
-        )
-      }
-    : null

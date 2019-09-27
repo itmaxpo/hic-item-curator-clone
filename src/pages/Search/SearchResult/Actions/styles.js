@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { FlexContainer } from '@tourlane/tourlane-ui'
 
-export const SearchActionsWrapper = styled(FlexContainer)`
+export const ActionsWrapper = styled(FlexContainer)`
   padding: 20px 108px !important;
   position: sticky;
   top: 80px;
