@@ -1,4 +1,4 @@
-import { SOURCE, WETU } from './constants'
+import { SOURCE, WETU, SUPPLY } from './constants'
 
 /*
  * We prioritize fields by it's source:
@@ -7,7 +7,7 @@ import { SOURCE, WETU } from './constants'
  * 3) Anything else
  */
 export const getFieldBySourcePriority = field => {
-  const sourcePriorityOrder = [SOURCE, WETU]
+  const sourcePriorityOrder = [SOURCE, WETU, SUPPLY]
 
   for (let key of sourcePriorityOrder) {
     const foundKey = field.find(({ source }) => source.toLowerCase() === key)
