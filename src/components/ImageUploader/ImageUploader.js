@@ -64,7 +64,7 @@ const ImageUploader = ({
     onImagesUpdate('allImages', [...filesToFetch, ...allImages])
     // Filter to handle only JPEG/PNG images and fetch images and presigned_posts
     filesToFetch
-      .filter(file => file.type === 'image/jpeg' || file.type === 'image/png')
+      .filter(file => file.type !== 'image/jpeg' || file.type !== 'image/png')
       .forEach((file, i) => {
         try {
           if (file.isError) {
