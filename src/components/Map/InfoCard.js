@@ -1,4 +1,5 @@
 import React from 'react'
+import { isEmpty } from 'lodash'
 import { InfoCardWrapper, Info } from './styles'
 
 /**
@@ -21,9 +22,11 @@ const InfoCard = ({ address, geoCoords }) => {
           <br />
         </Info>
       ))}
-      <Info style={{ marginTop: 10 }} key={geoCoords.lat}>{`lat: ${geoCoords.lat}, lng: ${
-        geoCoords.lon ? geoCoords.lon : geoCoords.lng
-      }`}</Info>
+      {!isEmpty(geoCoords) && (
+        <Info style={{ marginTop: 10 }} key={geoCoords.lat}>{`lat: ${geoCoords.lat}, lng: ${
+          geoCoords.lon ? geoCoords.lon : geoCoords.lng
+        }`}</Info>
+      )}
     </InfoCardWrapper>
   )
 }

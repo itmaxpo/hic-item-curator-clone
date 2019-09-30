@@ -116,6 +116,7 @@ const Create = ({ history }) => {
               />
               <div data-test="supplier">
                 <DropdownSelect
+                  isCreatable
                   isClearable
                   placeholder="Supplier tag"
                   options={suppliers}

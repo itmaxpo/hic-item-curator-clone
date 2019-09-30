@@ -110,23 +110,25 @@ const Map = compose(
           }}
         />
       )}
-      <Marker
-        key={1}
-        position={coordinates}
-        icon={{
-          url: MarkerIcon,
-          anchor: new window.google.maps.Point(20, 20),
-          labelOrigin: new window.google.maps.Point(21, 20)
-        }}
-        zIndex={1000}
-        label={{
-          text: ' ',
-          color: '#FFF',
-          fontFamily: 'roboto',
-          fontWeight: '600'
-        }}
-        onClick={() => setIsInfoShown(!isInfoShown)}
-      />
+      {!polygon && (
+        <Marker
+          key={1}
+          position={coordinates}
+          icon={{
+            url: MarkerIcon,
+            anchor: new window.google.maps.Point(20, 20),
+            labelOrigin: new window.google.maps.Point(21, 20)
+          }}
+          zIndex={1000}
+          label={{
+            text: ' ',
+            color: '#FFF',
+            fontFamily: 'roboto',
+            fontWeight: '600'
+          }}
+          onClick={() => setIsInfoShown(!isInfoShown)}
+        />
+      )}
       <StreetViewPanorama defaultVisible={false} />
     </GoogleMap>
   )
