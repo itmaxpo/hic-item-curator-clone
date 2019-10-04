@@ -58,6 +58,7 @@ export const Collapsible = ({
       <StyledBody
         ref={ref}
         style={{
+          marginTop: 20,
           overflow: 'hidden',
           transition: 'height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
         }}
@@ -72,23 +73,25 @@ export const Collapsible = ({
 /**
  * Uses Array of Collapsible elements
  *
- * @param {Array<{ label: String, value: String }>} descriptions
+ * @param {Array<{ label: String, field: Stirng, value: String }>} descriptions
  */
-const ExpansionPanelWrapper = ({ descriptions, spacing = 'M' }) => {
+const ExpansionPanelWrapper = ({ descriptions = [], spacing = 'M', children }) => {
   return (
     <Wrapper>
-      {descriptions.map((description, i) => (
-        <Collapsible
-          key={i}
-          badge={description.badge}
-          badgeColor={description.badgeColor}
-          title={description.label}
-          spacing={spacing}
-          collapsed={description.collapsed}
-        >
-          {ReactHtmlParser(description.value || 'No information found')}
-        </Collapsible>
-      ))}
+      {descriptions.length > 0
+        ? descriptions.map((description, i) => (
+            <Collapsible
+              key={i}
+              badge={description.badge}
+              badgeColor={description.badgeColor}
+              title={description.label}
+              spacing={spacing}
+              collapsed={description.collapsed}
+            >
+              {ReactHtmlParser(description.value || 'No information found')}
+            </Collapsible>
+          ))
+        : children}
     </Wrapper>
   )
 }

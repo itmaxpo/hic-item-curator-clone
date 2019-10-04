@@ -1,4 +1,4 @@
-import { get, filter, isArray, isObject } from 'lodash'
+import { get, filter, isArray, isObject, isEmpty } from 'lodash'
 import { SOURCE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 
@@ -217,6 +217,7 @@ export const getFieldContent = (item, fieldName, language = null) => {
     const field = language
       ? filter(get(item, 'fields'), c => c.field_name === fieldName && c.locale === language)
       : filter(get(item, 'fields'), c => c.field_name === fieldName)
+    if (isEmpty(field)) return undefined
 
     return get(getFieldBySourcePriority(field), 'content')
     // THis check is need for ROOM TYPE
@@ -225,7 +226,9 @@ export const getFieldContent = (item, fieldName, language = null) => {
       ? filter(get(item, 'fields')[fieldName], c => c.locale === language)
       : get(item, 'fields')[fieldName][0]
 
-    return get(getFieldBySourcePriority(field), 'content')
+    if (isEmpty(field)) return undefined
+
+    return get(field, 'content')
   }
 
   return undefined

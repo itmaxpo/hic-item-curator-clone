@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Flex, COLORS } from '@tourlane/tourlane-ui'
+import RichTextEditor from 'components/RichTextEditor'
 
 export const Wrapper = styled.div`
   font-family: 'Source Sans Pro', sans-serif;
@@ -69,5 +70,17 @@ export const BadgeContainer = styled.div`
     letter-spacing: 2.86px;
     text-align: center;
     color: ${COLORS.SENSATION_WHITE};
+  }
+`
+
+export const StyledRichTextEditor = styled(RichTextEditor)`
+  height: 100%;
+
+  > div {
+    height: 100%;
+  }
+
+  > div > div {
+    height: 100%;
   }
 `

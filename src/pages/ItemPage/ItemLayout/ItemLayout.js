@@ -11,7 +11,8 @@ import {
   StyledP,
   ActiveTitleWrapper,
   ActiveWrapper,
-  CheckboxWrapper
+  CheckboxWrapper,
+  StyledImg
 } from './styles'
 import TabsWrapper from 'components/Tabs'
 import { customMarkets, generateBreadcumbs } from './utils'
@@ -110,7 +111,16 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
-                <H2>{item.name}</H2>
+                <H2>
+                  {item.name || (
+                    <span>
+                      No item name found for
+                      <StyledImg
+                        src={`//www.countryflags.io/${item.language.split('-')[1]}/flat/48.png`}
+                      />
+                    </span>
+                  )}
+                </H2>
                 <ActiveWrapper>
                   {item[FIELD_ACTIVE_DESTINATION] && (
                     <ItemBadge
@@ -125,7 +135,11 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
               </ActiveTitleWrapper>
             ) : (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
-                <TitleField defaultValue={item.name} onChange={onTitleChange} />
+                <TitleField
+                  defaultValue={item.name}
+                  placeholder={breadcrumbName}
+                  onChange={onTitleChange}
+                />
                 {item.type !== ACCOMMODATION_ITEM_TYPE && (
                   <CheckboxWrapper p={0} direction={'ltr'}>
                     <Checkbox

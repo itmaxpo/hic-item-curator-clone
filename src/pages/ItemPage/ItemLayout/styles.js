@@ -6,6 +6,12 @@ export const Wrapper = styled.div`
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
+export const StyledImg = styled.img`
+  position: relative;
+  top: 10px;
+  right: -10px;
+`
+
 export const StyledP = styled.p`
   height: 19px;
   margin: 0;
@@ -54,7 +60,6 @@ export const CheckboxWrapper = styled(FlexContainer)`
 export const TitleWrapper = styled.div`
   position: relative;
   z-index: 2; // Needed for dropdowm to overlap
-  padding-bottom: 20px;
 
   h2 {
     margin: 20px 0 10px 0;

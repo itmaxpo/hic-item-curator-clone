@@ -5,10 +5,12 @@ import {
   CoverImageBlock,
   ImgWrapperHoveredBlock,
   ItemWrapper,
-  CheckboxWrapper
+  CheckboxWrapper,
+  StyledBadge
 } from './styles'
 import { Big } from '@tourlane/tourlane-ui'
 import LazyLoader from 'components/LazyLoader'
+
 /**
  * Components responsible for rendering particular image in DraggableGallery
  *
@@ -19,26 +21,36 @@ import LazyLoader from 'components/LazyLoader'
  * @param {Boolean} isVisible - visible OR allGallery flag
  * @param {Boolean} disabled - is Editing mode is on/off
  */
-const ItemPhoto = ({ index, image, onItemViewClick, onItemSelected, isVisible, disabled }) => {
+const ItemPhoto = ({
+  index,
+  image,
+  onItemViewClick,
+  onItemSelected,
+  isVisible,
+  disabled,
+  badgeText
+}) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Item key={index} data-id={index}>
+    <Item key={image.id} data-id={index}>
       <ItemWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <StyledBadge>{badgeText}</StyledBadge>
         {isHovered && (
           <ImgWrapperHoveredBlock>
-            {disabled || !isVisible ? (
+            {(disabled || !isVisible) && (
               <Big onClick={onItemViewClick}>View image</Big>
-            ) : (
-              <CheckboxWrapper
-                defaultChecked={image.isSelected}
-                onChange={e => onItemSelected(index)}
-              />
+              // ) : (
+              // Ability to remove images from items is disabled
+              // <CheckboxWrapper
+              //   defaultChecked={image.isSelected}
+              //   onChange={e => onItemSelected(index)}
+              // />
             )}
           </ImgWrapperHoveredBlock>
         )}
 
-        <LazyLoader src={image.value} height={'110px'}>
+        <LazyLoader src={image.value} height={'110px'} isLoading={image.isLoading}>
           <ImgWrapper
             isVisible={isVisible && index === 0}
             width={'100%'}

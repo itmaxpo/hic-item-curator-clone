@@ -8,22 +8,35 @@ export const GalleryWrapper = styled(FlexContainer)`
   background-color: ${COLORS.BACKGROUND_GRAY};
   min-height: 205px;
   border-radius: 4px;
-  padding: 20px 1% 0 1% !important;
+  padding: 20px 0 0 0 !important;
   margin-top: 20px !important;
   position: relative;
+`
+
+export const StyledBadge = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 5px 8px;
+  border-radius: 10px;
+  z-index: 2;
+  background-color: ${COLORS.SENSATION_WHITE};
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+  font-size: 11px;
 `
 
 const galleryItems = isAllShown => css`
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  justify-content: center;
+  justify-content: 'left';
   width: 98%;
-  padding: 20px 1% 20px 1px;
+  padding: 20px 0 20px 0;
 
   ${!isAllShown &&
     `
-    justify-content: center;
+    justify-content: left;
     max-height: 250px;
     overflow: hidden;
     transform: rotate(0);
@@ -82,7 +95,7 @@ export const Item = styled.li`
 
 export const CoverImageBlock = styled.div`
   position: absolute;
-  top: -25%;
+  top: -30px;
   left: -6%;
   text-align: center;
   width: 110%;
@@ -142,12 +155,12 @@ export const GalleryTitle = styled(Big)`
 `
 
 export const PlaceholderText = styled(Big)`
-  padding: 90px 0;
   color: ${COLORS.INACTIVE_GRAY};
+  margin: 90px auto;
 `
 
 export const BottomLine = styled.hr`
-  width: 101%;
+  width: 100%;
   height: 6px;
   box-sizing: border-box;
   border-color: transparent;

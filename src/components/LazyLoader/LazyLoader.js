@@ -12,7 +12,7 @@ import { Wrapper, Preloader } from './styles'
  * @param {Object} children
  * @returns {Object} Lazy Loader
  */
-const LazyLoader = ({ onLoad = () => null, src, children, ...props }) => {
+const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props }) => {
   const [isLoaded, setLoaded] = useState(true)
   const [errors, setErrors] = useState([])
 
@@ -53,7 +53,11 @@ const LazyLoader = ({ onLoad = () => null, src, children, ...props }) => {
     if (errors.filter(error => error !== undefined).length === imagesSrc.length) {
       setLoaded(true)
     }
-  }, [errors, src])
+
+    if (isLoading) {
+      setLoaded(false)
+    }
+  }, [errors, src, isLoading])
 
   useEffect(() => {
     onLoad(isLoaded)

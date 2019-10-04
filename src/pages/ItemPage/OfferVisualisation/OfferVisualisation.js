@@ -7,8 +7,8 @@ import {
   TitleWithContent,
   MapWrapper,
   SearchItemWrapper,
-  StyledRichTextEditor,
-  GeoWrapper
+  GeoWrapper,
+  StyledAccordion
 } from './styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
@@ -17,7 +17,7 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
-import { H4, Base } from '@tourlane/tourlane-ui'
+import { H4, Base, AccordionGroup } from '@tourlane/tourlane-ui'
 import ImageUploader from 'components/ImageUploader'
 import {
   itemSpecificFields,
@@ -26,9 +26,10 @@ import {
   FIELD_NAME,
   FIELD_GEOLOCATION
 } from '../itemParser'
+import ReactHtmlParser from 'react-html-parser'
 import { capitalize } from 'pages/Search/utils'
-import { StyledHeader } from 'components/ExpansionPanel/styles'
 import Description from './Description'
+import { StyledRichTextEditor } from './Description/styles'
 
 // Fake data to test components
 const descriptions = item => {
@@ -118,32 +119,27 @@ const OfferVisualisation = ({
     [INFORMATION_COMPONENT_NAME]: key => {
       const parsedDescriptions = descriptions(item)
 
-      const countryFieldDescriptionUpdate = (description, field) => {
-        onChange(field, description)
-      }
-
       return (
         <Fragment key={key}>
           <TitleWithContent>
             <H4>Information</H4>
           </TitleWithContent>
-          {isEditing ? (
-            <Fragment>
-              {parsedDescriptions.map((desc, i) => (
-                <Fragment key={i}>
-                  <StyledHeader>{desc.label}</StyledHeader>
+
+          <AccordionGroup>
+            {parsedDescriptions.map((d, i) => (
+              <StyledAccordion id={'123'} key={i} name={d.field} title={d.label}>
+                {isEditing ? (
                   <StyledRichTextEditor
-                    key={i}
-                    placeholder={`Please write something about the ${desc.label.toLowerCase()}`}
-                    value={desc.value}
-                    onChange={val => countryFieldDescriptionUpdate(val, desc.field)}
+                    placeholder={`Please write something about the ${d.label.toLowerCase()}`}
+                    value={d.value}
+                    onChange={val => onChange(d.field, val)}
                   />
-                </Fragment>
-              ))}
-            </Fragment>
-          ) : (
-            <ExpansionPanelWrapper descriptions={parsedDescriptions} />
-          )}
+                ) : (
+                  ReactHtmlParser(d.value || 'No information found')
+                )}
+              </StyledAccordion>
+            ))}
+          </AccordionGroup>
         </Fragment>
       )
     },

@@ -98,6 +98,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
         Please select an image source first <br /> in order to be able to upload.
       </IconText>
       <ImageSourceDropdown
+        placeholder={'Select image source'}
         options={imageSourceOptions}
         value={imageSource}
         onChange={setImageSource}

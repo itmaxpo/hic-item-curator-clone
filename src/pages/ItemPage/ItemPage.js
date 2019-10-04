@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react'
-import { get } from 'lodash'
+import React, { useState, useEffect, useRef, useReducer, useCallback } from 'react'
+import { Prompt } from 'react-router-dom'
 import ItemLayout from './ItemLayout'
 import * as queryString from 'query-string'
 import OfferVisualisation from './OfferVisualisation'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import { componentsBasedOnType, changeItemLocale, updateItemLocales } from './utils'
-import { flatten } from 'lodash'
+import { flatten, get } from 'lodash'
 import {
   getItemFieldsById,
   // getItemAttachmentsById,
@@ -27,6 +27,7 @@ import {
   parseItemByType,
   transformToSupplyItem
 } from './itemParser'
+import { onPageClosing } from 'utils/helpers'
 
 // Reducer to handle images all and visible changes
 const reducer = (state, action) => {
@@ -149,6 +150,23 @@ const ItemPage = ({ match, history }) => {
     fetchItem()
   }, [match.params.id])
 
+  const handlePageClose = useCallback(
+    e => {
+      if (isEditing) {
+        onPageClosing(e)
+      }
+    },
+    [isEditing]
+  )
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handlePageClose)
+
+    return () => {
+      window.removeEventListener('beforeunload', handlePageClose)
+    }
+  }, [handlePageClose])
+
   // fetch additionalInformation based on item.type
   useEffect(() => {
     const language = get(queryString.parse(window.location.search), 'language')
@@ -178,6 +196,7 @@ const ItemPage = ({ match, history }) => {
         isLoading: false,
         isError: false,
         isSelected: false,
+        sourceKey: att.source_key,
         isVisible: !!get(att, 'tags.visible'),
         tags: att.tags
       }))
@@ -186,10 +205,12 @@ const ItemPage = ({ match, history }) => {
         .filter(att => att.isVisible)
         .sort((img1, img2) => img1.order - img2.order)
 
+      const allImages = photos.filter(att => !att.isVisible)
+
       allImagesOriginal.current = photos
       visibleImagesOriginal.current = visiblePhotos
 
-      onChange('allImages', photos)
+      onChange('allImages', allImages)
       onChange('visibleImages', visiblePhotos)
 
       originalItem.current = {
@@ -231,6 +252,8 @@ const ItemPage = ({ match, history }) => {
 
   return (
     <div>
+      {/* Prevent any route changes in EditingMode */}
+      <Prompt when={isEditing} message={() => `If you continue, all changes will be lost`} />
       {!isLoading ? (
         <>
           <EditingWrapper>

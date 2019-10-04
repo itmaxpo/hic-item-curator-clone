@@ -103,9 +103,10 @@ const DraggableGallery = ({
   // generate list of images in ItemPhoto component
   const listItems = images.map((image, i) => (
     <ItemPhoto
-      key={i}
+      key={image.id}
       index={i}
       image={image}
+      badgeText={image.sourceKey}
       isVisible={isVisible}
       disabled={disabled}
       onItemViewClick={onItemViewClick}

@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import cuid from 'cuid'
-import { uniqBy } from 'lodash'
 import {
   getItemAttachmentsPresignedPost,
   uploadingImage,
@@ -35,15 +34,6 @@ const ImageUploader = ({
     animation: 150,
     group: {
       name: 'shared'
-    }
-  }
-
-  const optionsNoPut = {
-    direction: 'horizontal',
-    animation: 150,
-    group: {
-      name: 'shared',
-      put: false
     }
   }
 
@@ -92,6 +82,7 @@ const ImageUploader = ({
                     isError: false,
                     isSelected: false,
                     isVisible: false,
+                    sourceKey: fileUrl.source_key,
                     tags: fileUrl.data.tags
                   }
 
@@ -110,19 +101,22 @@ const ImageUploader = ({
       })
   }
 
-  const onAllImagesUpdate = (items, type) => {
-    // We can't delete from all images area
-    if (type === 'remove') return
-    onImagesUpdate('allImages', items)
+  const onAllImagesUpdate = items => {
+    const attachments = items.map((img, i) => ({
+      ...img,
+      isVisible: false
+    }))
+    onImagesUpdate('allImages', attachments)
   }
 
   const onVisibleImagesUpdate = items => {
-    // uniqBy disable ability to duplicate image
-    const attachments = uniqBy(items, item => item.id).map((img, i) => ({
+    // transform images to store their current order
+    const attachments = items.map((img, i) => ({
       ...img,
       isVisible: true,
       order: i
     }))
+
     onImagesUpdate('visibleImages', attachments)
   }
 
@@ -140,7 +134,7 @@ const ImageUploader = ({
           title={'Image library'}
           placeholder={'Image library'}
           images={allImages}
-          options={optionsNoPut}
+          options={options}
           onChange={onAllImagesUpdate}
           disabled={!isEditing}
         />

@@ -22,10 +22,17 @@
   font-size: 20px;
   line-height: 1.4;
   padding: 15px 20px;
+  opacity: 0.5;
+  font-family: 'Source Sans Pro', serif !important;
 }
 
 .public-DraftEditor-content {
   padding: 5px 20px;
   max-height: 385px;
   overflow: auto;
+}
+
+[data-accordion-component='AccordionItemButton'] > div {
+  padding-left: 60px;
+  padding-right: 60px;
 }

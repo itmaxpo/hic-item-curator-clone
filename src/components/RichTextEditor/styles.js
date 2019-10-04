@@ -6,16 +6,10 @@ export const Wrapper = styled.div`
   border-radius: 4px;
   cursor: text;
   font-size: 15px;
-
-  &:hover {
-    box-shadow: 0 2px 17px 0 rgba(63,65,68,0.3);
-  }
+  box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
 
   & .DraftEditor-editorContainer {
-    height: 100%;
-    & div {
-      height: 100%;
-    }
+    height: 300px;
   }
 
   ${props =>

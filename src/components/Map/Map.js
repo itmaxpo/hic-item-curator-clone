@@ -110,7 +110,7 @@ const Map = compose(
           }}
         />
       )}
-      {!polygon && (
+      {isEmpty(polygon) && (
         <Marker
           key={1}
           position={coordinates}

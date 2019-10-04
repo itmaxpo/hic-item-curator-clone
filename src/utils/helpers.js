@@ -17,3 +17,11 @@ export const getFieldBySourcePriority = field => {
   }
   return field[0]
 }
+
+export const onPageClosing = e => {
+  e = e || window.event
+  e.preventDefault()
+  // The values below are irrelevant, most modern browsers force their own prompt window and message
+  e.returnValue = 'If you continue, all changes will be lost'
+  return 'If you continue, all changes will be lost'
+}

@@ -6,7 +6,7 @@ export const StyledTabs = styled(Tabs)`
   width: 100%;
   border-radius: 4px;
   background-color: #ffffff;
-  box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
+
   position: relative;
   font-family: SourceSansPro, serif;
 `
@@ -69,4 +69,6 @@ export const StyledLine = styled.hr`
 
 export const StyledPanelWrapper = styled.div`
   padding: 40px 0;
+  margin-top: 35px;
+  box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
 `
