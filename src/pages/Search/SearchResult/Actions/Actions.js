@@ -1,15 +1,12 @@
 import React from 'react'
-import { Checkbox, Tooltip, Base } from '@tourlane/tourlane-ui'
-import { ActionsWrapper, ActionIcons } from './styles'
-import { MergeIcon, MergeInactiveIcon } from 'components/Icon'
-import OnHoverComponentToggle from 'components/OnHoverComponentToggle'
+import { Checkbox } from '@tourlane/tourlane-ui'
+import { ActionsWrapper, ActionIcons, ActionButton } from './styles'
+import { MergeIcon } from 'components/Icon'
 
 const getAllActions = selectedItems => {
   return [
     {
-      icon: <MergeInactiveIcon />,
-      iconHovered: <MergeIcon />,
-      tooltipText: 'Merge',
+      icon: () => <MergeIcon />,
       isActive: selectedItems.length > 1,
       action: 'merge'
     }
@@ -51,18 +48,10 @@ export const Actions = ({
         {availableActions.map(
           (action, i) =>
             action.isActive && (
-              <Tooltip
-                key={i}
-                position={'top'}
-                trigger={'hover'}
-                content={<Base>{action.tooltipText}</Base>}
-              >
-                <OnHoverComponentToggle
-                  component={action.icon}
-                  hoveredComponent={action.iconHovered}
-                  onClick={() => onClick(action)}
-                />
-              </Tooltip>
+              <ActionButton key={i} onClick={() => onClick(action)}>
+                Merge
+                {action.icon()}
+              </ActionButton>
             )
         )}
       </ActionIcons>

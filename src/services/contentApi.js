@@ -280,11 +280,29 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
   return res.json()
 }
 
+/**
+ * Merge items
+ *
+ * @name mergeItems
+ * @param {Array<String>} ids
+ * @returns {Object} merged item
+ */
+const mergeItems = async ids => {
+  let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/merge`, {
+    body: {
+      item_uuids: ids
+    }
+  })
+
+  return res.json()
+}
+
 export {
   getItemFieldsById,
   getItemAttachmentsById,
   updateItemAttachmentsById,
   updateItemFields,
   getRoomsForAccommodation,
-  createItem
+  createItem,
+  mergeItems
 }

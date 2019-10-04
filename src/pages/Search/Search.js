@@ -1,13 +1,13 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { flatten, isEmpty } from 'lodash'
-import * as queryString from 'query-string'
+import queryString from 'query-string'
 import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton, SadFaceIconWrapper } from './styles'
 import SearchBox from './SearchBox'
 import SearchResultWrapper from './SearchResult'
 import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
+import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
 
 /**
@@ -24,6 +24,8 @@ const SearchPage = ({ history }) => {
   const [results, setResults] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [itemType, setItemType] = useState(undefined)
+  const [country, setCountry] = useState(undefined)
+
   const parsedQuery = queryString.parse(history.location.search)
 
   const onItemTypeChangeHandler = useCallback(type => {
@@ -31,10 +33,10 @@ const SearchPage = ({ history }) => {
   }, [])
 
   const onSearchHandler = (searchResponse, totalResults) => {
-    const country = getQueryValue(parsedQuery, 'countryName', 'countryId').label
+    setCountry(getQueryValue(parsedQuery, 'countryName', 'countryId').label)
 
     totalResultsCount.current = totalResults
-    setResults(parseSearchResponse(searchResponse, totalResults, itemType, country))
+    setResults(parseSearchResponse(searchResponse, totalResults, itemType))
   }
   // changes query in URL
   const onQueryUpdate = query => {
@@ -113,6 +115,9 @@ const SearchPage = ({ history }) => {
         {!isEmpty(flattenedResults) && (
           <SearchResultWrapper
             results={flattenedResults}
+            setResults={newResults => {
+              setResults(newResults)
+            }}
             updateSelectedResults={updateSelectedResults}
             fetchMoreItems={fetchMoreItems}
             onLoadingChange={setIsLoading}
@@ -120,6 +125,7 @@ const SearchPage = ({ history }) => {
             locationQuery={parsedQuery}
             onQueryUpdate={onQueryUpdate}
             itemType={itemType}
+            country={country}
           />
         )}
         {results && !isLoading && (

@@ -51,3 +51,13 @@ export const Subtitle = styled(Subline)`
     line-height: 32px;
   }
 `
+
+export const SubmitButtonWrapper = styled.div`
+  > div {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+`

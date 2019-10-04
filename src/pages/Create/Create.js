@@ -2,21 +2,21 @@ import React, { useState, useEffect, useContext } from 'react'
 import { values, isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import Layout from 'components/Layout'
-import { FlexContainer, DropdownSelect, TextField } from '@tourlane/tourlane-ui'
+import { FlexContainer, DropdownSelect, TextField, ProgressButton } from '@tourlane/tourlane-ui'
 import {
   Wrapper,
   CreateBoxContainer,
   InputContainer,
   MapContainer,
   Title,
-  Subtitle
+  Subtitle,
+  SubmitButtonWrapper
 } from './styles'
 import { getLocationCoordinates } from './utils'
 import mapPlaceholder from './mapPlaceholder.png'
 import Map, { SearchBox } from 'components/Map'
 import SuppliersContext from 'contexts/Suppliers'
 import { createItem, createSupplier } from 'services/contentApi'
-import ProgressButton from 'components/ProgressButton'
 import { parseSuppliers } from 'contexts/Suppliers/utils'
 
 const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
@@ -40,7 +40,6 @@ const Create = ({ history }) => {
   const [locationInfo, setLocationInfo] = useState(undefined)
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
-  const [progressButtonState, setProgressButtonState] = useState('isButton')
 
   const { suppliers, setSuppliers } = useContext(SuppliersContext)
 
@@ -60,7 +59,6 @@ const Create = ({ history }) => {
   }
 
   const onCreateItemHandler = async () => {
-    setProgressButtonState('isLoading')
     try {
       if (!suppliers.some(supp => supp.value === supplier.value)) {
         const newSupplier = await createSupplier(supplier.value)
@@ -75,12 +73,13 @@ const Create = ({ history }) => {
         coordinates.lng,
         locationInfo.address
       )
-      setProgressButtonState('isComplete')
-      history.push(`/item/${data.uuid}?language=en-GB`)
+
+      // 2.5s delay to let progress button animation finish
+      setTimeout(() => {
+        history.push(`/item/${data.uuid}?language=en-GB`)
+      }, 2500)
     } catch (e) {
       console.warn(e)
-    } finally {
-      setProgressButtonState('isComplete')
     }
   }
 
@@ -128,13 +127,16 @@ const Create = ({ history }) => {
               <div data-test="address">
                 <SearchBox onChange={onLocationChangeHandler} />
               </div>
-              <ProgressButton
-                data-test="submit"
-                state={progressButtonState}
-                disabled={isSubmitDisabled}
-                label={'Create Item'}
-                onButtonClick={onCreateItemHandler}
-              />
+              <SubmitButtonWrapper data-test="submit">
+                <ProgressButton
+                  disabled={isSubmitDisabled}
+                  onButtonClick={onCreateItemHandler}
+                  mockUpload
+                  uploadTime={2000}
+                >
+                  Create Item
+                </ProgressButton>
+              </SubmitButtonWrapper>
             </InputContainer>
             <MapContainer>
               {coordinates ? (

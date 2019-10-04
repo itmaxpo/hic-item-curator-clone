@@ -14,6 +14,13 @@ export const SearchItemWrapper = styled(FlexContainer)`
     box-shadow: 0 2px 17px 0 rgba(63, 65, 68, 0.3);
     transition: box-shadow 0.5s ease-out;
   }
+
+  ${({ isMerged }) =>
+    isMerged
+      ? `
+          border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
+        `
+      : ''}
 `
 
 export const SearchItemCheckbox = styled(Checkbox)`

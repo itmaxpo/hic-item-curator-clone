@@ -1,10 +1,5 @@
-import {
-  COUNTRY_ITEM_TYPE,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE,
-  itemSpecificFields,
-  itemSameFields
-} from './itemParser'
+import { itemSpecificFields, itemSameFields } from './itemParser'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 // Item Locale Based Fields
 export const localeBasedFields = ['title', 'description', 'photos']

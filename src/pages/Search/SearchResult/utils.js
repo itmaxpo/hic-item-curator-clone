@@ -85,3 +85,15 @@ export const updateItemsWithNames = (listToUpdate, listWithNames) =>
 
 export const getItemNameById = (list, _id) =>
   get(list.filter(({ id }) => id === _id), '0.name', null)
+
+export const updateItemsWithArea = (listToUpdate, listWithAreas) =>
+  listToUpdate.map(item => {
+    if (item.area) return item
+
+    const area = getItemNameById(listWithAreas, item.parentId)
+
+    return { ...item, area }
+  })
+
+export const removeMergedItems = (list, itemsToRemove) =>
+  list.filter(listItem => !itemsToRemove.some(item => item.id === get(listItem, 'id')))

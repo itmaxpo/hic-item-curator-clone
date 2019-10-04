@@ -19,14 +19,9 @@ import {
 } from '../utils'
 import { H4, Base, AccordionGroup } from '@tourlane/tourlane-ui'
 import ImageUploader from 'components/ImageUploader'
-import {
-  itemSpecificFields,
-  ACCOMMODATION_ITEM_TYPE,
-  FIELD_ADDRESS,
-  FIELD_NAME,
-  FIELD_GEOLOCATION
-} from '../itemParser'
 import ReactHtmlParser from 'react-html-parser'
+import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
 import Description from './Description'
 import { StyledRichTextEditor } from './Description/styles'

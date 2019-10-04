@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FlexContainer } from '@tourlane/tourlane-ui'
+import { FlexContainer, SecondaryButton } from '@tourlane/tourlane-ui'
 
 export const ActionsWrapper = styled(FlexContainer)`
   padding: 20px 108px !important;
@@ -16,4 +16,18 @@ export const ActionsWrapper = styled(FlexContainer)`
 
 export const ActionIcons = styled.div`
   margin-left: 6px;
+`
+
+export const ActionButton = styled(SecondaryButton)`
+  && {
+    width: 151px;
+    height: 36px;
+    padding: 0;
+    font-size: 14px;
+
+    > span {
+      height: 18px;
+      margin-left: 7px;
+    }
+  }
 `

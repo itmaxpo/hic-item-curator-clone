@@ -20,12 +20,8 @@ import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
-import {
-  getFieldName,
-  FIELD_NAME,
-  FIELD_ACTIVE_DESTINATION,
-  ACCOMMODATION_ITEM_TYPE
-} from '../itemParser'
+import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import SuppliersContext from 'contexts/Suppliers'
 /**

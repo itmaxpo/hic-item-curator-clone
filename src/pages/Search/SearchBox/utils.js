@@ -1,9 +1,5 @@
 import { get, isEmpty } from 'lodash'
-import {
-  COUNTRY_ITEM_TYPE,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE
-} from 'pages/ItemPage/itemParser'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 /**
  * Defines if search button should be disabled.

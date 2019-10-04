@@ -1,10 +1,6 @@
 import React from 'react'
 import { FlagIcon, MapPinIcon, HomeIcon } from 'components/Icon'
-import {
-  COUNTRY_ITEM_TYPE,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE
-} from 'pages/ItemPage/itemParser'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 // Mapping from value to icon
 export const categoryCardsMap = [

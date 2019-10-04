@@ -56,18 +56,19 @@ const getItemTitle = (nameField, item) => {
     : get(nameField, '0.content')
 }
 
+export const parseItem = (item, itemType, isLoading = true) => ({
+  id: item.id,
+  parentId: item.parent_uuid,
+  type: itemType || item.item_type,
+  title: getItemTitle(item.fields.name, item),
+  description: getFieldValue(item.fields.description) || 'No description found.',
+  allImages: [],
+  isLoading,
+  isMerged: !!item.isMerged
+})
+
 // give shape to the items
-const parseItems = (items, itemType, country) =>
-  items.map(item => ({
-    id: item.id,
-    parentId: item.parent_uuid,
-    country,
-    type: itemType,
-    title: getItemTitle(item.fields.name, item),
-    description: getFieldValue(item.fields.description) || 'No description found.',
-    allImages: [],
-    isLoading: true
-  }))
+const parseItems = (items, itemType) => items.map(item => parseItem(item, itemType))
 
 // eslint-disable-next-line array-callback-return
 const createArrayOfSize = size => Array.apply(null, Array(size)).map(() => {})
@@ -79,8 +80,8 @@ export const createPages = (items, arraySize) =>
 
 // parse search response data
 // sets the structure of the item also sets the pages (array of arrays - chunks of 10 items)
-export const parseSearchResponse = (data, arraySize, itemType, country) =>
-  createPages(parseItems(data, itemType, country), arraySize)
+export const parseSearchResponse = (data, arraySize, itemType) =>
+  createPages(parseItems(data, itemType), arraySize)
 
 export const calculateOffsetAndIndex = (page, itemsPerPage) => {
   // index of page in the data array

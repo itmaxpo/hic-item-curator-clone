@@ -11,8 +11,9 @@ import { useAuth0 } from 'contexts/Auth'
 import ItemPage from 'pages/ItemPage'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { SuppliersContextProvider } from './contexts/Suppliers'
+import { NotificationProvider } from 'components/Notification'
 import queryString from 'query-string'
-import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -91,15 +92,17 @@ function App() {
   return (
     <AppWrapper>
       <SuppliersContextProvider>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" component={SearchPage} />
-            <Route exact path="/sandbox" component={SandboxPage} />
-            <Route exact path="/item/:id" component={ItemPage} />
-            <Route exact path="/create" component={CreatePage} />
-            <Route path="*" component={MissingPage} />
-          </Switch>
-        </BrowserRouter>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={SearchPage} />
+              <Route exact path="/sandbox" component={SandboxPage} />
+              <Route exact path="/item/:id" component={ItemPage} />
+              <Route exact path="/create" component={CreatePage} />
+              <Route path="*" component={MissingPage} />
+            </Switch>
+          </BrowserRouter>
+        </NotificationProvider>
       </SuppliersContextProvider>
     </AppWrapper>
   )

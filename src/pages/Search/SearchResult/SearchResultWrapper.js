@@ -11,8 +11,11 @@ import {
   getParentNameList,
   getItemsNames,
   updateItemsWithNames,
-  getItemNameById
+  getItemNameById,
+  updateItemsWithArea,
+  removeMergedItems
 } from './utils'
+import { calculateOffsetAndIndex } from '../utils'
 import SearchItem from './SearchItem'
 import {
   SearchResultContainer,
@@ -22,7 +25,7 @@ import {
   TotalItemsWrapper
 } from './styles'
 import MergeItems from './MergeItems'
-import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 /**
  * This is component, that is responsible for rendering all search results
@@ -43,6 +46,7 @@ import { ACCOMMODATION_ITEM_TYPE } from 'pages/ItemPage/itemParser'
 export const SearchResultWrapper = withRouter(
   ({
     results,
+    setResults,
     updateSelectedResults,
     fetchMoreItems,
     history,
@@ -50,7 +54,8 @@ export const SearchResultWrapper = withRouter(
     isLoading,
     locationQuery,
     onQueryUpdate,
-    itemType
+    itemType,
+    country
   }) => {
     const itemsPerPage = 20
 
@@ -71,8 +76,9 @@ export const SearchResultWrapper = withRouter(
       onLoadingChange(isLoading)
     }
 
-    const updateItemRef = useCallback(updatedItem => {
-      enrichedItemsRef.current.push(updatedItem)
+    const updateItemRef = useCallback((updatedItem, isMerged) => {
+      if (isMerged) enrichedItemsRef.current = [updatedItem, ...enrichedItemsRef.current]
+      else enrichedItemsRef.current.push(updatedItem)
     }, [])
 
     /* this method updates the current page items
@@ -87,7 +93,6 @@ export const SearchResultWrapper = withRouter(
       newAllResults[currentPage - 1] = enrichedItemsRef.current
 
       enrichedItemsRef.current = []
-
       setAllResults(newAllResults)
     }
     // If isSelected then add all current items to selectedItems
@@ -100,6 +105,11 @@ export const SearchResultWrapper = withRouter(
     const onActionClick = (action, items) => {
       switch (action) {
         case 'merge':
+          // update selected items with the area name when opening merge items modal
+          if (!isEmpty(selectedItems)) {
+            const selectedItemsWithAreaName = updateItemsWithArea(selectedItems, parentNameList)
+            setSelectedItems(selectedItemsWithAreaName)
+          }
           setIsMergeOpen(true)
           break
         default:
@@ -153,6 +163,19 @@ export const SearchResultWrapper = withRouter(
       }
     }
 
+    const onMerge = (mergedItem, itemsMerged) => {
+      setSelectedItems([])
+
+      const { index } = calculateOffsetAndIndex(currentPage - 1, itemsPerPage)
+
+      const newResults = removeMergedItems(results, itemsMerged)
+
+      newResults.splice(index, 0, mergedItem)
+
+      setResults(newResults)
+      window.scrollTo(0, 0)
+    }
+
     useEffect(() => {
       setAllResults(paginateResults(results, itemsPerPage))
     }, [results, itemsPerPage])
@@ -187,7 +210,9 @@ export const SearchResultWrapper = withRouter(
           onClose={() => {
             setIsMergeOpen(false)
           }}
+          onMerge={onMerge}
           items={selectedItems}
+          country={country}
         />
         <Actions
           isAllSelected={isAllSelected}
@@ -207,6 +232,7 @@ export const SearchResultWrapper = withRouter(
               <SearchItem
                 key={item.id}
                 item={item}
+                country={country}
                 areaName={getItemNameById(parentNameList, item.parentId)}
                 selectedItems={selectedItems}
                 index={i}

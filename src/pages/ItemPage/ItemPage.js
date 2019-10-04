@@ -22,12 +22,11 @@ import {
   FIELD_MEAL_BASE,
   getFieldName,
   getFieldContent,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE,
   parseItemByType,
   transformToSupplyItem
 } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
+import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 // Reducer to handle images all and visible changes
 const reducer = (state, action) => {

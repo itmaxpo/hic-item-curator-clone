@@ -38,13 +38,13 @@ export const SearchItem = ({
   onItemClick,
   updateItemRef,
   selectedItems,
-  areaName
+  areaName,
+  country
 }) => {
   const [localItem, setLocalItem] = useState(item)
-
   // Subtitle needs to be a separated state because for accommodations we have to
-  // fetch the item's parent fields to get the area.
-  const [subtitle, setSubtitle] = useState(item.country)
+  // fetch the item's parent fields to get the area name.
+  const [subtitle, setSubtitle] = useState(country)
 
   const [isLoading, setIsLoading] = useState(item.isLoading)
 
@@ -59,10 +59,9 @@ export const SearchItem = ({
 
   useEffect(() => {
     if (areaName) {
-      setSubtitle(`${areaName}, ${item.country}`)
+      setSubtitle(`${areaName}, ${country}`)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [areaName])
+  }, [areaName, country, setSubtitle])
 
   useEffect(() => {
     // Enrich item and update it's ref in parent
@@ -71,7 +70,7 @@ export const SearchItem = ({
       if (isLoading) {
         setIsLoading(false)
         const enrichedItem = await enrichItem(localItem)
-        updateItemRef(enrichedItem)
+        updateItemRef(enrichedItem, localItem.isMerged)
         setLocalItem(enrichedItem)
       }
     }
@@ -102,7 +101,7 @@ export const SearchItem = ({
   }, [localItem.allImages])
 
   return (
-    <SearchItemWrapper p={3 / 4} direction={'ltr'}>
+    <SearchItemWrapper p={3 / 4} direction={'ltr'} isMerged={localItem.isMerged}>
       <FlexContainer p={0} alignItems={'start'}>
         <SearchItemCheckbox
           id={index}

@@ -13,11 +13,7 @@ import {
 import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
-import {
-  COUNTRY_ITEM_TYPE,
-  AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE
-} from 'pages/ItemPage/itemParser'
+import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
 import SuppliersContext from 'contexts/Suppliers'
 

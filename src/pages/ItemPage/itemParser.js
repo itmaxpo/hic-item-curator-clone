@@ -1,11 +1,6 @@
 import { get, filter, isArray, isObject, isEmpty } from 'lodash'
-import { SOURCE } from 'utils/constants'
+import { SOURCE, COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
-
-// ITEM TYPES
-export const COUNTRY_ITEM_TYPE = 'country'
-export const AREA_ITEM_TYPE = 'admin_area'
-export const ACCOMMODATION_ITEM_TYPE = 'accommodation'
 
 // LOCALES
 export const locales = ['en-GB', 'en-US', 'de-DE', 'fr-FR', 'nl-NL']

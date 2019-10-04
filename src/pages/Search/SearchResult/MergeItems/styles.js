@@ -6,7 +6,7 @@ import {
   Flex,
   Subline,
   COLORS,
-  Button,
+  ProgressButton,
   SecondaryButton
 } from '@tourlane/tourlane-ui'
 
@@ -73,8 +73,12 @@ export const ButtonsContainer = styled(Flex)`
   justify-content: space-between;
 `
 
-export const SubmitButton = styled(Button)`
+export const SubmitButton = styled(ProgressButton)`
   width: 390px;
+
+  > button {
+    width: 390px;
+  }
 `
 
 export const CancelButton = styled(SecondaryButton)`
