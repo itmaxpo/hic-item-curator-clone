@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import { FlexContainer, SecondaryButton } from '@tourlane/tourlane-ui'
 
 export const ActionsWrapper = styled(FlexContainer)`
-  padding: 20px 108px !important;
+  padding: 0px 108px !important;
+  height: 68px;
   position: sticky;
   top: 80px;
   border-radius: 4px;

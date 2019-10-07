@@ -38,11 +38,6 @@ function App() {
   const handleScroll = () => {
     const header = document.getElementById('sticky-header')
     const stickyElement = document.getElementById('items-sticky-actions')
-    const notExpandedButton = document.getElementById('not-expanded-button')
-
-    if (notExpandedButton) {
-      notExpandedButton.style.top = `${header.offsetTop + 143}px`
-    }
 
     const generateConditions = (firstOffset, secondOffset) => {
       if (header.offsetTop >= firstOffset) {

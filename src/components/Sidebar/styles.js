@@ -10,7 +10,7 @@ export const StyledSidebar = styled.div`
   background: ${COLORS.BACKGROUND_GRAY};
   box-shadow: 1px 0 4px 0 rgba(63, 65, 68, 0.3);
   width: 90px;
-  height: calc(100vh - 68px);
+  height: calc(100vh - 64px);
   top: 64px;
   position: fixed;
   left: 0;
@@ -25,10 +25,12 @@ export const StyledCircleButton = styled(CircleButton)`
   ${({ isExpanded }) =>
     isExpanded
       ? css`
+          position: absolute;
           top: 54px;
           right: -14px;
         `
       : css`
+          position: fixed;
           left: -2px;
         `}
 `
