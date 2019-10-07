@@ -1,9 +1,8 @@
 body {
   margin: 0;
-
+  height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transform: translateZ(0);
 }
 /* START Change default selections styles */
 /* IE9  - Also picked up by most modern browsers */
@@ -24,5 +23,5 @@ body {
 /* END Change default selections styles */
 
 #root {
-  height: 1158px;
+  height: 100%;
 }
