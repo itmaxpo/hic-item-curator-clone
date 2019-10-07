@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { COLORS } from '@tourlane/tourlane-ui'
+import { COLORS, CircleIconButton, Flex } from '@tourlane/tourlane-ui'
 
 const paddingForButtons = '6px'
 
@@ -65,11 +65,16 @@ export const prevNextStyles = css`
   }
 `
 
-export const PrevButton = styled.button`
-  ${buttonStyles}
-  ${({ width }) => `width: ${width}`}
-  ${prevNextStyles}
-  
+export const StyledCircleIconButton = styled(CircleIconButton)`
+  && {
+    width: 26px;
+    height: 26px;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
 `
 
 export const NextButton = styled.button`
@@ -79,4 +84,8 @@ export const NextButton = styled.button`
 
 export const PaginationButton = styled.button`
   ${buttonStyles}
+`
+
+export const Wrapper = styled(Flex)`
+  min-height: 32px;
 `

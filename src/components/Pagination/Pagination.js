@@ -1,8 +1,6 @@
 import React from 'react'
 import Pagination from 'react-paginating'
-import { PrevButton, NextButton, PaginationButton } from './styles'
-import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
-import { COLORS } from '@tourlane/tourlane-ui'
+import { Wrapper, StyledCircleIconButton, PaginationButton } from './styles'
 
 /**
  *  Pagination component
@@ -25,22 +23,17 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
         totalPages,
         getPageItemProps
       }) => (
-        <div>
+        <Wrapper justify="center">
           {hasPreviousPage ? (
-            <PrevButton
+            <StyledCircleIconButton
+              hasArrow
+              arrow="left"
               {...getPageItemProps({
                 pageValue: previousPage,
                 onPageChange: onPageChange
               })}
-            >
-              <ChevronLeftIcon color={COLORS.INACTIVE_GRAY} />
-            </PrevButton>
-          ) : (
-            <PrevButton className={'empty'} width={'26px'}>
-              {' '}
-              &nbsp;{' '}
-            </PrevButton>
-          )}
+            />
+          ) : null}
 
           <PaginationButton
             {...getPageItemProps({
@@ -76,16 +69,16 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
           </PaginationButton>
 
           {hasNextPage && (
-            <NextButton
+            <StyledCircleIconButton
+              hasArrow
+              arrow="right"
               {...getPageItemProps({
                 pageValue: nextPage,
                 onPageChange: onPageChange
               })}
-            >
-              <ChevronRightIcon />
-            </NextButton>
+            />
           )}
-        </div>
+        </Wrapper>
       )}
     </Pagination>
   )

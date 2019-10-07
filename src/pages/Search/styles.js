@@ -21,9 +21,11 @@ export const SearchBoxWrapper = ({ children }) => (
 export const CreateNewItemWrapper = styled(FlexContainer)`
   padding-bottom: 80px !important;
   > p {
+    font-family: 'Source Sans Pro', sans-serif !important;
     font-size: 22px;
     font-weight: 600;
     line-height: 1.45;
+    color: ${COLORS.NIGHTINGALE_BLACK};
   }
 `
 

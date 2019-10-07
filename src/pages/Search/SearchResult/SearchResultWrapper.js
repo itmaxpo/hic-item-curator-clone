@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { isEmpty, map, flatten, uniqBy } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer, ExtraSmall } from '@tourlane/tourlane-ui'
-import PaginationWrapper from 'components/Pagination'
+import Pagination from 'components/Pagination'
 import Actions from './Actions'
 import {
   paginateResults,
@@ -245,7 +245,7 @@ export const SearchResultWrapper = withRouter(
             <BottomWrapper p={3 / 4} alignItems={'center'}>
               {allResults.length > 1 ? (
                 <PaginationCenteredWrapper>
-                  <PaginationWrapper
+                  <Pagination
                     total={pages * itemsPerPage}
                     limit={itemsPerPage}
                     currentPage={currentPage}

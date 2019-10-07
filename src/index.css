@@ -1,15 +1,9 @@
-html {
-  height: 100%;
-}
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transform: translateZ(0);
-  height: 100%;
 }
 /* START Change default selections styles */
 /* IE9  - Also picked up by most modern browsers */
@@ -29,18 +23,6 @@ body {
 }
 /* END Change default selections styles */
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.MuiLinearProgress-barColorPrimary {
-  background-color: #59dd7d !important;
-}
-
-.MuiLinearProgress-colorPrimary {
-  background-color: #edeff0 !important;
-}
-
-.MuiLinearProgress-bar {
-  border-radius: 4px;
+#root {
+  height: 1158px;
 }

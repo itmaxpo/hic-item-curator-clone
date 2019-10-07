@@ -153,7 +153,8 @@ const SearchBox = ({
       cacheOptions
       label={'Area (optional)'}
       isDisabled={!country}
-      placeholder="Please select ..."
+      placeholder="Type to find"
+      openMenuOnClick={false}
       loadOptions={debouncedAreaSearch}
       onChange={onAreaChange}
       value={area}
@@ -203,7 +204,8 @@ const SearchBox = ({
             cacheOptions
             value={country}
             label="Country"
-            placeholder="Please select ..."
+            placeholder="Type to find"
+            openMenuOnClick={false}
             loadOptions={debouncedCountrySearch}
             renderMarginRight={category !== COUNTRY_ITEM_TYPE}
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}

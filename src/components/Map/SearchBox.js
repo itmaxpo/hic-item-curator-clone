@@ -19,7 +19,7 @@ const addressSearch = (input, callback) => {
   searchAddress(input).then(response => callback(parseSearchBoxResponse(response)))
 }
 
-const SearchBox = ({ className, placeholder = 'Search for address', onChange = () => {} }) => {
+const SearchBox = ({ className, placeholder = 'Type to find', onChange = () => {} }) => {
   const onChangeHandler = value => {
     onChange(value)
   }
@@ -35,6 +35,7 @@ const SearchBox = ({ className, placeholder = 'Search for address', onChange = (
       isClearable
       cacheOptions
       placeholder={placeholder}
+      openMenuOnClick={false}
       loadOptions={debouncedAddressSearch}
       onChange={onChangeHandler}
     />
