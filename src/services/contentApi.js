@@ -290,7 +290,8 @@ const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-
 const mergeItems = async ids => {
   let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/merge`, {
     body: {
-      item_uuids: ids
+      item_uuids: ids,
+      selected_fields: '*'
     }
   })
 
