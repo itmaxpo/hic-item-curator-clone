@@ -82,7 +82,7 @@ const ImageUploader = ({
                     isError: false,
                     isSelected: false,
                     isVisible: false,
-                    sourceKey: fileUrl.source_key,
+                    sourceKey: fileUrl.data.source_key,
                     tags: fileUrl.data.tags
                   }
 

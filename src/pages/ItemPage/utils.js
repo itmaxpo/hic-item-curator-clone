@@ -1,5 +1,6 @@
 import { itemSpecificFields, itemSameFields } from './itemParser'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { isEmpty } from 'lodash'
 
 // Item Locale Based Fields
 export const localeBasedFields = ['title', 'description', 'photos']
@@ -70,4 +71,13 @@ export const updateItemLocales = item => {
     ...item.locales,
     [item.language]: locale
   }
+}
+
+export const capitalizeBy = (str = '', separator = '_') => {
+  if (isEmpty(str)) return ''
+
+  return str
+    .split(separator)
+    .map(sub => sub[0].toUpperCase() + sub.slice(1))
+    .join(' ')
 }

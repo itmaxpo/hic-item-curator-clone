@@ -5,7 +5,7 @@ import * as queryString from 'query-string'
 import OfferVisualisation from './OfferVisualisation'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
-import { componentsBasedOnType, changeItemLocale, updateItemLocales } from './utils'
+import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeBy } from './utils'
 import { flatten, get } from 'lodash'
 import {
   getItemFieldsById,
@@ -195,7 +195,7 @@ const ItemPage = ({ match, history }) => {
         isLoading: false,
         isError: false,
         isSelected: false,
-        sourceKey: att.source_key,
+        sourceKey: capitalizeBy(att.source_key),
         isVisible: !!get(att, 'tags.visible'),
         tags: att.tags
       }))

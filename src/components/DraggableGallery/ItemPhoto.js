@@ -35,7 +35,7 @@ const ItemPhoto = ({
   return (
     <Item key={image.id} data-id={index}>
       <ItemWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <StyledBadge>{badgeText}</StyledBadge>
+        {badgeText && <StyledBadge>{badgeText}</StyledBadge>}
         {isHovered && (
           <ImgWrapperHoveredBlock>
             {(disabled || !isVisible) && (

@@ -18,7 +18,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
   const fileInputRef = useRef()
   const imageSourceOptions = [
     { value: 'wetu', label: 'WETU' },
-    { value: 'planet', label: 'Lonely planet' }
+    { value: 'lonely_planet', label: 'Lonely planet' }
   ]
 
   const openFileDialog = () => {
@@ -95,7 +95,16 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
       )}
 
       <IconText>
-        Please select an image source first <br /> in order to be able to upload.
+        {!imageSource ? (
+          <span>
+            Please select an image source first <br /> in order to be able to upload.
+          </span>
+        ) : (
+          <span>
+            Please drag & drop images here <br />
+            or browse files
+          </span>
+        )}
       </IconText>
       <ImageSourceDropdown
         placeholder={'Select image source'}
