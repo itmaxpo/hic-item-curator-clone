@@ -23,13 +23,13 @@ const ItemCard = ({ title, area, country }) => {
   const subtitle = area ? `${area}, ${country}` : country
 
   return (
-    <StyledCard>
+    <StyledCard data-test="item">
       <ItemTitleContainer direction="ttb">
         <Flex>
           <CheckIcon />
-          <StyledTitle>{title}</StyledTitle>
+          <StyledTitle data-test="title">{title}</StyledTitle>
         </Flex>
-        <StyledSubtitle>{subtitle}</StyledSubtitle>
+        <StyledSubtitle data-test="subtitle">{subtitle}</StyledSubtitle>
       </ItemTitleContainer>
     </StyledCard>
   )
@@ -51,7 +51,10 @@ const MergeItems = ({ onMerge, onClose, isOpen, items, country }) => {
 
       // 2.5s delay to let progress button animation finish
       setTimeout(() => {
-        enqueueNotification({ message: '🥳  Successfully merged' })
+        enqueueNotification({
+          message: '🥳  Successfully merged',
+          'data-test': 'merge-notification'
+        })
         onMerge(parseMergedItem(data), itemsToMerge)
         onClose()
       }, 2720)
@@ -62,19 +65,19 @@ const MergeItems = ({ onMerge, onClose, isOpen, items, country }) => {
 
   return (
     <StyledModal isOpen={isOpen} onClose={onClose}>
-      <StyledModalBody>
+      <StyledModalBody data-test="mergeItems">
         <TitleContainer>
           <IconContainer>
             <MergeBigIcon />
           </IconContainer>
           <H3 textAlignCenter>Are you sure you want to merge these items?</H3>
         </TitleContainer>
-        <ItemCardsContainer direction="ttb" alignItems="center">
+        <ItemCardsContainer data-test="items" direction="ttb" alignItems="center">
           {items.map((item, index) => (
             <ItemCard key={index} {...item} country={country} />
           ))}
         </ItemCardsContainer>
-        <ButtonsContainer>
+        <ButtonsContainer data-test="merge">
           <SubmitButton
             onButtonClick={onMergeHandler}
             mockUpload

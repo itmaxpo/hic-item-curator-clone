@@ -42,7 +42,7 @@ const getCountries = async name => {
  * @param {Number} limit
  * @returns {Object}
  */
-const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
+const getAreasInCountry = async (name, countryId, offset = 0, limit = 40) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
@@ -53,6 +53,10 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 50) => {
       sort: {
         'name.content.raw': {
           nested_path: 'name',
+          order: 'asc'
+        },
+        'original_name.content.raw': {
+          nested_path: 'original_name',
           order: 'asc'
         }
       },

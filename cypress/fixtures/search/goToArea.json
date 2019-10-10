@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "count": 1,
+    "total_count": 1
+  },
+  "data": [
+    {
+      "item_type": "admin_area",
+      "id": "test-buenos-aires",
+      "parent_uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [
+          {
+            "content": 4,
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "name": [
+          {
+            "content": "Autonomous City of Buenos Aires",
+            "source": "osm",
+            "source_key": "",
+            "locale": "en-GB"
+          }
+        ],
+        "external_id": [
+          {
+            "content": "relation/3082668",
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "description": [],
+        "original_name": [
+          {
+            "content": "Ciudad Autónoma de Buenos Aires",
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "ancestors": [
+          {
+            "content": [],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    }
+  ]
+}

@@ -13,9 +13,10 @@ import {
   updateItemsWithNames,
   getItemNameById,
   updateItemsWithArea,
-  removeMergedItems
+  removeMergedItems,
+  enrichItems
 } from './utils'
-import { calculateOffsetAndIndex } from '../utils'
+import { calculateIndex } from '../utils'
 import SearchItem from './SearchItem'
 import {
   SearchResultContainer,
@@ -81,19 +82,18 @@ export const SearchResultWrapper = withRouter(
       else enrichedItemsRef.current.push(updatedItem)
     }, [])
 
-    /* this method updates the current page items
-     * with the enriched version of the item.
-     * it is meant to be called when changing pages
-     * so it doesn't affect performance, given that
-     * changing pages already causes a re render of the items.
+    /* this method returns the search results
+     * with an enriched version of the items.
+     * It is meant to be called when changing pages
+     * or after merging items so it doesn't affect performance,
+     * given that these two actions already causes a re render of the items.
      */
     const updateCurrentPageEnrichedItems = () => {
-      if (isEmpty(enrichedItemsRef.current)) return
-      const newAllResults = allResults
-      newAllResults[currentPage - 1] = enrichedItemsRef.current
+      if (isEmpty(enrichedItemsRef.current)) return results
+      const enrichedResults = enrichItems(results, enrichedItemsRef.current)
 
       enrichedItemsRef.current = []
-      setAllResults(newAllResults)
+      return enrichedResults
     }
     // If isSelected then add all current items to selectedItems
     const onAllSelectClick = isSelected => {
@@ -122,7 +122,7 @@ export const SearchResultWrapper = withRouter(
       setSelectedItems([])
       setIsAllSelected(false)
 
-      updateCurrentPageEnrichedItems()
+      setResults(updateCurrentPageEnrichedItems())
 
       // Calculate offsetTop for searchContainer to scroll to it
       scrollToActions(searchContainer)
@@ -166,9 +166,9 @@ export const SearchResultWrapper = withRouter(
     const onMerge = (mergedItem, itemsMerged) => {
       setSelectedItems([])
 
-      const { index } = calculateOffsetAndIndex(currentPage - 1, itemsPerPage)
+      const index = calculateIndex(currentPage - 1, itemsPerPage)
 
-      const newResults = removeMergedItems(results, itemsMerged)
+      const newResults = removeMergedItems(updateCurrentPageEnrichedItems(), itemsMerged)
 
       newResults.splice(index, 0, mergedItem)
 
@@ -204,7 +204,7 @@ export const SearchResultWrapper = withRouter(
     const pages = allResults.length
 
     return (
-      <FlexContainer p={0} direction="ttb" id={'search-container'}>
+      <FlexContainer data-test="searchResult" p={0} direction="ttb" id={'search-container'}>
         <MergeItems
           isOpen={isMergeOpen}
           onClose={() => {
@@ -227,7 +227,7 @@ export const SearchResultWrapper = withRouter(
         {allResults.length === 0 ? (
           <FlexContainer>No results</FlexContainer>
         ) : (
-          <SearchResultContainer>
+          <SearchResultContainer data-test="page">
             {allResults[currentPage - 1].map((item, i) => (
               <SearchItem
                 key={item.id}

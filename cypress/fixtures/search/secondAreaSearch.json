@@ -1,0 +1,956 @@
+{
+  "meta": { "count": 40, "total_count": 2776 },
+  "data": [
+    {
+      "item_type": "admin_area",
+      "id": "61a6dd06-419a-45cd-a54a-2bd9004fb950",
+      "parent_uuid": "7f3aecb0-4d98-4571-8214-65ed17b9096f",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3125245", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Saladas", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "7558226e-74d2-40a9-b2b4-541956f48a81",
+      "parent_uuid": "7f3aecb0-4d98-4571-8214-65ed17b9096f",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3134516", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Esquina", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "1d85b61a-1a54-43f2-9c3f-509ccbd0272d",
+      "parent_uuid": "7f3aecb0-4d98-4571-8214-65ed17b9096f",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3134520", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Departamento Sauce", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "29d8287f-433f-4d58-88d7-cac70e933579",
+      "parent_uuid": "f1308c5f-e836-4c84-87be-de7521d98ae6",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3059841", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Cafayate", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "903df35c-cdb7-4608-93a7-f3c36a8792a5",
+      "parent_uuid": "9472e3fb-dcbf-49fb-b15e-019920b131b3",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3183290", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          {
+            "content": "Departamento Libertador General San Martín",
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "4d219673-1799-447f-aefd-9d28e5cedd79",
+      "parent_uuid": "9472e3fb-dcbf-49fb-b15e-019920b131b3",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3184984", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Veinticinco de Mayo", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "539c196f-2b1a-40a5-92c7-812e88534d2f",
+      "parent_uuid": "9472e3fb-dcbf-49fb-b15e-019920b131b3",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3187901", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Candelaria", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "3c2005db-671d-45d6-9f6b-831a44218911",
+      "parent_uuid": "29fb1dd0-06d7-49b0-9313-5af7d1fff95d",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3447347", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Constitución", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "6eb8d4b6-bc7e-4d07-993b-b66bb1bd2b36",
+      "parent_uuid": "16bb570e-79f1-4c7c-8d8d-35326fe5813b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3467323", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Chicligasta", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "8d56330a-a10a-43d3-92f2-63f815d869bf",
+      "parent_uuid": "691b52ca-20de-4ff8-b4dc-1ec8b4f0a3a4",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3486112", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Capital", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/16bb570e-79f1-4c7c-8d8d-35326fe5813b",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "7df0a898-3d3f-4e6b-943c-851c2812788a",
+      "parent_uuid": "16bb570e-79f1-4c7c-8d8d-35326fe5813b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3460035", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Juan Bautista Alberdi", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "8b88009c-dd31-4015-a8e6-77e6e32245c3",
+      "parent_uuid": "29fb1dd0-06d7-49b0-9313-5af7d1fff95d",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3447348", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento General López", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "1bf394ff-5d51-486a-aa06-f0d407765a42",
+      "parent_uuid": "e321fcb3-532c-4899-a390-575f1b887d40",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3539240", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Valcheta", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "c47a9579-5763-4531-a4c3-76781a22fa43",
+      "parent_uuid": "9358a732-1286-4736-b677-dff4369488a5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3558255", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Ledesma", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "199c32a8-b1c1-4d74-89ec-91bd045b7096",
+      "parent_uuid": "31f28468-deea-427f-8b2f-7754e3b06a3e",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3574233", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento General Taboada", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "0c63fa7c-ffa6-4998-a2a6-cf80c5e7d407",
+      "parent_uuid": "9358a732-1286-4736-b677-dff4369488a5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3558256", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento San Antonio", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "4056bc86-d210-4c9f-9240-7b34a5d55b6b",
+      "parent_uuid": "31f28468-deea-427f-8b2f-7754e3b06a3e",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3575760", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Quebrachos", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "db0340fd-f35c-4fab-9e5e-f691879c8323",
+      "parent_uuid": "9358a732-1286-4736-b677-dff4369488a5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3560795", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento El Carmen", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "b92b6d2d-e4a1-4b2b-970a-b86f9b459d86",
+      "parent_uuid": "31f28468-deea-427f-8b2f-7754e3b06a3e",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3569887", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Moreno", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "ff8f624f-6cf2-4fb6-8f9f-90b8233e779d",
+      "parent_uuid": "e321fcb3-532c-4899-a390-575f1b887d40",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3539451", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento El Cuy", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "7975e62a-6036-4757-ad9b-7710d6fede0d",
+      "parent_uuid": "d2880151-0f93-4efb-9027-228d602efee5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3581365", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Sarmiento", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "b7fac919-ba88-4d9b-8d14-b4490567467f",
+      "parent_uuid": "d2880151-0f93-4efb-9027-228d602efee5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3578126", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Jáchal", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "b04eab10-df9c-46a6-85b4-d0ddd09547c1",
+      "parent_uuid": "d2880151-0f93-4efb-9027-228d602efee5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3581513", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Angaco", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "1e772167-ad67-4385-8552-8ab1c7474cc1",
+      "parent_uuid": "e321fcb3-532c-4899-a390-575f1b887d40",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3539239", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Pichi Mahuida", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "6f7aa99b-6cbb-4e49-93a4-ca04d4e8606e",
+      "parent_uuid": "e321fcb3-532c-4899-a390-575f1b887d40",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3541556", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Pilcaniyeu", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "fdcc5408-21d5-4604-8785-c8584cd31a63",
+      "parent_uuid": "16bb570e-79f1-4c7c-8d8d-35326fe5813b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3491887", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Burruyacú", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "1a9d67b5-7d86-4a95-992d-32fb3f7cd2d5",
+      "parent_uuid": "bbcab73e-9a44-41e2-b59e-2c3a2c3cb68a",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3536462", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Matacos", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "a154961f-4956-4620-b59a-50c85aa4855e",
+      "parent_uuid": "31f28468-deea-427f-8b2f-7754e3b06a3e",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3572171", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Robles", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "366c339a-a0fc-4e5b-b0a6-fa7acefe439b",
+      "parent_uuid": "31f28468-deea-427f-8b2f-7754e3b06a3e",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3573323", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Loreto", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "3c01112b-ed4d-49f5-a75c-541473fcf189",
+      "parent_uuid": "b6f45b8a-c28d-48f4-8374-e8cebcad673b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3586710", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "General Lamadrid", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "f4fced61-9e4b-4b94-8d06-6872e6435ec1",
+      "parent_uuid": "b6f45b8a-c28d-48f4-8374-e8cebcad673b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3587529", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Chamical", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "36555b9c-427d-4a3b-87f0-8211dca04b4b",
+      "parent_uuid": "b6f45b8a-c28d-48f4-8374-e8cebcad673b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3587453", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Arauco", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "e37b9241-e2c4-4765-b225-3e8b364de557",
+      "parent_uuid": "1200e885-883f-409d-a677-02f2e295b8ec",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3592496", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "General Pedernera", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "f80c6cbd-e0c8-4db3-938d-377b5c296877",
+      "parent_uuid": "1200e885-883f-409d-a677-02f2e295b8ec",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3592497", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Gobernador Dupuy", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "b34f3397-11a1-4a09-b2a2-999fc4dcf449",
+      "parent_uuid": "1200e885-883f-409d-a677-02f2e295b8ec",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3592495", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Chacabuco", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "45b642d2-c059-414a-852e-9aff7d7b42ce",
+      "parent_uuid": "1200e885-883f-409d-a677-02f2e295b8ec",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3589727", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Ayacucho", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "8f86eb29-badf-4aa0-bf6e-2597e407f1f7",
+      "parent_uuid": "29fb1dd0-06d7-49b0-9313-5af7d1fff95d",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3587829", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Las Colonias", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "37dd5e92-707e-4a3e-aa2a-9e21b44eec5d",
+      "parent_uuid": "b6f45b8a-c28d-48f4-8374-e8cebcad673b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 5, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3586751", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Departamento Chilecito", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": ["kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "33416cbb-a889-4d3a-819a-759fb9a161ac",
+      "parent_uuid": "ac9d7a43-56e9-4b83-9532-ab8697cfe365",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 7, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/1537053", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Municipio de Fontana", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/cbbc1a08-1cca-437c-a2cd-1d6f6cd52bf5",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "926ce4b6-6a00-4adb-aaf0-1d9bbf7abced",
+      "parent_uuid": "ac9d7a43-56e9-4b83-9532-ab8697cfe365",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 7, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/1536677", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Barranqueras", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/cbbc1a08-1cca-437c-a2cd-1d6f6cd52bf5",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    }
+  ]
+}

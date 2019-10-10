@@ -21,8 +21,8 @@ const Wrapper = styled.div`
   margin: 20px 90px 0 90px;
 `
 
-export const SearchBoxWrapper = ({ children }) => (
-  <Wrapper>
+export const SearchBoxWrapper = ({ children, ...rest }) => (
+  <Wrapper {...rest}>
     <StyledSearchBoxContainer pt={3 / 4} pb={2} direction="ttb">
       {children}
     </StyledSearchBoxContainer>
@@ -58,8 +58,8 @@ const DropdownContainer = styled.div`
   ${({ hidden }) => hidden && `display: none`}
 `
 
-export const Dropdown = ({ label, hidden, ...rest }) => (
-  <DropdownContainer hidden={hidden}>
+export const Dropdown = ({ label, hidden, dataTest, ...rest }) => (
+  <DropdownContainer hidden={hidden} data-test={dataTest}>
     <StyledSubline>{label}</StyledSubline>
     <StyledDropdown isClearable {...rest} />
   </DropdownContainer>

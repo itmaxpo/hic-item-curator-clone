@@ -101,11 +101,14 @@ export const SearchItem = ({
   }, [localItem.allImages])
 
   return (
-    <SearchItemWrapper p={3 / 4} direction={'ltr'} isMerged={localItem.isMerged}>
-      <FlexContainer p={0} alignItems={'start'}>
+    <SearchItemWrapper
+      data-test="search-item"
+      p={3 / 4}
+      direction={'ltr'}
+      isMerged={localItem.isMerged}
+    >
+      <FlexContainer p={0} alignItems={'start'} data-test="checkbox">
         <SearchItemCheckbox
-          id={index}
-          className={'search-item-checkbox'}
           name="isItemSelected"
           checked={map(selectedItems, 'id').includes(localItem.id)}
           onChange={onCheckboxChange}
@@ -119,11 +122,11 @@ export const SearchItem = ({
             <StatusIndicator status={localItem.status} />
           </ItemBadge>
         </BadgeWrapper> */}
-        <ItemTitle>
+        <ItemTitle data-test="title">
           <span>{localItem.title}</span>
         </ItemTitle>
-        <ItemSubtitle>{subtitle}</ItemSubtitle>
-        <ItemDescription>
+        <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
+        <ItemDescription data-test="description">
           <ShowMore collapsed={true} height={'60px'} size={'18px'}>
             {ReactHtmlParser(localItem.description)}
           </ShowMore>
@@ -132,7 +135,7 @@ export const SearchItem = ({
 
       <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
         <Image />
-        <BadgeWrapperPhoto>
+        <BadgeWrapperPhoto data-test="photo">
           <ItemBadge width={'95px'}>
             <P>
               {localItem.allImages.length} Photo{addSToString(localItem.allImages.length)}

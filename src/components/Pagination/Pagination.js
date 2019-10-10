@@ -26,6 +26,7 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
         <Wrapper justify="center">
           {hasPreviousPage ? (
             <StyledCircleIconButton
+              data-test="previous-page"
               hasArrow
               arrow="left"
               {...getPageItemProps({
@@ -36,6 +37,7 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
           ) : null}
 
           <PaginationButton
+            data-test="first-page"
             {...getPageItemProps({
               pageValue: 1,
               onPageChange: onPageChange
@@ -44,9 +46,10 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
             First
           </PaginationButton>
 
-          {pages.map(page => {
+          {pages.map((page, index) => {
             return (
               <PaginationButton
+                data-test={`page-${index + 1}`}
                 className={`${currentPage === page ? 'active' : ''}`}
                 {...getPageItemProps({
                   pageValue: page,
@@ -60,6 +63,7 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
           })}
 
           <PaginationButton
+            data-test="last-page"
             {...getPageItemProps({
               pageValue: totalPages,
               onPageChange: onPageChange
@@ -70,6 +74,7 @@ const PaginationWrapper = ({ total, limit, pageCount = 8, currentPage, onPageCha
 
           {hasNextPage && (
             <StyledCircleIconButton
+              data-test="next-page"
               hasArrow
               arrow="right"
               {...getPageItemProps({

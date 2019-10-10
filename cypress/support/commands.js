@@ -58,6 +58,23 @@ Cypress.Commands.add(
 )
 
 /**
+ * Custom command 'clearSelectOption'.
+ * Selects an option in a 'react-select' component
+ */
+Cypress.Commands.add(
+  'clearSelectOption',
+  {
+    prevSubject: true
+  },
+  (element, option, wait = 0) => {
+    cy.wrap(element)
+      .find('input:text')
+      .focus()
+      .type('{selectall}{backspace}', { force: true })
+  }
+)
+
+/**
  * Custom command 'getSelectOption'.
  * Return the selected option in a 'react-select' component
  */

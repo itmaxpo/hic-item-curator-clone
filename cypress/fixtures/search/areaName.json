@@ -1,0 +1,46 @@
+{
+  "data": {
+    "uuid": "af406cf9-8f9e-4d92-9c1f-1baa14c9d454",
+    "parent_uuid": "24bb4b34-b449-4f20-beb6-a8c77a1dbe13",
+    "item_type": "admin_area",
+    "fields": [
+      {
+        "field_name": "admin_level",
+        "content_type": "integer",
+        "content": 4,
+        "locale": null,
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Ushuaia",
+        "locale": "en-GB",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Ushuaia",
+        "locale": "de-DE",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Ushuaia",
+        "locale": "fr-FR",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}

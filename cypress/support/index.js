@@ -15,3 +15,4 @@
 
 import './commands'
 import './createItemPage'
+import './homePage'

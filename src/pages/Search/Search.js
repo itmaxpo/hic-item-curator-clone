@@ -5,7 +5,7 @@ import Layout from 'components/Layout'
 import { Wrapper, CreateNewItemWrapper, CreateButton, SadFaceIconWrapper } from './styles'
 import SearchBox from './SearchBox'
 import SearchResultWrapper from './SearchResult'
-import { parseSearchResponse, calculateOffsetAndIndex, insertPage } from './utils'
+import { parseSearchResponse, calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
@@ -65,16 +65,16 @@ const SearchPage = ({ history }) => {
   }
 
   const fetchMoreItems = async (page, itemsPerPage) => {
-    const { offset, index } = calculateOffsetAndIndex(page, itemsPerPage)
+    const index = calculateIndex(page, itemsPerPage)
 
     switch (itemType) {
       case AREA_ITEM_TYPE: {
-        const { data } = await getAreasInCountry('', prevPayload.current, offset)
+        const { data } = await getAreasInCountry('', prevPayload.current, index)
         setResults(prevResults => insertPage(prevResults, index, data, itemType))
         break
       }
       case ACCOMMODATION_ITEM_TYPE: {
-        const { data } = await getAccommodations(prevPayload.current, offset)
+        const { data } = await getAccommodations(prevPayload.current, index)
         setResults(prevResults => insertPage(prevResults, index, data, itemType))
         break
       }
@@ -138,7 +138,9 @@ const SearchPage = ({ history }) => {
                 <p>No results</p>
               </>
             )}
-            <CreateButton onClick={createNewItem}>Create New Item</CreateButton>
+            <CreateButton data-test="createNewItem" onClick={createNewItem}>
+              Create New Item
+            </CreateButton>
           </CreateNewItemWrapper>
         )}
       </Wrapper>

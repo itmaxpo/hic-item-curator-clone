@@ -1,0 +1,563 @@
+{
+  "meta": { "count": 11, "total_count": 11 },
+  "data": [
+    {
+      "item_type": "accommodation",
+      "id": "0f00c3fd-4340-4be0-a86c-7b5d60c0c4a0",
+      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [],
+        "supplier_tag": [],
+        "address": [],
+        "description": [],
+        "name": [
+          {
+            "content": "Ah si el nombre",
+            "source": "aot",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.5875522, "lon": -58.3972196 },
+            "source": "aot",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [{ "content": "aot", "source": "aot", "source_key": "gecko" }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "d708ed24-895b-4acb-b534-cec3a5d7e58a",
+      "parent_uuid": "cfebd276-8a7e-43d2-96db-3d93ce1aa65a",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "66902", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "San Lorenzo \r\nCiudad de Mendoza\r\n660 5500\r\nMendoza\r\nArgentina ",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [],
+        "name": [
+          {
+            "content": "Amérian Executive Mendoza Hotel",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -32.892484, "lon": -68.848794 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/89f13b4a-6a3b-4b45-a0fe-aeb87ac45948",
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "a934193f-95e1-4167-a71b-06d9da299d4e",
+      "parent_uuid": "2d2bc240-836d-4b9d-87f5-4f8ee0abfb30",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "126260", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "Av. Corrientes 1173\r\nBuenos Aires, Argentina",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [
+          {
+            "content": "\u003cp\u003eIn unmittelbarer Nähe des berühmten Obelisken erwartet Sie das Broadway Hotel \u0026amp; Suites in Buenos Aires. Auf der Panorama-Dachterrasse des Hauses befindet sich der Pool mit Sonnendeck. Darüber hinaus steht den Gästen ein Fitnessbereich und eine Sauna zur Verfügung. Ihr Zimmer ist im Art-Deco-Stil eingerichtet. Parkettfußböden, Kronleuchter und große Fenster sorgen für ein elegantes Ambiente. Am Morgen serviert Ihnen das Restaurant ein reichhaltiges Frühstück, am Abend werden Sie mit regionalen und internationalen Speisen verwöhnt. Das Opernhaus erreichen Sie nach einem Fußweg von 350 Metern. Nach gut einem Kilometer erreichen Sie das bekannte Viertel Puerto Madero Waterfront.\u003c/p\u003e",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "\u003cp\u003eBroadway Hotel \u0026amp; Suites is located in the heart of the city",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "name": [
+          {
+            "content": "Broadway Hotel \u0026amp; Suites",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "Broadway Hotel \u0026amp; Suites",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.603748643891734, "lon": -58.38321263372961 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/05c8cf19-408d-4185-9049-bb2ae700a6be",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "20453591-43d1-4e98-8d50-030507caa0ea",
+      "parent_uuid": "daa4528d-7215-4ee6-8c4f-a68ca2a98008",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "47531", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "Boulevard Almirante Brown 637, Puerto Madryn, Chubut, Argentina",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [
+          {
+            "content": "\u003cp\u003eDas Dazzler Puerto Madryn Hotel befindet sich reizvoll in der Küstenstadt Puerto Madrin im Norden Patagoniens gelegen. Die weitläufigen Zimmer sind schön eingerichtet, bieten bequeme Betten und eine wunderbare Sicht auf den Golfo Nuevo. Außerdem sind sie mit Klimaanlagen und modernen Flachbildschirm-Geräten ausgestattet. Im gesamten Hotel steht Ihnen ein freier WiFi-Zugang zur Verfügung. Darüber hinaus können Sie einen Spa-Bereich samt Sauna und Solarium sowie ein Fitness-Center für sich nutzen. Das hoteleigene Restaurant hält eine Speisekarte mit köstlichen patagonischen Gerichten für Sie bereit. Vom Dazzler Puerto Madryn Hotel aus können Sie die faszinierende Küste erkunden oder auch Bootstouren zur Wal-Beobachtung unternehmen.\u003c/p\u003e",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "\u003cp\u003eThe Dazzler Puerto Madryn is located on the shore of the coastal Puerto Madryn.",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "name": [
+          {
+            "content": "Dazzler Puerto Madryn",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "Dazzler Puerto Madryn",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -42.76989, "lon": -65.03039999999999 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/869babbb-d6b5-456b-a20c-0744b3e33d57",
+              "kiwi://Elephant/Item/38ec1f6d-ed9e-4fdb-902f-115ce080d511",
+              "kiwi://Elephant/Item/8cbd3859-325d-4487-8837-ee76542b34ee",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "72a3acf4-b61e-4c9b-8277-93f380e62a2e",
+      "parent_uuid": "1fc45168-e540-4630-84a5-fa58c6d9bab2",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "129677", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "Calle 998 N°59\r\nEl Calafate\r\nSanta Cruz\r\nArgentina",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [
+          {
+            "content": "\u003cp\u003eDas Lagos Del Calafate Hotel liegt im Herzen der Stadt El Calafate und bietet Zimmer und Suiten in unterschiedlichen Größen an. Überall im Hotel besteht freier WiFi-Zugang. Der Blick aus den Fensterfronten auf den Cerro Calafate und den Lago Argentino ist atemberaubend. Außerdem finden Sie im Lagos Del Calafate Hotel einen Spa-Bereich, wo Sie einen beheizten Pool, eine Sauna oder diverse Anwendungen für sich in Anspruch nehmen können. Das Restaurant wartet mit patagonischen und internationale Speisen auf, während die Bar zu leckeren Cocktails einlädt. Punta Bandera, von wo aus Sie Bootstouren zum Upsala-Gletscher unternehmen können, befindet sich 50 Meilen entfernt.\u003c/p\u003e",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "\u003cp\u003eUnique Luxury Patagonia is located in the city of El Calafate",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "name": [
+          {
+            "content": "Lagos Del Calafate",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "Lagos Del Calafate",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -50.3438926, "lon": -72.24867979999999 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/e652a3c0-80ac-4bd0-8c98-bfd2af3b046b",
+              "kiwi://Elephant/Item/44d3950c-c6c6-466a-8603-e28449b1d5e7",
+              "kiwi://Elephant/Item/b08e87ad-f94c-4dca-a896-cb0fc4e89023",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "8199ecde-89c4-42fb-ac51-b195431eec0b",
+      "parent_uuid": "2d2bc240-836d-4b9d-87f5-4f8ee0abfb30",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "26027", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "Carlos Pellegrini, 877 , \r\nC1009ABQ , \r\nBuenos Aires\r\nArgentina",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [
+          {
+            "content": "\u003cp\u003eDas exquisite Pestana Buenos Aires Hotel befindet sich in bester Lage in der Avenida 9 de Julio, unweit des Teatro Colón und dem berühmten Obelisken. Die elegant eingerichteten Zimmer sind weitläufig gestaltet und mit bequemen Betten und angenehmen Holzböden ausgestattet. Überall stehen kostenloses WLAN sowie ein LCD-Fernseher mit Sat-Anschluss bereit. Sämtliche Zimmer sind zudem mit Klimaanlage und einem eigenen Safe bestückt. Während Ihres Aufenthaltes können Sie den Spa-Bereich mit Innenpool, Jacuzzi, Fitnessraum und Sauna für sich nutzen. Im hoteleigenen Restaurant Il Moro wird feinste argentinische Kochkunst angeboten. Die Bar des Pestana Buenos Aires Hotel schließlich lockt mit diversen köstlichen Cocktails.\u003c/p\u003e",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "\u003cp\u003ePestana Buenos Aires Hotel is located in the heart of  9 de Julio",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "name": [
+          {
+            "content": "Pestana Buenos Aires Hotel",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "Pestana Buenos Aires Hotel",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.59815726416018, "lon": -58.38100517026938 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/95166614-7371-477a-be8f-7ebc1140fa45",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "f459602f-5241-4632-a905-0f896de7db57",
+      "parent_uuid": "af406cf9-8f9e-4d92-9c1f-1baa14c9d454",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [{ "content": "47560", "source": "wetu", "source_key": "gecko" }],
+        "supplier_tag": [],
+        "address": [
+          {
+            "content": "Governor Deloqui No. 198 (Rivadavia esq.) \r\n(9410) Ushuaia \r\nTierra del Fuego Province ",
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "description": [
+          {
+            "content": "\u003cp\u003eIm Hotel Tierra del Fuego sind Sie in angenehm eingerichteten Zimmern oder Suiten untergebracht. Überall ist ein moderner Flachbildschirm-Fernseher vorhanden. Die großen Fensterfronten bieten eine einzigartige Aussicht auf den Martial-Gletscher sowie auf die Ushuaia-Bucht. Jedes Zimmer verfügt über ein Badezimmer, über freien WLAN-Zugang und einen Safe, die Suiten zusätzlich über einen eigenen Whirlpool. Das Personal des Hotels Tierra del Fuego ist äußerst hilfsbereit. Restaurants und Läden finden Sie im Stadtzentrum von Ushuaia, das in unmittelbarer Nähe liegt. Vom Hotel aus sind Sie sofort am Hafen, von wo aus Sie etwa eine Tour auf dem Beagle-Kanal unternehmen und Pinguine beobachten können.\u003c/p\u003e",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "\u003cp\u003eTierra del Fuego Hotel is in downtown Ushuaia.",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "name": [
+          {
+            "content": "Tierra del Fuego Hotel",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "de-DE"
+          },
+          {
+            "content": "Tierra del Fuego Hotel",
+            "source": "wetu",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -54.80470408137177, "lon": -68.30141333002473 },
+            "source": "wetu",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/de5516cc-a9d9-48b2-9474-e6bd0ad46812",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "9f0d2a50-733b-4e13-86b0-f6801b5ff5a8",
+      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [],
+        "supplier_tag": [],
+        "address": [],
+        "description": [],
+        "name": [
+          {
+            "content": "la casa de belencita 2 ah si la numero dos",
+            "source": "illusions",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.5875522, "lon": -58.3972196 },
+            "source": "illusions",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [{ "content": "illusions", "source": "illusions", "source_key": "gecko" }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "2b1e5a2a-0411-49a5-88cc-10183a1e14d7",
+      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [],
+        "supplier_tag": [],
+        "address": [],
+        "description": [],
+        "name": [
+          {
+            "content": "la casa de belencita ah si",
+            "source": "jonview",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.5875522, "lon": -58.3972196 },
+            "source": "jonview",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [{ "content": "jonview", "source": "jonview", "source_key": "gecko" }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "7fe38296-a8d1-4f81-ae1c-2ca01d119032",
+      "parent_uuid": "b8bcb788-f0f7-438c-91fd-7da276ff02e3",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [],
+        "supplier_tag": [],
+        "address": [],
+        "description": [],
+        "name": [
+          {
+            "content": "la casita de la abuelita de belen",
+            "source": "PrivateSafaris",
+            "source_key": "gecko",
+            "locale": "en-GB"
+          }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.5851659, "lon": -58.4158912 },
+            "source": "PrivateSafaris",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [
+          { "content": "PrivateSafaris", "source": "PrivateSafaris", "source_key": "gecko" }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/eb8ea965-aa62-43c0-b80f-e9f5f9053cf2",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "accommodation",
+      "id": "1da592ae-a003-416c-9efa-d98692a17db6",
+      "parent_uuid": "b8bcb788-f0f7-438c-91fd-7da276ff02e3",
+      "fields": {
+        "primary_item_uuid": null,
+        "external_id": [],
+        "supplier_tag": [],
+        "address": [],
+        "description": [],
+        "name": [
+          { "content": "new test", "source": "egoli", "source_key": "gecko", "locale": "en-GB" }
+        ],
+        "geolocation": [
+          {
+            "content": { "lat": -34.5851659, "lon": -58.4158912 },
+            "source": "egoli",
+            "source_key": "gecko"
+          }
+        ],
+        "dmc_id": [{ "content": "egoli", "source": "egoli", "source_key": "gecko" }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/eb8ea965-aa62-43c0-b80f-e9f5f9053cf2",
+              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ]
+      }
+    }
+  ]
+}

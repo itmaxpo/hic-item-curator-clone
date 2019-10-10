@@ -1,4 +1,4 @@
-import { get, flatten, filter, isEmpty } from 'lodash'
+import { get, flatten, filter, isEmpty, find } from 'lodash'
 import { paginateArray } from '../utils'
 import { animateScroll as scroll } from 'react-scroll'
 import { getItemFieldsById } from 'services/contentApi'
@@ -97,3 +97,9 @@ export const updateItemsWithArea = (listToUpdate, listWithAreas) =>
 
 export const removeMergedItems = (list, itemsToRemove) =>
   list.filter(listItem => !itemsToRemove.some(item => item.id === get(listItem, 'id')))
+
+export const enrichItems = (itemsToEnrich, enrichedItems) =>
+  itemsToEnrich.map(itemToEnrich => ({
+    ...itemToEnrich,
+    ...find(enrichedItems, enrichedItem => enrichedItem.id === get(itemToEnrich, 'id'))
+  }))

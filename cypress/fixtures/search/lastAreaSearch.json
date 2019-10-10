@@ -1,0 +1,417 @@
+{
+  "meta": { "count": 16, "total_count": 2776 },
+  "data": [
+    {
+      "item_type": "admin_area",
+      "id": "6668e195-69d1-46d4-8ae6-7bede16a96ce",
+      "parent_uuid": "cd5c6101-95ea-43b9-9124-9ae4d5225a21",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2917872", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito Sauce", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/dffb0e89-3bfa-4c0e-9db1-670e5fe0cab9",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "8e106700-3396-4fb4-9988-f06c9607ba69",
+      "parent_uuid": "97300f47-d378-48eb-ad6d-bc9a00ed42f8",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2993821", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito Anchoris", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "83fe9400-1c25-4036-b7f5-c38d1ca1d5bd",
+      "parent_uuid": "5fd4522d-24f4-4608-9825-62e480388ff6",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/9533739", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Pedanía Macha", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c0e6a47a-0375-4bac-872a-9569b49c1993",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "e7e678b3-1204-4fd4-8a99-a8b456832e29",
+      "parent_uuid": "cb248709-6ff2-427a-ba60-c2ca432b4788",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2958038", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Distrito El Divisadero", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "51bd3fe7-a42c-490d-b2b1-e940bc171ee8",
+      "parent_uuid": "4e054b1e-77f3-40ed-8647-cf7cbd28c071",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2856953", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito Primero", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/dffb0e89-3bfa-4c0e-9db1-670e5fe0cab9",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "cdc7c91f-bf3c-4caf-aab1-511bb9c399a8",
+      "parent_uuid": "c9d910cc-d1b7-4f95-904a-a97cc53f84fe",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/9578293", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Pedanía San Bartolomé", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c0e6a47a-0375-4bac-872a-9569b49c1993",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "8ddced1b-041c-4515-85f1-3641a91cabe9",
+      "parent_uuid": "ff849138-1908-4f58-bf66-17c7d514546b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/9535353", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Pedanía San Vicente", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c0e6a47a-0375-4bac-872a-9569b49c1993",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "83825d61-1b43-4b4e-81ba-1d8eab8b438a",
+      "parent_uuid": "638dfc20-873a-41bf-bab1-e23d13c76ca7",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2964503", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito El Sauce", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "5dae6e13-9b61-42ce-a0bc-fadbdea3dff3",
+      "parent_uuid": "2ea3156e-0bcf-4af3-8289-89cbf05534dc",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2980565", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito El Carmen", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "f67ac08c-7158-4678-baa7-20b0c8818428",
+      "parent_uuid": "e8bc8543-14f4-4c54-af0a-4ee38b5e3f3b",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/6597892", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Cuartel Asamblea", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/316c1b1f-ad72-49b8-84bb-69c4b82674ab",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "59c24932-5d5f-44d4-8e99-0332e9d528d8",
+      "parent_uuid": "270e2aa3-eb45-4583-8971-5e448a4765d7",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2961249", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Distrito Cruz de Piedra", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "769421a9-735f-43aa-abc7-4ce34ba30395",
+      "parent_uuid": "ab7e4920-1724-4066-91a0-45c40d9f2aed",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3049496", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Distrito Río Barrancas", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "189cff9d-fa62-451f-a481-54dd4fb2ebc0",
+      "parent_uuid": "fbdfa2ee-e7f4-4b78-81d6-1b44d14a05f5",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/2992006", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [
+          { "content": "Distrito La Paz Norte", "source": "osm", "source_key": null }
+        ],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "575f3735-40a1-47a3-b2df-3cd47858c22c",
+      "parent_uuid": "4c5f92fa-7870-4617-abcf-bdbf62cf0d97",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/3048754", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Distrito Bowen", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "15b566fb-791e-436f-9f03-ba4b4925cc9b",
+      "parent_uuid": "c280bd4d-d809-4f38-aedf-ef617992edd2",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/9517787", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Pedanía Matorrales", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c0e6a47a-0375-4bac-872a-9569b49c1993",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    },
+    {
+      "item_type": "admin_area",
+      "id": "1392f674-67de-4ca5-8764-81f3f2de918d",
+      "parent_uuid": "3fd2d6bf-f584-40bf-bab7-03ebc905ebcb",
+      "fields": {
+        "primary_item_uuid": null,
+        "admin_level": [{ "content": 6, "source": "osm", "source_key": null }],
+        "name": [],
+        "external_id": [{ "content": "relation/9495290", "source": "osm", "source_key": null }],
+        "description": [],
+        "original_name": [{ "content": "Pedanía Sacanta", "source": "osm", "source_key": null }],
+        "ancestors": [
+          {
+            "content": [
+              "kiwi://Elephant/Item/c0e6a47a-0375-4bac-872a-9569b49c1993",
+              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
+            ],
+            "source": "osm",
+            "source_key": null
+          }
+        ],
+        "active_destination": [],
+        "crm_segmentation_code": []
+      }
+    }
+  ]
+}

@@ -147,6 +147,7 @@ const SearchBox = ({
 
   const AreaDropdown = ({ hidden }) => (
     <Dropdown
+      dataTest="area-dropdown"
       hidden={hidden}
       isAsync
       isClearable
@@ -182,12 +183,13 @@ const SearchBox = ({
   }, [category, onItemTypeChange])
 
   return (
-    <SearchBoxWrapper>
+    <SearchBoxWrapper data-test="searchBox">
       <SearchBoxTitle>What item are you looking for?</SearchBoxTitle>
       <CategoryCardsWrapper justify="between" p={0} pt={1} pb={1.5}>
         {categoryCardsMap.map(({ value, displayName, icon }) => (
           <IconCard
             key={value}
+            data-test={displayName}
             value={value}
             label={displayName}
             icon={icon}
@@ -199,6 +201,7 @@ const SearchBox = ({
       {category && (
         <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
           <Dropdown
+            dataTest="country-dropdown"
             isAsync
             isClearable
             cacheOptions
@@ -221,6 +224,7 @@ const SearchBox = ({
                 onChange={e => onValueChange({ name: e.target.value })}
               />
               <Dropdown
+                dataTest="supplier-dropdown"
                 label="Supplier tag (optional)"
                 placeholder="Name the supplier tag"
                 value={supplierFromQuery}
@@ -233,6 +237,7 @@ const SearchBox = ({
       )}
       <SearchWrapper p={0} alignItems={'center'} justify="between">
         <Search
+          data-test="search"
           isLoading={isLoading}
           disabled={!country}
           destination={goToDestination}

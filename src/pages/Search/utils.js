@@ -1,11 +1,11 @@
-import { isEmpty, chunk, get, ceil, flatten } from 'lodash'
+import { isEmpty, chunk, get, flatten } from 'lodash'
 import { getFieldBySourcePriority } from 'utils/helpers'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
 
 // Used to create paginated array
-export const paginateArray = (arr, pageSize = 10) => chunk(arr, pageSize)
+export const paginateArray = (arr, pageSize = 20) => chunk(arr, pageSize)
 
 // Used to return 's' if counter > 2. E.g.: `Photo{addSToString(2)}` -> Photos
 export const addSToString = counter => (counter !== 1 ? 's' : '')
@@ -73,30 +73,25 @@ const parseItems = (items, itemType) => items.map(item => parseItem(item, itemTy
 // eslint-disable-next-line array-callback-return
 const createArrayOfSize = size => Array.apply(null, Array(size)).map(() => {})
 
-// create the pages
-// TODO: more comments
+// create the pages:
+// we get only the first two pages (40 items) but we get the total items
+// so we create the pages (even the empty ones) to correctly build
+// our pagination component
 export const createPages = (items, arraySize) =>
   paginateArray(createArrayOfSize(arraySize).map((_, idx) => items[idx]))
 
 // parse search response data
-// sets the structure of the item also sets the pages (array of arrays - chunks of 10 items)
+// sets the structure of the item also sets the pages (array of arrays - chunks of 20 items)
 export const parseSearchResponse = (data, arraySize, itemType) =>
   createPages(parseItems(data, itemType), arraySize)
 
-export const calculateOffsetAndIndex = (page, itemsPerPage) => {
-  // index of page in the data array
-  const index = itemsPerPage * page
-
-  // given that we always get items by chunks of 50
-  // we divide the index of the missing page by 5 and ceil it
-  const offset = ceil(index / 5)
-
-  return { offset, index }
-}
+// index of page in the data array (before paginating).
+// equals offset.
+export const calculateIndex = (page, itemsPerPage) => itemsPerPage * page
 
 // inserts new page and paginates array
 export const insertPage = (pages, index, items, itemType) => {
-  // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 10)
+  // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 20)
   const draftNewPages = flatten(pages)
 
   // parse the items to give them the shape we use

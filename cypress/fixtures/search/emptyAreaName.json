@@ -1,0 +1,19 @@
+{
+  "data": {
+    "uuid": "daa4528d-7215-4ee6-8c4f-a68ca2a98008",
+    "parent_uuid": "869babbb-d6b5-456b-a20c-0744b3e33d57",
+    "item_type": "admin_area",
+    "fields": [
+      {
+        "field_name": "admin_level",
+        "content_type": "integer",
+        "content": 9,
+        "locale": null,
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}

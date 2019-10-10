@@ -48,7 +48,7 @@ export const Actions = ({
         {availableActions.map(
           (action, i) =>
             action.isActive && (
-              <ActionButton key={i} onClick={() => onClick(action)}>
+              <ActionButton data-test={action.action} key={i} onClick={() => onClick(action)}>
                 Merge
                 {action.icon()}
               </ActionButton>

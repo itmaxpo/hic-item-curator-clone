@@ -1,0 +1,60 @@
+{
+  "data": {
+    "uuid": "0f00c3fd-4340-4be0-a86c-7b5d60c0c4a0",
+    "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
+    "item_type": "accommodation",
+    "fields": [
+      {
+        "field_name": "ancestors",
+        "content_type": "reference_list",
+        "content": [
+          "kiwi://Elephant/Item/6ce329cc-bac7-4540-ac97-48158e2af110",
+          "kiwi://Elephant/Item/93cc5a03-9bc6-4409-a394-9adb3f77448c",
+          "kiwi://Elephant/Item/99a7ee92-597b-49a3-a968-b9251e650f02",
+          "kiwi://Elephant/Item/24bb4b34-b449-4f20-beb6-a8c77a1dbe13"
+        ],
+        "locale": null,
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "dmc_id",
+        "content_type": "string",
+        "content": "AMINSW",
+        "locale": null,
+        "source": "aot",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Ah si el item after merge",
+        "locale": "en-GB",
+        "source": "aot",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "description",
+        "content_type": "string",
+        "content": "Ah si la nueva description after merge",
+        "locale": "en-GB",
+        "source": "aot",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "geolocation",
+        "content_type": "geo_point",
+        "content": { "lat": -31.431219, "lon": 152.896896 },
+        "locale": null,
+        "source": "aot",
+        "source_key": null,
+        "dimensions": {}
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}
