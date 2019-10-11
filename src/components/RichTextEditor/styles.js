@@ -8,10 +8,6 @@ export const Wrapper = styled.div`
   font-size: 15px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
 
-  & .DraftEditor-editorContainer {
-    height: 300px;
-  }
-
   ${props =>
     props.isEditing &&
     css`

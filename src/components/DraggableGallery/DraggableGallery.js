@@ -137,10 +137,10 @@ const DraggableGallery = ({
           </GalleryList>
 
           {images.length > 10 && (
-            <ToggleWrapper>
+            <ToggleWrapper onClick={onShowAllClick}>
               <ToggleAll isAllShown={isAllShown}>
                 {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
-                <GlyphChevronDownIcon onClick={onShowAllClick} />
+                <GlyphChevronDownIcon />
               </ToggleAll>
             </ToggleWrapper>
           )}
@@ -158,10 +158,10 @@ const DraggableGallery = ({
           </ItemList>
 
           {images.length > 10 && (
-            <ToggleWrapper>
+            <ToggleWrapper onClick={onShowAllClick}>
               <ToggleAll isAllShown={isAllShown}>
                 {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
-                <GlyphChevronDownIcon onClick={onShowAllClick} />
+                <GlyphChevronDownIcon />
               </ToggleAll>
             </ToggleWrapper>
           )}

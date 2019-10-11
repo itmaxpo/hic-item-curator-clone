@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Collapse } from '@material-ui/core'
 import TruncateMarkup from 'react-truncate-markup'
-import { ButtonWrapper, BlockTextWrapper } from './styles'
+import { Wrapper, ButtonWrapper, BlockTextWrapper } from './styles'
 
 /**
  * Component serves as a wrapper for the text components, that need to have
@@ -42,14 +42,14 @@ const Collapsable = ({ children, lines = 2, height = '60px', size = '18px' }) =>
   }
 
   return (
-    <div ref={ref}>
+    <Wrapper ref={ref} isCollapsed={isCollapsed}>
       {isDescMoreShown ? (
         <Collapse in={!isTruncated} collapsedHeight={height}>
           <TruncateMarkup
             lines={isCollapsed ? lines : 10000000}
             ellipsis={
               <ButtonWrapper>
-                ... <button onClick={toggleLines}>{'more'}</button>
+                ...<button onClick={toggleLines}>{'more'}</button>
               </ButtonWrapper>
             }
           >
@@ -65,7 +65,7 @@ const Collapsable = ({ children, lines = 2, height = '60px', size = '18px' }) =>
       ) : (
         <BlockTextWrapper size={size}>{children}</BlockTextWrapper>
       )}
-    </div>
+    </Wrapper>
   )
 }
 

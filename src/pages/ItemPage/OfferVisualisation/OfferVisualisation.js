@@ -122,7 +122,7 @@ const OfferVisualisation = ({
 
           <AccordionGroup>
             {parsedDescriptions.map((d, i) => (
-              <StyledAccordion id={'123'} key={i} name={d.field} title={d.label}>
+              <StyledAccordion key={i} name={d.field} title={d.label}>
                 {isEditing ? (
                   <StyledRichTextEditor
                     placeholder={`Please write something about the ${d.label.toLowerCase()}`}

@@ -203,6 +203,9 @@ export const ToggleAll = styled.div`
 `
 
 export const ToggleWrapper = styled(FlexContainer)`
-  margin-bottom: 20px !important;
-  padding: 0 0 20px 0 !important;
+  && {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    cursor: pointer;
+  }
 `

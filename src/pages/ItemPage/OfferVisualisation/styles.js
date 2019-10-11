@@ -4,6 +4,7 @@ import RichTextEditor from 'components/RichTextEditor'
 
 export const StyledAccordion = styled(Accordion)`
   padding: 30px 60px;
+  font-family: 'Source Sans Pro', sans-serif;
 `
 
 export const TitleWithContent = styled.div`

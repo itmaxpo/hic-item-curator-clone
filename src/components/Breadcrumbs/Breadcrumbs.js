@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
 import { some } from 'lodash'
 import styled from 'styled-components'
-import { MEDIA, COLORS } from '@tourlane/tourlane-ui'
+import { COLORS } from '@tourlane/tourlane-ui'
 import { ArrowRightIcon } from 'components/Icon'
 
 const StyledNav = styled.nav`
-  font-size: 14px;
-  ${MEDIA.only.xl`
-    font-size: 16px;
-  `}
+  font-size: 18px;
+  font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  align-items: center;
 `
 
 const Link = styled.a`
@@ -27,15 +27,9 @@ const Link = styled.a`
 const StyledArrow = styled(ArrowRightIcon)`
   display: inline-block;
   vertical-align: text-bottom;
-  margin-left: 2px;
-  margin-right: 2px;
-  top: 3px;
   position: relative;
-
-  ${MEDIA.only.xl`
-    width: 18px;
-    height: 18px;
-  `}
+  width: 18px;
+  height: 20px;
 `
 /**
  * Breadcrumb

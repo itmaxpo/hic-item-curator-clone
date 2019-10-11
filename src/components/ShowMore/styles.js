@@ -1,10 +1,21 @@
 import styled, { css } from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
+export const Wrapper = styled.div`
+  div.MuiCollapse-wrapperInner {
+    ${({ isCollapsed }) =>
+      !isCollapsed &&
+      css`
+        height: 100%;
+      `}
+  }
+`
+
 export const BlockTextWrapper = styled.div`
   font-family: 'Source Sans Pro', sans-serif;
   ${({ size }) => `font-size: ${size}`};
   line-height: 1.4;
+  height: 100%;
 `
 
 export const ButtonWrapper = styled.span`
