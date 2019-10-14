@@ -31,11 +31,6 @@ const ItemPhoto = ({
   badgeText
 }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [isVertical, setIsVertical] = useState(false)
-  // We are using this function to figure out if image is vertically or horizontally aligned
-  const getDimensions = ({ target }) => {
-    setIsVertical(target.naturalHeight > target.naturalWidth)
-  }
 
   return (
     <Item key={image.id} data-id={index}>
@@ -58,8 +53,6 @@ const ItemPhoto = ({
         <LazyLoader src={image.value} height={'110px'} isLoading={image.isLoading}>
           <ImgWrapper
             isVisible={isVisible && index === 0}
-            onLoad={getDimensions}
-            isVertical={isVertical}
             width={'100%'}
             src={image.value}
             alt={image.value}

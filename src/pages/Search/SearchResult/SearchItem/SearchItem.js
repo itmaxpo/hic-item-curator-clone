@@ -19,7 +19,7 @@ import {
 } from './styles'
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import LazyLoader, { Preloader } from 'components/LazyLoader'
-import { enrichItem } from './utils'
+import { enrichItem, getCoverImage } from './utils'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -87,13 +87,11 @@ export const SearchItem = ({
     if (noPictures) {
       return <StyledUnhappyIcon />
     } else {
+      const coverImage = getCoverImage(localItem.allImages)
+
       return (
-        <LazyLoader src={localItem.allImages[0].url}>
-          <ImgWrapper
-            width={'100%'}
-            src={localItem.allImages[0].url}
-            alt={localItem.allImages[0].url}
-          />
+        <LazyLoader src={coverImage.url}>
+          <ImgWrapper width={'100%'} src={coverImage.url} alt={coverImage.url} />
         </LazyLoader>
       )
     }

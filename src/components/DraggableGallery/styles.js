@@ -144,12 +144,6 @@ export const ImgWrapper = styled.img`
     `
       border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
     `}
-
-  ${({ isVertical }) =>
-    isVertical &&
-    `
-      object-fit: contain;
-    `}
 `
 
 export const GalleryTitle = styled(Big)`

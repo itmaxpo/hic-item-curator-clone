@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BlurInTransition } from '@tourlane/tourlane-ui'
-import { Wrapper, Preloader } from './styles'
+import { Wrapper, Preloader, StyledBlurInTransition } from './styles'
 
 /**
  * LazyLoader component
@@ -15,6 +14,12 @@ import { Wrapper, Preloader } from './styles'
 const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props }) => {
   const [isLoaded, setLoaded] = useState(true)
   const [errors, setErrors] = useState([])
+  const [isVertical, setIsVertical] = useState(false)
+
+  // We are using this function to figure out if image is vertically or horizontally aligned
+  const getDimensions = ({ target }) => {
+    setIsVertical(target.naturalHeight > target.naturalWidth)
+  }
 
   useEffect(() => {
     // clean all initial values
@@ -24,7 +29,11 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props })
     // define loading functions
     const loadImage = (imageSrc, callback) => {
       const img = new Image()
-      img.onload = () => callback(null)
+      img.onload = e => {
+        getDimensions(e)
+        callback(null)
+      }
+
       img.onerror = () => callback(new Error('Failed to load an image'))
       img.src = imageSrc
     }
@@ -65,7 +74,11 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props })
 
   return (
     <Wrapper {...props}>
-      {isLoaded && <BlurInTransition animationDuration="1000ms">{children}</BlurInTransition>}
+      {isLoaded && (
+        <StyledBlurInTransition isVertical={isVertical} animationDuration="1000ms">
+          {children}
+        </StyledBlurInTransition>
+      )}
       {!isLoaded && <Preloader />}
       {props.isLoading && <Preloader />}
     </Wrapper>
