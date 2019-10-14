@@ -41,6 +41,7 @@ const DraggableGallery = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAllShown, setIsAllShown] = useState(false)
+  const [clickedItemIndex, setClickedItemIndex] = useState(0)
 
   const imageURLs = images.map(image => image.value)
   const selectedImages = images.filter(image => image.isSelected)
@@ -87,8 +88,9 @@ const DraggableGallery = ({
     onDelete(images)
   }
 
-  const onItemViewClick = () => {
+  const onItemViewClick = i => {
     // Just show gallery
+    setClickedItemIndex(i)
     setIsOpen(true)
   }
 
@@ -109,7 +111,7 @@ const DraggableGallery = ({
       badgeText={image.sourceKey}
       isVisible={isVisible}
       disabled={disabled}
-      onItemViewClick={onItemViewClick}
+      onItemViewClick={() => onItemViewClick(i)}
       onItemSelected={onItemSelected}
     />
   ))
@@ -169,7 +171,12 @@ const DraggableGallery = ({
       )}
       {isVisible && <BottomLine />}
 
-      <ImageCarousel images={imageURLs} open={isOpen} onClose={onClose} />
+      <ImageCarousel
+        selectedItem={clickedItemIndex}
+        images={imageURLs}
+        open={isOpen}
+        onClose={onClose}
+      />
     </GalleryWrapper>
   )
 }

@@ -143,8 +143,13 @@ export const ImgWrapper = styled.img`
     isVisible &&
     `
       border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
-  `} // Uncomment this if we need image to fit full width & height of parent block
-  // object-fit: contain;
+    `}
+
+  ${({ isVertical }) =>
+    isVertical &&
+    `
+      object-fit: contain;
+    `}
 `
 
 export const GalleryTitle = styled(Big)`

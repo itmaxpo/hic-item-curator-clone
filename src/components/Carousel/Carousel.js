@@ -13,7 +13,7 @@ import { CloseIcon } from 'components/Icon'
  * @param {Function} onClose
  * @param {Function} onImageClick
  */
-const ImageCarousel = ({ open, images = [], onClose, onImageClick }) => {
+const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem = 0 }) => {
   // For creating Legends: <p className="legend">Legend 1</p>
 
   return (
@@ -41,11 +41,17 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick }) => {
           interval={4000}
           infiniteLoop
           useKeyboardArrows
+          selectedItem={selectedItem}
           showIndicators={false}
         >
           {images.map((image, i) => (
             <div key={i}>
-              <img onClick={() => onImageClick(image)} src={image} alt={image} />
+              <img
+                style={{ maxWidth: 1200, maxHeight: 693, objectFit: 'contain' }}
+                onClick={() => onImageClick(image)}
+                src={image}
+                alt={image}
+              />
             </div>
           ))}
         </Carousel>
