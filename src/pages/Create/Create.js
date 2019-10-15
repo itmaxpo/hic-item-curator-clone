@@ -18,6 +18,7 @@ import Map, { SearchBox } from 'components/Map'
 import SuppliersContext from 'contexts/Suppliers'
 import { createItem, createSupplier } from 'services/contentApi'
 import { parseSuppliers } from 'contexts/Suppliers/utils'
+import { useNotification } from 'components/Notification'
 
 const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
 
@@ -31,6 +32,8 @@ const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
  */
 
 const Create = ({ history }) => {
+  const { enqueueNotification } = useNotification()
+
   const [itemType, setItemType] = useState(undefined)
   const [name, setName] = useState(undefined)
   const [supplier, setSupplier] = useState(undefined)
@@ -68,7 +71,7 @@ const Create = ({ history }) => {
       const { data } = await createItem(
         itemType.value,
         name,
-        supplier.value,
+        supplier,
         coordinates.lat,
         coordinates.lng,
         locationInfo.address
@@ -80,6 +83,7 @@ const Create = ({ history }) => {
       }, 2500)
     } catch (e) {
       console.warn(e)
+      enqueueNotification({ variant: 'error', message: 'Failed to create item' })
     }
   }
 

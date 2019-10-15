@@ -1,5 +1,5 @@
 /**
- * Token management servcie
+ * Token management service
  *
  */
 class TokenManager {

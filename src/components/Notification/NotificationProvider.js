@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo, useReducer } from 'react'
+import React, { useCallback, useMemo, useReducer, useEffect } from 'react'
 import NotificationContext from './NotificationContext'
 import NotificationHub from './NotificationHub'
+import { notificationManager } from 'services/NotificationManager'
 
 const initialState = {
   notifications: []
@@ -51,6 +52,12 @@ const NotificationProvider = ({ children }) => {
     enqueueNotification,
     closeNotification
   ])
+
+  // effect to assign notification singleton the enqueueNotification method.
+  // this allows dispatching notifications from the request class
+  useEffect(() => {
+    notificationManager.setPushNotification(enqueueNotification)
+  }, [enqueueNotification])
 
   return (
     <NotificationContext.Provider value={contextValue}>

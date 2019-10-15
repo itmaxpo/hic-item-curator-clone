@@ -27,6 +27,7 @@ import {
 } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { useNotification } from 'components/Notification'
 
 // Reducer to handle images all and visible changes
 const reducer = (state, action) => {
@@ -56,8 +57,11 @@ const reducer = (state, action) => {
  * @returns {Object} Item Page
  */
 const ItemPage = ({ match, history }) => {
+  const { enqueueNotification } = useNotification()
+
   const allImagesOriginal = useRef([])
   const visibleImagesOriginal = useRef([])
+
   // Receive here id of item from route and send request to BE to get the item
   const [{ ...item }, dispatch] = useReducer(reducer, { id: match.params.id })
   const originalItem = useRef(null)
@@ -93,7 +97,7 @@ const ItemPage = ({ match, history }) => {
     // Updating current locale in local item
     const currentLocales = updateItemLocales(item)
     dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
-    // TODO: HAve a PROMISE based if have any issues with || requests
+    // TODO: Have a PROMISE based if have any issues with || requests
     try {
       const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
       // Update images
@@ -110,6 +114,10 @@ const ItemPage = ({ match, history }) => {
       ]
       visibleImagesOriginal.current = [...item.visibleImages]
     } catch (e) {
+      enqueueNotification({
+        variant: 'error',
+        message: 'Failed to edit item, try again or refresh the page'
+      })
       console.error(e)
     }
   }

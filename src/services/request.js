@@ -1,5 +1,5 @@
 import { tokenManager } from './tokenManager'
-
+import { notificationManager } from './NotificationManager'
 /* global Headers, fetch */
 
 /**
@@ -10,25 +10,21 @@ import { tokenManager } from './tokenManager'
  * @params method, path, config
  * @returns {Promise<response>} response
  */
-const request = async (
-  method,
-  path,
-  config,
-  retries = 0,
-  errorHandler = window.alert,
-  contentType
-) => {
+const request = async (method, path, config, contentType, retries = 0) => {
   if (!window.navigator.onLine) {
-    errorHandler(
-      'You are offline! Your last changes did not apply. Please get online and try again.'
-    )
+    notificationManager.notify({
+      variant: 'error',
+      message: 'You are offline! Your last changes did not apply. Please get online and try again.'
+    })
     throw new Error('Offline')
   }
 
   if (retries > 2) {
-    errorHandler(
-      'There was an error by trying to save your offer, please try again or reload the page!'
-    )
+    notificationManager.notify({
+      variant: 'error',
+      message:
+        'There was an error by trying to save your changes, please try again or reload the page!'
+    })
     throw new Error(`Error fetching ${path}`)
   }
 
@@ -53,29 +49,51 @@ const request = async (
     fetchOpts = { ...fetchOpts, ...otherConfig }
   }
 
-  const response = await fetch(path, fetchOpts)
+  return fetch(path, fetchOpts)
+    .then(response => {
+      // valid response status
+      const validStatuses = [200, 201, 302]
 
-  // valid response status
-  const validStatuses = [200, 201, 302]
+      // Check status
+      if (response.status === 401) {
+        console.warn(`Authorization error.`)
+        notificationManager.notify({
+          variant: 'error',
+          message: `Got an Authorization error from the backend (${path}). Please refresh the page.`
+        })
+        return request(method, path, config, retries + 1)
+      } else if (response.status === 404) {
+        console.warn(`Could not find ${path}`)
+        notificationManager.notify({ variant: 'error', message: `Service not found: ${path}` })
+        return response
+      } else if (!validStatuses.includes(response.status)) {
+        let responseError
 
-  // Check status
-  if (response.status === 401) {
-    console.warn(
-      `Got an Authorization error from the backend (${path}). Trying to refresh the Auth token.`
-    )
-    return request(method, path, config, retries + 1)
-  } else if (response.status === 404) {
-    console.warn(`Could not find ${path}`)
-    errorHandler(
-      'The requested resource does not exist. Please try to find it through the main page search.'
-    )
-    return response
-  } else if (!validStatuses.includes(response.status)) {
-    console.warn(`Error fetching ${path}: ${response.status} (${response.statusCode})`)
-    errorHandler('Something went wrong, please reload or try again.')
-  }
+        response
+          .json()
+          .then(({ error }) => {
+            responseError = error
+          })
+          .catch(error => {
+            responseError = error
+          })
+          .finally(() => {
+            return Error(
+              `Error communicating with ${path}: ${response.status} (${responseError.message})`
+            )
+          })
+      }
 
-  return response
+      return response
+    })
+    .catch(error => {
+      console.warn('Error: ', error)
+      notificationManager.notify({
+        variant: 'error',
+        message: 'Error - refresh page'
+      })
+      return error
+    })
 }
 
 export default request

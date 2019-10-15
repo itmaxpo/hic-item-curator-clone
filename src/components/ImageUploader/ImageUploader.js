@@ -7,6 +7,7 @@ import {
 } from 'services/contentApi'
 import DraggableGallery from 'components/DraggableGallery'
 import { UploadImageBlock } from './styles'
+import { useNotification } from 'components/Notification'
 
 /**
  * This is a component to upload images and add them to library
@@ -28,6 +29,7 @@ const ImageUploader = ({
   isEditing
 }) => {
   const fetchedImages = useRef([])
+  const { enqueueNotification } = useNotification()
 
   const options = {
     direction: 'horizontal',
@@ -58,7 +60,7 @@ const ImageUploader = ({
       .forEach((file, i) => {
         try {
           if (file.isError) {
-            throw Error({ message: 'file size exceeds' })
+            throw Error('File size exceeds 60MB')
           } else {
             getItemAttachmentsPresignedPost(id, file).then(uploadedPost => {
               const url = uploadedPost.data.url
@@ -95,8 +97,8 @@ const ImageUploader = ({
               })
             })
           }
-        } catch (e) {
-          console.error(e)
+        } catch (error) {
+          enqueueNotification({ variant: 'error', message: error.message })
         }
       })
   }
