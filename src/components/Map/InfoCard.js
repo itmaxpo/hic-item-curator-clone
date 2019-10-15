@@ -15,13 +15,14 @@ import { InfoCardWrapper, Info } from './styles'
 const InfoCard = ({ address, geoCoords }) => {
   return (
     <InfoCardWrapper>
-      {address.split(',').map((infoBit, index, arr) => (
-        <Info key={index}>
-          {infoBit.trim()}
-          {index === arr.length - 1 ? '' : ','}
-          <br />
-        </Info>
-      ))}
+      {address &&
+        address.split(',').map((infoBit, index, arr) => (
+          <Info key={index}>
+            {infoBit.trim()}
+            {index === arr.length - 1 ? '' : ','}
+            <br />
+          </Info>
+        ))}
       {!isEmpty(geoCoords) && (
         <Info style={{ marginTop: 10 }} key={geoCoords.lat}>{`lat: ${geoCoords.lat}, lng: ${
           geoCoords.lon ? geoCoords.lon : geoCoords.lng
