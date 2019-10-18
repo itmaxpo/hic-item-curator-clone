@@ -66,6 +66,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          no_output_timeout: 15m
           working_directory: item_curator
           name: Run cypress tests using test splitting
           command: |
@@ -88,6 +89,17 @@ jobs:
           working_directory: item_curator
           command: npm run test:ci
 
+  lighthouse:
+    executor: item_curator_executor
+    docker:
+      - image: circleci/node:lts-browsers
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          working_directory: item_curator
+          command: npm run lighthouse:ci
+
 workflows:
   version: 2
   build:
@@ -103,5 +115,8 @@ workflows:
           requires:
             - lint
       - test_e2e:
+          requires:
+            - lint
+      - lighthouse:
           requires:
             - lint
