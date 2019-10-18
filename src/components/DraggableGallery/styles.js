@@ -96,9 +96,9 @@ export const Item = styled.li`
 export const CoverImageBlock = styled.div`
   position: absolute;
   top: -30px;
-  left: -6%;
+  left: -5%;
   text-align: center;
-  width: 110%;
+  width: 108%;
   height: 150px;
   color: ${COLORS.INACTIVE_GRAY};
   border: 1px dashed ${COLORS.INACTIVE_GRAY};

@@ -197,22 +197,28 @@ const updateItemFields = async (id, fields) => {
 }
 
 const getRoomsForAccommodation = async id => {
-  let res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}`, {
-    body: {
-      item_types: ['room'],
-      query: {
-        bool: {
-          should: [
-            {
-              match: {
-                parent_uuid: id
+  let res
+  // add a condition to modify request if it is e2e test environment
+  if (window.Cypress) {
+    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-room`, {})
+  } else {
+    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}`, {
+      body: {
+        item_types: ['room'],
+        query: {
+          bool: {
+            should: [
+              {
+                match: {
+                  parent_uuid: id
+                }
               }
-            }
-          ]
+            ]
+          }
         }
       }
-    }
-  })
+    })
+  }
 
   return res.json()
 }

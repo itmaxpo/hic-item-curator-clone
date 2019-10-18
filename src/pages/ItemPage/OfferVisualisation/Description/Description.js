@@ -19,8 +19,8 @@ const ContentInspiration = ({ description, inspirations }) => (
   </Card>
 )
 
-const CollapseButton = ({ isExpanded, onClick }) => (
-  <CircleButton visibleOnHover={false} onClick={onClick}>
+const CollapseButton = ({ isExpanded, onClick, dataTest }) => (
+  <CircleButton visibleOnHover={false} onClick={onClick} id={'collapsed-desc-button'}>
     {isExpanded ? <ChevronRightIcon /> : <ChevronLeftIcon />}
   </CircleButton>
 )
@@ -46,12 +46,13 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
 
   return (
     <StyledTitleWithContent>
-      <FlexContainer p={0} justify="between">
+      <FlexContainer data-test={'item-description-wrapper'} p={0} justify="between">
         <Column isExpanded={isExpanded}>
           <TitleContainer justify="between" alignItems="center" p={0} mb={1 / 4}>
-            <H4>Description</H4>
+            <H4 data-test={'item-description-header'}>Description</H4>
             {isEditing && isDescriptionInspirationPresent && (
               <CollapseButton
+                dataTest={'item-desc-collapsed-button'}
                 isExpanded={isExpanded}
                 onClick={() => {
                   setIsExpanded(!isExpanded)
@@ -61,12 +62,19 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
           </TitleContainer>
           {isEditing ? (
             <StyledRichTextEditor
+              data-test={'item-description-editor'}
               placeholder={`Please write something about the ${type}`}
               value={_description}
               onChange={onDescriptionUpdate}
             />
           ) : (
-            <ShowMore collapsed={true} height={'350px'} size={'20px'} lines={12}>
+            <ShowMore
+              data-test={'item-show-more'}
+              collapsed={true}
+              height={'350px'}
+              size={'20px'}
+              lines={12}
+            >
               {!isEmpty(_description) ? ReactHtmlParser(_description) : 'No description'}
             </ShowMore>
           )}
@@ -76,7 +84,7 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
             {isDescriptionInspirationPresent && (
               <Fragment>
                 <TitleContainer justify="between" alignItems="center" p={0} mb={1 / 4}>
-                  <H4>Content Inspiration</H4>
+                  <H4 data-test={'item-inspiration'}>Content Inspiration</H4>
                 </TitleContainer>
                 <ContentInspiration
                   description={_description}

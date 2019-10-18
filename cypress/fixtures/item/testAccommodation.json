@@ -1,0 +1,70 @@
+{
+  "data": {
+    "uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
+    "parent_uuid": null,
+    "item_type": "accommodation",
+    "fields": [
+      {
+        "field_name": "supplier_tag",
+        "content_type": "string",
+        "content": "Alex1",
+        "locale": null,
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "131",
+        "locale": "fr-FR",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "geolocation",
+        "content_type": "geo_point",
+        "content": {
+          "lat": -25.781678186946838,
+          "lon": 28.226646122684542
+        },
+        "locale": null,
+        "source": "tourvest",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "131 on Herbert Baker Boutique Hotel",
+        "locale": "en-GB",
+        "source": "tourvest",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "geolocation",
+        "content_type": "geo_point",
+        "content": {
+          "lat": -25.781678186946838,
+          "lon": 28.226646122684542
+        },
+        "locale": null,
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "131 on Herbert Baker Boutique Hotel",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}

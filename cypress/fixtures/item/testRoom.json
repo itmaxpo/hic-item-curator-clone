@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "count": 4,
+    "total_count": 4
+  },
+  "data": [
+    {
+      "item_type": "room",
+      "id": "10113f35-9e87-4215-b358-4edd039995b9",
+      "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
+      "fields": {
+        "primary_item_uuid": null,
+        "meal_base": [
+          {
+            "content": "BB",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "name": [
+          {
+            "content": "Presidential Suite",
+            "source": "tourvest",
+            "source_key": null,
+            "locale": "en-GB"
+          }
+        ],
+        "description": [],
+        "dmc_id": [
+          {
+            "content": "46316",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "accommodation_dmc_id": [
+          {
+            "content": "ONE009",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "room",
+      "id": "6ece971c-93e8-4b08-8a2b-633eac72fa1f",
+      "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
+      "fields": {
+        "primary_item_uuid": null,
+        "meal_base": [
+          {
+            "content": "BB",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "name": [
+          {
+            "content": "Front View",
+            "source": "tourvest",
+            "source_key": null,
+            "locale": "en-GB"
+          }
+        ],
+        "description": [],
+        "dmc_id": [
+          {
+            "content": "75878",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "accommodation_dmc_id": [
+          {
+            "content": "ONE009",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "room",
+      "id": "10f63478-a5c4-4662-adf3-a5b19bf534e7",
+      "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
+      "fields": {
+        "primary_item_uuid": null,
+        "meal_base": [
+          {
+            "content": "BB",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "name": [
+          {
+            "content": "Luxury Suite",
+            "source": "tourvest",
+            "source_key": null,
+            "locale": "en-GB"
+          }
+        ],
+        "description": [],
+        "dmc_id": [
+          {
+            "content": "46315",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "accommodation_dmc_id": [
+          {
+            "content": "ONE009",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ]
+      }
+    },
+    {
+      "item_type": "room",
+      "id": "be297dd0-2b4f-4d74-ad49-3004522db1e0",
+      "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
+      "fields": {
+        "primary_item_uuid": null,
+        "meal_base": [
+          {
+            "content": "BB",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "name": [
+          {
+            "content": "Pool View",
+            "source": "tourvest",
+            "source_key": null,
+            "locale": "en-GB"
+          }
+        ],
+        "description": [],
+        "dmc_id": [
+          {
+            "content": "75877",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ],
+        "accommodation_dmc_id": [
+          {
+            "content": "ONE009",
+            "source": "tourvest",
+            "source_key": null
+          }
+        ]
+      }
+    }
+  ]
+}

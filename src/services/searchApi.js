@@ -17,12 +17,18 @@ const nameProperties = ['name', 'original_name']
 const getCountries = async name => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
-  let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
-    body: {
-      item_types: ['country'],
-      query: generateSearchQueryCountry(nameProperties, nameToSearch)
-    }
-  })
+  let res
+  // add a condition to modify request if it is e2e test environment
+  if (window.Cypress) {
+    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-country`, {})
+  } else {
+    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+      body: {
+        item_types: ['country'],
+        query: generateSearchQueryCountry(nameProperties, nameToSearch)
+      }
+    })
+  }
 
   return res.json()
 }
@@ -45,24 +51,30 @@ const getCountries = async name => {
 const getAreasInCountry = async (name, countryId, offset = 0, limit = 40) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
-  let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
-    body: {
-      item_types: ['admin_area'],
-      offset,
-      limit,
-      sort: {
-        'name.content.raw': {
-          nested_path: 'name',
-          order: 'asc'
+  let res
+  // add a condition to modify request if it is e2e test environment
+  if (window.Cypress) {
+    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-area`, {})
+  } else {
+    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+      body: {
+        item_types: ['admin_area'],
+        offset,
+        limit,
+        sort: {
+          'name.content.raw': {
+            nested_path: 'name',
+            order: 'asc'
+          },
+          'original_name.content.raw': {
+            nested_path: 'original_name',
+            order: 'asc'
+          }
         },
-        'original_name.content.raw': {
-          nested_path: 'original_name',
-          order: 'asc'
-        }
-      },
-      query: generateSearchQueryArea(countryId, nameProperties, nameToSearch)
-    }
-  })
+        query: generateSearchQueryArea(countryId, nameProperties, nameToSearch)
+      }
+    })
+  }
 
   return res.json()
 }
@@ -83,21 +95,27 @@ const getAccommodations = async (
 ) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
-  let res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
-    body: {
-      item_types: ['accommodation'],
-      offset,
-      limit,
-      sort: {
-        'name.content.raw': {
-          nested_path: 'name',
-          order: 'asc'
-        }
-      },
-      // We are asking only for 'name' property because accommodations don't have original_name
-      query: generateSearchQueryAccom(country, area, supplier, ['name'], nameToSearch)
-    }
-  })
+  let res
+  // add a condition to modify request if it is e2e test environment
+  if (window.Cypress) {
+    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-accommodation`, {})
+  } else {
+    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+      body: {
+        item_types: ['accommodation'],
+        offset,
+        limit,
+        sort: {
+          'name.content.raw': {
+            nested_path: 'name',
+            order: 'asc'
+          }
+        },
+        // We are asking only for 'name' property because accommodations don't have original_name
+        query: generateSearchQueryAccom(country, area, supplier, ['name'], nameToSearch)
+      }
+    })
+  }
 
   return res.json()
 }

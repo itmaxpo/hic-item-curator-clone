@@ -17,14 +17,7 @@ import {
   updateItemAttachmentsById
 } from 'services/contentApi'
 import Loader from 'components/Loader'
-import {
-  FIELD_DESCRIPTION,
-  FIELD_MEAL_BASE,
-  getFieldName,
-  getFieldContent,
-  parseItemByType,
-  transformToSupplyItem
-} from './itemParser'
+import { parseItemByType, transformToSupplyItem } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { useNotification } from 'components/Notification'
@@ -176,7 +169,6 @@ const ItemPage = ({ match, history }) => {
 
   // fetch additionalInformation based on item.type
   useEffect(() => {
-    const language = get(queryString.parse(window.location.search), 'language')
     let fetchedImages = [],
       offset = 0
 
@@ -184,13 +176,10 @@ const ItemPage = ({ match, history }) => {
       const fetchImagesRecursively = async () => {
         const attachments = await getItemAttachmentsById(match.params.id, offset)
         fetchedImages.push(...attachments.data)
-        offset += 50
+        offset += attachments.data.length
 
-        if (offset <= attachments.meta.total_count) {
+        if (offset < attachments.meta.total_count) {
           await fetchImagesRecursively(offset)
-        } else {
-          const attachments = await getItemAttachmentsById(match.params.id, offset)
-          fetchedImages.push(...attachments.data)
         }
       }
 
@@ -235,10 +224,11 @@ const ItemPage = ({ match, history }) => {
           break
         case ACCOMMODATION_ITEM_TYPE:
           const accomRooms = await getRoomsForAccommodation(match.params.id)
+
           const rooms = accomRooms['data'].map(room => ({
-            label: getFieldName(room) || 'No name',
-            value: getFieldContent(room, FIELD_DESCRIPTION, language) || 'No description',
-            badge: getFieldContent(room, FIELD_MEAL_BASE)
+            label: get(room, 'fields.name.0.content') || 'No name',
+            value: get(room, 'fields.description.0.content') || 'No description',
+            badge: get(room, 'fields.meal_base.0.content')
           }))
 
           onChange('rooms', rooms)
@@ -258,7 +248,7 @@ const ItemPage = ({ match, history }) => {
   }, [isLoadingAdditionalInfo])
 
   return (
-    <div>
+    <div data-test={'item-page'}>
       {/* Prevent any route changes in EditingMode */}
       <Prompt when={isEditing} message={() => `If you continue, all changes will be lost`} />
       {!isLoading ? (
@@ -266,11 +256,15 @@ const ItemPage = ({ match, history }) => {
           <EditingWrapper>
             {isEditing ? (
               <>
-                <AlarmButton title={'cancel'} onClick={onCancel} />
-                <Button title={'save content'} onClick={onSave} />
+                <AlarmButton data-test={'cancel-item-button'} title={'cancel'} onClick={onCancel} />
+                <Button data-test={'save-item-button'} title={'save content'} onClick={onSave} />
               </>
             ) : (
-              <SecondaryButton title={'edit content'} onClick={onEdit} />
+              <SecondaryButton
+                data-test={'edit-item-button'}
+                title={'edit content'}
+                onClick={onEdit}
+              />
             )}
           </EditingWrapper>
 

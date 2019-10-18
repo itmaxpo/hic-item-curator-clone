@@ -1,3 +1,44 @@
 {
-  "data": []
+  "data": [
+    {
+      "uuid": "0625b224-b991-4ecc-ad91-cb9d8678ab92",
+      "filename": "Screenshot 2019-09-19 at 15.41.12.png",
+      "url": "https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/byaASqaRsMLLNLnaNLRNPg/Screenshot%202019-09-19%20at%2015.41.12.png",
+      "mime_type": "image/jpeg",
+      "s3_key": "items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/byaASqaRsMLLNLnaNLRNPg/Screenshot 2019-09-19 at 15.41.12.png",
+      "locale": null,
+      "source": null,
+      "source_key": "wetu",
+      "tags": { "order": 2, "visible": false },
+      "created_at": "2019-09-19T15:28:37Z",
+      "updated_at": "2019-09-19T15:37:45Z"
+    },
+    {
+      "uuid": "e58e0c59-f536-4498-a1c0-09e72de5262b",
+      "filename": "Screenshot 2019-09-19 at 15.51.33.png",
+      "url": "https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/xqjL-ah9NYm78cyA8uu-uA/Screenshot%202019-09-19%20at%2015.51.33.png",
+      "mime_type": "image/jpeg",
+      "s3_key": "items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/xqjL-ah9NYm78cyA8uu-uA/Screenshot 2019-09-19 at 15.51.33.png",
+      "locale": null,
+      "source": null,
+      "source_key": "wetu",
+      "tags": { "order": 1, "visible": true },
+      "created_at": "2019-09-19T15:30:03Z",
+      "updated_at": "2019-09-19T15:37:45Z"
+    },
+    {
+      "uuid": "0bef4eb9-3dc8-4d32-89e3-4bdf21443f9b",
+      "filename": "Screenshot 2019-09-19 at 15.42.52.png",
+      "url": "https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/zV_Mm1b61SsTvmjMBM3SSQ/Screenshot%202019-09-19%20at%2015.42.52.png",
+      "mime_type": "image/jpeg",
+      "s3_key": "items/47e1af75-b59a-48ea-b53f-04c584ea9ded/image/jpeg/zV_Mm1b61SsTvmjMBM3SSQ/Screenshot 2019-09-19 at 15.42.52.png",
+      "locale": null,
+      "source": null,
+      "source_key": "wetu",
+      "tags": { "order": 0, "visible": true },
+      "created_at": "2019-09-19T15:30:03Z",
+      "updated_at": "2019-09-19T15:37:45Z"
+    }
+  ],
+  "meta": { "count": 3, "total_count": 3 }
 }

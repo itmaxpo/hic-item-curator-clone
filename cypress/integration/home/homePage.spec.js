@@ -20,7 +20,11 @@ describe('Homepage', () => {
 
   it('go to country', () => {
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/goToCountry.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
 
     cy.get('[data-test=searchBox]').as('searchBox')
 
@@ -49,7 +53,11 @@ describe('Homepage', () => {
 
   it('go to area', () => {
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/goToArea.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-area',
+      'fixture:search/goToArea.json'
+    )
 
     cy.get('[data-test=searchBox]').as('searchBox')
 
@@ -78,7 +86,11 @@ describe('Homepage', () => {
 
   it('search for areas', () => {
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/areaSearch.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-area',
+      'fixture:search/areaSearch.json'
+    )
     cy.route(
       'GET',
       'https://kiwi.**.com/content/items/**/attachments**',
@@ -125,7 +137,11 @@ describe('Homepage', () => {
     })
 
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/secondAreaSearch.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-area',
+      'fixture:search/secondAreaSearch.json'
+    )
     // go to 5th page and assert
     cy.get('@searchResult')
       .find('[data-test=page-5]')
@@ -138,7 +154,11 @@ describe('Homepage', () => {
     })
 
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/lastAreaSearch.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-area',
+      'fixture:search/lastAreaSearch.json'
+    )
     // go to last page and assert
     cy.get('@searchResult')
       .find('[data-test=last-page]')
@@ -152,7 +172,11 @@ describe('Homepage', () => {
 
   it('search for accommodations', () => {
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/search/v1/items', 'fixture:search/accomSearch.json')
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-accommodation',
+      'fixture:search/accomSearch.json'
+    )
     cy.route(
       'GET',
       'https://kiwi.**.com/content/items/**/attachments**',

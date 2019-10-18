@@ -1,0 +1,154 @@
+{
+  "data": {
+    "uuid": "c44b8127-1529-4df0-ad52-bc084f5df7ee",
+    "parent_uuid": null,
+    "item_type": "country",
+    "fields": [
+      {
+        "content": "<p>Spectacularly located on the shores of Lake Wakatipu, Matakauri Lodge looks out to a mesmerising panorama of the big three; The Remarkables and Cecil and Walter peaks.</p><p>Just seven minutes from bustling Queenstown, this is an alpine, lakeside retreat, nestled in one of the world’s most strikingly beautiful landscapes. With clean lines in glass, stone and timber, Matakauri’s own take on luxury is understated and welcoming. </p><p>The main lodge consists of a spacious lounge and dining and living areas, all with views of Lake Wakatipu, while accommodation is offered in twelve luxurious guest suites and rooms.  Each suite offers a private porch, a bedroom with sitting area and open fireplace, walk-in wardrobe and bathroom. The Owner’s Cottage at Matakauri features four suites in an outlying villa, complete with private Jacuzzi, kitchen and grand courtyard making it ideal for families, couples or friends travelling together, as well as special celebrations.</p><p>Named by Travel + Leisure as one of the top five lodges in New Zealand and Australia, Matakauri is your ultimate sanctuary after a day spent atop mountains, exploring vast fjords, chasing thrills and simply discovering this unique region.</p>",
+        "content_type": "string",
+        "dimensions": {},
+        "field_name": "description",
+        "locale": "en-GB",
+        "source": "wetu",
+        "source_key": "gecko"
+      },
+      {
+        "field_name": "iso_code",
+        "content_type": "string",
+        "content": "ZA",
+        "locale": null,
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "active_destination",
+        "content_type": "boolean",
+        "content": true,
+        "locale": null,
+        "source": "supply",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "South Africa",
+        "locale": "en-GB",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Südafrika",
+        "locale": "de-DE",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Afrique du Sud",
+        "locale": "fr-FR",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Zuid-Afrika",
+        "locale": "nl-NL",
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "active_destination",
+        "content_type": "boolean",
+        "content": false,
+        "locale": null,
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "South Afrika",
+        "locale": "en-US",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "climate",
+        "content_type": "string",
+        "content": "\u003cp\u003eClimate DE\u003c/p\u003e\n",
+        "locale": "de-DE",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "description",
+        "content_type": "string",
+        "content": "\u003cp\u003eDE Desc\u003c/p\u003e\n",
+        "locale": "de-DE",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "additional_info",
+        "content_type": "string",
+        "content": "\u003cp\u003eAdditional DE\u003c/p\u003e\n",
+        "locale": "de-DE",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Südafrika",
+        "locale": "de-DE",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "additional_info",
+        "content_type": "string",
+        "content": "\u003cp\u003eAdditional Infor EN\u003c/p\u003e\n",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "climate",
+        "content_type": "string",
+        "content": "\u003cp\u003ehahah Climate good EN\u003c/p\u003e\n",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "South Africa",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "data": {
+    "url": "url",
+    "fields": {
+      "key": "items/f09e3867-e082-4eb0-a6ff-fc96d63e977a/image/jpeg/a6VZERBnObq6rXHHoSRdXQ/first.jpg",
+      "acl": "public-read",
+      "success_action_status": "201",
+      "policy": "some credentials",
+      "x-amz-credential": "random_stuff",
+      "x-amz-algorithm": "AS6",
+      "x-amz-date": "123",
+      "x-amz-signature": "signature"
+    }
+  }
+}

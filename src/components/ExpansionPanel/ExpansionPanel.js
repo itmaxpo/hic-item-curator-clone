@@ -77,10 +77,11 @@ export const Collapsible = ({
  */
 const ExpansionPanelWrapper = ({ descriptions = [], spacing = 'M', children }) => {
   return (
-    <Wrapper>
+    <Wrapper data-test={'collapsible-wrapper'}>
       {descriptions.length > 0
         ? descriptions.map((description, i) => (
             <Collapsible
+              data-test={`collapsible-${i}`}
               key={i}
               badge={description.badge}
               badgeColor={description.badgeColor}

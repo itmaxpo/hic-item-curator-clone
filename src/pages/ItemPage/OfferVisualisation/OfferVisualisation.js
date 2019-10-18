@@ -80,13 +80,13 @@ const OfferVisualisation = ({
       return (
         <Fragment key={key}>
           <TitleWithContent withoutPadding>
-            <H4>Rooms</H4>
+            <H4 data-test={'item-rooms-header'}>Rooms</H4>
             {isLoadingAdditionalInfo && <Loader top={'45%'} />}
 
             {item.rooms && item.rooms.length > 0 ? (
               <ExpansionPanelWrapper descriptions={item.rooms} />
             ) : (
-              <SearchItemWrapper p={0} direction={'ttb'}>
+              <SearchItemWrapper p={0} direction={'ttb'} data-test={'item-rooms-empty'}>
                 No rooms available
               </SearchItemWrapper>
             )}
@@ -98,7 +98,7 @@ const OfferVisualisation = ({
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <H4>Images</H4>
+            <H4 data-test={'item-images-header'}>Images</H4>
             <ImageUploader
               id={item.id}
               isEditing={isEditing}
@@ -117,14 +117,20 @@ const OfferVisualisation = ({
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <H4>Information</H4>
+            <H4 data-test={'item-information-header'}>Information</H4>
           </TitleWithContent>
 
           <AccordionGroup>
             {parsedDescriptions.map((d, i) => (
-              <StyledAccordion key={i} name={d.field} title={d.label}>
+              <StyledAccordion
+                data-test={`item-information-${d.label}`}
+                key={i}
+                name={d.field}
+                title={d.label}
+              >
                 {isEditing ? (
                   <StyledRichTextEditor
+                    data-test={`item-information-${d.label}-editor`}
                     placeholder={`Please write something about the ${d.label.toLowerCase()}`}
                     value={d.value}
                     onChange={val => onChange(d.field, val)}
@@ -163,9 +169,9 @@ const OfferVisualisation = ({
         <Fragment key={key}>
           <TitleWithContent>
             <br />
-            <H4>Location</H4>
+            <H4 data-test={'item-location-header'}>Location</H4>
             {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
-              <GeoWrapper p={0} direction={'ltr'} alignItems={'center'}>
+              <GeoWrapper data-test={'address'} p={0} direction={'ltr'} alignItems={'center'}>
                 <Base>Update address: </Base>
                 <SearchBox onChange={onLocationChangeHandler} />
                 <br />

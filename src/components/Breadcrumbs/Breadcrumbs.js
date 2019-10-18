@@ -57,6 +57,7 @@ const Breadcrumbs = ({ className, breadcrumbs }) => (
     {some(breadcrumbs) &&
       breadcrumbs.map((breadcrumb, index) => (
         <Breadcrumb
+          data-test={`breadcrumb-${breadcrumb}`}
           key={`breadcrumb-${index}`}
           breadcrumb={breadcrumb}
           isLast={index === breadcrumbs.length - 1}

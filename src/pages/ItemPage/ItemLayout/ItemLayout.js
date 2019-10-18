@@ -103,7 +103,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
           <StyledP>&nbsp;</StyledP>
         )}
 
-        <TitleWrapper isEditing={isEditing}>
+        <TitleWrapper data-test={'item-title-wrapper'} isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
@@ -132,6 +132,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
             ) : (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
                 <TitleField
+                  data-test={'item-title-input'}
                   defaultValue={item.name}
                   placeholder={breadcrumbName}
                   onChange={onTitleChange}
@@ -139,6 +140,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
                 {item.type !== ACCOMMODATION_ITEM_TYPE && (
                   <CheckboxWrapper p={0} direction={'ltr'}>
                     <Checkbox
+                      data-test={'item-is-active-checkbox'}
                       defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
                       onChange={onActiveDestinationChange}
                     />
@@ -152,6 +154,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
               <Base>Switch content to: </Base>
               {item.language && (
                 <SelectMarket
+                  data-test={'item-language-switcher'}
                   disabled={isEditing}
                   showOnTop={false}
                   onSelect={lang => onLanguageChange(lang)}
@@ -167,16 +170,18 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
                 item.supplier_tag && (
                   <Base>
                     {' '}
-                    Suppliers: <span>{item.supplier_tag}</span>
+                    Supplier tag: <span data-test={'item-supplier-tag'}>{item.supplier_tag}</span>
                   </Base>
                 )
               ) : (
-                <SupplierDropdown
-                  placeholder={'Select supplier tag...'}
-                  options={suppliers}
-                  defaultValue={suppliers.filter(s => item.supplier_tag === s.value)}
-                  onChange={onSuppliersChange}
-                />
+                <div data-test={'item-supplier-dropdown'}>
+                  <SupplierDropdown
+                    placeholder={'Select supplier tag...'}
+                    options={suppliers}
+                    defaultValue={suppliers.filter(s => item.supplier_tag === s.value)}
+                    onChange={onSuppliersChange}
+                  />
+                </div>
               )}
             </>
           )}

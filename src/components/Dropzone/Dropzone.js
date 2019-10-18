@@ -106,12 +106,14 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
           </span>
         )}
       </IconText>
-      <ImageSourceDropdown
-        placeholder={'Select image source'}
-        options={imageSourceOptions}
-        value={imageSource}
-        onChange={setImageSource}
-      />
+      <div data-test={'select-image-source'}>
+        <ImageSourceDropdown
+          placeholder={'Select image source'}
+          options={imageSourceOptions}
+          value={imageSource}
+          onChange={setImageSource}
+        />
+      </div>
 
       <UploadButton onClick={openFileDialog} disabled={isEmpty(imageSource)}>
         Browse files

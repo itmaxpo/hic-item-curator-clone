@@ -5,7 +5,7 @@ import { LoaderContainer } from './styles'
 
 const Loader = ({ className, children, top }) => {
   return (
-    <LoaderContainer className={className} center top={top}>
+    <LoaderContainer className={`${className} loader`} center top={top}>
       {children ? children : <PacmanLoader color={COLORS.ADVENTURE_GREEN} />}
     </LoaderContainer>
   )

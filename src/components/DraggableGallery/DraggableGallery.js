@@ -118,6 +118,10 @@ const DraggableGallery = ({
 
   return (
     <GalleryWrapper
+      id={title
+        .toLowerCase()
+        .split(' ')
+        .join('-')}
       direction={'ttb'}
       alignItems={'center'}
       isVisible={isVisible}
