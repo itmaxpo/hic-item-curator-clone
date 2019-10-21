@@ -71,7 +71,7 @@ const Create = ({ history }) => {
       const { data } = await createItem(
         itemType.value,
         name,
-        supplier,
+        supplier.value,
         coordinates.lat,
         coordinates.lng,
         locationInfo.address
