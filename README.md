@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">Tourlane’s item management tool. https://items.tlservers.com</h4>
-<img width="1358" alt="Screenshot 2019-08-01 at 19 23 34" src="https://user-images.githubusercontent.com/12096547/62462454-bfeda000-b787-11e9-8e89-2977ca4f7b76.png">
+<img width="1358" alt="Screenshot 2019-08-01 at 19 23 34" src="https://user-images.githubusercontent.com/12096547/67196604-69454900-f3fb-11e9-84e1-244d859accf4.png">
 
 ## 🚀 Installation instructions
 
