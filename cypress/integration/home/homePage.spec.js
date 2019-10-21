@@ -199,8 +199,29 @@ describe('Homepage', () => {
     })
   })
 
+  it('clicking the app icon should clear search box', () => {
+    cy.get('[data-test=app-icon]').click()
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // country dropdown should not be rendered
+    cy.get('@searchBox')
+      .find('[data-test=country-dropdown]')
+      .should('not.exist')
+
+    // search button is disabled
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .should('be.disabled')
+  })
+
   it('search for accommodations', () => {
     cy.server()
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
     cy.route(
       'POST',
       'https://kiwi.**.com/search/v1/items?test-accommodation',
@@ -224,6 +245,11 @@ describe('Homepage', () => {
     cy.get('@searchBox')
       .find('[data-test=Accommodation]')
       .click()
+
+    // select country: Argentina
+    cy.get('@searchBox')
+      .find('[data-test=country-dropdown]')
+      .setSelectOption('Argentina', 1000)
 
     // search for accommodations
     cy.get('@searchBox')

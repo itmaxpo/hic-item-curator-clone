@@ -15,7 +15,7 @@ let BaseHeader = ({ children }) => {
   return (
     <StyledHeader id={'sticky-header'}>
       <Flex>
-        <Link to={'/'}>
+        <Link to={'/'} data-test="app-icon">
           <StyledLogoSvg>Item Curator</StyledLogoSvg>
         </Link>
         <HeaderContentWrapper>{children}</HeaderContentWrapper>

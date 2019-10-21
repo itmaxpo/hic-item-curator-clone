@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef, useContext } from 'react'
-import { get, debounce } from 'lodash'
+import { get, debounce, isEmpty } from 'lodash'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -171,6 +171,14 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
   useEffect(() => {
     setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
+
+  // effect to go to initial state when app icon is clicked
+  useEffect(() => {
+    if (isEmpty(locationQuery)) {
+      setCategory(null)
+      setCountry(null)
+    }
+  }, [locationQuery])
 
   return (
     <SearchBoxWrapper data-test="searchBox">
