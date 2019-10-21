@@ -28,7 +28,7 @@ const searchCountries = (value, callback) => {
 // Start searching after 3 characters typed
 const searchAreas = (value, callback, country) => {
   if (value.length >= 3) {
-    getAreasInCountry(value.toLowerCase(), country).then(({ data }) =>
+    getAreasInCountry({ name: value.toLowerCase(), country }).then(({ data }) =>
       callback(parseSearchResponse(data))
     )
   } else {
@@ -44,15 +44,7 @@ const searchAreas = (value, callback, country) => {
  * @param {Object} history
  * @returns {Object} Search Box
  */
-const SearchBox = ({
-  history,
-  search,
-  onItemTypeChange,
-  onLoadingChange,
-  isLoading,
-  locationQuery,
-  onQueryUpdate
-}) => {
+const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
   // Default values for state are coming from location query
   const typeFromQuery = get(locationQuery, 'type')
   const countryFromQuery = getQueryValue(locationQuery, 'countryName', 'countryId')
@@ -70,6 +62,7 @@ const SearchBox = ({
   const [country, setCountry] = useState(countryFromQuery)
   const [area, setArea] = useState(areaFromQuery)
   const [goToDestination, setGoToDestination] = useState(undefined)
+  const [isLoading, setIsLoading] = useState(false)
 
   const { suppliers } = useContext(SuppliersContext)
 
@@ -85,8 +78,6 @@ const SearchBox = ({
   const onCategoryCardClick = value => () => {
     onQueryUpdate({ ...locationQuery, type: value })
     setCategory(value)
-    // Send isLoading for SearchResults
-    onLoadingChange(false)
   }
 
   const onCountryChange = value => {
@@ -111,25 +102,29 @@ const SearchBox = ({
 
   const onSearchClick = async () => {
     if (!goToDestination) {
-      onLoadingChange(true)
-
       // set search results
+      setIsLoading(true)
       switch (category) {
         case AREA_ITEM_TYPE:
-          await search(country.value)
+          await search({ country: country.value }, 0, true)
           break
         case ACCOMMODATION_ITEM_TYPE:
-          await search({
-            country: country.value,
-            area: get(area, 'value'),
-            ...values.current
-          })
+          await search(
+            {
+              country: country.value,
+              area: get(area, 'value'),
+              ...values.current
+            },
+            0,
+            true
+          )
           break
         default:
           return
       }
-
-      onLoadingChange(false)
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 200)
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
@@ -176,11 +171,6 @@ const SearchBox = ({
   useEffect(() => {
     setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
-
-  // effect to keep parent's item type in sync with category
-  useEffect(() => {
-    onItemTypeChange(category)
-  }, [category, onItemTypeChange])
 
   return (
     <SearchBoxWrapper data-test="searchBox">

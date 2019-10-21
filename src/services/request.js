@@ -1,5 +1,5 @@
-import { tokenManager } from './tokenManager'
-import { notificationManager } from './NotificationManager'
+import { tokenManager } from 'utils/TokenManager'
+import { notificationManager } from 'utils/NotificationManager'
 /* global Headers, fetch */
 
 /**

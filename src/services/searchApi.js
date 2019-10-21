@@ -42,13 +42,12 @@ const getCountries = async name => {
  * Bec asue sometimes there is no name || original_name
  *
  * @name getAreasInCountry
- * @param {String} name
- * @param {String} countryId
+ * @param {Object} payload { name, country }
  * @param {Number} offset
  * @param {Number} limit
  * @returns {Object}
  */
-const getAreasInCountry = async (name, countryId, offset = 0, limit = 40) => {
+const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res
@@ -71,7 +70,7 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 40) => {
             order: 'asc'
           }
         },
-        query: generateSearchQueryArea(countryId, nameProperties, nameToSearch)
+        query: generateSearchQueryArea(country, nameProperties, nameToSearch)
       }
     })
   }
@@ -91,7 +90,7 @@ const getAreasInCountry = async (name, countryId, offset = 0, limit = 40) => {
 const getAccommodations = async (
   { country, area, name = '', supplier = '' },
   offset = 0,
-  limit = 50
+  limit = 40
 ) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 

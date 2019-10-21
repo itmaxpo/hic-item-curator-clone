@@ -22,11 +22,11 @@ import {
   SearchResultContainer,
   PaginationCenteredWrapper,
   BottomWrapper,
-  StyledLoader,
   TotalItemsWrapper
 } from './styles'
 import MergeItems from './MergeItems'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 /**
  * This is component, that is responsible for rendering all search results
@@ -36,33 +36,36 @@ import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
  *
  *
  * @name SearchResultWrapper
- * @returns {Object} Search Result
- * @param {Array} results
- * @param {Function} fetchMoreItems
  * @param {Object} history from react-router
- * @param {Function} onLoadingChange to send isLoading state to parent
- *        (control showing create new item seaction)
- * @output {Function} updateSelectedResults (return Array<SearchResult> that are selected)
+ * @param {Array} results (results from search)
+ * @param {Function} setResults - callback to update results from search - used to enrich items
+ * @param {Function} fetchMoreItems - fetch missing items, as we only fetch chunks of 40 items
+ * @param {Boolean} isLoading - search is in progress
+ * @param {Object} locationQuery - query url
+ * @param {Function} onQueryUpdate - callback to update query url
+ * @param {String} itemType - type of items searched and displayed
+ * @param {String} country - country of items searched and displayed
+ * @param {Object} history from react-router
+ * @returns {Function} Search Result component
  */
 export const SearchResultWrapper = withRouter(
   ({
+    history,
     results,
     setResults,
-    updateSelectedResults,
     fetchMoreItems,
-    history,
-    onLoadingChange,
     isLoading,
     locationQuery,
     onQueryUpdate,
     itemType,
-    country
+    country,
+    page
   }) => {
     const itemsPerPage = 20
 
     const searchContainer = useRef(null)
     const [isAllSelected, setIsAllSelected] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(page || 1)
     const [selectedItems, setSelectedItems] = useState([])
     const [isMergeOpen, setIsMergeOpen] = useState(false)
 
@@ -72,10 +75,6 @@ export const SearchResultWrapper = withRouter(
     )
 
     const enrichedItemsRef = useRef([])
-    // Send isLoading state to parent to control show/hide state of create item section
-    const isLoadingChange = isLoading => {
-      onLoadingChange(isLoading)
-    }
 
     const updateItemRef = useCallback((updatedItem, isMerged) => {
       if (isMerged) enrichedItemsRef.current = [updatedItem, ...enrichedItemsRef.current]
@@ -122,6 +121,8 @@ export const SearchResultWrapper = withRouter(
       setSelectedItems([])
       setIsAllSelected(false)
 
+      onQueryUpdate({ ...locationQuery, page })
+
       setResults(updateCurrentPageEnrichedItems())
 
       // Calculate offsetTop for searchContainer to scroll to it
@@ -129,16 +130,13 @@ export const SearchResultWrapper = withRouter(
 
       // check if page is empty
       if (allResults[page - 1].some(missingId)) {
-        isLoadingChange(true)
-
         try {
           // fetch more items, then we set the current page.
-          await fetchMoreItems(page - 1, itemsPerPage)
+          await fetchMoreItems(null, page - 1)
           setCurrentPage(page)
         } catch (e) {
           console.warn(e)
         }
-        isLoadingChange(false)
       } else {
         setCurrentPage(page)
       }
@@ -159,6 +157,7 @@ export const SearchResultWrapper = withRouter(
       } else {
         // Always should be on the top of the new page
         window.scrollTo(0, 0)
+        scrollToItemManager.setItemToScrollTo(item.id)
         history.push(`/item/${item.id}?language=en-GB`)
       }
     }
@@ -201,6 +200,11 @@ export const SearchResultWrapper = withRouter(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
+    // effect to run after the user comes back from the item page
+    useEffect(() => {
+      scrollToItemManager.scrollToItem()
+    }, [])
+
     const pages = allResults.length
 
     return (
@@ -221,9 +225,6 @@ export const SearchResultWrapper = withRouter(
           onActionClick={onActionClick}
           selectedItems={selectedItems}
         />
-
-        {isLoading && <StyledLoader />}
-
         {allResults.length === 0 ? (
           <FlexContainer>No results</FlexContainer>
         ) : (

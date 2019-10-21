@@ -2,6 +2,7 @@ import React from 'react'
 import { COLORS, FlexContainer, Button } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
 import { SadFaceIcon } from 'components/Icon'
+import Loader from 'components/Loader'
 
 export const Wrapper = styled.div`
   min-height: 80vh;
@@ -34,3 +35,9 @@ export const SadFaceIconWrapper = styled(SadFaceIcon)`
 `
 
 export const CreateButton = styled(Button)``
+
+export const StyledLoader = styled(Loader)`
+  && {
+    height: 200px;
+  }
+`

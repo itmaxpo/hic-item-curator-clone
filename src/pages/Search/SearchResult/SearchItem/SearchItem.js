@@ -100,6 +100,7 @@ export const SearchItem = ({
 
   return (
     <SearchItemWrapper
+      id={localItem.id}
       data-test="search-item"
       p={3 / 4}
       direction={'ltr'}

@@ -170,6 +170,35 @@ describe('Homepage', () => {
     })
   })
 
+  it('going to item page and back (back button functionality)', () => {
+    cy.server()
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-area',
+      'fixture:search/lastAreaSearch.json'
+    )
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/items/**/attachments**',
+      'fixture:search/attachments.json'
+    )
+    // go to item page and back
+    cy.get('[data-test=page]')
+      .find('#1392f674-67de-4ca5-8764-81f3f2de918d')
+      .click()
+      // assert that user is redirected to item page
+      .location()
+      .should(location => {
+        expect(location.pathname).to.include('/item/1392f674-67de-4ca5-8764-81f3f2de918d')
+      })
+      .go('back')
+
+    // assert
+    cy.get('[data-test=page]').within(() => {
+      testItemPage(lastPageAreaData)
+    })
+  })
+
   it('search for accommodations', () => {
     cy.server()
     cy.route(

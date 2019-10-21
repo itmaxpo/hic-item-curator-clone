@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useReducer, useEffect } from 'react'
 import NotificationContext from './NotificationContext'
 import NotificationHub from './NotificationHub'
-import { notificationManager } from 'services/NotificationManager'
+import { notificationManager } from 'utils/NotificationManager'
 
 const initialState = {
   notifications: []

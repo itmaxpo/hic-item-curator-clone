@@ -77,37 +77,43 @@ const createArrayOfSize = size => Array.apply(null, Array(size)).map(() => {})
 // we get only the first two pages (40 items) but we get the total items
 // so we create the pages (even the empty ones) to correctly build
 // our pagination component
-export const createPages = (items, arraySize) =>
-  paginateArray(createArrayOfSize(arraySize).map((_, idx) => items[idx]))
-
-// parse search response data
-// sets the structure of the item also sets the pages (array of arrays - chunks of 20 items)
-export const parseSearchResponse = (data, arraySize, itemType) =>
-  createPages(parseItems(data, itemType), arraySize)
+const createPages = arraySize => createArrayOfSize(arraySize)
 
 // index of page in the data array (before paginating).
 // equals offset.
 export const calculateIndex = (page, itemsPerPage) => itemsPerPage * page
 
 // inserts new page and paginates array
-export const insertPage = (pages, index, items, itemType) => {
-  // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 20)
-  const draftNewPages = flatten(pages)
-
-  // parse the items to give them the shape we use
+export const insertPage = (pages, index, items, totalCount, itemType) => {
   const parsedItems = parseItems(items, itemType)
 
-  for (let i = 0; i < parsedItems.length; i++) {
-    draftNewPages[index + i] = parsedItems[i]
-  }
+  // when pages are already defined/created (have the right size from the totalCount)
+  if (pages && pages.length) {
+    // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 20)
+    const draftNewPages = flatten(pages)
 
-  // to avoid creating new pages at the end
-  // we keep reducing the index of insertion
-  // until the new pages have the same size
-  // as the original
-  if (draftNewPages.length > flatten(pages).length) {
-    return insertPage(pages, index - 1, items, itemType)
-  }
+    // parse the items to give them the shape we use
 
-  return paginateArray(draftNewPages)
+    for (let i = 0; i < parsedItems.length; i++) {
+      draftNewPages[index + i] = parsedItems[i]
+    }
+
+    // to avoid creating new pages at the end
+    // we keep reducing the index of insertion
+    // until the new pages have the same size
+    // as the original
+    if (draftNewPages.length > flatten(pages).length) {
+      return insertPage(pages, index - 1, items, itemType)
+    }
+
+    return paginateArray(draftNewPages)
+  } else {
+    const allPages = createPages(totalCount)
+
+    for (let i = 0; i < parsedItems.length; i++) {
+      allPages[index + i] = parsedItems[i]
+    }
+
+    return paginateArray(allPages)
+  }
 }

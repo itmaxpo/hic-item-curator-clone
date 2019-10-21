@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { FlexContainer, COLORS } from '@tourlane/tourlane-ui'
-import Loader from 'components/Loader'
 
 export const SearchResultContainer = styled.div`
   margin: 0 90px;
@@ -40,12 +39,6 @@ export const ItemsPerPageWrapper = styled(FlexContainer)`
 
   > div {
     width: 100px;
-  }
-`
-
-export const StyledLoader = styled(Loader)`
-  && {
-    height: 200px;
   }
 `
 
