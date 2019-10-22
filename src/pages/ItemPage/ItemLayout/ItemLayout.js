@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
 import {
@@ -15,13 +16,13 @@ import {
   StyledImg
 } from './styles'
 import TabsWrapper from 'components/Tabs'
-import { customMarkets, generateBreadcumbs } from './utils'
+import { generateBreadcumbs } from './utils'
 import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
-import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { LANGUAGES, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import SuppliersContext from 'contexts/Suppliers'
 /**
@@ -33,6 +34,7 @@ import SuppliersContext from 'contexts/Suppliers'
  *  - Language
  *
  * @name ItemLayout
+ * @param {Object} history from react-router
  * @param {Array<String>} tabs
  * @param {Array<React.Component>} tabContents
  * @param {Object} item
@@ -40,7 +42,7 @@ import SuppliersContext from 'contexts/Suppliers'
  * @param {Function} onChange (receives prop and value of item to change)
  * @returns ItemLayout component
  */
-const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
+const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) => {
   // used to generate breadcrumbs
   const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
   const allItemParents = useRef([{ id: item.id, name: breadcrumbName }])
@@ -56,7 +58,8 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
   }
 
   const onLanguageChange = language => {
-    language && onChange('language', customMarkets[language.title])
+    if (!language) return
+    history.push(`?${queryString.stringify({ language: LANGUAGES[language.title] })}`)
   }
 
   const onActiveDestinationChange = e => {
@@ -157,7 +160,7 @@ const ItemLayout = ({ tabs, tabContents, item, isEditing, onChange }) => {
                   data-test={'item-language-switcher'}
                   disabled={isEditing}
                   showOnTop={false}
-                  onSelect={lang => onLanguageChange(lang)}
+                  onSelect={onLanguageChange}
                   preSelectedMarket={item.language}
                 />
               )}

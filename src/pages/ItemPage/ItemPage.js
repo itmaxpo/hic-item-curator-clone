@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 import { Prompt } from 'react-router-dom'
 import ItemLayout from './ItemLayout'
-import * as queryString from 'query-string'
+import queryString from 'query-string'
 import OfferVisualisation from './OfferVisualisation'
 import { EditingWrapper } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
@@ -9,7 +9,6 @@ import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeB
 import { flatten, get } from 'lodash'
 import {
   getItemFieldsById,
-  // getItemAttachmentsById,
   updateItemFields,
   getRoomsForAccommodation,
   getItemPolygonCoordinatesById,
@@ -47,6 +46,7 @@ const reducer = (state, action) => {
  *
  * @name ItemPage
  * @param {Object} match (access to query params to retreive item: id)
+ * @param {Object} history from react-router
  * @returns {Object} Item Page
  */
 const ItemPage = ({ match, history }) => {
@@ -69,17 +69,7 @@ const ItemPage = ({ match, history }) => {
   }
 
   const onChange = (field, prop) => {
-    if (field === 'language') {
-      // Update language in URL
-      const localeUpdatedItem = changeItemLocale(item, prop)
-      history.push(`?${queryString.stringify({ [field]: prop })}`)
-      dispatch({ type: 'updateAll', field, value: localeUpdatedItem })
-      // There is a need to reset originalItem on languageChange
-      // Because onCancel originalItem set as item
-      originalItem.current = localeUpdatedItem
-    } else {
-      dispatch({ type: 'updateField', field, value: prop })
-    }
+    dispatch({ type: 'updateField', field, value: prop })
   }
   // OnSave: Send request to BE, then update localCopy of the item
   // Cancel changes if BE returns error, store the changes locally (indexedDB?)
@@ -247,6 +237,19 @@ const ItemPage = ({ match, history }) => {
     // eslint-disable-next-line
   }, [isLoadingAdditionalInfo])
 
+  useEffect(() => {
+    // failsafe for when the item hasn't loaded yet.
+    // initially all we have is the item ID but no locale
+    if (!item.locales) return
+    const { language } = queryString.parse(history.location.search)
+
+    const localeUpdatedItem = changeItemLocale(item, language)
+    dispatch({ type: 'updateAll', value: localeUpdatedItem })
+    // originalItem has to reflect the item original structure based on a specific language
+    originalItem.current = localeUpdatedItem
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.search])
+
   return (
     <div data-test={'item-page'}>
       {/* Prevent any route changes in EditingMode */}
@@ -269,6 +272,7 @@ const ItemPage = ({ match, history }) => {
           </EditingWrapper>
 
           <ItemLayout
+            history={history}
             item={item}
             isEditing={isEditing}
             onChange={onChange}
