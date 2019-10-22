@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
 import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
@@ -65,6 +65,21 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
   const onActiveDestinationChange = e => {
     onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
+
+  // force re-render of SelectMarket component
+  // so the flag icon represents the actual item language
+  const SelectMarketCallback = useCallback(() => {
+    return (
+      <SelectMarket
+        data-test={'item-language-switcher'}
+        disabled={isEditing}
+        showOnTop={false}
+        onSelect={onLanguageChange}
+        preSelectedMarket={item.language}
+      />
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.language, isEditing])
 
   useEffect(() => {
     // Async and recursive get parent of the item
@@ -155,15 +170,7 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
 
             <LanguageBlock p={0} direction={'ltr'} isEditing={isEditing}>
               <Base>Switch content to: </Base>
-              {item.language && (
-                <SelectMarket
-                  data-test={'item-language-switcher'}
-                  disabled={isEditing}
-                  showOnTop={false}
-                  onSelect={onLanguageChange}
-                  preSelectedMarket={item.language}
-                />
-              )}
+              {item.language && <SelectMarketCallback />}
             </LanguageBlock>
           </TitleLangWrapper>
 

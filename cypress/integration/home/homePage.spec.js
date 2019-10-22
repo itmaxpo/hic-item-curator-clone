@@ -200,7 +200,7 @@ describe('Homepage', () => {
   })
 
   it('clicking the app icon should clear search box', () => {
-    cy.get('[data-test=app-icon]').click()
+    cy.get('[data-test=app-icon]').click({ force: true })
 
     cy.get('[data-test=searchBox]').as('searchBox')
 
@@ -249,7 +249,7 @@ describe('Homepage', () => {
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 1000)
+      .setSelectOption('Argentina', 1500)
 
     // search for accommodations
     cy.get('@searchBox')
@@ -318,6 +318,7 @@ describe('Homepage', () => {
     cy.get('@mergeItems')
       .find('[data-test=merge]')
       .click()
+      .wait(1500)
 
     // assertions after merge
 
