@@ -18,7 +18,7 @@ import {
 import Loader from 'components/Loader'
 import { parseItemByType, transformToSupplyItem } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { useNotification } from 'components/Notification'
 
 // Reducer to handle images all and visible changes
@@ -60,7 +60,7 @@ const ItemPage = ({ match, history }) => {
   const originalItem = useRef(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(false)
+  const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
 
   const onImagesAdd = (prop, images) => {
     // We need to update original to store all uploaded images
@@ -122,47 +122,45 @@ const ItemPage = ({ match, history }) => {
 
   // fetch item by query params
   useEffect(() => {
+    let fetchedImages = [],
+      offset = 0
+
     const language = get(queryString.parse(window.location.search), 'language') || 'en-GB'
+
+    const fetchAdditionalInformation = async item => {
+      switch (item.type) {
+        case AREA_ITEM_TYPE:
+          const polygon = await getItemPolygonCoordinatesById(match.params.id)
+          const parsedPolygon = flatten(polygon['data'].coordinates)
+          onChange('polygon', parsedPolygon)
+          originalItem.current = { ...originalItem.current, polygon: parsedPolygon }
+          break
+        case ACCOMMODATION_ITEM_TYPE:
+          const accomRooms = await getRoomsForAccommodation(match.params.id)
+
+          const rooms = accomRooms['data'].map(room => ({
+            label: get(room, 'fields.name.0.content') || 'No name',
+            value: get(room, 'fields.description.0.content') || 'No description',
+            badge: get(room, 'fields.meal_base.0.content')
+          }))
+
+          onChange('rooms', rooms)
+          break
+        default:
+          break
+      }
+    }
 
     async function fetchItem() {
       try {
         const { data } = await getItemFieldsById(match.params.id)
-        const item = parseItemByType(data, language)
-
-        dispatch({ type: 'updateAll', value: item })
-        originalItem.current = item
-        setIsLoading(false)
-        setIsLoadingAdditionalInfo(true)
+        return parseItemByType(data, language)
       } catch (e) {
         console.warn(e)
       }
     }
-    fetchItem()
-  }, [match.params.id])
 
-  const handlePageClose = useCallback(
-    e => {
-      if (isEditing) {
-        onPageClosing(e)
-      }
-    },
-    [isEditing]
-  )
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', handlePageClose)
-
-    return () => {
-      window.removeEventListener('beforeunload', handlePageClose)
-    }
-  }, [handlePageClose])
-
-  // fetch additionalInformation based on item.type
-  useEffect(() => {
-    let fetchedImages = [],
-      offset = 0
-
-    const fetchAdditionalInformation = async () => {
+    async function fetchAttachments() {
       const fetchImagesRecursively = async () => {
         const attachments = await getItemAttachmentsById(match.params.id, offset)
         fetchedImages.push(...attachments.data)
@@ -187,55 +185,60 @@ const ItemPage = ({ match, history }) => {
         tags: att.tags
       }))
       // Only visibleImages have order
-      const visiblePhotos = photos
+      const visibleImages = photos
         .filter(att => att.isVisible)
         .sort((img1, img2) => img1.order - img2.order)
 
       const allImages = photos.filter(att => !att.isVisible)
 
       allImagesOriginal.current = photos
-      visibleImagesOriginal.current = visiblePhotos
+      visibleImagesOriginal.current = visibleImages
 
-      onChange('allImages', allImages)
-      onChange('visibleImages', visiblePhotos)
-
-      originalItem.current = {
-        ...originalItem.current,
-        allImages: allImagesOriginal.current,
-        visibleImages: visibleImagesOriginal.current
+      return {
+        allImages,
+        visibleImages
       }
-
-      switch (item.type) {
-        case AREA_ITEM_TYPE:
-          const polygon = await getItemPolygonCoordinatesById(match.params.id)
-          const parsedPolygon = flatten(polygon['data'].coordinates)
-          onChange('polygon', parsedPolygon)
-          originalItem.current = { ...originalItem.current, polygon: parsedPolygon }
-          break
-        case ACCOMMODATION_ITEM_TYPE:
-          const accomRooms = await getRoomsForAccommodation(match.params.id)
-
-          const rooms = accomRooms['data'].map(room => ({
-            label: get(room, 'fields.name.0.content') || 'No name',
-            value: get(room, 'fields.description.0.content') || 'No description',
-            badge: get(room, 'fields.meal_base.0.content')
-          }))
-
-          onChange('rooms', rooms)
-          originalItem.current = { ...originalItem.current, rooms }
-          break
-        default:
-          break
-      }
-      setIsLoadingAdditionalInfo(false)
     }
 
-    // Only if it is first time laoded item and it is already set in localState
-    if (isLoadingAdditionalInfo) {
-      fetchAdditionalInformation()
+    async function fetchAllItemAttributes() {
+      setIsLoading(true)
+      setIsLoadingAdditionalInfo(true)
+
+      await Promise.all([fetchItem(), fetchAttachments()]).then(async values => {
+        const [item, attachments] = values
+        const itemWithAttachments = { ...item, ...attachments }
+
+        originalItem.current = { ...itemWithAttachments }
+        dispatch({ type: 'updateAll', value: itemWithAttachments })
+        setIsLoading(false)
+
+        // if item is area || accom -> fetch additional info (polygon, rooms)
+        if (itemWithAttachments.type !== COUNTRY_ITEM_TYPE) {
+          await fetchAdditionalInformation(itemWithAttachments)
+          setIsLoadingAdditionalInfo(false)
+        }
+      })
     }
-    // eslint-disable-next-line
-  }, [isLoadingAdditionalInfo])
+
+    fetchAllItemAttributes()
+  }, [match.params.id])
+
+  const handlePageClose = useCallback(
+    e => {
+      if (isEditing) {
+        onPageClosing(e)
+      }
+    },
+    [isEditing]
+  )
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handlePageClose)
+
+    return () => {
+      window.removeEventListener('beforeunload', handlePageClose)
+    }
+  }, [handlePageClose])
 
   useEffect(() => {
     // failsafe for when the item hasn't loaded yet.

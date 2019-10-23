@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
@@ -9,11 +9,11 @@ import {
   TitleField,
   TitleLangWrapper,
   LanguageBlock,
-  StyledP,
   ActiveTitleWrapper,
   ActiveWrapper,
   CheckboxWrapper,
-  StyledImg
+  StyledImg,
+  BreadCrumbsLoader
 } from './styles'
 import TabsWrapper from 'components/Tabs'
 import { generateBreadcumbs } from './utils'
@@ -45,8 +45,8 @@ import SuppliersContext from 'contexts/Suppliers'
 const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) => {
   // used to generate breadcrumbs
   const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
-  const allItemParents = useRef([{ id: item.id, name: breadcrumbName }])
-  const [areItemsLoaded, setAreItemsLoaded] = useState(false)
+  const [breadcrumbs, setBreadcrumbs] = useState([])
+  const [isFetchingBreadcrumbs, setIsFetchingBreadcrumbs] = useState(false)
   const { suppliers } = useContext(SuppliersContext)
 
   const onTitleChange = e => {
@@ -82,30 +82,31 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
   }, [item.language, isEditing])
 
   useEffect(() => {
+    setBreadcrumbs([{ id: item.id, name: breadcrumbName }])
+  }, [item.id, breadcrumbName])
+
+  useEffect(() => {
     // Async and recursive get parent of the item
     async function fetchParent(id) {
       const { data } = await getItemFieldsById(id)
-      const itemName = getFieldName(data)
+      const name = getFieldName(data)
       // Store only item with a name
-      if (itemName) {
-        allItemParents.current.unshift({
-          id: data.uuid,
-          name: itemName
-        })
+      if (name) {
+        setBreadcrumbs(prevValues => [{ id: data.uuid, name }, ...prevValues])
       }
 
       // If there is a parent - load him if not set flag to true
       if (data.parent_uuid) {
         await fetchParent(data.parent_uuid)
-      } else {
-        setAreItemsLoaded(true)
       }
     }
     // Store all parents of the item to build breadcrumbs
     async function fetchAllItemParents() {
       // If item has parent - start recursive retreiving of the parents
       if (item.parentId) {
+        setIsFetchingBreadcrumbs(true)
         await fetchParent(item.parentId)
+        setIsFetchingBreadcrumbs(false)
       }
     }
 
@@ -115,10 +116,10 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
   return (
     <Layout>
       <Wrapper>
-        {areItemsLoaded ? (
-          <Breadcrumbs breadcrumbs={generateBreadcumbs(allItemParents.current)} />
+        {isFetchingBreadcrumbs ? (
+          <BreadCrumbsLoader />
         ) : (
-          <StyledP>&nbsp;</StyledP>
+          <Breadcrumbs breadcrumbs={generateBreadcumbs(breadcrumbs)} />
         )}
 
         <TitleWrapper data-test={'item-title-wrapper'} isEditing={isEditing}>

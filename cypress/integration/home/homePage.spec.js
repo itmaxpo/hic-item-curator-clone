@@ -25,6 +25,16 @@ describe('Homepage', () => {
       'https://kiwi.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      'fixture:search/emptyAreaName.json'
+    )
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/items/**/attachments**',
+      'fixture:search/attachments.json'
+    )
 
     cy.get('[data-test=searchBox]').as('searchBox')
 
@@ -57,6 +67,16 @@ describe('Homepage', () => {
       'POST',
       'https://kiwi.**.com/search/v1/items?test-area',
       'fixture:search/goToArea.json'
+    )
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      'fixture:search/emptyAreaName.json'
+    )
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/items/**/attachments**',
+      'fixture:search/attachments.json'
     )
 
     cy.get('[data-test=searchBox]').as('searchBox')

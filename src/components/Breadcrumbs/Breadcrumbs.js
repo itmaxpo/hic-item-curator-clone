@@ -3,6 +3,7 @@ import { some } from 'lodash'
 import styled from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { ArrowRightIcon } from 'components/Icon'
+import { Link as RouteLink } from 'react-router-dom'
 
 const StyledNav = styled.nav`
   font-size: 18px;
@@ -11,7 +12,7 @@ const StyledNav = styled.nav`
   align-items: center;
 `
 
-const Link = styled.a`
+const Link = styled(RouteLink)`
   &,
   &:visited {
     color: inherit;
@@ -42,7 +43,7 @@ const Breadcrumb = ({ breadcrumb, isLast }) =>
     <strong>{breadcrumb.text}</strong>
   ) : (
     <Fragment>
-      <Link href={breadcrumb.url}>{breadcrumb.text}</Link>
+      <Link to={breadcrumb.url}>{breadcrumb.text}</Link>
       <StyledArrow />
     </Fragment>
   )
