@@ -25,7 +25,9 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem 
         style: {
           backgroundColor: 'transparent',
           boxShadow: 'none',
-          maxWidth: '75%'
+          maxWidth: '700px',
+          maxHeight: '100',
+          margin: '0'
         }
       }}
     >
