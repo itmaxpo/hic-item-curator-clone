@@ -82,7 +82,8 @@ const Map = compose(
       defaultOptions={{
         disableDefaultUI: true,
         keyboardShortcuts: false,
-        styles: googleMapsStyles
+        styles: googleMapsStyles,
+        scrollwheel: false
       }}
       center={coordinates}
       controlSize={20}
