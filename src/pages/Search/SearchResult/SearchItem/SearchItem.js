@@ -7,7 +7,8 @@ import { addSToString } from 'pages/Search/utils'
 import {
   SearchItemWrapper,
   SearchItemCheckbox,
-  SearchItemBodyWrapper,
+  SearchItemContentContainer,
+  SearchItemInfoWrapper,
   ItemTitle,
   ItemSubtitle,
   ItemDescription,
@@ -114,34 +115,35 @@ export const SearchItem = ({
         />
       </FlexContainer>
 
-      <SearchItemBodyWrapper p={0} direction={'ttb'} onClick={e => onItemClick(e, localItem)}>
-        {/* TODO: Uncomment when status should be rendered */}
-        {/* <BadgeWrapper>
-          <ItemBadge width={'139px'}>
-            <StatusIndicator status={localItem.status} />
-          </ItemBadge>
-        </BadgeWrapper> */}
-        <ItemTitle data-test="title">
-          <span>{localItem.title}</span>
-        </ItemTitle>
-        <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
-        <ItemDescription data-test="description">
-          <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-            {ReactHtmlParser(localItem.description)}
-          </ShowMore>
-        </ItemDescription>
-      </SearchItemBodyWrapper>
-
-      <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
-        <Image />
-        <BadgeWrapperPhoto data-test="photo">
-          <ItemBadge width={'95px'}>
-            <P>
-              {localItem.allImages.length} Photo{addSToString(localItem.allImages.length)}
-            </P>
-          </ItemBadge>
-        </BadgeWrapperPhoto>
-      </SearchItemPhotosWrapper>
+      <SearchItemContentContainer onClick={e => onItemClick(e, localItem)}>
+        <SearchItemInfoWrapper p={0} direction="ttb">
+          {/* TODO: Uncomment when status should be rendered */}
+          {/* <BadgeWrapper>
+              <ItemBadge width={'139px'}>
+                <StatusIndicator status={localItem.status} />
+              </ItemBadge>
+            </BadgeWrapper> */}
+          <ItemTitle data-test="title">
+            <span>{localItem.title}</span>
+          </ItemTitle>
+          <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
+          <ItemDescription data-test="description">
+            <ShowMore collapsed={true} height={'60px'} size={'18px'}>
+              {ReactHtmlParser(localItem.description)}
+            </ShowMore>
+          </ItemDescription>
+        </SearchItemInfoWrapper>
+        <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
+          <Image />
+          <BadgeWrapperPhoto data-test="photo">
+            <ItemBadge width={'95px'}>
+              <P>
+                {localItem.allImages.length} Photo{addSToString(localItem.allImages.length)}
+              </P>
+            </ItemBadge>
+          </BadgeWrapperPhoto>
+        </SearchItemPhotosWrapper>
+      </SearchItemContentContainer>
     </SearchItemWrapper>
   )
 }

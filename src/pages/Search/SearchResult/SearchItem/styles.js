@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FlexContainer, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
+import { FlexContainer, Flex, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
 import { UnhappyIcon } from 'components/Icon'
 
 export const SearchItemWrapper = styled(FlexContainer)`
@@ -27,7 +27,11 @@ export const SearchItemCheckbox = styled(Checkbox)`
   margin-top: 4px;
 `
 
-export const SearchItemBodyWrapper = styled(FlexContainer)`
+export const SearchItemContentContainer = styled(Flex)`
+  width: 100%;
+`
+
+export const SearchItemInfoWrapper = styled(FlexContainer)`
   && {
     flex-grow: 2;
     margin-right: 30px;
