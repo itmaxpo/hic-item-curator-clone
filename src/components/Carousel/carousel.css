@@ -195,14 +195,18 @@
   transition: all 0.35s ease-in-out;
 }
 .carousel .slide {
+  display: flex;
+  justify-content: center;
+  max-height: 500px;
   min-width: 100%;
   margin: 0;
   position: relative;
   text-align: center;
-  background: #000;
 }
 .carousel .slide img {
-  width: 100%;
+  width: 100% !important;
+  object-fit: scale-down !important;
+  border-radius: 5px;
   vertical-align: top;
   border: 0;
 }

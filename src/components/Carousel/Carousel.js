@@ -2,8 +2,7 @@ import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import './carousel.css'
 import Dialog from '@material-ui/core/Dialog'
-import { CarouselWrapper, CancelButton } from './styles'
-import { CloseIcon } from 'components/Icon'
+import { CarouselWrapper, CancelButton, StyledDialog } from './styles'
 
 /**
  * This is component that show Image Gallery in View mode
@@ -17,7 +16,7 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem 
   // For creating Legends: <p className="legend">Legend 1</p>
 
   return (
-    <Dialog
+    <StyledDialog
       onClose={onClose}
       aria-labelledby="simple-dialog-title"
       open={open}
@@ -32,15 +31,11 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem 
       }}
     >
       <CarouselWrapper>
-        <CancelButton onClick={onClose}>
-          <CloseIcon />
-        </CancelButton>
+        <CancelButton hasClose onClick={onClose} />
 
         {/* Options: http://react-responsive-carousel.js.org/storybook/?selectedKind=Carousel&selectedStory=no%20indicators&full=0&down=1&left=1&panelRight=0&downPanel=kadirahq%2Fstorybook-addon-actions%2Factions-panel  */}
         <Carousel
           showArrows={true}
-          autoPlay
-          interval={4000}
           infiniteLoop
           useKeyboardArrows
           selectedItem={selectedItem}
@@ -58,7 +53,7 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem 
           ))}
         </Carousel>
       </CarouselWrapper>
-    </Dialog>
+    </StyledDialog>
   )
 }
 
