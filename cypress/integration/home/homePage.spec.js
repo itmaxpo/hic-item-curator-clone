@@ -46,7 +46,7 @@ describe('Homepage', () => {
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 1000)
+      .setSelectOption('Argentina', 1500)
 
     // go to country
     cy.get('@searchBox')

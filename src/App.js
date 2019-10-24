@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
-import MissingPage from 'pages/Missing'
+import { MissingPage, SafariPage } from 'pages/HelperPages'
 import SearchPage from 'pages/Search'
 import Login from 'pages/Login'
 import Loading from 'pages/Loading'
@@ -14,6 +14,11 @@ import { SuppliersContextProvider } from './contexts/Suppliers'
 import { NotificationProvider } from 'components/Notification'
 import queryString from 'query-string'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+
+const isSafari11 = () =>
+  navigator.browserSpecs &&
+  navigator.browserSpecs.name === 'Safari' &&
+  Number(navigator.browserSpecs.version) >= 11
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -33,6 +38,8 @@ const AppWrapper = styled.div`
  */
 function App() {
   const { isAuthenticated, loading } = useAuth0()
+  const [showSafariPage, setShowSafariPage] = useState(isSafari11())
+
   // Used to handle animation of changes between sticky header and search actions
   // In all other cases header always sticky
   const handleScroll = () => {
@@ -82,6 +89,10 @@ function App() {
 
   if (!isAuthenticated) {
     return <Login />
+  }
+
+  if (showSafariPage) {
+    return <SafariPage onContinue={() => setShowSafariPage(false)} />
   }
 
   return (

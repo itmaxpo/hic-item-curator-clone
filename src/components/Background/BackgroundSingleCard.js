@@ -4,7 +4,7 @@ import { Card } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
-  width: 400px;
+  width: ${({ width }) => (width ? width : '400px')}
   padding: 20px;
   display: flex;
   flex-direction: column;
