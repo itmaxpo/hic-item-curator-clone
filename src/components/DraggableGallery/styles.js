@@ -121,7 +121,12 @@ export const ImgWrapperHoveredBlock = styled.div`
   height: 110px;
   border-radius: 4px;
 
-  > p {
+  > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  > div > p {
     position: relative;
     text-align: center;
     font-weight: 600;

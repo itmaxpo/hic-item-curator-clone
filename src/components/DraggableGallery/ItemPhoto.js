@@ -39,7 +39,9 @@ const ItemPhoto = ({
         {isHovered && (
           <ImgWrapperHoveredBlock>
             {(disabled || !isVisible) && (
-              <Big onClick={onItemViewClick}>View image</Big>
+              <div onClick={onItemViewClick}>
+                <Big>View image</Big>
+              </div>
               // ) : (
               // Ability to remove images from items is disabled
               // <CheckboxWrapper
