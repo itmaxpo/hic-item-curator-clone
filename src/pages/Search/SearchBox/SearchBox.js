@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef, useContext } from 'react'
-import { get, debounce, isEmpty } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -16,25 +16,6 @@ import IconCard from 'components/IconCard'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
 import SuppliersContext from 'contexts/Suppliers'
-
-// Start searching after 2 characters typed
-const searchCountries = (value, callback) => {
-  if (value.length >= 2) {
-    getCountries(value.toLowerCase()).then(({ data }) => callback(parseSearchResponse(data)))
-  } else {
-    callback(parseSearchResponse([]))
-  }
-}
-// Start searching after 3 characters typed
-const searchAreas = (value, callback, country) => {
-  if (value.length >= 3) {
-    getAreasInCountry({ name: value.toLowerCase(), country }).then(({ data }) =>
-      callback(parseSearchResponse(data))
-    )
-  } else {
-    callback(parseSearchResponse([]))
-  }
-}
 
 /**
  * This is the Search Box component,
@@ -132,11 +113,15 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
     }
   }
 
-  const debouncedCountrySearch = useCallback(debounce(searchCountries, 400), [])
-  const debouncedAreaSearch = useCallback(
-    debounce((value, callback) => {
-      searchAreas(value, callback, get(country, 'value'))
-    }, 400),
+  const countrySearch = useCallback(
+    value => getCountries(value.toLowerCase()).then(({ data }) => parseSearchResponse(data)),
+    []
+  )
+  const areaSearch = useCallback(
+    value =>
+      getAreasInCountry({ name: value.toLowerCase(), country: country.value }).then(({ data }) =>
+        parseSearchResponse(data)
+      ),
     [country]
   )
 
@@ -151,7 +136,7 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
       isDisabled={!country}
       placeholder="Type to find"
       openMenuOnClick={false}
-      loadOptions={debouncedAreaSearch}
+      loadOptions={areaSearch}
       onChange={onAreaChange}
       value={area}
     />
@@ -207,7 +192,7 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
             label="Country"
             placeholder="Type to find"
             openMenuOnClick={false}
-            loadOptions={debouncedCountrySearch}
+            loadOptions={countrySearch}
             renderMarginRight={category !== COUNTRY_ITEM_TYPE}
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
             onChange={onCountryChange}
