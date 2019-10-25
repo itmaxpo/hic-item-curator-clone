@@ -46,7 +46,7 @@ describe('Homepage', () => {
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 1500)
+      .setSelectOption('Argentina', 3000)
 
     // go to country
     cy.get('@searchBox')
@@ -89,7 +89,7 @@ describe('Homepage', () => {
     // select area: Buenos Aires
     cy.get('@searchBox')
       .find('[data-test=area-dropdown]')
-      .setSelectOption('Buenos Aires', 1000)
+      .setSelectOption('Buenos Aires', 3000)
 
     // go to area
     cy.get('@searchBox')
@@ -269,7 +269,7 @@ describe('Homepage', () => {
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 2000)
+      .setSelectOption('Argentina', 3000)
 
     // search for accommodations
     cy.get('@searchBox')
