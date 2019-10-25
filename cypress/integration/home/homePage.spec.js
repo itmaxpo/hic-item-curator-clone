@@ -269,7 +269,7 @@ describe('Homepage', () => {
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 1500)
+      .setSelectOption('Argentina', 2000)
 
     // search for accommodations
     cy.get('@searchBox')

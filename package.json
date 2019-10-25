@@ -5,19 +5,15 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.1.1",
     "@material-ui/core": "^4.2.1",
-    "@material-ui/lab": "^4.0.0-alpha.24",
     "@tourlane/rooster": "^2.15.2",
     "@tourlane/tourlane-ui": "^5.7.4",
     "cuid": "^2.1.6",
     "cypress": "^3.4.1",
     "draftjs-to-html": "^0.8.4",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.26",
     "query-string": "^6.8.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-geocode": "^0.1.2",
     "react-google-maps": "^9.4.5",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
@@ -82,8 +78,6 @@
     }
   },
   "devDependencies": {
-    "@4tw/cypress-drag-drop": "^1.3.0",
-    "@babel/core": "^7.5.5",
     "@sentry/browser": "^5.5.0",
     "commitizen": "^4.0.3",
     "cypress-file-upload": "^3.3.4",
@@ -94,9 +88,7 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.1",
-    "immutability-helper": "^3.0.1",
     "jest-styled-components": "^6.3.3",
-    "jsonwebtoken": "^8.5.1",
     "lighthouse": "^5.5.0",
     "prettier": "1.18.2",
     "pretty-quick": "^1.11.1",
@@ -108,13 +100,11 @@
     "react-sortablejs": "^1.5.1",
     "react-tabs": "^3.0.0",
     "react-test-renderer": "^16.8.6",
-    "react-truncate": "^2.4.0",
     "react-truncate-markup": "^4.0.0",
     "serve": "^11.2.0",
     "sortablejs": "^1.10.0-rc3",
     "standard-version": "^6.0.1",
-    "start-server-and-test": "^1.9.1",
-    "yargs": "^13.3.0"
+    "start-server-and-test": "^1.9.1"
   },
   "homepage": "/"
 }
