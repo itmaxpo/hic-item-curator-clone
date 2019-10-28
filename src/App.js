@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
-import { MissingPage, SafariPage } from 'pages/HelperPages'
-import SearchPage from 'pages/Search'
-import Login from 'pages/Login'
-import Loading from 'pages/Loading'
-import SandboxPage from 'pages/Sandbox'
-import CreatePage from 'pages/Create'
 import { useAuth0 } from 'contexts/Auth'
-import ItemPage from 'pages/ItemPage'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { SuppliersContextProvider } from './contexts/Suppliers'
 import { NotificationProvider } from 'components/Notification'
 import queryString from 'query-string'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import LoadingPage from 'pages/Loading'
 
 const isSafari11 = () =>
   navigator.browserSpecs &&
@@ -27,6 +21,18 @@ const AppWrapper = styled.div`
   top: 0px;
   left: 0px;
 `
+
+const SearchPage = lazy(() => import(/* webpackChunkName: "SearchPage" */ 'pages/Search'))
+const LoginPage = lazy(() => import(/* webpackChunkName: "LoginPage" */ 'pages/Login'))
+const SandboxPage = lazy(() => import(/* webpackChunkName: "SandboxPage" */ 'pages/Sandbox'))
+const CreatePage = lazy(() => import(/* webpackChunkName: "CreatePage" */ 'pages/Create'))
+const ItemPage = lazy(() => import(/* webpackChunkName: "ItemPage" */ 'pages/Item'))
+const MissingPage = lazy(() =>
+  import(/* webpackChunkName: "MissingPage" */ 'pages/HelperPages/Missing')
+)
+const SafariPage = lazy(() =>
+  import(/* webpackChunkName: "SafariPage" */ 'pages/HelperPages/Safari')
+)
 
 /**
  * This is entry for the whole app
@@ -84,15 +90,23 @@ function App() {
   }, [])
 
   if (loading) {
-    return <Loading />
+    return <LoadingPage />
   }
 
   if (!isAuthenticated) {
-    return <Login />
+    return (
+      <Suspense fallback={<LoadingPage />}>
+        <LoginPage />
+      </Suspense>
+    )
   }
 
   if (showSafariPage) {
-    return <SafariPage onContinue={() => setShowSafariPage(false)} />
+    return (
+      <Suspense fallback={<LoadingPage />}>
+        <SafariPage onContinue={() => setShowSafariPage(false)} />
+      </Suspense>
+    )
   }
 
   return (
@@ -100,13 +114,15 @@ function App() {
       <SuppliersContextProvider>
         <NotificationProvider>
           <BrowserRouter>
-            <Switch>
-              <Route exact path="/" component={SearchPage} />
-              <Route exact path="/sandbox" component={SandboxPage} />
-              <Route exact path="/item/:id" component={ItemPage} />
-              <Route exact path="/create" component={CreatePage} />
-              <Route path="*" component={MissingPage} />
-            </Switch>
+            <Suspense fallback={<LoadingPage />}>
+              <Switch>
+                <Route exact path="/" component={SearchPage} />
+                <Route exact path="/sandbox" component={SandboxPage} />
+                <Route exact path="/item/:id" component={ItemPage} />
+                <Route exact path="/create" component={CreatePage} />
+                <Route path="*" component={MissingPage} />
+              </Switch>
+            </Suspense>
           </BrowserRouter>
         </NotificationProvider>
       </SuppliersContextProvider>
