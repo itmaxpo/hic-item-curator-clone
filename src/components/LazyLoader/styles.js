@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
   display: flex;
   position: relative;
   width: 100%;
-  ${({ height }) => `height: ${height ? height : '100%'}`}
 `
 
 export const Preloader = () => (

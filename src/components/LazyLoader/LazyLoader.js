@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import LazyLoad from 'react-lazyload'
 import { Wrapper, Preloader, StyledBlurInTransition } from './styles'
 
 /**
@@ -11,7 +12,7 @@ import { Wrapper, Preloader, StyledBlurInTransition } from './styles'
  * @param {Object} children
  * @returns {Object} Lazy Loader
  */
-const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props }) => {
+const LazyLoader = ({ onLoad = () => null, src, isLoading, children, height, ...props }) => {
   const [isLoaded, setLoaded] = useState(true)
   const [errors, setErrors] = useState([])
   const [isVertical, setIsVertical] = useState(false)
@@ -73,15 +74,17 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, ...props })
   }, [isLoaded, onLoad])
 
   return (
-    <Wrapper {...props}>
-      {isLoaded && (
-        <StyledBlurInTransition isVertical={isVertical} animationDuration="1000ms">
-          {children}
-        </StyledBlurInTransition>
-      )}
-      {!isLoaded && <Preloader />}
-      {props.isLoading && <Preloader />}
-    </Wrapper>
+    <LazyLoad height={height} once>
+      <Wrapper {...props}>
+        {isLoaded && (
+          <StyledBlurInTransition isVertical={isVertical} animationDuration="1000ms">
+            {children}
+          </StyledBlurInTransition>
+        )}
+        {!isLoaded && <Preloader />}
+        {props.isLoading && <Preloader />}
+      </Wrapper>
+    </LazyLoad>
   )
 }
 

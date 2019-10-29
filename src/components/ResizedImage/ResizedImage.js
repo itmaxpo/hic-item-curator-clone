@@ -1,0 +1,19 @@
+import React from 'react'
+import LazyLoader from 'components/LazyLoader'
+
+const getImageUrlWithParams = (url, width, height) =>
+  `${process.env.REACT_APP_IMGIX_URL}/${encodeURI(
+    url
+  )}?w=${width}&h=${height}&fit=crop&crop=edges&auto=format&auto=enhance&vib=70`
+
+const ResizedImage = ({ src: _src, alt, width, height, ...props }) => {
+  const src = getImageUrlWithParams(_src, width, height)
+
+  return (
+    <LazyLoader src={src} height={height}>
+      <img alt={alt} src={src} {...props} />
+    </LazyLoader>
+  )
+}
+
+export default ResizedImage

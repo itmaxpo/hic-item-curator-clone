@@ -39,5 +39,6 @@ export const CreateButton = styled(Button)``
 export const StyledLoader = styled(Loader)`
   && {
     height: 200px;
+    position: relative;
   }
 `

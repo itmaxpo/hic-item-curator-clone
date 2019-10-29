@@ -127,14 +127,15 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
             {!isEditing ? (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
                 <H2>
-                  {item.name || (
-                    <span>
-                      No item name found for
-                      <StyledImg
-                        src={`//www.countryflags.io/${item.language.split('-')[1]}/flat/48.png`}
-                      />
-                    </span>
-                  )}
+                  {item.name ||
+                    (item.language && (
+                      <span>
+                        No item name found for
+                        <StyledImg
+                          src={`//www.countryflags.io/${item.language.split('-')[1]}/flat/48.png`}
+                        />
+                      </span>
+                    ))}
                 </H2>
                 <ActiveWrapper>
                   {item[FIELD_ACTIVE_DESTINATION] && (

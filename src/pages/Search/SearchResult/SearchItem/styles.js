@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { FlexContainer, Flex, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
 import { UnhappyIcon } from 'components/Icon'
+import ResizedImage from 'components/ResizedImage'
 
 export const SearchItemWrapper = styled(FlexContainer)`
   margin-bottom: 20px;
@@ -93,12 +94,8 @@ export const BadgeWrapperPhoto = styled.div`
   left: 12px;
 `
 
-export const ImgWrapper = styled.img`
-  max-width: 100%;
-  max-height: 100%;
+export const StyledResizedImage = styled(ResizedImage)`
   border-radius: 4px;
-  // Uncomment this if we need image to fit full width & height of parent block
-  // object-fit: contain;
 `
 
 export const StyledUnhappyIcon = styled(UnhappyIcon)`

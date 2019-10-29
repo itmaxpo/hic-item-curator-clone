@@ -15,11 +15,11 @@ import {
   // BadgeWrapper,
   BadgeWrapperPhoto,
   SearchItemPhotosWrapper,
-  ImgWrapper,
+  StyledResizedImage,
   StyledUnhappyIcon
 } from './styles'
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
-import LazyLoader, { Preloader } from 'components/LazyLoader'
+import { Preloader } from 'components/LazyLoader'
 import { enrichItem, getCoverImage } from './utils'
 
 /**
@@ -91,9 +91,12 @@ export const SearchItem = ({
       const coverImage = getCoverImage(localItem.allImages)
 
       return (
-        <LazyLoader src={coverImage.url}>
-          <ImgWrapper width={'100%'} src={coverImage.url} alt={coverImage.url} />
-        </LazyLoader>
+        <StyledResizedImage
+          src={coverImage.s3_key}
+          alt={coverImage.s3_key}
+          height="170"
+          width="280"
+        />
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

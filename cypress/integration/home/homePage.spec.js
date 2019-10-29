@@ -353,6 +353,7 @@ describe('Homepage', () => {
   })
 
   it('clicking the create new item button', () => {
+    cy.scrollTo('bottom')
     cy.get('[data-test=createNewItem]').click()
 
     // assert that user is redirected to the create item page

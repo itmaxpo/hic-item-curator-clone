@@ -35,7 +35,7 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
  * Wrapped in withRouter HOC to have access to <history>
  *
  *
- * @name SearchResultWrapper
+ * @name SearchResult
  * @param {Object} history from react-router
  * @param {Array} results (results from search)
  * @param {Function} setResults - callback to update results from search - used to enrich items
@@ -48,7 +48,7 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
  * @param {Object} history from react-router
  * @returns {Function} Search Result component
  */
-export const SearchResultWrapper = withRouter(
+export const SearchResult = withRouter(
   ({
     history,
     results,
@@ -275,4 +275,4 @@ export const SearchResultWrapper = withRouter(
   }
 )
 
-export default SearchResultWrapper
+export default SearchResult

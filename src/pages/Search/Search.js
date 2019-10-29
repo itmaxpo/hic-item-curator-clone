@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import queryString from 'query-string'
+import LazyLoad from 'react-lazyload'
 import Layout from 'components/Layout'
 import {
   Wrapper,
@@ -10,7 +11,7 @@ import {
   StyledLoader
 } from './styles'
 import SearchBox from './SearchBox'
-import SearchResultWrapper from './SearchResult'
+import SearchResult from './SearchResult'
 import { calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
@@ -139,7 +140,7 @@ const SearchPage = ({ history }) => {
         />
         {isLoading && <StyledLoader />}
         {!isEmpty(flattenedResults) && (
-          <SearchResultWrapper
+          <SearchResult
             results={flattenedResults}
             setResults={newResults => {
               setResults(newResults)
@@ -154,19 +155,21 @@ const SearchPage = ({ history }) => {
           />
         )}
         {results && !isLoading && (
-          <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
-            {!isEmpty(flattenedResults) ? (
-              <p>Didn't find what you're looking for?</p>
-            ) : (
-              <>
-                <SadFaceIconWrapper />
-                <p>No results</p>
-              </>
-            )}
-            <CreateButton data-test="createNewItem" onClick={createNewItem}>
-              Create New Item
-            </CreateButton>
-          </CreateNewItemWrapper>
+          <LazyLoad height={131} once>
+            <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
+              {!isEmpty(flattenedResults) ? (
+                <p>Didn't find what you're looking for?</p>
+              ) : (
+                <>
+                  <SadFaceIconWrapper />
+                  <p>No results</p>
+                </>
+              )}
+              <CreateButton data-test="createNewItem" onClick={createNewItem}>
+                Create New Item
+              </CreateButton>
+            </CreateNewItemWrapper>
+          </LazyLoad>
         )}
       </Wrapper>
     </Layout>

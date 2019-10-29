@@ -1,1 +1,1 @@
-export { default } from './SearchResultWrapper'
+export { default } from './SearchResult'
