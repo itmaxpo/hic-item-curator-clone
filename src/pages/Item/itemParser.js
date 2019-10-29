@@ -1,5 +1,11 @@
 import { get, filter, isArray, isObject, isEmpty } from 'lodash'
-import { SOURCE, COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import {
+  SOURCE,
+  SUPPLY,
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE
+} from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 
 // LOCALES
@@ -142,7 +148,9 @@ export const setItemSpecificFieldsNoLocale = item => {
 
   return fields
     .map(field =>
-      typeof item[field] === 'boolean'
+      field === FIELD_ACTIVE_DESTINATION
+        ? transformValueIntoSupplySource(item[field], field)
+        : typeof item[field] === 'boolean'
         ? transformValueIntoFieldNoLocale(item[field], field)
         : item[field] && transformValueIntoFieldNoLocale(item[field], field)
     )
@@ -315,10 +323,12 @@ export const parseItemByType = (item, language) => {
 /**
  * Transform FE value to BE field
  *
- * @param {Object} item
+ * @param {value} value of the field
+ * @param {field} item field
+ * @param {language} locale
  */
-const transformValueIntoField = (value, type, language = null) => ({
-  field_name: type,
+const transformValueIntoField = (value, field, language = null) => ({
+  field_name: field,
   content: value,
   source: SOURCE,
   source_key: SOURCE,
@@ -328,13 +338,27 @@ const transformValueIntoField = (value, type, language = null) => ({
 /**
  * Transform FE value to BE field
  *
- * @param {Object} item
+ * @param {value} value of the field
+ * @param {field} item field
  */
-const transformValueIntoFieldNoLocale = (value, type) => ({
-  field_name: type,
+const transformValueIntoFieldNoLocale = (value, field) => ({
+  field_name: field,
   content: value,
   source: SOURCE,
   source_key: SOURCE
+})
+
+/**
+ * Transform FE value to BE field
+ *
+ * @param {value} value of the field
+ * @param {field} item field
+ */
+const transformValueIntoSupplySource = (value, field) => ({
+  field_name: field,
+  content: value,
+  source: SUPPLY,
+  source_key: null
 })
 // HELPERS - END
 
