@@ -6,22 +6,22 @@
 [build]
   base    = ""
   publish = "build"
-  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy"
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run build:production"
 
 # Production context: All deploys to the main
 # repository branch will inherit these settings.
 [context.production]
-  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy"
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run build:production"
 
 # Deploy Preview context: All Deploy Previews
 # will inherit these settings.
 [context.deploy-preview]
-  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy:staging"
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run build:staging"
 
 # Branch Deploy context: All deploys that are not in
 # an active Deploy Preview will inherit these settings.
 [context.staging]
-  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run deploy:staging"
+  command = "npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN && npm run build:staging"
 
 # redirect rule
 [[redirects]]
