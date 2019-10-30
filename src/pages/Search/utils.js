@@ -43,8 +43,9 @@ const getFieldValue = field => {
 
 // Check for names based on this order: EN name -> DE name -> original_name -> whatever other name
 const getItemTitle = (nameField, item) => {
-  const engField = nameField.filter(({ locale }) => locale === 'en-GB')[0]
-  const deField = nameField.filter(({ locale }) => locale === 'de-DE')[0]
+  const engField = getFieldBySourcePriority(nameField.filter(({ locale }) => locale === 'en-GB'))
+  const deField = getFieldBySourcePriority(nameField.filter(({ locale }) => locale === 'de-DE'))
+
   const originalName = get(item, 'fields.original_name.0.content')
 
   return engField
