@@ -202,7 +202,9 @@ export const SearchResult = withRouter(
 
     // effect to run after the user comes back from the item page
     useEffect(() => {
-      scrollToItemManager.scrollToItem()
+      setTimeout(() => {
+        scrollToItemManager.scrollToItem()
+      }, 500)
     }, [])
 
     const pages = allResults.length

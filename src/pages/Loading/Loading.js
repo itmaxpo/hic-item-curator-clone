@@ -1,6 +1,14 @@
 import React from 'react'
-import Background from 'components/Background'
+import styled from 'styled-components'
 import Loader from 'components/Loader'
+
+const Wrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 /**
  * This is the Loading Page component
@@ -10,9 +18,9 @@ import Loader from 'components/Loader'
  */
 
 const Loading = () => (
-  <Background>
+  <Wrapper>
     <Loader />
-  </Background>
+  </Wrapper>
 )
 
 export default Loading

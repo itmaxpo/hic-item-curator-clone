@@ -1,8 +1,9 @@
 import React from 'react'
-import { COLORS, FlexContainer, Button } from '@tourlane/tourlane-ui'
+import { COLORS, FlexContainer, Button, Skeleton } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
 import { SadFaceIcon } from 'components/Icon'
 import Loader from 'components/Loader'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 export const Wrapper = styled.div`
   min-height: 80vh;
@@ -42,3 +43,13 @@ export const StyledLoader = styled(Loader)`
     position: relative;
   }
 `
+
+const LoaderWrapper = styled.div`
+  margin: 20px 90px 0 90px;
+`
+
+export const SearchBoxLoader = ({ category }) => (
+  <LoaderWrapper>
+    <Skeleton height={category === ACCOMMODATION_ITEM_TYPE ? '518px' : '418px'} />
+  </LoaderWrapper>
+)

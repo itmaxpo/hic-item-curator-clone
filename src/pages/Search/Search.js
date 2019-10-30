@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import queryString from 'query-string'
 import LazyLoad from 'react-lazyload'
@@ -8,14 +8,16 @@ import {
   CreateNewItemWrapper,
   CreateButton,
   SadFaceIconWrapper,
-  StyledLoader
+  StyledLoader,
+  SearchBoxLoader
 } from './styles'
-import SearchBox from './SearchBox'
-import SearchResult from './SearchResult'
 import { calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
+
+const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
+const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
 
 /**
  * This is the Search Page component
@@ -132,27 +134,31 @@ const SearchPage = ({ history }) => {
   return (
     <Layout>
       <Wrapper>
-        <SearchBox
-          search={search}
-          history={history}
-          locationQuery={parsedQuery}
-          onQueryUpdate={searchBoxQueryUpdate}
-        />
+        <Suspense fallback={<SearchBoxLoader category={parsedQuery.type} />}>
+          <SearchBox
+            search={search}
+            history={history}
+            locationQuery={parsedQuery}
+            onQueryUpdate={searchBoxQueryUpdate}
+          />
+        </Suspense>
         {isLoading && <StyledLoader />}
         {!isEmpty(flattenedResults) && (
-          <SearchResult
-            results={flattenedResults}
-            setResults={newResults => {
-              setResults(newResults)
-            }}
-            fetchMoreItems={search}
-            isLoading={isLoading}
-            locationQuery={parsedQuery}
-            onQueryUpdate={onQueryUpdate}
-            itemType={itemTypeRef.current}
-            country={country}
-            page={Number(parsedQuery.page)}
-          />
+          <Suspense fallback={<StyledLoader />}>
+            <SearchResult
+              results={flattenedResults}
+              setResults={newResults => {
+                setResults(newResults)
+              }}
+              fetchMoreItems={search}
+              isLoading={isLoading}
+              locationQuery={parsedQuery}
+              onQueryUpdate={onQueryUpdate}
+              itemType={itemTypeRef.current}
+              country={country}
+              page={Number(parsedQuery.page)}
+            />
+          </Suspense>
         )}
         {results && !isLoading && (
           <LazyLoad height={131} once>
