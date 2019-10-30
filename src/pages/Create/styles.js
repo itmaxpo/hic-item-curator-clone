@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FlexContainer, Card, H3, Subline } from '@tourlane/tourlane-ui'
+import { FlexContainer, Card, H3, Subline, COLORS } from '@tourlane/tourlane-ui'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export const Wrapper = styled.div`
   && {
@@ -61,3 +62,17 @@ export const SubmitButtonWrapper = styled.div`
     width: 100%;
   }
 `
+
+const LoaderWrapper = styled.div`
+  > div {
+    position: relative;
+    top: 40%;
+    left: 46%;
+  }
+`
+
+export const Loader = () => (
+  <LoaderWrapper>
+    <ClipLoader color={COLORS.ADVENTURE_GREEN} />
+  </LoaderWrapper>
+)

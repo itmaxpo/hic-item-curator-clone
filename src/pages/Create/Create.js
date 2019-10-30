@@ -1,8 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { lazy, Suspense, useState, useEffect, useContext } from 'react'
 import { values, isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
+import LazyLoad from 'react-lazyload'
 import Layout from 'components/Layout'
-import { FlexContainer, DropdownSelect, TextField, ProgressButton } from '@tourlane/tourlane-ui'
+import {
+  FlexContainer,
+  DropdownSelect,
+  TextField,
+  ProgressButton,
+  BlurInTransition
+} from '@tourlane/tourlane-ui'
 import {
   Wrapper,
   CreateBoxContainer,
@@ -10,15 +17,19 @@ import {
   MapContainer,
   Title,
   Subtitle,
-  SubmitButtonWrapper
+  SubmitButtonWrapper,
+  Loader
 } from './styles'
 import { getLocationCoordinates } from './utils'
-import mapPlaceholder from './mapPlaceholder.png'
-import Map, { SearchBox } from 'components/Map'
+import noLocationPlaceholder from './no-location.svg'
+import { SearchBox } from 'components/Map'
 import SuppliersContext from 'contexts/Suppliers'
 import { createItem, createSupplier } from 'services/contentApi'
 import { parseSuppliers } from 'contexts/Suppliers/utils'
 import { useNotification } from 'components/Notification'
+import LazyLoader from 'components/LazyLoader'
+
+const Map = lazy(() => import(/* webpackChunkName: "Map" */ 'components/Map'))
 
 const createOptions = [{ value: 'accommodation', label: 'Accommodation' }]
 
@@ -143,11 +154,28 @@ const Create = ({ history }) => {
               </SubmitButtonWrapper>
             </InputContainer>
             <MapContainer>
-              {coordinates ? (
-                <Map coordinates={coordinates} polygon={polygon} locationInfo={locationInfo} />
-              ) : (
-                <img src={mapPlaceholder} alt="map-placeholder" />
-              )}
+              <Suspense fallback={<Loader />}>
+                <LazyLoad height="381" once>
+                  {coordinates ? (
+                    <BlurInTransition animationDuration="1000ms">
+                      <Map
+                        coordinates={coordinates}
+                        polygon={polygon}
+                        locationInfo={locationInfo}
+                      />
+                    </BlurInTransition>
+                  ) : (
+                    <LazyLoader src={noLocationPlaceholder} height="381">
+                      <img
+                        src={noLocationPlaceholder}
+                        alt="map-placeholder"
+                        height="100%"
+                        width="100%"
+                      />
+                    </LazyLoader>
+                  )}
+                </LazyLoad>
+              </Suspense>
             </MapContainer>
           </FlexContainer>
         </CreateBoxContainer>
