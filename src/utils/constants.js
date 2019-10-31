@@ -1,3 +1,6 @@
+// SEARCH
+export const ITEMS_PER_PAGE = 20
+
 // SOURCES
 export const SOURCE = 'item_curator'
 export const WETU = 'wetu'

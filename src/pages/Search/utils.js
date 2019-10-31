@@ -1,11 +1,12 @@
 import { isEmpty, chunk, get, flatten } from 'lodash'
 import { getFieldBySourcePriority } from 'utils/helpers'
+import { ITEMS_PER_PAGE } from 'utils/constants'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
 
 // Used to create paginated array
-export const paginateArray = (arr, pageSize = 20) => chunk(arr, pageSize)
+export const paginateArray = (arr, pageSize = ITEMS_PER_PAGE) => chunk(arr, pageSize)
 
 // Used to return 's' if counter > 2. E.g.: `Photo{addSToString(2)}` -> Photos
 export const addSToString = counter => (counter !== 1 ? 's' : '')
@@ -90,7 +91,7 @@ export const insertPage = (pages, index, items, totalCount, itemType) => {
 
   // when pages are already defined/created (have the right size from the totalCount)
   if (pages && pages.length) {
-    // we have to flatten the pages to insert the items correctly and then paginate it (chunks of 20)
+    // we have to flatten the pages to insert the items correctly and then paginate it
     const draftNewPages = flatten(pages)
 
     // parse the items to give them the shape we use

@@ -25,7 +25,7 @@ import {
   TotalItemsWrapper
 } from './styles'
 import MergeItems from './MergeItems'
-import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE, ITEMS_PER_PAGE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 /**
@@ -61,15 +61,13 @@ export const SearchResult = withRouter(
     country,
     page
   }) => {
-    const itemsPerPage = 20
-
     const searchContainer = useRef(null)
     const [isAllSelected, setIsAllSelected] = useState(false)
     const [currentPage, setCurrentPage] = useState(page || 1)
     const [selectedItems, setSelectedItems] = useState([])
     const [isMergeOpen, setIsMergeOpen] = useState(false)
 
-    const [allResults, setAllResults] = useState(paginateResults(results, itemsPerPage))
+    const [allResults, setAllResults] = useState(paginateResults(results, ITEMS_PER_PAGE))
     const [parentNameList, setParentNameList] = useState(
       uniqBy(getParentNameList(allResults[currentPage - 1]), 'id')
     )
@@ -165,7 +163,7 @@ export const SearchResult = withRouter(
     const onMerge = (mergedItem, itemsMerged) => {
       setSelectedItems([])
 
-      const index = calculateIndex(currentPage - 1, itemsPerPage)
+      const index = calculateIndex(currentPage - 1, ITEMS_PER_PAGE)
 
       const newResults = removeMergedItems(updateCurrentPageEnrichedItems(), itemsMerged)
 
@@ -176,8 +174,8 @@ export const SearchResult = withRouter(
     }
 
     useEffect(() => {
-      setAllResults(paginateResults(results, itemsPerPage))
-    }, [results, itemsPerPage])
+      setAllResults(paginateResults(results, ITEMS_PER_PAGE))
+    }, [results])
 
     // on page changes, feed the parentNameList with the new parent ids with fetched names
     useEffect(() => {
@@ -249,8 +247,8 @@ export const SearchResult = withRouter(
               {allResults.length > 1 ? (
                 <PaginationCenteredWrapper>
                   <Pagination
-                    total={pages * itemsPerPage}
-                    limit={itemsPerPage}
+                    total={pages * ITEMS_PER_PAGE}
+                    limit={ITEMS_PER_PAGE}
                     currentPage={currentPage}
                     onPageChange={onPageChange}
                   />

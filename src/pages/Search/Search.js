@@ -13,7 +13,12 @@ import {
 } from './styles'
 import { calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
-import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import {
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE,
+  ITEMS_PER_PAGE
+} from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
 
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
@@ -47,7 +52,7 @@ const SearchPage = ({ history }) => {
   }
 
   const search = async (payload, page = 0, isNewSearch = false) => {
-    const index = calculateIndex(page, 20)
+    const index = calculateIndex(page, ITEMS_PER_PAGE)
 
     // if its a brand new search (not fetching more items)
     // we clear the results
