@@ -356,7 +356,7 @@ const transformValueIntoFieldNoLocale = (value, field) => ({
  */
 const transformValueIntoSupplySource = (value, field) => ({
   field_name: field,
-  content: value,
+  content: !!value,
   source: SUPPLY,
   source_key: null
 })
