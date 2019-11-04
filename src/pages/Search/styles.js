@@ -50,6 +50,8 @@ const LoaderWrapper = styled.div`
 
 export const SearchBoxLoader = ({ category }) => (
   <LoaderWrapper>
-    <Skeleton height={category === ACCOMMODATION_ITEM_TYPE ? '518px' : '418px'} />
+    <Skeleton
+      height={category ? (category === ACCOMMODATION_ITEM_TYPE ? '518px' : '418px') : '302px'}
+    />
   </LoaderWrapper>
 )
