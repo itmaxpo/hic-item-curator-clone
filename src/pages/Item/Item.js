@@ -62,6 +62,20 @@ const ItemPage = ({ match, history }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
 
+  const updateAttachments = async () => {
+    try {
+      const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
+      await updateItemAttachmentsById(item.id, imagesNotVisibleAnymore, false)
+      await updateItemAttachmentsById(item.id, item.visibleImages, true)
+    } catch (e) {
+      enqueueNotification({
+        variant: 'error',
+        message: 'Failed to update images. Please refresh the page and try again'
+      })
+      console.error(e)
+    }
+  }
+
   const onImagesAdd = (prop, images) => {
     // We need to update original to store all uploaded images
     allImagesOriginal.current = [...images, ...allImagesOriginal.current]
@@ -82,20 +96,19 @@ const ItemPage = ({ match, history }) => {
     dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
     // TODO: Have a PROMISE based if have any issues with || requests
     try {
-      const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
       // Update images
-      await updateItemAttachmentsById(item.id, imagesNotVisibleAnymore, false)
-      await updateItemAttachmentsById(item.id, item.visibleImages, true)
-      // Update item fields
-      await updateItemFields(item.id, fields, item.type)
-      // Set original item to current item
-      originalItem.current = { ...item, locales: currentLocales }
-      // Update originals for Images
-      allImagesOriginal.current = [
-        ...allImagesOriginal.current.filter(img => !img.isVisible),
-        ...item.visibleImages
-      ]
-      visibleImagesOriginal.current = [...item.visibleImages]
+      await Promise.all([updateAttachments(), updateItemFields(item.id, fields, item.type)]).then(
+        async () => {
+          // Set original item to current item
+          originalItem.current = { ...item, locales: currentLocales }
+          // Update originals for Images
+          allImagesOriginal.current = [
+            ...allImagesOriginal.current.filter(img => !img.isVisible),
+            ...item.visibleImages
+          ]
+          visibleImagesOriginal.current = [...item.visibleImages]
+        }
+      )
     } catch (e) {
       enqueueNotification({
         variant: 'error',
