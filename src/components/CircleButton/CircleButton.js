@@ -65,19 +65,22 @@ const OvalWrapper = styled.div`
  * @param {Boolean} visibleOnHover
  * @param {String} tooltipText
  */
-const CircleButton = ({ onClick, id, visibleOnHover = true, className, tooltipText, children }) => {
+const CircleButton = ({
+  onClick,
+  visibleOnHover = true,
+  className,
+  tooltipText,
+  children,
+  ...rest
+}) => {
   return (
-    <OvalWrapper id={id} className={className} visibleOnHover={visibleOnHover}>
+    <OvalWrapper className={className} visibleOnHover={visibleOnHover} onClick={onClick} {...rest}>
       {tooltipText ? (
         <Tooltip title={tooltipText}>
-          <Oval visibleOnHover={visibleOnHover} onClick={onClick}>
-            {children}
-          </Oval>
+          <Oval visibleOnHover={visibleOnHover}>{children}</Oval>
         </Tooltip>
       ) : (
-        <Oval visibleOnHover={visibleOnHover} onClick={onClick}>
-          {children}
-        </Oval>
+        <Oval visibleOnHover={visibleOnHover}>{children}</Oval>
       )}
     </OvalWrapper>
   )

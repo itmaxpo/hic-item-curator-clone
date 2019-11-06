@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { lazy, Suspense, useState, useEffect, Fragment } from 'react'
 import { isEmpty } from 'lodash'
 import ReactHtmlParser from 'react-html-parser'
 import { Slide } from '@material-ui/core'
@@ -7,8 +7,12 @@ import ShowMore from 'components/ShowMore'
 import CircleButton from 'components/CircleButton'
 import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
-import { Column, TitleContainer, StyledRichTextEditor, StyledTitleWithContent } from './styles'
+import { Column, TitleContainer, StyledTitleWithContent, RichTextEditorLoader } from './styles'
 import { parseInspirations, getRichTextValue } from './utils'
+
+const StyledRichTextEditor = lazy(() =>
+  import(/* webpackChunkName: "RichTextEditor" */ './StyledRichTextEditor')
+)
 
 const ContentInspiration = ({ description, inspirations }) => (
   <Card>
@@ -20,7 +24,7 @@ const ContentInspiration = ({ description, inspirations }) => (
 )
 
 const CollapseButton = ({ isExpanded, onClick, dataTest }) => (
-  <CircleButton visibleOnHover={false} onClick={onClick} id={'collapsed-desc-button'}>
+  <CircleButton visibleOnHover={false} onClick={onClick} data-test="inspiration-collapse-button">
     {isExpanded ? <ChevronRightIcon /> : <ChevronLeftIcon />}
   </CircleButton>
 )
@@ -61,12 +65,14 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
             )}
           </TitleContainer>
           {isEditing ? (
-            <StyledRichTextEditor
-              data-test={'item-description-editor'}
-              placeholder={`Please write something about the ${type}`}
-              value={_description}
-              onChange={onDescriptionUpdate}
-            />
+            <Suspense fallback={<RichTextEditorLoader />}>
+              <StyledRichTextEditor
+                data-test={'item-description-editor'}
+                placeholder={`Please write something about the ${type}`}
+                value={_description}
+                onChange={onDescriptionUpdate}
+              />
+            </Suspense>
           ) : (
             <ShowMore
               data-test={'item-show-more'}

@@ -48,6 +48,7 @@ describe('Item page', () => {
 
   it('accommodation location check', () => {
     // Check location
+    cy.scrollTo('bottom')
     cy.get('[data-test=item-location-header]').contains('Location')
     cy.get('.gm-style')
   })
@@ -185,19 +186,19 @@ describe('Item page', () => {
   it('country check language switcher', () => {
     cy.get('[src="//www.countryflags.io/GB/flat/64.png"]')
       .eq(0)
-      .click()
-    cy.get('[src="//www.countryflags.io/DE/flat/64.png"]').click()
+      .click({ force: true })
+    cy.get('[src="//www.countryflags.io/DE/flat/64.png"]').click({ force: true })
     cy.get('[src="//www.countryflags.io/DE/flat/64.png"]').should('have.length', 2)
     // assert that user route to correct query
     cy.location().should(location => {
       expect(queryString.parse(location.search).language).to.eq('de-DE')
     })
     cy.get('[data-test=item-description-wrapper]').contains('DE Desc')
-    cy.get('#accordion__heading-additional_info').click()
+    cy.get('#accordion__heading-additional_info').click({ force: true })
     cy.get('[data-test="item-information-Additional info"]').contains('Additional DE')
     cy.get('[src="//www.countryflags.io/DE/flat/64.png"]')
       .eq(0)
-      .click()
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').click()
+      .click({ force: true })
+    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').click({ force: true })
   })
 })

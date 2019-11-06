@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { lazy, Suspense, Fragment } from 'react'
+import LazyLoad from 'react-lazyload'
 import { isEmpty, flatten } from 'lodash'
 import ExpansionPanelWrapper from 'components/ExpansionPanel'
-import Map, { SearchBox } from 'components/Map'
+import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
 import {
   TitleWithContent,
@@ -10,6 +11,7 @@ import {
   GeoWrapper,
   StyledAccordion
 } from './styles'
+import { RichTextEditorLoader } from './Description/styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
   IMAGES_COMPONENT_NAME,
@@ -17,14 +19,23 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
-import { H4, Base, AccordionGroup } from '@tourlane/tourlane-ui'
-import ImageUploader from 'components/ImageUploader'
+import { H4, Base, AccordionGroup, Skeleton, BlurInTransition } from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
 import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
-import Description from './Description'
-import { StyledRichTextEditor } from './Description/styles'
+
+const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
+
+const ImageUploader = lazy(() =>
+  import(/* webpackChunkName: "ImageUploader" */ 'components/ImageUploader')
+)
+
+const StyledRichTextEditor = lazy(() =>
+  import(/* webpackChunkName: "StyledRichTextEditor" */ './Description/StyledRichTextEditor')
+)
+
+const Map = lazy(() => import(/* webpackChunkName: "Map" */ 'components/Map'))
 
 // Fake data to test components
 const descriptions = item => {
@@ -99,14 +110,16 @@ const OfferVisualisation = ({
         <Fragment key={key}>
           <TitleWithContent>
             <H4 data-test={'item-images-header'}>Images</H4>
-            <ImageUploader
-              id={item.id}
-              isEditing={isEditing}
-              onImagesUpdate={onChange}
-              onImagesAdd={onImagesAdd}
-              allImages={item.allImages}
-              visibleImages={item.visibleImages}
-            />
+            <Suspense fallback={<Skeleton height="294px" />}>
+              <ImageUploader
+                id={item.id}
+                isEditing={isEditing}
+                onImagesUpdate={onChange}
+                onImagesAdd={onImagesAdd}
+                allImages={item.allImages}
+                visibleImages={item.visibleImages}
+              />
+            </Suspense>
           </TitleWithContent>
         </Fragment>
       )
@@ -129,12 +142,14 @@ const OfferVisualisation = ({
                 title={d.label}
               >
                 {isEditing ? (
-                  <StyledRichTextEditor
-                    data-test={`item-information-${d.label}-editor`}
-                    placeholder={`Please write something about the ${d.label.toLowerCase()}`}
-                    value={d.value}
-                    onChange={val => onChange(d.field, val)}
-                  />
+                  <Suspense fallback={<RichTextEditorLoader />}>
+                    <StyledRichTextEditor
+                      data-test={`item-information-${d.label}-editor`}
+                      placeholder={`Please write something about the ${d.label.toLowerCase()}`}
+                      value={d.value}
+                      onChange={val => onChange(d.field, val)}
+                    />
+                  </Suspense>
                 ) : (
                   ReactHtmlParser(d.value || 'No information found')
                 )}
@@ -179,7 +194,17 @@ const OfferVisualisation = ({
             )}
             <MapWrapper>
               {geolocation && (
-                <Map coordinates={geolocation} polygon={polygon} locationInfo={locationInfo} />
+                <LazyLoad height="500px" once>
+                  <Suspense fallback={<Skeleton height="500px" />}>
+                    <BlurInTransition>
+                      <Map
+                        coordinates={geolocation}
+                        polygon={polygon}
+                        locationInfo={locationInfo}
+                      />
+                    </BlurInTransition>
+                  </Suspense>
+                </LazyLoad>
               )}
               {isLoadingAdditionalInfo && <Loader top={'45%'} />}
             </MapWrapper>

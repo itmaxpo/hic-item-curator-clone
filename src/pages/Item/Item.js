@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef, useReducer, useCallback } from 'react'
+import React, { lazy, Suspense, useState, useEffect, useRef, useReducer, useCallback } from 'react'
 import { Prompt } from 'react-router-dom'
-import ItemLayout from './ItemLayout'
 import queryString from 'query-string'
-import OfferVisualisation from './OfferVisualisation'
-import { EditingWrapper } from './styles'
+import { EditingWrapper, ItemLayoutLoader, TabContentLoader } from './styles'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeBy } from './utils'
 import { flatten, get } from 'lodash'
@@ -20,6 +18,11 @@ import { parseItemByType, transformToSupplyItem } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { useNotification } from 'components/Notification'
+
+const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
+const OfferVisualisation = lazy(() =>
+  import(/* webpackChunkName: "OfferVisualisation" */ './OfferVisualisation')
+)
 
 // Reducer to handle images all and visible changes
 const reducer = (state, action) => {
@@ -286,25 +289,28 @@ const ItemPage = ({ match, history }) => {
               />
             )}
           </EditingWrapper>
-
-          <ItemLayout
-            history={history}
-            item={item}
-            isEditing={isEditing}
-            onChange={onChange}
-            tabs={['Offer Visualisation']}
-            tabContents={[
-              <OfferVisualisation
-                item={item}
-                isLoadingAdditionalInfo={isLoadingAdditionalInfo}
-                isEditing={isEditing}
-                onImagesAdd={onImagesAdd}
-                onChange={onChange}
-                onGeolocationUpdate={onGeolocationUpdate}
-                components={componentsBasedOnType(item.type)}
-              />
-            ]}
-          />
+          <Suspense fallback={<ItemLayoutLoader />}>
+            <ItemLayout
+              history={history}
+              item={item}
+              isEditing={isEditing}
+              onChange={onChange}
+              tabs={['Offer Visualisation']}
+              tabContents={[
+                <Suspense fallback={<TabContentLoader />}>
+                  <OfferVisualisation
+                    item={item}
+                    isLoadingAdditionalInfo={isLoadingAdditionalInfo}
+                    isEditing={isEditing}
+                    onImagesAdd={onImagesAdd}
+                    onChange={onChange}
+                    onGeolocationUpdate={onGeolocationUpdate}
+                    components={componentsBasedOnType(item.type)}
+                  />
+                </Suspense>
+              ]}
+            />
+          </Suspense>
         </>
       ) : (
         <Loader top={'47.5%'} />

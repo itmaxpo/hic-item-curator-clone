@@ -25,6 +25,7 @@ export const TitleWithContent = styled.div`
 
 export const MapWrapper = styled.div`
   height: 500px;
+  padding-bottom: 60px;
 `
 
 export const SearchItemWrapper = styled(FlexContainer)`

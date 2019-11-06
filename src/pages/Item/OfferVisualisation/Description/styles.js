@@ -1,6 +1,6 @@
+import React from 'react'
 import styled from 'styled-components'
-import { FlexContainer } from '@tourlane/tourlane-ui'
-import RichTextEditor from 'components/RichTextEditor'
+import { FlexContainer, Skeleton } from '@tourlane/tourlane-ui'
 import { TitleWithContent } from '../styles'
 
 export const Column = styled.div`
@@ -18,19 +18,9 @@ export const TitleContainer = styled(FlexContainer)`
   height: 36px;
 `
 
-export const StyledRichTextEditor = styled(RichTextEditor)`
-  height: 100%;
-
-  > div {
-    height: 100%;
-  }
-
-  > div > div {
-    height: 100%;
-  }
-`
-
 export const StyledTitleWithContent = styled(TitleWithContent)`
   overflow: hidden;
   padding-bottom: 20px;
 `
+
+export const RichTextEditorLoader = () => <Skeleton height="235px" />

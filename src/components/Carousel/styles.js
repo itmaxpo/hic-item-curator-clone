@@ -63,3 +63,14 @@ export const StyledDialog = styled(Dialog)`
     }
   }
 `
+
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  height: 200vh;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: rgba(0, 0, 0, 0.55);
+`

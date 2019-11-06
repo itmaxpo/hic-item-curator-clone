@@ -1,13 +1,19 @@
-import React, { useRef } from 'react'
+import React, { lazy, Suspense, useRef } from 'react'
+import LazyLoad from 'react-lazyload'
 import cuid from 'cuid'
 import {
   getItemAttachmentsPresignedPost,
   uploadingImage,
   setItemAttachmentsById
 } from 'services/contentApi'
-import DraggableGallery from 'components/DraggableGallery'
-import { UploadImageBlock } from './styles'
 import { useNotification } from 'components/Notification'
+import { Skeleton } from '@tourlane/tourlane-ui'
+
+const UploadImageBlock = lazy(() => import(/* webpackChunkName: "UploadImageBlock" */ './styles'))
+
+const DraggableGallery = lazy(() =>
+  import(/* webpackChunkName: "DraggableGallery" */ 'components/DraggableGallery')
+)
 
 /**
  * This is a component to upload images and add them to library
@@ -129,29 +135,41 @@ const ImageUploader = ({
 
   return (
     <div>
-      {isEditing && <UploadImageBlock onFilesAdded={onUploadDrop} />}
+      {isEditing && (
+        <LazyLoad height="386px">
+          <Suspense fallback={<Skeleton height="386px" />}>
+            <UploadImageBlock onFilesAdded={onUploadDrop} />
+          </Suspense>
+        </LazyLoad>
+      )}
       {/* Showing image library only in Editing mode */}
       {isEditing && (
-        <DraggableGallery
-          title={'Image library'}
-          placeholder={'Image library'}
-          images={allImages}
-          options={options}
-          onChange={onAllImagesUpdate}
-          disabled={!isEditing}
-        />
+        <LazyLoad height="268px">
+          <Suspense fallback={<Skeleton height="268px" />}>
+            <DraggableGallery
+              title={'Image library'}
+              placeholder={'Image library'}
+              images={allImages}
+              options={options}
+              onChange={onAllImagesUpdate}
+              disabled={!isEditing}
+            />
+          </Suspense>
+        </LazyLoad>
       )}
 
-      <DraggableGallery
-        title={'Visible images'}
-        placeholder={`Drag & drop images from the image library here to make them visible`}
-        images={visibleImages}
-        options={options}
-        onChange={onVisibleImagesUpdate}
-        onDelete={onVisibleImagesDelete}
-        disabled={!isEditing}
-        isVisible={true}
-      />
+      <Suspense fallback={<Skeleton height="294px" />}>
+        <DraggableGallery
+          title={'Visible images'}
+          placeholder={`Drag & drop images from the image library here to make them visible`}
+          images={visibleImages}
+          options={options}
+          onChange={onVisibleImagesUpdate}
+          onDelete={onVisibleImagesDelete}
+          disabled={!isEditing}
+          isVisible={true}
+        />
+      </Suspense>
     </div>
   )
 }

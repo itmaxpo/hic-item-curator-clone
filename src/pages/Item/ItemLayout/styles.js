@@ -1,17 +1,11 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { COLORS, DropdownSelect, TextField, FlexContainer } from '@tourlane/tourlane-ui'
+import { COLORS, DropdownSelect, TextField, FlexContainer, Flex } from '@tourlane/tourlane-ui'
 
 export const Wrapper = styled.div`
   margin: 30px 90px;
   color: ${COLORS.NIGHTINGALE_BLACK};
-`
-
-export const StyledImg = styled.img`
-  position: relative;
-  top: 10px;
-  right: -10px;
 `
 
 export const ActiveWrapper = styled.div`
@@ -140,8 +134,27 @@ export const LanguageBlock = styled(FlexContainer)`
 const LoaderWrapper = styled.div`
   height: 23px;
 `
-export const BreadCrumbsLoader = () => (
+export const BreadcrumbsLoader = () => (
   <LoaderWrapper>
     <BeatLoader size="9" margin="2px" color={COLORS.ADVENTURE_GREEN_FOCUSED} />
   </LoaderWrapper>
 )
+
+export const MissingNameWrapper = styled(Flex)`
+  align-items: flex-end;
+
+  > div {
+    margin-left: 10px;
+    width: auto;
+    > div {
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
+      position: relative;
+    }
+  }
+`
+
+export const BreadcrumbsWrapper = styled.div`
+  height: 23px;
+`

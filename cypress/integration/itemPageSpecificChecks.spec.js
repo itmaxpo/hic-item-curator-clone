@@ -9,7 +9,7 @@ describe('item specific fields checks', () => {
   it('country edit item', () => {
     // EDIT ITEM
     cy.get('[data-test=edit-item-button]').click()
-    cy.get('#collapsed-desc-button').click()
+    cy.get('[data-test=inspiration-collapse-button]').click({ force: true })
     cy.get('[data-test=collapsible-wrapper]')
       .find('span')
       .contains('Displayed')

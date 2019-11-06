@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Dropzone from 'components/Dropzone'
 
-export const UploadImageBlock = styled(Dropzone)`
+const UploadImageBlock = styled(Dropzone)`
   width: 100%;
 `
+
+export default UploadImageBlock

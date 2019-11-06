@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { lazy, Suspense, useState } from 'react'
 import { moveFromTo, addElementToIndex } from 'pages/Search/utils'
 import {
   ItemList,
@@ -12,9 +12,13 @@ import {
   ToggleWrapper
 } from './styles'
 import ItemPhoto from './ItemPhoto'
-import ImageCarousel from 'components/Carousel'
 import { DeleteIcon, GlyphChevronDownIcon } from 'components/Icon'
 import { Tooltip, Base } from '@tourlane/tourlane-ui'
+import { CarouselLoader } from 'components/Carousel'
+
+const ImageCarousel = lazy(() =>
+  import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
+)
 
 /**
  * Grid example of Sortable.js D'n'D
@@ -174,13 +178,16 @@ const DraggableGallery = ({
         </>
       )}
       {isVisible && <BottomLine />}
-
-      <ImageCarousel
-        selectedItem={clickedItemIndex}
-        images={imageURLs}
-        open={isOpen}
-        onClose={onClose}
-      />
+      {isOpen && (
+        <Suspense fallback={<CarouselLoader />}>
+          <ImageCarousel
+            selectedItem={clickedItemIndex}
+            images={imageURLs}
+            open={isOpen}
+            onClose={onClose}
+          />
+        </Suspense>
+      )}
     </GalleryWrapper>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
+import React, { lazy, Suspense, useContext, useEffect, useState, useCallback } from 'react'
 import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
@@ -12,19 +12,25 @@ import {
   ActiveTitleWrapper,
   ActiveWrapper,
   CheckboxWrapper,
-  StyledImg,
-  BreadCrumbsLoader
+  BreadcrumbsWrapper,
+  BreadcrumbsLoader,
+  MissingNameWrapper
 } from './styles'
 import TabsWrapper from 'components/Tabs'
-import { generateBreadcumbs } from './utils'
+import { generateBreadcrumbs } from './utils'
 import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
-import Breadcrumbs from 'components/Breadcrumbs'
 import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
 import { LANGUAGES, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import SuppliersContext from 'contexts/Suppliers'
+import LazyLoader from 'components/LazyLoader'
+
+const Breadcrumbs = lazy(() =>
+  import(/* webpackChunkName: "Breadcrumbs" */ 'components/Breadcrumbs')
+)
+
 /**
  * Will render Item page layout with required fields
  * Render provided tab contents and breadcrumbs
@@ -95,7 +101,7 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
         setBreadcrumbs(prevValues => [{ id: data.uuid, name }, ...prevValues])
       }
 
-      // If there is a parent - load him if not set flag to true
+      // If there is a parent, fetch it
       if (data.parent_uuid) {
         await fetchParent(data.parent_uuid)
       }
@@ -113,15 +119,22 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
     fetchAllItemParents()
   }, [item.parentId])
 
+  const missingNameForLocaleFlagUrl = `//www.countryflags.io/${
+    item.language.split('-')[1]
+  }/flat/48.png`
+
   return (
     <Layout>
       <Wrapper>
-        {isFetchingBreadcrumbs ? (
-          <BreadCrumbsLoader />
-        ) : (
-          <Breadcrumbs breadcrumbs={generateBreadcumbs(breadcrumbs)} />
-        )}
-
+        <BreadcrumbsWrapper>
+          {isFetchingBreadcrumbs ? (
+            <BreadcrumbsLoader />
+          ) : (
+            <Suspense fallback={<BreadcrumbsLoader />}>
+              <Breadcrumbs breadcrumbs={generateBreadcrumbs(breadcrumbs)} />
+            </Suspense>
+          )}
+        </BreadcrumbsWrapper>
         <TitleWrapper data-test={'item-title-wrapper'} isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (
@@ -129,12 +142,15 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
                 <H2>
                   {item.name ||
                     (item.language && (
-                      <span>
+                      <MissingNameWrapper>
                         No item name found for
-                        <StyledImg
-                          src={`//www.countryflags.io/${item.language.split('-')[1]}/flat/48.png`}
-                        />
-                      </span>
+                        <LazyLoader src={missingNameForLocaleFlagUrl} height="48px">
+                          <img
+                            src={missingNameForLocaleFlagUrl}
+                            alt={`${item.language.split('-')[1]} Flag`}
+                          />
+                        </LazyLoader>
+                      </MissingNameWrapper>
                     ))}
                 </H2>
                 <ActiveWrapper>

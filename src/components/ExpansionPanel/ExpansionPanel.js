@@ -73,7 +73,7 @@ export const Collapsible = ({
 /**
  * Uses Array of Collapsible elements
  *
- * @param {Array<{ label: String, field: Stirng, value: String }>} descriptions
+ * @param {Array<{ label: String, field: String, value: String }>} descriptions
  */
 const ExpansionPanelWrapper = ({ descriptions = [], spacing = 'M', children }) => {
   return (
