@@ -9,7 +9,6 @@ import {
   StyledBadge
 } from './styles'
 import { Big } from '@tourlane/tourlane-ui'
-import LazyLoader from 'components/LazyLoader'
 
 /**
  * Components responsible for rendering particular image in DraggableGallery
@@ -52,14 +51,13 @@ const ItemPhoto = ({
           </ImgWrapperHoveredBlock>
         )}
 
-        <LazyLoader src={image.value} height={'110px'} isLoading={image.isLoading}>
-          <ImgWrapper
-            isVisible={isVisible && index === 0}
-            width={'100%'}
-            src={image.value}
-            alt={image.value}
-          />
-        </LazyLoader>
+        <ImgWrapper
+          isVisible={isVisible && index === 0}
+          width="201"
+          height="110"
+          src={image.s3_key}
+          alt={image.s3_key}
+        />
 
         {/* If item.isSelected show checkBox */}
         {image.isSelected && (

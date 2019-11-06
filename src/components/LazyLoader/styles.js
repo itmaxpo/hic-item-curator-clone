@@ -10,10 +10,18 @@ export const Wrapper = styled.div`
   width: 100%;
 `
 
+const StyledLoader = styled(Loader)`
+  && {
+    position: relative;
+    height: auto;
+    padding: 37px;
+  }
+`
+
 export const Preloader = () => (
-  <Loader top={'32%'}>
+  <StyledLoader>
     <ClipLoader color={COLORS.ADVENTURE_GREEN} />
-  </Loader>
+  </StyledLoader>
 )
 
 export const StyledBlurInTransition = styled(BlurInTransition)`

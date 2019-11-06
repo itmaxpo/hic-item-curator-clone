@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import Sortable from 'react-sortablejs'
 import { COLORS, Big, FlexContainer, Checkbox } from '@tourlane/tourlane-ui'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import ResizedImage from 'components/ResizedImage'
 
 export const GalleryWrapper = styled(FlexContainer)`
   background-color: ${COLORS.BACKGROUND_GRAY};
@@ -65,6 +66,7 @@ export const DeleteIconWrapper = styled.div`
 
 export const ItemWrapper = styled.div`
   position: relative;
+  height: 114px;
 `
 
 export const ProgressWrapper = styled.div`
@@ -139,9 +141,7 @@ export const ImgWrapperHoveredBlock = styled.div`
   }
 `
 
-export const ImgWrapper = styled.img`
-  max-width: 100%;
-  max-height: 110px;
+export const ImgWrapper = styled(ResizedImage)`
   border-radius: 4px;
 
   ${({ isVisible }) =>

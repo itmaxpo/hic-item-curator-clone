@@ -194,6 +194,7 @@ const ItemPage = ({ match, history }) => {
         id: att.uuid,
         order: get(att, 'tags.order'),
         value: att.url,
+        s3_key: att.s3_key,
         isLoading: false,
         isError: false,
         isSelected: false,
