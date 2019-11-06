@@ -10,11 +10,11 @@ describe('item specific fields checks', () => {
     // EDIT ITEM
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=inspiration-collapse-button]').click({ force: true })
-    cy.get('[data-test=collapsible-wrapper]')
+    cy.get('.accordion')
       .find('span')
       .contains('Displayed')
     cy.get('[data-test=item-description-editor]').click()
-    cy.get('[data-test=collapsible-wrapper]')
+    cy.get('.accordion')
       .find('span')
       .contains('Displayed')
       .should('not.exist')

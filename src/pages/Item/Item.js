@@ -161,6 +161,7 @@ const ItemPage = ({ match, history }) => {
           }))
 
           onChange('rooms', rooms)
+          originalItem.current = { ...originalItem.current, rooms }
           break
         default:
           break

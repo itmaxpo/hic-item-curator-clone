@@ -2,12 +2,17 @@ import React, { lazy, Suspense, useState, useEffect, Fragment } from 'react'
 import { isEmpty } from 'lodash'
 import ReactHtmlParser from 'react-html-parser'
 import { Slide } from '@material-ui/core'
-import { H4, FlexContainer, Card } from '@tourlane/tourlane-ui'
+import { H4, FlexContainer, Card, AccordionGroup } from '@tourlane/tourlane-ui'
 import ShowMore from 'components/ShowMore'
 import CircleButton from 'components/CircleButton'
 import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
-import ExpansionPanelWrapper from 'components/ExpansionPanel'
-import { Column, TitleContainer, StyledTitleWithContent, RichTextEditorLoader } from './styles'
+import {
+  Column,
+  TitleContainer,
+  StyledTitleWithContent,
+  StyledAccordion,
+  RichTextEditorLoader
+} from './styles'
 import { parseInspirations, getRichTextValue } from './utils'
 
 const StyledRichTextEditor = lazy(() =>
@@ -16,10 +21,20 @@ const StyledRichTextEditor = lazy(() =>
 
 const ContentInspiration = ({ description, inspirations }) => (
   <Card>
-    <ExpansionPanelWrapper
-      descriptions={parseInspirations(description, inspirations)}
-      spacing="S"
-    />
+    <AccordionGroup>
+      {parseInspirations(description, inspirations).map((d, i) => (
+        <StyledAccordion
+          data-test={`item-inspiration-${d.label}`}
+          key={i}
+          name={d.label}
+          title={d.label}
+          badge={d.badge}
+          badgeVariant={'alarm'}
+        >
+          {ReactHtmlParser(d.value)}
+        </StyledAccordion>
+      ))}
+    </AccordionGroup>
   </Card>
 )
 

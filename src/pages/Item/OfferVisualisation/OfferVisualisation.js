@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, Fragment } from 'react'
 import LazyLoad from 'react-lazyload'
 import { isEmpty, flatten } from 'lodash'
-import ExpansionPanelWrapper from 'components/ExpansionPanel'
 import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
 import {
@@ -95,7 +94,19 @@ const OfferVisualisation = ({
             {isLoadingAdditionalInfo && <Loader top={'45%'} />}
 
             {item.rooms && item.rooms.length > 0 ? (
-              <ExpansionPanelWrapper descriptions={item.rooms} />
+              <AccordionGroup>
+                {item.rooms.map((d, i) => (
+                  <StyledAccordion
+                    data-test={`item-room-${d.label}`}
+                    key={i}
+                    name={d.label}
+                    title={d.label}
+                    badge={d.badge}
+                  >
+                    {d.value}
+                  </StyledAccordion>
+                ))}
+              </AccordionGroup>
             ) : (
               <SearchItemWrapper p={0} direction={'ttb'} data-test={'item-rooms-empty'}>
                 No rooms available

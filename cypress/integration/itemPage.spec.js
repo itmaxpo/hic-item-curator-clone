@@ -26,13 +26,13 @@ describe('Item page', () => {
   it('accommodation rooms check', () => {
     // Check rooms
     cy.get('[data-test=item-rooms-header]').contains('Rooms')
-    cy.get('[data-test=collapsible-wrapper]')
+    cy.get('.accordion')
       .children()
       .should('have.length', 4)
 
     const names = ['Presidential Suite', 'Front View', 'Luxury Suite', 'Pool View']
     names.forEach((el, i) => {
-      cy.get('[data-test=collapsible-wrapper] > div')
+      cy.get('.accordion > div')
         .eq(i)
         .contains(names[i])
     })
