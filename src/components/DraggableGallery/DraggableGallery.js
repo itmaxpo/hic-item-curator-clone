@@ -47,7 +47,6 @@ const DraggableGallery = ({
   const [isAllShown, setIsAllShown] = useState(false)
   const [clickedItemIndex, setClickedItemIndex] = useState(0)
 
-  const imageURLs = images.map(image => image.value)
   const selectedImages = images.filter(image => image.isSelected)
 
   const actualOptions = options
@@ -182,7 +181,7 @@ const DraggableGallery = ({
         <Suspense fallback={<CarouselLoader />}>
           <ImageCarousel
             selectedItem={clickedItemIndex}
-            images={imageURLs}
+            images={images}
             open={isOpen}
             onClose={onClose}
           />

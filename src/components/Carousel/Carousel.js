@@ -1,7 +1,6 @@
 import React from 'react'
-import { Carousel } from 'react-responsive-carousel'
-import './carousel.css'
-import { CarouselWrapper, CancelButton, StyledDialog } from './styles'
+import { Card, CircleIconButton } from '@tourlane/tourlane-ui'
+import { StyledDialog, StyledCloseContainer, ImgWrapper, StyledImagesCarousel } from './styles'
 
 /**
  * This is component that show Image Gallery in View mode
@@ -11,9 +10,7 @@ import { CarouselWrapper, CancelButton, StyledDialog } from './styles'
  * @param {Function} onClose
  * @param {Function} onImageClick
  */
-const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem = 0 }) => {
-  // For creating Legends: <p className="legend">Legend 1</p>
-
+const ImageCarousel = ({ open, images = [], onClose, selectedItem = 0 }) => {
   return (
     <StyledDialog
       onClose={onClose}
@@ -23,35 +20,30 @@ const ImageCarousel = ({ open, images = [], onClose, onImageClick, selectedItem 
         style: {
           backgroundColor: 'transparent',
           boxShadow: 'none',
-          maxWidth: '700px',
-          maxHeight: '100',
+          maxWidth: 900,
           margin: '0'
         }
       }}
     >
-      <CarouselWrapper>
-        <CancelButton hasClose onClick={onClose} />
-
-        {/* Options: http://react-responsive-carousel.js.org/storybook/?selectedKind=Carousel&selectedStory=no%20indicators&full=0&down=1&left=1&panelRight=0&downPanel=kadirahq%2Fstorybook-addon-actions%2Factions-panel  */}
-        <Carousel
-          showArrows={true}
-          infiniteLoop
-          useKeyboardArrows
-          selectedItem={selectedItem}
-          showIndicators={false}
-        >
-          {images.map((image, i) => (
-            <div key={i}>
-              <img
-                style={{ maxWidth: 1200, maxHeight: 693, objectFit: 'contain' }}
-                onClick={() => onImageClick(image)}
-                src={image}
-                alt={image}
+      <Card>
+        <StyledImagesCarousel showChevronsOnHover>
+          {images.map(image => (
+            <div>
+              <ImgWrapper
+                key={image.s3_key}
+                width={'900'}
+                height={'600'}
+                fit={'fill'}
+                src={image.s3_key}
+                alt={image.s3_key}
               />
             </div>
           ))}
-        </Carousel>
-      </CarouselWrapper>
+        </StyledImagesCarousel>
+        <StyledCloseContainer>
+          <CircleIconButton hasClose onClick={onClose} />
+        </StyledCloseContainer>
+      </Card>
     </StyledDialog>
   )
 }

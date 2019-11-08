@@ -37,7 +37,7 @@ const ItemPhoto = ({
         {badgeText && <StyledBadge>{badgeText}</StyledBadge>}
         {isHovered && (
           <ImgWrapperHoveredBlock>
-            {(disabled || !isVisible) && (
+            {
               <div onClick={onItemViewClick}>
                 <Big>View image</Big>
               </div>
@@ -47,7 +47,7 @@ const ItemPhoto = ({
               //   defaultChecked={image.isSelected}
               //   onChange={e => onItemSelected(index)}
               // />
-            )}
+            }
           </ImgWrapperHoveredBlock>
         )}
 
