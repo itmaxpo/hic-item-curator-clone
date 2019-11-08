@@ -53,7 +53,7 @@ const ItemPhoto = ({
 
         <ImgWrapper
           isVisible={isVisible && index === 0}
-          width="201"
+          width="185"
           height="110"
           src={image.s3_key}
           alt={image.s3_key}

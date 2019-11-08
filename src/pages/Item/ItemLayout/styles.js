@@ -158,3 +158,9 @@ export const MissingNameWrapper = styled(Flex)`
 export const BreadcrumbsWrapper = styled.div`
   height: 23px;
 `
+
+export const TabsPanelWrapper = styled.div`
+  padding-top: 40px;
+  margin-top: 35px;
+  box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
+`

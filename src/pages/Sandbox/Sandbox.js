@@ -1,5 +1,4 @@
 import React from 'react'
-import TabsWrapper from 'components/Tabs'
 import MapExample from './MapExample'
 import DraggableGalleryExample from './DraggableGalleryExample'
 import CarouselExample from './CarouselExample'
@@ -18,13 +17,6 @@ const SandboxPage = () => {
       <h3>Drag'n'Drop Area</h3>
       <hr />
       {/* <DragAndDropAreaExample files={imagesURLS} /> */}
-      <br />
-      <h3>Tabs</h3>
-      <hr />
-      <TabsWrapper
-        tabs={['Stuff 1', 'Stuff 2', 'Stuff 3']}
-        tabContents={[<p>Hello 1</p>, 123, 123]}
-      />
       <br />
       <h3>Map</h3>
       <hr />

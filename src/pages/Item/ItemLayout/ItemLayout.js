@@ -14,11 +14,23 @@ import {
   CheckboxWrapper,
   BreadcrumbsWrapper,
   BreadcrumbsLoader,
-  MissingNameWrapper
+  MissingNameWrapper,
+  TabsPanelWrapper
 } from './styles'
-import TabsWrapper from 'components/Tabs'
 import { generateBreadcrumbs } from './utils'
-import { H2, H4, Base, COLORS, Checkbox } from '@tourlane/tourlane-ui'
+import {
+  H2,
+  H4,
+  Base,
+  COLORS,
+  Checkbox,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  TabsContainer,
+  PageContainer
+} from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
@@ -215,7 +227,26 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
           )}
         </TitleWrapper>
 
-        <TabsWrapper tabs={tabs} tabContents={tabContents} />
+        <Tabs defaultSelected={tabs[0]}>
+          <TabsContainer>
+            <PageContainer>
+              <TabList label={'item'}>
+                {tabs.map(tab => (
+                  <Tab key={tab} name={tab}>
+                    {tab}
+                  </Tab>
+                ))}
+              </TabList>
+            </PageContainer>
+          </TabsContainer>
+          <TabsPanelWrapper>
+            {tabContents.map((tabPanel, i) => (
+              <TabPanel key={tabPanel} name={tabs[i]}>
+                {tabPanel}
+              </TabPanel>
+            ))}
+          </TabsPanelWrapper>
+        </Tabs>
       </Wrapper>
     </Layout>
   )
