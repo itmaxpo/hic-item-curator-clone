@@ -24,7 +24,6 @@ const AppWrapper = styled.div`
 
 const SearchPage = lazy(() => import(/* webpackChunkName: "SearchPage" */ 'pages/Search'))
 const LoginPage = lazy(() => import(/* webpackChunkName: "LoginPage" */ 'pages/Login'))
-const SandboxPage = lazy(() => import(/* webpackChunkName: "SandboxPage" */ 'pages/Sandbox'))
 const CreatePage = lazy(() => import(/* webpackChunkName: "CreatePage" */ 'pages/Create'))
 const ItemPage = lazy(() => import(/* webpackChunkName: "ItemPage" */ 'pages/Item'))
 const MissingPage = lazy(() =>
@@ -117,7 +116,6 @@ function App() {
             <Suspense fallback={<LoadingPage />}>
               <Switch>
                 <Route exact path="/" component={SearchPage} />
-                <Route exact path="/sandbox" component={SandboxPage} />
                 <Route exact path="/item/:id" component={ItemPage} />
                 <Route exact path="/create" component={CreatePage} />
                 <Route path="*" component={MissingPage} />

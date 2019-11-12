@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import queryString from 'query-string'
 import createAuth0Client from '@auth0/auth0-spa-js'
 import { tokenManager } from 'utils/TokenManager'
 import { userMock, auth0ClientMock } from './mocks'
@@ -28,7 +29,8 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true)
   const [popupOpen, setPopupOpen] = useState(false)
 
-  const inTestingMode = !!window.Cypress
+  const inTestingMode =
+    !!window.Cypress || queryString.parse(window.location.search).lighthouse === 'true'
 
   useEffect(() => {
     if (inTestingMode) return

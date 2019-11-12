@@ -1,10 +1,14 @@
+import queryString from 'query-string'
+import { isEmpty } from 'lodash'
 import request from './request'
 import {
   generateSearchQueryCountry,
   generateSearchQueryArea,
   generateSearchQueryAccom
 } from './utils'
-import { isEmpty } from 'lodash'
+import { mockItems } from './mocks'
+
+const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
 const nameProperties = ['name', 'original_name']
 /**
@@ -92,6 +96,8 @@ const getAccommodations = async (
   offset = 0,
   limit = 40
 ) => {
+  if (onLighthouseMode) return mockItems
+
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res

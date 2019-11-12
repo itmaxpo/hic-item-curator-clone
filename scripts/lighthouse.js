@@ -1,24 +1,28 @@
 const lighthouse = require('lighthouse')
 const chromeLauncher = require('chrome-launcher')
 const chalk = require('chalk')
-const { promisify } = require('util')
-const fs = require('fs')
-const writeFile = promisify(fs.writeFile)
 
 /***
  * This script runs a lighthouse audit and exits with status 1 if the score is not successful.
  * Also, a report file is generated in REPORT_FILE_PATH.
  *
- * Note: It expects a production build running on SITE_URL.
+ * Note: It expects a production build running on SITE_URLS.
  */
 
-const SITE_URL = 'http://localhost:3000/'
-const MINIMUM_SCORE = 0.6
-const REPORT_FILE_PATH = 'lighthouse-report.json'
+const SITE_URLS = [
+  'http://localhost:3000/create?lighthouse=true',
+  'http://localhost:3000/?areaId=&areaName=&countryId=0a48dec9-d60e-41d8-b2c7-4cb2b04dbb50&countryName=Tanzania&type=accommodation&lighthouse=true',
+  'http://localhost:3000/item/95760e7d-dcc9-4740-af16-0a7276311513?language=en-GB&lighthouse=true'
+]
+
+const MINIMUM_SCORES = {
+  ['Performance']: 0.8,
+  ['Accessibility']: 0.7,
+  ['Best Practices']: 0.7
+}
 
 const opts = {
   chromeFlags: ['--headless', '--disable-device-emulation'],
-  output: 'json',
   logLevel: 'info'
 }
 
@@ -47,8 +51,6 @@ const launchChromeAndRunLighthouse = async (url, opts, config) => {
 
   await chrome.kill()
 
-  await writeFile(REPORT_FILE_PATH, report)
-
   return JSON.parse(report)
 }
 
@@ -65,44 +67,37 @@ LIGHTHOUSE SCORES:
   )
 
   const categories = Object.values(report.categories)
-  let success = true
 
   for (const category of categories) {
-    const categorySuccess = category.score >= MINIMUM_SCORE
+    const categorySuccess = category.score >= MINIMUM_SCORES[category.title]
 
     // log category score
     console.log(
       `  ${chalk.bold(category.title)} score: ${chalk[categorySuccess ? 'green' : 'red'](
         category.score
-      )}`
+      )}
+      `
     )
 
     if (!categorySuccess) {
-      success = false
+      console.error(`
+        Lighthouse score ${chalk.bold('not successful')} 🤯
+        ${chalk.bold(category.title)} didn't reach the minimum score of ${chalk.blue(
+        MINIMUM_SCORES[category.title]
+      )}
+      `)
+      process.exit(1)
     }
   }
-
-  if (!success) {
-    console.error(`
-  Lighthouse score ${chalk.bold('not successful')} 🤯
-  One or more categories didn't reach the minimum score of ${chalk.blue(MINIMUM_SCORE)}
-`)
-    process.exit(1)
-  }
-
-  console.log(`
-  Lighthouse score ${chalk.bold('successful')}! 😂👌
-  All categories surpass the minimum score of ${chalk.blue(MINIMUM_SCORE)}
-`)
 }
 
 /**
  * Main function.
  * Exits with status 1 on any uncaught error.
  */
-const run = async () => {
+const run = async url => {
   try {
-    const report = await launchChromeAndRunLighthouse(SITE_URL, opts, config)
+    const report = await launchChromeAndRunLighthouse(url, opts, config)
     await checkScores(report)
   } catch (error) {
     console.error(error)
@@ -110,4 +105,11 @@ const run = async () => {
   }
 }
 
-run()
+const runAllSiteUrls = async () => {
+  for (const url of SITE_URLS) {
+    console.log(`${chalk.bold(`Running Lighthouse on URL:`)} ${chalk.green(url)}`)
+    await run(url)
+  }
+}
+
+runAllSiteUrls()

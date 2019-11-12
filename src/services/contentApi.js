@@ -1,5 +1,9 @@
+import queryString from 'query-string'
 import request from './request'
 import { SOURCE } from 'utils/constants'
+import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
+
+const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
 const fieldsToSelect = [
   'description',
@@ -29,6 +33,8 @@ const fieldsToSelect = [
  * @returns {Object}
  */
 const getItemFieldsById = async id => {
+  if (onLighthouseMode) return mockItemFields
+
   const selectedFields = `?selected_fields=${fieldsToSelect}`
   let res = await request(
     'GET',
@@ -45,7 +51,8 @@ const getItemFieldsById = async id => {
  * @param {String} id
  * @returns {Object}
  */
-export const getItemPolygonCoordinatesById = async id => {
+const getItemPolygonCoordinatesById = async id => {
+  if (onLighthouseMode) return mockPolygon
   let res = await request('GET', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/polygon`)
 
   return res.json()
@@ -58,7 +65,9 @@ export const getItemPolygonCoordinatesById = async id => {
  * @param {Number} offset
  * @returns {Object}
  */
-export const getSuppliers = async (offset = 0) => {
+const getSuppliers = async (offset = 0) => {
+  if (onLighthouseMode) return mockSuppliers
+
   let res = await request(
     'GET',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers?limit=50&offset=${offset}`
@@ -75,7 +84,7 @@ export const getSuppliers = async (offset = 0) => {
  * @param {String} supplier
  * @returns {Object}
  */
-export const createSupplier = async supplier => {
+const createSupplier = async supplier => {
   let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers`, {
     body: {
       name: supplier
@@ -93,6 +102,8 @@ export const createSupplier = async supplier => {
  * @returns {Object}
  */
 const getItemAttachmentsById = async (id, offset = 0) => {
+  if (onLighthouseMode) return mockAttachments
+
   let res = await request(
     'GET',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments?limit=50&offset=${offset}`
@@ -138,7 +149,7 @@ const updateItemAttachmentsById = async (id, attachments, isVisible) => {
  * @param {FileObject} file
  * @returns {Object}
  */
-export const getItemAttachmentsPresignedPost = async (id, file) => {
+const getItemAttachmentsPresignedPost = async (id, file) => {
   let res = await request(
     'POST',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/presigned_posts`,
@@ -153,7 +164,7 @@ export const getItemAttachmentsPresignedPost = async (id, file) => {
   return res.json()
 }
 
-export const uploadingImage = async (url, fileData) => {
+const uploadingImage = async (url, fileData) => {
   let res = await fetch(url, {
     method: 'post',
     body: fileData
@@ -169,7 +180,7 @@ export const uploadingImage = async (url, fileData) => {
  * @param {String} id
  * @returns {Object}
  */
-export const setItemAttachmentsById = async (id, filename, s3_key, source_key) => {
+const setItemAttachmentsById = async (id, filename, s3_key, source_key) => {
   let res = await request(
     'POST',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments`,
@@ -311,5 +322,11 @@ export {
   updateItemFields,
   getRoomsForAccommodation,
   createItem,
-  mergeItems
+  mergeItems,
+  getItemPolygonCoordinatesById,
+  getSuppliers,
+  createSupplier,
+  getItemAttachmentsPresignedPost,
+  uploadingImage,
+  setItemAttachmentsById
 }
