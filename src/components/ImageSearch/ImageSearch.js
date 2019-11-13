@@ -35,6 +35,12 @@ const ImageSearch = ({ onImageUpload = () => {} }) => {
   const changeQuery = e => {
     setQuery(e.target.value)
   }
+  // Press Enter starts searching process
+  const onKeyPress = e => {
+    if (e.key === 'Enter' && !isEmpty(searchQuery)) {
+      search()
+    }
+  }
 
   const search = () => {
     shutterStockImages(searchQuery).then(res => {
@@ -84,7 +90,11 @@ const ImageSearch = ({ onImageUpload = () => {} }) => {
 
   return (
     <ImageSearchWrapper direction={'ttb'} alignItems={'center'} p={0}>
-      <StyledTextField onChange={changeQuery} placeholder={'Search for image'} />
+      <StyledTextField
+        onChange={changeQuery}
+        onKeyPress={onKeyPress}
+        placeholder={'Search for image'}
+      />
       <StyledButton onClick={search} disabled={isEmpty(searchQuery)}>
         Search
       </StyledButton>

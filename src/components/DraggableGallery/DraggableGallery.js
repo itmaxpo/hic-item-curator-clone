@@ -102,7 +102,18 @@ const DraggableGallery = ({
   }
 
   const onShowAllClick = () => {
+    const libraryToggle = document.getElementById('image-library-toggle')
+
     setIsAllShown(!isAllShown)
+
+    if (!isAllShown) {
+      libraryToggle.style.position = 'sticky'
+      libraryToggle.style.bottom = 0
+      libraryToggle.style.zIndex = 2
+    } else {
+      libraryToggle.style.position = 'relative'
+      document.getElementById('maximum-size').scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   // generate list of images in ItemPhoto component
@@ -167,7 +178,7 @@ const DraggableGallery = ({
           </ItemList>
 
           {images.length > 10 && (
-            <ToggleWrapper onClick={onShowAllClick}>
+            <ToggleWrapper onClick={onShowAllClick} id={'image-library-toggle'}>
               <ToggleAll isAllShown={isAllShown}>
                 {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
                 <GlyphChevronDownIcon />

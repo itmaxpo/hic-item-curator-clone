@@ -149,7 +149,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
           Browse files
         </UploadButton>
       )}
-      <MaxsizeText>Maximum upload images size: 60 MB</MaxsizeText>
+      <MaxsizeText id={'maximum-size'}>Maximum upload images size: 60 MB</MaxsizeText>
     </DropzoneWrapper>
   )
 }

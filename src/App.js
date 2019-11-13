@@ -50,6 +50,7 @@ function App() {
   const handleScroll = () => {
     const header = document.getElementById('sticky-header')
     const stickyElement = document.getElementById('items-sticky-actions')
+    const showAllImageLibrary = document.getElementById('visible-images')
 
     const generateConditions = (firstOffset, secondOffset) => {
       if (header.offsetTop >= firstOffset) {
@@ -81,6 +82,14 @@ function App() {
       } else {
         generateConditions(500, 450)
       }
+    }
+
+    if (showAllImageLibrary) {
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight
+      const rect = showAllImageLibrary.getBoundingClientRect()
+      const vertInView = rect.top <= windowHeight && rect.top + rect.height >= 0
+
+      return vertInView
     }
   }
 

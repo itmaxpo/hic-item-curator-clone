@@ -181,7 +181,7 @@ export const ToggleAll = styled.div`
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  width: 105px;
+  width: 125px;
   color: ${COLORS.NIGHTINGALE_BLACK};
   padding: 6px 28px;
   border-radius: 21px;
