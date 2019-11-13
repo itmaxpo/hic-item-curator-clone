@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { lazy, Suspense, useState, useRef } from 'react'
 import { isEmpty } from 'lodash'
+import LazyLoad from 'react-lazyload'
+import { Skeleton } from '@tourlane/tourlane-ui'
 import {
   DropzoneWrapper,
   InputWrapper,
@@ -10,7 +12,18 @@ import {
   IconJumpy
 } from './styles'
 import { HappyFileIcon, SadFileIcon } from 'components/Icon'
+import { SHUTTERSTOCK } from 'utils/constants'
 
+const ImageSearch = lazy(() =>
+  import(/* webpackChunkName: "ImageSearch" */ 'components/ImageSearch')
+)
+
+/**
+ * Dropzone
+ *
+ * @param {Function} onFilesAdded
+ * @param {Boolean} disabled
+ */
 const Dropzone = ({ disabled = false, onFilesAdded }) => {
   const [highlight, setHighlight] = useState(false)
   const [imageSource, setImageSource] = useState()
@@ -18,12 +31,23 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
   const fileInputRef = useRef()
   const imageSourceOptions = [
     { value: 'wetu', label: 'WETU' },
-    { value: 'lonely_planet', label: 'Lonely planet' }
+    { value: 'lonely_planet', label: 'Lonely planet' },
+    { value: SHUTTERSTOCK, label: 'Shutterstock' }
   ]
+  // Dynamically change explanation text on imageSource changed
+  const imageSourceText = {
+    wetu: `Please drag & drop images here \n or browse files`,
+    lonely_planet: `Please drag & drop images here \n or browse files`,
+    [SHUTTERSTOCK]: `Please use search to find images`
+  }
 
   const openFileDialog = () => {
     if (disabled || isEmpty(imageSource)) return
     fileInputRef.current.click()
+  }
+
+  const onImageUpload = array => {
+    onFilesAdded(array, imageSource)
   }
 
   const onFilesAddedHandler = evt => {
@@ -37,7 +61,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
 
   const onDragOver = evt => {
     evt.preventDefault()
-    if (disabled || isEmpty(imageSource)) return
+    if (disabled || isEmpty(imageSource) || imageSource === SHUTTERSTOCK) return
     setHighlight(true)
   }
 
@@ -100,10 +124,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
             Please select an image source first <br /> in order to be able to upload.
           </span>
         ) : (
-          <span>
-            Please drag & drop images here <br />
-            or browse files
-          </span>
+          <span>{imageSourceText[imageSource]}</span>
         )}
       </IconText>
       <div data-test={'select-image-source'}>
@@ -115,9 +136,19 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
         />
       </div>
 
-      <UploadButton onClick={openFileDialog} disabled={isEmpty(imageSource)}>
-        Browse files
-      </UploadButton>
+      {imageSource === SHUTTERSTOCK && (
+        <LazyLoad height="900px">
+          <Suspense fallback={<Skeleton height="900px" />}>
+            <ImageSearch onImageUpload={onImageUpload} />
+          </Suspense>
+        </LazyLoad>
+      )}
+
+      {imageSource !== SHUTTERSTOCK && (
+        <UploadButton onClick={openFileDialog} disabled={isEmpty(imageSource)}>
+          Browse files
+        </UploadButton>
+      )}
       <MaxsizeText>Maximum upload images size: 60 MB</MaxsizeText>
     </DropzoneWrapper>
   )

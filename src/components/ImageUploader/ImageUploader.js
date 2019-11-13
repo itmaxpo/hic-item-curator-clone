@@ -8,7 +8,6 @@ import {
 } from 'services/contentApi'
 import { useNotification } from 'components/Notification'
 import { Skeleton } from '@tourlane/tourlane-ui'
-
 const UploadImageBlock = lazy(() => import(/* webpackChunkName: "UploadImageBlock" */ './styles'))
 
 const DraggableGallery = lazy(() =>
@@ -86,6 +85,7 @@ const ImageUploader = ({
                   id: fileUrl.data.uuid,
                   order: undefined,
                   value: fileUrl.data.url,
+                  s3_key: s3Key,
                   isLoading: false,
                   isError: false,
                   isSelected: false,
@@ -98,6 +98,10 @@ const ImageUploader = ({
 
                 if (fetchedImages.current.length === files.length) {
                   onImagesAdd('allImages', [...fetchedImages.current])
+                  enqueueNotification({
+                    variant: 'default',
+                    message: 'All images successfully uploaded!'
+                  })
                 }
               })
             })
@@ -142,6 +146,7 @@ const ImageUploader = ({
           </Suspense>
         </LazyLoad>
       )}
+
       {/* Showing image library only in Editing mode */}
       {isEditing && (
         <LazyLoad height="268px">

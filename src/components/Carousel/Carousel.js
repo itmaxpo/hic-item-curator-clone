@@ -26,7 +26,7 @@ const ImageCarousel = ({ open, images = [], onClose, selectedItem = 0 }) => {
       }}
     >
       <Card>
-        <StyledImagesCarousel showChevronsOnHover>
+        <StyledImagesCarousel showChevronsOnHover itemIndex={selectedItem}>
           {images.map(image => (
             <div>
               <ImgWrapper

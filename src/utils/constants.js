@@ -20,3 +20,6 @@ export const LANGUAGES = {
   Français: 'fr-FR',
   España: 'es-ES'
 }
+
+// Image API
+export const SHUTTERSTOCK = 'shutterstock'

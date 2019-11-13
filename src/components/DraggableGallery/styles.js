@@ -113,6 +113,7 @@ export const CheckboxWrapper = styled(Checkbox)`
   position: absolute;
   left: calc(100% - 34px);
   top: 10px;
+  z-index: 10;
 `
 
 export const ImgWrapperHoveredBlock = styled.div`

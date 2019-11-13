@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { FlexContainer, COLORS, Button, Big, Dropdown, ExtraSmall } from '@tourlane/tourlane-ui'
 
 export const DropzoneWrapper = styled(FlexContainer)`
-  height: 388px;
+  min-height: 388px;
   width: 100%;
   padding: 50px 0 !important;
   position: relative;
