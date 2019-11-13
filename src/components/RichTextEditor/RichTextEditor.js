@@ -7,6 +7,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html'
 import './styles.css'
 import { StyledLabel, Wrapper } from './styles'
+import { getRichTextValue } from 'utils/helpers'
 
 const isHTML = str => {
   const doc = new DOMParser().parseFromString(str, 'text/html')
@@ -26,7 +27,7 @@ const useEditorState = ({ value, onChange }) => {
 
     // Initialize editor with provided value
     if (value) {
-      if (isHTML(value)) {
+      if (isHTML(value) && getRichTextValue(value)) {
         // handle HTML value
         const blocksFromHTML = convertFromHTML(value)
         if (blocksFromHTML.contentBlocks) {
@@ -38,7 +39,7 @@ const useEditorState = ({ value, onChange }) => {
         }
       } else {
         // handle plain text value
-        const contentState = ContentState.createFromText(value)
+        const contentState = ContentState.createFromText(getRichTextValue(value))
         editorState = EditorState.createWithContent(contentState)
       }
     }

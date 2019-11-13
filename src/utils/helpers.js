@@ -25,3 +25,12 @@ export const onPageClosing = e => {
   e.returnValue = 'If you continue, all changes will be lost'
   return 'If you continue, all changes will be lost'
 }
+
+/*
+ * Returns string value of rich text.
+ */
+export const getRichTextValue = richText => {
+  const emptyDiv = document.createElement('div')
+  emptyDiv.innerHTML = richText
+  return emptyDiv.innerText.trim()
+}

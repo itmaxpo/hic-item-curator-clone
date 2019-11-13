@@ -13,7 +13,8 @@ import {
   StyledAccordion,
   RichTextEditorLoader
 } from './styles'
-import { parseInspirations, getRichTextValue } from './utils'
+import { parseInspirations } from './utils'
+import { getRichTextValue } from 'utils/helpers'
 
 const StyledRichTextEditor = lazy(() =>
   import(/* webpackChunkName: "RichTextEditor" */ './StyledRichTextEditor')
