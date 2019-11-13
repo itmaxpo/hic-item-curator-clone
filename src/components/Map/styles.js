@@ -6,7 +6,7 @@ export const InfoCardWrapper = styled(Card)`
   top: 20px;
   left: 20px;
   padding: 20px;
-  min-width: 302px;
+  width: 240px;
 `
 
 const textStyles = css`

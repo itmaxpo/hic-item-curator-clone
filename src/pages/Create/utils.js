@@ -28,9 +28,9 @@ export const getLocationCoordinates = location => ({
 const calculatePolygon = geojson => {
   switch (geojson.type) {
     case 'Polygon':
-      return parseCoordinatesArray(flatten(geojson.coordinates))
+      return [parseCoordinatesArray(flatten(geojson.coordinates))]
     case 'MultiPolygon':
-      return parseCoordinatesArray(flatten(geojson.coordinates[0]))
+      return geojson.coordinates.map(coordinates => parseCoordinatesArray(flatten(coordinates)))
     default:
       return null
   }

@@ -18,6 +18,7 @@ import {
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME
 } from '../utils'
+import { parsePolygonCoordinates } from './utils'
 import { H4, Base, AccordionGroup, Skeleton, BlurInTransition } from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
 import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
@@ -171,23 +172,26 @@ const OfferVisualisation = ({
       )
     },
     [LOCATION_COMPONENT_NAME]: key => {
-      const polygon = flatten(item.polygon).map(coordinate => ({
-        lat: coordinate[1],
-        lng: coordinate[0]
-      }))
-      // Here we will render goordinates for accommodations
-      // But for Area (polygon) we will take first geolocation
-      // Transform from lon to lng to show on the map
-      const geolocation = item[FIELD_GEOLOCATION]
+      const isMultipolygon = item.polygon.length > 1
+
+      const polygon = item.polygon.length
+        ? isMultipolygon
+          ? item.polygon.map(multipolygon => parsePolygonCoordinates(multipolygon))
+          : [parsePolygonCoordinates(flatten(item.polygon))]
+        : null
+
+      // Define coordinates for accommodations
+      const coordinates = item[FIELD_GEOLOCATION]
         ? { lat: item[FIELD_GEOLOCATION].lat, lng: item[FIELD_GEOLOCATION].lon }
-        : polygon[0]
+        : undefined
 
       const locationInfo = {
         address: item[FIELD_ADDRESS] || item[FIELD_NAME],
         geoCoords: item[FIELD_GEOLOCATION]
       }
-      // Updating address and geolcoation with a seaparate request
+      // Updating address and geolocation with a separate request
       const onLocationChangeHandler = place => {
+        if (!place) return
         onGeolocationUpdate({ lat: +place.lat, lon: +place.lon }, place.label)
       }
 
@@ -204,19 +208,13 @@ const OfferVisualisation = ({
               </GeoWrapper>
             )}
             <MapWrapper>
-              {geolocation && (
-                <LazyLoad height="500px" once>
-                  <Suspense fallback={<Skeleton height="500px" />}>
-                    <BlurInTransition>
-                      <Map
-                        coordinates={geolocation}
-                        polygon={polygon}
-                        locationInfo={locationInfo}
-                      />
-                    </BlurInTransition>
-                  </Suspense>
-                </LazyLoad>
-              )}
+              <LazyLoad height="500px" once>
+                <Suspense fallback={<Skeleton height="500px" />}>
+                  <BlurInTransition>
+                    <Map coordinates={coordinates} polygon={polygon} locationInfo={locationInfo} />
+                  </BlurInTransition>
+                </Suspense>
+              </LazyLoad>
               {isLoadingAdditionalInfo && <Loader top={'45%'} />}
             </MapWrapper>
           </TitleWithContent>
