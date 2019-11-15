@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useContext, useEffect, useState, useCallback } f
 import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
+import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import {
   Wrapper,
   TitleWrapper,
@@ -15,7 +16,8 @@ import {
   BreadcrumbsWrapper,
   BreadcrumbsLoader,
   MissingNameWrapper,
-  TabsPanelWrapper
+  TabsPanelWrapper,
+  ActionButtonsWrapper
 } from './styles'
 import { generateBreadcrumbs } from './utils'
 import {
@@ -60,7 +62,17 @@ const Breadcrumbs = lazy(() =>
  * @param {Function} onChange (receives prop and value of item to change)
  * @returns ItemLayout component
  */
-const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) => {
+const ItemLayout = ({
+  history,
+  tabs,
+  tabContents,
+  item,
+  isEditing,
+  onEdit,
+  onChange,
+  onCancel,
+  onSave
+}) => {
   // used to generate breadcrumbs
   const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
   const [breadcrumbs, setBreadcrumbs] = useState([])
@@ -136,7 +148,24 @@ const ItemLayout = ({ history, tabs, tabContents, item, isEditing, onChange }) =
   }/flat/48.png`
 
   return (
-    <Layout>
+    <Layout
+      headerContent={
+        <ActionButtonsWrapper>
+          {isEditing ? (
+            <>
+              <AlarmButton data-test={'cancel-item-button'} title={'cancel'} onClick={onCancel} />
+              <Button data-test={'save-item-button'} title={'save content'} onClick={onSave} />
+            </>
+          ) : (
+            <SecondaryButton
+              data-test={'edit-item-button'}
+              title={'edit content'}
+              onClick={onEdit}
+            />
+          )}
+        </ActionButtonsWrapper>
+      }
+    >
       <Wrapper>
         <BreadcrumbsWrapper>
           {isFetchingBreadcrumbs ? (

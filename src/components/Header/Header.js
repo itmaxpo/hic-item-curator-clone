@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Flex } from '@tourlane/tourlane-ui'
 import HeaderContentWrapper from '../AppContainer'
-import { LeftRightWrapper, StyledHeader, StyledLogoSvg } from './styles'
+import { StyledHeader, StyledLogoSvg } from './styles'
 
 /**
  * Will render Logo and return all {children} that
@@ -14,7 +14,7 @@ import { LeftRightWrapper, StyledHeader, StyledLogoSvg } from './styles'
 let BaseHeader = ({ children }) => {
   return (
     <StyledHeader id={'sticky-header'}>
-      <Flex>
+      <Flex style={{ height: '100%' }}>
         <Link to={'/'} data-test="app-icon">
           <StyledLogoSvg>Item Curator</StyledLogoSvg>
         </Link>
@@ -31,18 +31,6 @@ let BaseHeader = ({ children }) => {
  * @name Header
  * @param
  */
-const Header = () => {
-  return (
-    <BaseHeader>
-      {/* Specific layout for header: left and right parts */}
-      <LeftRightWrapper alignItems="center" justify="between">
-        {/* Left part of the header centered after logo */}
-        <Flex alignItems="center"></Flex>
-        {/* Right part of the header */}
-        <div></div>
-      </LeftRightWrapper>
-    </BaseHeader>
-  )
-}
+const Header = ({ children }) => <BaseHeader>{children}</BaseHeader>
 
 export default Header

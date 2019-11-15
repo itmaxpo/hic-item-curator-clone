@@ -18,10 +18,10 @@ const BelowHeader = styled(Flex)`
  * @name Layout
  * @param {Object} history
  */
-const Layout = ({ className, children }) => {
+const Layout = ({ className, children, headerContent }) => {
   return (
     <div className={'page'}>
-      <Header />
+      <Header>{headerContent}</Header>
       <BelowHeader>
         <Sidebar />
         <AppContainer className={className}>{children}</AppContainer>

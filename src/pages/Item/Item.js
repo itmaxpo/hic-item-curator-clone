@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useState, useEffect, useRef, useReducer, useCallback } from 'react'
 import { Prompt } from 'react-router-dom'
 import queryString from 'query-string'
-import { EditingWrapper, ItemLayoutLoader, TabContentLoader } from './styles'
-import { Button, SecondaryButton, AlarmButton } from 'components/Button'
+import { ItemLayoutLoader, TabContentLoader } from './styles'
 import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeBy } from './utils'
 import { flatten, get } from 'lodash'
 import {
@@ -276,44 +275,31 @@ const ItemPage = ({ match, history }) => {
       {/* Prevent any route changes in EditingMode */}
       <Prompt when={isEditing} message={() => `If you continue, all changes will be lost`} />
       {!isLoading ? (
-        <>
-          <EditingWrapper>
-            {isEditing ? (
-              <>
-                <AlarmButton data-test={'cancel-item-button'} title={'cancel'} onClick={onCancel} />
-                <Button data-test={'save-item-button'} title={'save content'} onClick={onSave} />
-              </>
-            ) : (
-              <SecondaryButton
-                data-test={'edit-item-button'}
-                title={'edit content'}
-                onClick={onEdit}
-              />
-            )}
-          </EditingWrapper>
-          <Suspense fallback={<ItemLayoutLoader />}>
-            <ItemLayout
-              history={history}
-              item={item}
-              isEditing={isEditing}
-              onChange={onChange}
-              tabs={['Offer Visualisation']}
-              tabContents={[
-                <Suspense fallback={<TabContentLoader />}>
-                  <OfferVisualisation
-                    item={item}
-                    isLoadingAdditionalInfo={isLoadingAdditionalInfo}
-                    isEditing={isEditing}
-                    onImagesAdd={onImagesAdd}
-                    onChange={onChange}
-                    onGeolocationUpdate={onGeolocationUpdate}
-                    components={componentsBasedOnType(item.type)}
-                  />
-                </Suspense>
-              ]}
-            />
-          </Suspense>
-        </>
+        <Suspense fallback={<ItemLayoutLoader />}>
+          <ItemLayout
+            history={history}
+            item={item}
+            isEditing={isEditing}
+            onEdit={onEdit}
+            onChange={onChange}
+            onCancel={onCancel}
+            onSave={onSave}
+            tabs={['Offer Visualisation']}
+            tabContents={[
+              <Suspense fallback={<TabContentLoader />}>
+                <OfferVisualisation
+                  item={item}
+                  isLoadingAdditionalInfo={isLoadingAdditionalInfo}
+                  isEditing={isEditing}
+                  onImagesAdd={onImagesAdd}
+                  onChange={onChange}
+                  onGeolocationUpdate={onGeolocationUpdate}
+                  components={componentsBasedOnType(item.type)}
+                />
+              </Suspense>
+            ]}
+          />
+        </Suspense>
       ) : (
         <Loader top={'47.5%'} />
       )}

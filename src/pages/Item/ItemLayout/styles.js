@@ -164,3 +164,16 @@ export const TabsPanelWrapper = styled.div`
   margin-top: 35px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
 `
+
+export const ActionButtonsWrapper = styled(Flex)`
+  height: 100%;
+  margin-right: 33px;
+  justify-content: flex-end;
+  align-items: center;
+
+  button {
+    margin-left: 20px;
+    height: 36px;
+    line-height: 36px;
+  }
+`
