@@ -25,7 +25,7 @@ export const Overlay = styled.div`
 export const StyledCloseContainer = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
+  right: -1px;
   padding: 16px;
 `
 

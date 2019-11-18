@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CircleIconButton } from '@tourlane/tourlane-ui'
+import { Card, CircleIconButton, COLORS } from '@tourlane/tourlane-ui'
 import { StyledDialog, StyledCloseContainer, ImgWrapper, StyledImagesCarousel } from './styles'
 
 /**
@@ -28,20 +28,18 @@ const ImageCarousel = ({ open, images = [], onClose, selectedItem = 0 }) => {
       <Card>
         <StyledImagesCarousel showChevronsOnHover itemIndex={selectedItem}>
           {images.map(image => (
-            <div>
-              <ImgWrapper
-                key={image.s3_key}
-                width={'900'}
-                height={'600'}
-                fit={'fill'}
-                src={image.s3_key}
-                alt={image.s3_key}
-              />
-            </div>
+            <ImgWrapper
+              key={image.s3_key}
+              width={'900'}
+              height={'600'}
+              fit={'fill'}
+              src={image.s3_key}
+              alt={image.s3_key}
+            />
           ))}
         </StyledImagesCarousel>
         <StyledCloseContainer>
-          <CircleIconButton hasClose onClick={onClose} />
+          <CircleIconButton iconColor={COLORS.NIGHTINGALE_BLACK} hasClose onClick={onClose} />
         </StyledCloseContainer>
       </Card>
     </StyledDialog>

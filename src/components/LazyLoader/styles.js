@@ -13,13 +13,13 @@ export const Wrapper = styled.div`
 const StyledLoader = styled(Loader)`
   && {
     position: relative;
-    height: auto;
+    ${({ height }) => `height: ${height === 'auto' ? 'auto' : height + 'px'}`};
     padding: 37px;
   }
 `
 
-export const Preloader = () => (
-  <StyledLoader>
+export const Preloader = ({ height = 'auto' }) => (
+  <StyledLoader height={height}>
     <ClipLoader color={COLORS.ADVENTURE_GREEN} />
   </StyledLoader>
 )

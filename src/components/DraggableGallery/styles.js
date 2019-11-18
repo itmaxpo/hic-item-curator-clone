@@ -18,13 +18,20 @@ export const StyledBadge = styled.div`
   position: absolute;
   bottom: 10px;
   left: 10px;
-  padding: 5px 8px;
-  border-radius: 10px;
+  padding: 0 8px;
+  border-radius: 14px;
   z-index: 2;
+  height: 21px;
   background-color: ${COLORS.SENSATION_WHITE};
+  font-family: 'Source Sans Pro', sans-serif;
   font-family: 'Source Sans Pro', sans-serif;
   text-align: center;
   font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 21px;
+  letter-spacing: normal;
 `
 
 const galleryItems = isAllShown => css`
@@ -38,16 +45,16 @@ const galleryItems = isAllShown => css`
   ${!isAllShown &&
     `
     justify-content: left;
-    max-height: 250px;
+    max-height: 300px;
     overflow: hidden;
     transform: rotate(0);
     transition: all .1s linear;
   `}
 
   > li {
-    width: 18%;
+    width: 180px;
     height: 110px;
-    margin: 10px 1%;
+    margin: 20px 20px;
     max-height: 110px;
     border-radius: 4px;
     background-color: ${COLORS.LINE_GRAY};
@@ -66,7 +73,7 @@ export const DeleteIconWrapper = styled.div`
 
 export const ItemWrapper = styled.div`
   position: relative;
-  height: 114px;
+  height: 110px;
 `
 
 export const ProgressWrapper = styled.div`
@@ -98,15 +105,21 @@ export const Item = styled.li`
 export const CoverImageBlock = styled.div`
   position: absolute;
   top: -30px;
-  left: -5%;
+  left: -10px;
   text-align: center;
-  width: 108%;
-  height: 150px;
+  width: 200px;
+  height: 152px;
+  font-size: 18px;
   color: ${COLORS.INACTIVE_GRAY};
-  border: 1px dashed ${COLORS.INACTIVE_GRAY};
-  font-family: 'Source Sans Pro';
-  font-weight: bold;
-  padding-top: 5px;
+  // border: 1.5px dashed ${COLORS.ELEMENT_GRAY};
+  font-family: "Source Sans Pro", sans-serif;
+  text-shadow : 0 0 0 ${COLORS.INACTIVE_GRAY};
+  padding-top: 4px;
+
+  background: linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: top, right, bottom, left;
+  background-repeat: repeat-x, repeat-y;
+  background-size: 10px 1px, 1px 10px;
 `
 
 export const CheckboxWrapper = styled(Checkbox)`
@@ -120,7 +133,7 @@ export const ImgWrapperHoveredBlock = styled.div`
   position: absolute;
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
+  width: 180px;
   height: 110px;
   border-radius: 4px;
 
@@ -133,7 +146,8 @@ export const ImgWrapperHoveredBlock = styled.div`
     position: relative;
     text-align: center;
     font-weight: 600;
-    top: 40px;
+    font-size: 18px;
+    top: 37.5%;
     color: ${COLORS.SENSATION_WHITE};
 
     &:hover {
@@ -155,8 +169,6 @@ export const ImgWrapper = styled(ResizedImage)`
 export const GalleryTitle = styled(Big)`
   text-align: center;
   color: ${COLORS.INACTIVE_GRAY};
-
-  ${({ isVisible }) => isVisible && `margin-bottom: 20px`}
 `
 
 export const PlaceholderText = styled(Big)`

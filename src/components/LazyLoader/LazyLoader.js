@@ -81,8 +81,8 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, height, ...
             {children}
           </StyledBlurInTransition>
         )}
-        {!isLoaded && <Preloader />}
-        {props.isLoading && <Preloader />}
+        {!isLoaded && <Preloader height={height} />}
+        {props.isLoading && <Preloader height={height} />}
       </Wrapper>
     </LazyLoad>
   )

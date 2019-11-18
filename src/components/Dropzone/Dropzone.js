@@ -31,7 +31,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
   const fileInputRef = useRef()
   const imageSourceOptions = [
     { value: 'wetu', label: 'WETU' },
-    { value: 'lonely_planet', label: 'Lonely planet' },
+    { value: 'lonely_planet', label: 'Lonely Planet' },
     { value: SHUTTERSTOCK, label: 'Shutterstock' }
   ]
   // Dynamically change explanation text on imageSource changed
@@ -145,11 +145,13 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
       )}
 
       {imageSource !== SHUTTERSTOCK && (
-        <UploadButton onClick={openFileDialog} disabled={isEmpty(imageSource)}>
-          Browse files
-        </UploadButton>
+        <>
+          <UploadButton onClick={openFileDialog} disabled={isEmpty(imageSource)}>
+            Browse files
+          </UploadButton>
+          <MaxsizeText id={'maximum-size'}>Maximum upload images size: 60 MB</MaxsizeText>
+        </>
       )}
-      <MaxsizeText id={'maximum-size'}>Maximum upload images size: 60 MB</MaxsizeText>
     </DropzoneWrapper>
   )
 }
