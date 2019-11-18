@@ -55,9 +55,10 @@ const SearchPage = ({ history }) => {
     const index = calculateIndex(page, ITEMS_PER_PAGE)
 
     // if its a brand new search (not fetching more items)
-    // we clear the results
+    // we clear the results and set page query to first page
     if (isNewSearch) {
       setResults(null)
+      onQueryUpdate({ ...parsedQuery, page: 1 })
     }
 
     prevPayload.current = payload || prevPayload.current
