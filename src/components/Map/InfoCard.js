@@ -24,9 +24,11 @@ const InfoCard = ({ address, geoCoords }) => {
           </Info>
         ))}
       {!isEmpty(geoCoords) && (
-        <Info style={{ marginTop: 10 }} key={geoCoords.lat}>{`lat: ${geoCoords.lat}, lng: ${
-          geoCoords.lon ? geoCoords.lon : geoCoords.lng
-        }`}</Info>
+        <Info style={{ marginTop: 10 }} key={geoCoords.lat}>
+          {`lat: ${geoCoords.lat}`},
+          <br />
+          {`lng: ${geoCoords.lon ? geoCoords.lon : geoCoords.lng}`}
+        </Info>
       )}
     </InfoCardWrapper>
   )
