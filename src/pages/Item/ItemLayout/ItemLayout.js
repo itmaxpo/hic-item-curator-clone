@@ -36,7 +36,7 @@ import {
 import { SelectMarket } from '@tourlane/rooster'
 import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
-import { LANGUAGES, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import SuppliersContext from 'contexts/Suppliers'
 import LazyLoader from 'components/LazyLoader'
@@ -87,9 +87,9 @@ const ItemLayout = ({
     onChange('supplier_tag', val.value)
   }
 
-  const onLanguageChange = language => {
-    if (!language) return
-    history.push(`?${queryString.stringify({ language: LANGUAGES[language.title] })}`)
+  const onLanguageChange = (e, locale) => {
+    e.preventDefault()
+    history.push(`?${queryString.stringify({ language: locale })}`)
   }
 
   const onActiveDestinationChange = e => {
@@ -100,13 +100,14 @@ const ItemLayout = ({
   // so the flag icon represents the actual item language
   const SelectMarketCallback = useCallback(() => {
     return (
-      <SelectMarket
-        data-test={'item-language-switcher'}
-        disabled={isEditing}
-        showOnTop={false}
-        onSelect={onLanguageChange}
-        preSelectedMarket={item.language}
-      />
+      <div data-test="item-language-switcher">
+        <SelectMarket
+          disabled={isEditing}
+          showOnTop={false}
+          onSelect={onLanguageChange}
+          preSelectedMarket={item.language}
+        />
+      </div>
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.language, isEditing])

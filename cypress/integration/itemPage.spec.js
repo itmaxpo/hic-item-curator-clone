@@ -16,8 +16,8 @@ describe('Item page', () => {
   it('accommodation item layout check', () => {
     // Check basic information
     cy.get('[data-test=item-supplier-tag]').contains('Alex1')
-    // Checking for length 2 because one is rendered and second is in the dropdown
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').should('have.length', 2)
+    // Checking for language switcher
+    cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
@@ -104,8 +104,8 @@ describe('Item page', () => {
 
   // Check basic information
   it('area check item layout', () => {
-    // Checking for length 2 because one is rendered and second is in the dropdown
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').should('have.length', 2)
+    // Checking for language switcher
+    cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains('Some description')
@@ -148,8 +148,8 @@ describe('Item page', () => {
   })
 
   it('country check item layout', () => {
-    // Checking for length 2 because one is rendered and second is in the dropdown
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').should('have.length', 2)
+    // Checking for language switcher
+    cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains(wetuDesc)
@@ -184,11 +184,11 @@ describe('Item page', () => {
   })
 
   it('country check language switcher', () => {
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]')
-      .eq(0)
-      .click({ force: true })
-    cy.get('[src="//www.countryflags.io/DE/flat/64.png"]').click({ force: true })
-    cy.get('[src="//www.countryflags.io/DE/flat/64.png"]').should('have.length', 2)
+    cy.get('[data-test=item-language-switcher]').click()
+    cy.get('a')
+      .contains('Deutsch')
+      .click()
+
     // assert that user route to correct query
     cy.location().should(location => {
       expect(queryString.parse(location.search).language).to.eq('de-DE')
@@ -196,9 +196,10 @@ describe('Item page', () => {
     cy.get('[data-test=item-description-wrapper]').contains('DE Desc')
     cy.get('#accordion__heading-additional_info').click({ force: true })
     cy.get('[data-test="item-information-Additional info"]').contains('Additional DE')
-    cy.get('[src="//www.countryflags.io/DE/flat/64.png"]')
-      .eq(0)
-      .click({ force: true })
-    cy.get('[src="//www.countryflags.io/GB/flat/64.png"]').click({ force: true })
+
+    cy.get('[data-test=item-language-switcher]').click()
+    cy.get('a')
+      .contains('English (UK)')
+      .click()
   })
 })

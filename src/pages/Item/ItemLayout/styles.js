@@ -78,6 +78,7 @@ export const TitleField = styled(TextField)`
 
 export const TitleLangWrapper = styled(FlexContainer)`
   font-family: 'Source Sans Pro', sans-serif;
+  align-items: baseline;
 `
 
 export const LanguageDropdown = styled.select`
