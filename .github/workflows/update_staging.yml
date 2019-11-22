@@ -1,0 +1,15 @@
+---
+name: Update staging
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  push_master_to_staging:
+    name: Push master to staging
+    runs-on: ubuntu-latest
+    steps:
+      - run: git init
+      - run: git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+      - run: git fetch
+      - run: git push origin origin/master:staging --force
