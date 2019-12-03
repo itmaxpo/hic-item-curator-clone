@@ -30,7 +30,9 @@ export const Auth0Provider = ({
   const [popupOpen, setPopupOpen] = useState(false)
 
   const inTestingMode =
-    !!window.Cypress || queryString.parse(window.location.search).lighthouse === 'true'
+    !!window.Cypress ||
+    queryString.parse(window.location.search).lighthouse === 'true' ||
+    !!process.env.REACT_APP_CI
 
   useEffect(() => {
     if (inTestingMode) return

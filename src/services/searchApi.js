@@ -23,7 +23,7 @@ const getCountries = async name => {
 
   let res
   // add a condition to modify request if it is e2e test environment
-  if (window.Cypress) {
+  if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-country`, {})
   } else {
     res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
@@ -56,7 +56,7 @@ const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
 
   let res
   // add a condition to modify request if it is e2e test environment
-  if (window.Cypress) {
+  if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-area`, {})
   } else {
     res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
@@ -102,7 +102,7 @@ const getAccommodations = async (
 
   let res
   // add a condition to modify request if it is e2e test environment
-  if (window.Cypress) {
+  if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-accommodation`, {})
   } else {
     res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {

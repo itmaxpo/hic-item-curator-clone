@@ -210,7 +210,7 @@ const updateItemFields = async (id, fields) => {
 const getRoomsForAccommodation = async id => {
   let res
   // add a condition to modify request if it is e2e test environment
-  if (window.Cypress) {
+  if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-room`, {})
   } else {
     res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}`, {
