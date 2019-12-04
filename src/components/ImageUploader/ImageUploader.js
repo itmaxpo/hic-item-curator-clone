@@ -166,7 +166,7 @@ const ImageUploader = ({
       <Suspense fallback={<Skeleton height="294px" />}>
         <DraggableGallery
           title={'Visible images'}
-          placeholder={`Drag & drop images from the image library here to make them visible`}
+          placeholder={`Edit content to upload images in the image library to make them visible`}
           images={visibleImages}
           options={options}
           onChange={onVisibleImagesUpdate}
