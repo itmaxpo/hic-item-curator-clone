@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FlexContainer, Accordion, Skeleton } from '@tourlane/tourlane-ui'
+import { FlexContainer, Skeleton } from '@tourlane/tourlane-ui'
 import { TitleWithContent } from '../styles'
 
 export const Column = styled.div`
@@ -24,8 +24,3 @@ export const StyledTitleWithContent = styled(TitleWithContent)`
 `
 
 export const RichTextEditorLoader = () => <Skeleton height="235px" />
-
-export const StyledAccordion = styled(Accordion)`
-  padding: 10px 30px;
-  font-family: 'Source Sans Pro', sans-serif;
-`

@@ -3,13 +3,7 @@ import LazyLoad from 'react-lazyload'
 import { isEmpty, flatten } from 'lodash'
 import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
-import {
-  TitleWithContent,
-  MapWrapper,
-  SearchItemWrapper,
-  GeoWrapper,
-  StyledAccordion
-} from './styles'
+import { TitleWithContent, MapWrapper, SearchItemWrapper, GeoWrapper } from './styles'
 import { RichTextEditorLoader } from './Description/styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
@@ -19,7 +13,14 @@ import {
   ROOMS_COMPONENT_NAME
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
-import { H4, Base, AccordionGroup, Skeleton, BlurInTransition } from '@tourlane/tourlane-ui'
+import {
+  H4,
+  Base,
+  AccordionGroup,
+  Skeleton,
+  BlurInTransition,
+  Accordion
+} from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
 import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
@@ -97,7 +98,7 @@ const OfferVisualisation = ({
             {item.rooms && item.rooms.length > 0 ? (
               <AccordionGroup>
                 {item.rooms.map((d, i) => (
-                  <StyledAccordion
+                  <Accordion
                     data-test={`item-room-${d.label}`}
                     key={i}
                     name={d.label}
@@ -105,7 +106,7 @@ const OfferVisualisation = ({
                     badge={d.badge}
                   >
                     {d.value}
-                  </StyledAccordion>
+                  </Accordion>
                 ))}
               </AccordionGroup>
             ) : (
@@ -147,7 +148,7 @@ const OfferVisualisation = ({
 
           <AccordionGroup>
             {parsedDescriptions.map((d, i) => (
-              <StyledAccordion
+              <Accordion
                 data-test={`item-information-${d.label}`}
                 key={i}
                 name={d.field}
@@ -165,7 +166,7 @@ const OfferVisualisation = ({
                 ) : (
                   ReactHtmlParser(d.value || 'No information found')
                 )}
-              </StyledAccordion>
+              </Accordion>
             ))}
           </AccordionGroup>
         </Fragment>

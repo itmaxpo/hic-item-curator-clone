@@ -2,17 +2,11 @@ import React, { lazy, Suspense, useState, useEffect, Fragment } from 'react'
 import { isEmpty } from 'lodash'
 import ReactHtmlParser from 'react-html-parser'
 import { Slide } from '@material-ui/core'
-import { H4, FlexContainer, Card, AccordionGroup } from '@tourlane/tourlane-ui'
+import { H4, FlexContainer, Card, Accordion, AccordionGroup } from '@tourlane/tourlane-ui'
 import ShowMore from 'components/ShowMore'
 import CircleButton from 'components/CircleButton'
 import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icon'
-import {
-  Column,
-  TitleContainer,
-  StyledTitleWithContent,
-  StyledAccordion,
-  RichTextEditorLoader
-} from './styles'
+import { Column, TitleContainer, StyledTitleWithContent, RichTextEditorLoader } from './styles'
 import { parseInspirations } from './utils'
 import { getRichTextValue } from 'utils/helpers'
 
@@ -24,7 +18,7 @@ const ContentInspiration = ({ description, inspirations }) => (
   <Card>
     <AccordionGroup>
       {parseInspirations(description, inspirations).map((d, i) => (
-        <StyledAccordion
+        <Accordion
           data-test={`item-inspiration-${d.label}`}
           key={i}
           name={d.label}
@@ -33,7 +27,7 @@ const ContentInspiration = ({ description, inspirations }) => (
           badgeVariant={'alarm'}
         >
           {ReactHtmlParser(d.value)}
-        </StyledAccordion>
+        </Accordion>
       ))}
     </AccordionGroup>
   </Card>
