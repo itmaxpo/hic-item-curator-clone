@@ -1,0 +1,54 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:3000/create?lighthouse=true",
+        "http://localhost:3000/?areaId=&areaName=&countryId=0a48dec9-d60e-41d8-b2c7-4cb2b04dbb50&countryName=Tanzania&type=accommodation&lighthouse=true",
+        "http://localhost:3000/item/95760e7d-dcc9-4740-af16-0a7276311513?language=en-GB&lighthouse=true"
+      ]
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "assert": {
+      "preset": "lighthouse:no-pwa",
+      "assertions": {
+        "categories.pwa": "off",
+        "categories.accessibility": [
+          "error",
+          {
+            "minScore": 0.7
+          }
+        ],
+        "categories.seo": "off",
+        "categories.best-practice": "off",
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.85
+          }
+        ],
+        "label": "off",
+        "link-name": "off",
+        "robots-txt": "off",
+        "button-name": "off",
+        "dom-size": "off",
+        "bypass": "off",
+        "offline-start-url": "off",
+        "service-worker": "off",
+        "works-offline": "off",
+        "redirects-http": "off",
+        "render-blocking-resources": "off",
+        "uses-http2": "off",
+        "duplicate-id": "off",
+        "uses-rel-preconnect": "off",
+        "tap-targets": "off",
+        "color-contrast": "off",
+        "aria-valid-attr-value": "off",
+        "errors-in-console": "off",
+        "image-alt": "off",
+        "listitem": "off"
+      }
+    }
+  }
+}

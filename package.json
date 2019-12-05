@@ -49,8 +49,8 @@
     "serve": "serve -s build -l 3000",
     "cy:run": "cypress run",
     "test:e2e": "CI=1 npm install cypress; start-server-and-test start-server:testing http://localhost:3000 cy:run",
-    "lighthouse": "node scripts/lighthouse.js",
-    "lighthouse:ci": "npm run build && start-server-and-test serve 3000 lighthouse"
+    "serve:lhci": "NODE_ENV=production npm run serve",
+    "lighthouse": "lhci autorun"
   },
   "eslintConfig": {
     "extends": "react-app"
