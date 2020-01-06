@@ -114,7 +114,25 @@ const ItemLayout = ({
 
   useEffect(() => {
     setBreadcrumbs([{ id: item.id, name: breadcrumbName }])
-  }, [item.id, breadcrumbName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id])
+
+  // effect to update item name in breadcrumbs when changed by user
+  useEffect(() => {
+    if (breadcrumbs.length > 1) {
+      setBreadcrumbs(prevBreadcrumbs => {
+        const lastBreadcrumb = prevBreadcrumbs[prevBreadcrumbs.length - 1]
+
+        if (lastBreadcrumb) {
+          const newBreadcrumbs = prevBreadcrumbs.slice(0, prevBreadcrumbs.length - 1)
+          return [...newBreadcrumbs, { ...lastBreadcrumb, name: breadcrumbName }]
+        } else {
+          return prevBreadcrumbs
+        }
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [breadcrumbName])
 
   useEffect(() => {
     // Async and recursive get parent of the item
