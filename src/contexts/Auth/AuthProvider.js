@@ -53,13 +53,10 @@ export const Auth0Provider = ({
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser()
         try {
-          const token = await auth0FromHook.getTokenSilently({
-            audience: process.env.REACT_APP_AUTH_AUDIENCE,
-            scope: 'read:all'
-          })
+          const token = await auth0FromHook.getTokenSilently()
           tokenManager.setToken(token)
         } catch (error) {
-          console.warn('Nice try using stuff', error)
+          console.error('Could not retrieve access token', error)
         }
 
         setUser(user)
