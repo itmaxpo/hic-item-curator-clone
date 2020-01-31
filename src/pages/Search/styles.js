@@ -1,7 +1,6 @@
 import React from 'react'
-import { COLORS, FlexContainer, Button, Skeleton } from '@tourlane/tourlane-ui'
+import { COLORS, FlexContainer, Skeleton } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
-import { SadFaceIcon } from 'components/Icon'
 import Loader from 'components/Loader'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
@@ -19,23 +18,6 @@ const StyledSearchBoxContainer = styled(FlexContainer)`
 export const SearchBoxWrapper = ({ children }) => (
   <StyledSearchBoxContainer p={3 / 4}>{children}</StyledSearchBoxContainer>
 )
-
-export const CreateNewItemWrapper = styled(FlexContainer)`
-  padding-bottom: 80px !important;
-  > p {
-    font-family: 'Source Sans Pro', sans-serif !important;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.45;
-    color: ${COLORS.NIGHTINGALE_BLACK};
-  }
-`
-
-export const SadFaceIconWrapper = styled(SadFaceIcon)`
-  margin-top: 40px;
-`
-
-export const CreateButton = styled(Button)``
 
 export const StyledLoader = styled(Loader)`
   && {

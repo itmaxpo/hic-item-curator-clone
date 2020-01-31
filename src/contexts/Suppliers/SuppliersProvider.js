@@ -20,25 +20,17 @@ const SuppliersContextProvider = ({ children }) => {
 
   // fetch suppliers on mount
   useEffect(() => {
-    let fetchedSuppliers = [],
-      offset = 0
-
-    async function fetchSuppliersRecursively() {
-      const suppliers = await getSuppliers(offset)
-      fetchedSuppliers.push(...suppliers.data)
-      offset += 50
-
-      if (offset <= suppliers.meta.total_count) {
-        await fetchSuppliersRecursively()
-      } else {
-        const suppliersLast = await getSuppliers(offset)
-        fetchedSuppliers.push(...suppliersLast.data)
+    async function fetchSuppliers() {
+      try {
+        const { data } = await getSuppliers()
+        setSuppliers(parseSuppliers(data))
+      } catch (e) {
+        console.error('Could not fetch suppliers.')
+        console.log(e)
       }
-
-      setSuppliers(parseSuppliers(fetchedSuppliers))
     }
 
-    fetchSuppliersRecursively()
+    fetchSuppliers()
   }, [])
 
   return <Provider value={contextValue}>{children}</Provider>

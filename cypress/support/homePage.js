@@ -6,7 +6,7 @@ Cypress.Commands.add('homePageStub', () => {
   // stub API
   cy.server()
   cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
-  cy.route('GET', 'https://kiwi.**.com/content/suppliers?**', 'fixture:suppliers.json')
+  cy.route('GET', 'https://kiwi.**.com/configurations/suppliers.json', 'fixture:suppliers.json')
   cy.route('POST', 'https://kiwi.**.com/content/items', 'fixture:create/create-response.json')
   cy.route('GET', 'https://kiwi.**.com/content/items/**', 'fixture:item/new-item.json')
   cy.route('GET', 'https://kiwi.**.com/content/**/attachments', 'fixture:item/attachments.json')

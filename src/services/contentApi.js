@@ -1,6 +1,5 @@
 import queryString from 'query-string'
 import request from './request'
-import { SOURCE } from 'utils/constants'
 import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
 
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
@@ -65,31 +64,10 @@ const getItemPolygonCoordinatesById = async id => {
  * @param {Number} offset
  * @returns {Object}
  */
-const getSuppliers = async (offset = 0) => {
+const getSuppliers = async () => {
   if (onLighthouseMode) return mockSuppliers
 
-  let res = await request(
-    'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers?limit=50&offset=${offset}`
-  )
-
-  return res.json()
-}
-
-/**
- * Create supplier
- *
- * @name createSupplier
- * @param {Number} offset
- * @param {String} supplier
- * @returns {Object}
- */
-const createSupplier = async supplier => {
-  let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/suppliers`, {
-    body: {
-      name: supplier
-    }
-  })
+  let res = await request('GET', process.env.REACT_APP_KIWI_SUPPLIERS_API)
 
   return res.json()
 }
@@ -235,69 +213,6 @@ const getRoomsForAccommodation = async id => {
 }
 
 /**
- * Create item
- *
- * @name createItem
- * @param {String} type
- * @param {String} name
- * @param {String} supplier
- * @param {Number} lat
- * @param {Number} lon
- * @param {String} locale
- * @returns {Object}
- */
-const createItem = async (type, name, supplier, lat, lon, address, locale = 'en-GB') => {
-  let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items`, {
-    body: {
-      item_type: type,
-      fields: [
-        {
-          field_name: 'name',
-          content: name,
-          locale,
-          source: SOURCE,
-          source_key: SOURCE,
-          content_type: 'string'
-        },
-        {
-          field_name: 'supplier_tag',
-          content: supplier,
-          source: SOURCE,
-          source_key: SOURCE,
-          content_type: 'string'
-        },
-        {
-          field_name: 'geolocation',
-          content: {
-            lat,
-            lon
-          },
-          source: SOURCE,
-          source_key: SOURCE,
-          content_type: 'geo_point'
-        },
-        {
-          field_name: 'address',
-          content: address,
-          source: SOURCE,
-          source_key: SOURCE,
-          content_type: 'geo_point'
-        },
-        {
-          field_name: 'address',
-          content: address,
-          source: 'item_curator',
-          source_key: 'item_curator',
-          content_type: 'geo_point'
-        }
-      ]
-    }
-  })
-
-  return res.json()
-}
-
-/**
  * Merge items
  *
  * @name mergeItems
@@ -321,11 +236,9 @@ export {
   updateItemAttachmentsById,
   updateItemFields,
   getRoomsForAccommodation,
-  createItem,
   mergeItems,
   getItemPolygonCoordinatesById,
   getSuppliers,
-  createSupplier,
   getItemAttachmentsPresignedPost,
   uploadingImage,
   setItemAttachmentsById

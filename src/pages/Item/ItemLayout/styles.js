@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { COLORS, DropdownSelect, TextField, FlexContainer, Flex } from '@tourlane/tourlane-ui'
+import { COLORS, TextField, FlexContainer, Flex } from '@tourlane/tourlane-ui'
 
 export const Wrapper = styled.div`
   margin: 30px 90px;
@@ -49,7 +49,6 @@ export const CheckboxWrapper = styled(FlexContainer)`
 
 export const TitleWrapper = styled.div`
   position: relative;
-  z-index: 2; // Needed for dropdowm to overlap
 
   h2 {
     margin: 20px 0 10px 0;
@@ -59,13 +58,6 @@ export const TitleWrapper = styled.div`
     font-weight: 600;
     color: ${COLORS.ELEMENT_GRAY};
   }
-`
-
-export const SupplierDropdown = styled(DropdownSelect)`
-  width: 580px;
-  margin-bottom: 20px;
-  background-color: ${COLORS.SENSATION_WHITE}
-  z-index: 2;
 `
 
 export const TitleField = styled(TextField)`

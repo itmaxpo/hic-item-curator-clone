@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext, useEffect, useState, useCallback } from 'react'
+import React, { lazy, Suspense, useEffect, useState, useCallback } from 'react'
 import queryString from 'query-string'
 import { get } from 'lodash'
 import Layout from 'components/Layout'
@@ -6,7 +6,6 @@ import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import {
   Wrapper,
   TitleWrapper,
-  SupplierDropdown,
   TitleField,
   TitleLangWrapper,
   LanguageBlock,
@@ -38,7 +37,6 @@ import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
-import SuppliersContext from 'contexts/Suppliers'
 import LazyLoader from 'components/LazyLoader'
 
 const Breadcrumbs = lazy(() =>
@@ -77,14 +75,9 @@ const ItemLayout = ({
   const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
   const [breadcrumbs, setBreadcrumbs] = useState([])
   const [isFetchingBreadcrumbs, setIsFetchingBreadcrumbs] = useState(false)
-  const { suppliers } = useContext(SuppliersContext)
 
   const onTitleChange = e => {
     onChange(FIELD_NAME, e.target.value)
-  }
-
-  const onSuppliersChange = val => {
-    onChange('supplier_tag', val.value)
   }
 
   const onLanguageChange = (e, locale) => {
@@ -251,28 +244,6 @@ const ItemLayout = ({
               {item.language && <SelectMarketCallback />}
             </LanguageBlock>
           </TitleLangWrapper>
-
-          {item.type === ACCOMMODATION_ITEM_TYPE && (
-            <>
-              {!isEditing ? (
-                item.supplier_tag && (
-                  <Base>
-                    {' '}
-                    Supplier tag: <span data-test={'item-supplier-tag'}>{item.supplier_tag}</span>
-                  </Base>
-                )
-              ) : (
-                <div data-test={'item-supplier-dropdown'}>
-                  <SupplierDropdown
-                    placeholder={'Select supplier tag...'}
-                    options={suppliers}
-                    defaultValue={suppliers.filter(s => item.supplier_tag === s.value)}
-                    onChange={onSuppliersChange}
-                  />
-                </div>
-              )}
-            </>
-          )}
         </TitleWrapper>
 
         <Tabs defaultSelected={tabs[0]}>

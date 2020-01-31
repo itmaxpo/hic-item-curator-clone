@@ -14,8 +14,6 @@ describe('Item page', () => {
   })
 
   it('accommodation item layout check', () => {
-    // Check basic information
-    cy.get('[data-test=item-supplier-tag]').contains('Alex1')
     // Checking for language switcher
     cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
@@ -63,7 +61,6 @@ describe('Item page', () => {
   it('accommodation editing item properties', () => {
     // EDIT ITEM
     cy.get('[data-test=item-title-input]').type('2')
-    cy.get('[data-test=item-supplier-dropdown]').setSelectOption('aot', 1000)
     cy.get('[data-test=item-description-editor]')
       .find('[contenteditable="true"]')
       .type('new description here done')
@@ -76,7 +73,6 @@ describe('Item page', () => {
   it('accommodation check edited item properties', () => {
     // Check edited item
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel2')
-    cy.get('[data-test=item-supplier-tag]').contains('aot')
     cy.get('[data-test=item-description-wrapper]').contains('new description here done')
   })
 
@@ -84,14 +80,12 @@ describe('Item page', () => {
     // Edit for cancellation
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-title-input]').type('10')
-    cy.get('[data-test=item-supplier-dropdown]').setSelectOption('egoli', 1000)
     cy.get('[data-test=item-description-editor]')
       .find('[contenteditable="true"]')
       .type('new description here done2')
     cy.get('[data-test=cancel-item-button]').click()
     // Should have basic information
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
-    cy.get('[data-test=item-supplier-tag]').contains('Alex1')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
   })
 

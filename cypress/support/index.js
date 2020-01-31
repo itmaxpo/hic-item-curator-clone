@@ -16,7 +16,6 @@
 import 'cypress-file-upload'
 import './commands'
 import './upload'
-import './createItemPage'
 import './homePage'
 import './itemPage'
 import './itemPageSpecificFields'

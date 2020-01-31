@@ -1,16 +1,8 @@
 import React, { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import queryString from 'query-string'
-import LazyLoad from 'react-lazyload'
 import Layout from 'components/Layout'
-import {
-  Wrapper,
-  CreateNewItemWrapper,
-  CreateButton,
-  SadFaceIconWrapper,
-  StyledLoader,
-  SearchBoxLoader
-} from './styles'
+import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import {
@@ -89,12 +81,6 @@ const SearchPage = ({ history }) => {
     return
   }
 
-  const createNewItem = () => {
-    // Always should be on the top of the new page
-    window.scrollTo(0, 0)
-    history.push('/create')
-  }
-
   const flattenedResults = useMemo(() => {
     return flatten(results)
   }, [results])
@@ -165,23 +151,6 @@ const SearchPage = ({ history }) => {
               page={Number(parsedQuery.page)}
             />
           </Suspense>
-        )}
-        {results && !isLoading && (
-          <LazyLoad height={131} once>
-            <CreateNewItemWrapper p={0} direction={'ttb'} center alignItems={'center'}>
-              {!isEmpty(flattenedResults) ? (
-                <p>Didn't find what you're looking for?</p>
-              ) : (
-                <>
-                  <SadFaceIconWrapper />
-                  <p>No results</p>
-                </>
-              )}
-              <CreateButton data-test="createNewItem" onClick={createNewItem}>
-                Create New Item
-              </CreateButton>
-            </CreateNewItemWrapper>
-          </LazyLoad>
         )}
       </Wrapper>
     </Layout>

@@ -351,16 +351,4 @@ describe('Homepage', () => {
       testItemPage(pageAccomDataAfterMerge)
     })
   })
-
-  it('clicking the create new item button', () => {
-    cy.scrollTo('bottom')
-    cy.get('[data-test=createNewItem]').click()
-
-    // assert that user is redirected to the create item page
-    cy.location().should(location => {
-      expect(location.pathname).to.eq('/create')
-    })
-
-    cy.go('back')
-  })
 })
