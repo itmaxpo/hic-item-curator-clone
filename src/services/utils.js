@@ -140,13 +140,13 @@ export const generateSearchQueryAccom = (country, area, supplier, propNames, val
               },
               {
                 nested: {
-                  path: 'supplier_tag',
+                  path: 'dmc_id',
                   query: {
                     bool: {
                       must: [
                         {
-                          wildcard: {
-                            'supplier_tag.content': supplier.toLowerCase()
+                          match: {
+                            'dmc_id.source': supplier
                           }
                         }
                       ]

@@ -22,8 +22,8 @@ const SuppliersContextProvider = ({ children }) => {
   useEffect(() => {
     async function fetchSuppliers() {
       try {
-        const { data } = await getSuppliers()
-        setSuppliers(parseSuppliers(data))
+        const suppliers = await getSuppliers()
+        setSuppliers(parseSuppliers(suppliers))
       } catch (e) {
         console.error('Could not fetch suppliers.')
         console.log(e)

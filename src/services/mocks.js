@@ -1,47 +1,209 @@
-const mockSuppliers = {
-  data: [
-    {
-      name: 'Alex'
-    },
-    {
-      name: 'Alex1'
-    },
-    {
-      name: 'go'
-    },
-    {
-      name: 'Joke'
-    },
-    {
-      name: 'Last'
-    },
-    {
-      name: 'new supplier tag test'
-    },
-    {
-      name: 'Raul'
-    },
-    {
-      name: 'Raulito'
-    },
-    {
-      name: 'Raulito1'
-    },
-    {
-      name: 'Test'
-    },
-    {
-      name: 'Travel co.'
-    },
-    {
-      name: 'TryLast'
-    }
-  ],
-  meta: {
-    count: 12,
-    total_count: 12
+const mockSuppliers = [
+  {
+    name: 'AAT Kings',
+    supplier_id: 'AAT Kings',
+    source_key: 'spider',
+    salesforce_id: [],
+    active: true,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: false,
+    monthly_capacity: null,
+    enabled_market_destination: [],
+    milestone_percentage: []
+  },
+  {
+    name: 'Absolute Tours',
+    supplier_id: 'Absolute Tours',
+    source_key: 'spider',
+    salesforce_id: [],
+    active: false,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: false,
+    monthly_capacity: null,
+    enabled_market_destination: [],
+    milestone_percentage: []
+  },
+  {
+    name: 'All Alaska Tours',
+    supplier_id: 'All Alaska Tours',
+    source_key: 'spider',
+    salesforce_id: [],
+    active: true,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: false,
+    monthly_capacity: null,
+    enabled_market_destination: [],
+    milestone_percentage: []
+  },
+  {
+    name: 'AmericanTours International',
+    supplier_id: 'AmericanTours International',
+    source_key: 'spider',
+    salesforce_id: [],
+    active: true,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: false,
+    monthly_capacity: null,
+    enabled_market_destination: [],
+    milestone_percentage: []
+  },
+  {
+    name: 'Andes Nativa',
+    supplier_id: 'Andes Nativa',
+    source_key: 'spider',
+    salesforce_id: [],
+    active: true,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: false,
+    monthly_capacity: null,
+    enabled_market_destination: [],
+    milestone_percentage: []
+  },
+  {
+    name: 'AOT',
+    supplier_id: 'aot',
+    source_key: null,
+    salesforce_id: ['0011r00002HSB1DAAX', '0011r00002HSB1EAAX'],
+    active: true,
+    direct_booking_enabled: false,
+    direct_cancel_enabled: false,
+    availability_enabled: true,
+    monthly_capacity: 1500.0,
+    enabled_market_destination: [
+      {
+        market: 'UK',
+        destination: 'FJ'
+      },
+      {
+        market: 'NL',
+        destination: 'FJ'
+      },
+      {
+        market: 'FR',
+        destination: 'FJ'
+      },
+      {
+        market: 'CH',
+        destination: 'FJ'
+      },
+      {
+        market: 'AT',
+        destination: 'FJ'
+      },
+      {
+        market: 'DE',
+        destination: 'FJ'
+      },
+      {
+        market: 'UK',
+        destination: 'CK'
+      },
+      {
+        market: 'NL',
+        destination: 'CK'
+      },
+      {
+        market: 'FR',
+        destination: 'CK'
+      },
+      {
+        market: 'CH',
+        destination: 'CK'
+      },
+      {
+        market: 'AT',
+        destination: 'CK'
+      },
+      {
+        market: 'DE',
+        destination: 'CK'
+      },
+      {
+        market: 'UK',
+        destination: 'AU'
+      },
+      {
+        market: 'FR',
+        destination: 'AU'
+      },
+      {
+        market: 'NL',
+        destination: 'AU'
+      },
+      {
+        market: 'US',
+        destination: 'AU'
+      },
+      {
+        market: 'CH',
+        destination: 'AU'
+      },
+      {
+        market: 'AT',
+        destination: 'AU'
+      },
+      {
+        market: 'DE',
+        destination: 'AU'
+      },
+      {
+        market: 'UK',
+        destination: 'NZ'
+      },
+      {
+        market: 'NL',
+        destination: 'NZ'
+      },
+      {
+        market: 'FR',
+        destination: 'NZ'
+      },
+      {
+        market: 'US',
+        destination: 'NZ'
+      },
+      {
+        market: 'CH',
+        destination: 'NZ'
+      },
+      {
+        market: 'AT',
+        destination: 'NZ'
+      },
+      {
+        market: 'DE',
+        destination: 'NZ'
+      }
+    ],
+    milestone_percentage: [
+      {
+        threshold: 4000001.0,
+        percentage: 1.6
+      },
+      {
+        threshold: 3000001.0,
+        percentage: 1.4
+      },
+      {
+        threshold: 2000001.0,
+        percentage: 1.2
+      },
+      {
+        threshold: 500001.0,
+        percentage: 1.0
+      },
+      {
+        threshold: 1.0,
+        percentage: 0.75
+      }
+    ]
   }
-}
+]
 
 const mockItems = {
   meta: {

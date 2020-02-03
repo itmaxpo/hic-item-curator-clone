@@ -208,8 +208,8 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
               />
               <Dropdown
                 dataTest="supplier-dropdown"
-                label="Supplier tag (optional)"
-                placeholder="Name the supplier tag"
+                label="Supplier (optional)"
+                placeholder="Name of the supplier"
                 value={supplierFromQuery}
                 options={suppliers}
                 onChange={value => onValueChange({ supplier: get(value, 'value') })}
