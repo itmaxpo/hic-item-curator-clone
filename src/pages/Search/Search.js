@@ -158,7 +158,7 @@ const SearchPage = ({ history }) => {
             />
           </Suspense>
         )}
-        {results && !isLoading && (
+        {results && isEmpty(flattenedResults) && !isLoading && (
           <FlexContainer p={0} mt={2} direction={'ttb'} center alignItems={'center'}>
             <SadFaceIcon />
             <Subline>No results</Subline>
