@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'rea
 import { flatten, isEmpty } from 'lodash'
 import queryString from 'query-string'
 import Layout from 'components/Layout'
+import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, insertPage } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
@@ -12,6 +13,7 @@ import {
   ITEMS_PER_PAGE
 } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
+import { SadFaceIcon } from 'components/Icon'
 
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
 const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
@@ -107,12 +109,18 @@ const SearchPage = ({ history }) => {
 
     /*
      * early returns (no auto-triggered search):
+     * - user haven't selected an item tab
      * - user is on country tab
+     * - user is on area tab but haven't selected a country
      * - user comes back from 'go to Area'
+     * - user is on accommodation tab but haven't selected country nor supplier
      */
     if (
+      !itemTypeRef.current ||
       itemTypeRef.current === COUNTRY_ITEM_TYPE ||
-      (itemTypeRef.current === AREA_ITEM_TYPE && areaId)
+      (itemTypeRef.current === AREA_ITEM_TYPE && !countryId) ||
+      (itemTypeRef.current === AREA_ITEM_TYPE && areaId) ||
+      (itemTypeRef.current === ACCOMMODATION_ITEM_TYPE && !(countryId || supplier))
     )
       return
 
@@ -149,6 +157,12 @@ const SearchPage = ({ history }) => {
               page={Number(parsedQuery.page)}
             />
           </Suspense>
+        )}
+        {results && !isLoading && (
+          <FlexContainer p={0} mt={2} direction={'ttb'} center alignItems={'center'}>
+            <SadFaceIcon />
+            <Subline>No results</Subline>
+          </FlexContainer>
         )}
       </Wrapper>
     </Layout>
