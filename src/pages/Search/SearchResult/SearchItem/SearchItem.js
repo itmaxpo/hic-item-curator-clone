@@ -59,9 +59,13 @@ export const SearchItem = ({
   }, [item])
 
   useEffect(() => {
-    if (areaName) {
-      setSubtitle(`${areaName}, ${country}`)
-    }
+    let newSubtitle
+
+    if (country) newSubtitle = country
+    if (areaName) newSubtitle = areaName
+    if (country && areaName) newSubtitle = `${areaName}, ${country}`
+
+    if (newSubtitle) setSubtitle(newSubtitle)
   }, [areaName, country, setSubtitle])
 
   useEffect(() => {

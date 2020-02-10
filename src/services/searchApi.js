@@ -117,7 +117,7 @@ const getAccommodations = async (
           }
         },
         // We are asking only for 'name' property because accommodations don't have original_name
-        query: generateSearchQueryAccom(country, area, supplier, ['name'], nameToSearch)
+        query: generateSearchQueryAccom(country, area, supplier, nameToSearch)
       }
     })
   }

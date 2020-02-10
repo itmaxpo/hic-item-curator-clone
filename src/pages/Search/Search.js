@@ -107,12 +107,10 @@ const SearchPage = ({ history }) => {
 
     /*
      * early returns (no auto-triggered search):
-     * - no country id
      * - user is on country tab
      * - user comes back from 'go to Area'
      */
     if (
-      !countryId ||
       itemTypeRef.current === COUNTRY_ITEM_TYPE ||
       (itemTypeRef.current === AREA_ITEM_TYPE && areaId)
     )

@@ -11,7 +11,7 @@ const ResizedImage = ({ src: _src, alt, width, height, fit = 'crop', ...props })
 
   return (
     <LazyLoader src={src} height={height} isLoading={props.isLoading} once>
-      <img alt={alt} src={src} {...props} />
+      <img style={{ width: `${width}px`, height: `${height}px` }} alt={alt} src={src} {...props} />
     </LazyLoader>
   )
 }

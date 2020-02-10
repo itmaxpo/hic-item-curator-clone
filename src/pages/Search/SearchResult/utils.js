@@ -46,7 +46,11 @@ export const missingId = item => !item.id
 
 // Returns array of item's parent name and fetched status
 export const getParentNameList = items =>
-  !isEmpty(items) ? items.map(({ parentId }) => ({ id: parentId, name: null, fetched: false })) : []
+  !isEmpty(items)
+    ? items
+        .filter(({ parentId }) => !!parentId)
+        .map(({ parentId }) => ({ id: parentId, name: null, fetched: false }))
+    : []
 
 export const getItemsNames = async items => {
   const arrayOfPromises = items.map(({ id }) => getItemFieldsById(id))

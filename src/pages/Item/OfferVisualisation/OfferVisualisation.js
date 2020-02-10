@@ -101,7 +101,7 @@ const OfferVisualisation = ({
                   <Accordion
                     data-test={`item-room-${d.label}`}
                     key={i}
-                    name={d.label}
+                    name={`${d.label}-${i}`}
                     title={d.label}
                     badge={d.badge}
                   >

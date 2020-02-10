@@ -1,5 +1,7 @@
-import React, { Fragment, useState, useCallback, useEffect, useRef, useContext } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useContext } from 'react'
 import { get, isEmpty } from 'lodash'
+import { FlexContainer, COLORS, Icon } from '@tourlane/tourlane-ui'
+import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -8,7 +10,8 @@ import {
   CategoryCardsWrapper,
   Search,
   SearchWrapper,
-  SearchFieldsWrapper
+  SearchFieldsWrapper,
+  StyledBase
 } from './styles'
 import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
@@ -31,28 +34,24 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
   const countryFromQuery = getQueryValue(locationQuery, 'countryName', 'countryId')
   const areaFromQuery = getQueryValue(locationQuery, 'areaName', 'areaId')
   const supplierFromQuery = getQueryValue(locationQuery, 'supplier', 'supplier')
-  const accomNameFromQuery = get(locationQuery, 'name')
+  const nameFromQuery = get(locationQuery, 'name')
 
-  const initialValues = {
-    name: accomNameFromQuery,
-    supplier: get(supplierFromQuery, 'value', '')
-  }
-
-  const values = useRef(initialValues)
+  const name = useRef(nameFromQuery)
   const [category, setCategory] = useState(typeFromQuery)
   const [country, setCountry] = useState(countryFromQuery)
+  const [supplier, setSupplier] = useState(supplierFromQuery)
   const [area, setArea] = useState(areaFromQuery)
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const { suppliers } = useContext(SuppliersContext)
 
-  const onValueChange = newValue => {
-    values.current = { ...values.current, ...newValue }
+  const onNameChange = e => {
+    name.current = e.target.value
 
     onQueryUpdate({
       ...locationQuery,
-      ...values.current
+      name: name.current
     })
   }
 
@@ -70,6 +69,14 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
       areaName: ''
     })
     setCountry(value)
+  }
+
+  const onSupplierChange = value => {
+    onQueryUpdate({
+      ...locationQuery,
+      supplier: get(value, 'value')
+    })
+    setSupplier(value)
   }
 
   const onAreaChange = value => {
@@ -92,9 +99,10 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
         case ACCOMMODATION_ITEM_TYPE:
           await search(
             {
-              country: country.value,
+              country: get(country, 'value'),
+              supplier: get(supplier, 'value'),
               area: get(area, 'value'),
-              ...values.current
+              name: name.current
             },
             0,
             true
@@ -183,6 +191,12 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
       </CategoryCardsWrapper>
       {category && (
         <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
+          {category === ACCOMMODATION_ITEM_TYPE && (
+            <FlexContainer p={0} mb={1} fullWidth justify="center" alignItems="center">
+              <Icon as={TipIcon} size={20} color={COLORS.ELEMENT_GRAY} />
+              <StyledBase>Please select the country, supplier or both to search</StyledBase>
+            </FlexContainer>
+          )}
           <Dropdown
             dataTest="country-dropdown"
             isAsync
@@ -197,24 +211,24 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
             onChange={onCountryChange}
           />
+          {category === ACCOMMODATION_ITEM_TYPE && (
+            <Dropdown
+              dataTest="supplier-dropdown"
+              label="Supplier"
+              placeholder="Name of the supplier"
+              value={supplier}
+              options={suppliers}
+              onChange={onSupplierChange}
+            />
+          )}
           <AreaDropdown hidden={category === COUNTRY_ITEM_TYPE} />
           {category === ACCOMMODATION_ITEM_TYPE && (
-            <Fragment>
-              <NameField
-                label="Name (optional)"
-                placeholder="Name of the place"
-                defaultValue={accomNameFromQuery}
-                onChange={e => onValueChange({ name: e.target.value })}
-              />
-              <Dropdown
-                dataTest="supplier-dropdown"
-                label="Supplier (optional)"
-                placeholder="Name of the supplier"
-                value={supplierFromQuery}
-                options={suppliers}
-                onChange={value => onValueChange({ supplier: get(value, 'value') })}
-              />
-            </Fragment>
+            <NameField
+              label="Name (optional)"
+              placeholder="Name of the place"
+              defaultValue={name.current}
+              onChange={onNameChange}
+            />
           )}
         </SearchFieldsWrapper>
       )}
@@ -222,7 +236,7 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
         <Search
           data-test="search"
           isLoading={isLoading}
-          disabled={!country}
+          disabled={!country && !supplier}
           destination={goToDestination}
           onButtonClick={onSearchClick}
         />

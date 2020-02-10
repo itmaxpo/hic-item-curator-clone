@@ -5,7 +5,8 @@ import {
   H3,
   DropdownSelect as TUIDropdown,
   TextField,
-  Subline
+  Subline,
+  Base
 } from '@tourlane/tourlane-ui'
 import styled from 'styled-components'
 import ProgressButton from 'components/ProgressButton'
@@ -92,4 +93,8 @@ export const SearchWrapper = styled(FlexContainer)`
 export const SearchFieldsWrapper = styled(FlexContainer)`
   align-self: center;
   max-width: 740px;
+`
+
+export const StyledBase = styled(Base)`
+  padding-left: 5px;
 `
