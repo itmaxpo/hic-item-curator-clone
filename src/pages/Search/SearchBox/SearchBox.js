@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef, useContext } from 'react'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, debounce } from 'lodash'
 import { FlexContainer, COLORS, Icon } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
@@ -46,14 +46,16 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
 
   const { suppliers } = useContext(SuppliersContext)
 
-  const onNameChange = e => {
-    name.current = e.target.value
+  const onNameChange = value => {
+    name.current = value
 
     onQueryUpdate({
       ...locationQuery,
       name: name.current
     })
   }
+
+  const debouncedOnNameChange = debounce(onNameChange, 300)
 
   const onCategoryCardClick = value => () => {
     onQueryUpdate({ ...locationQuery, type: value })
@@ -227,7 +229,9 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
               label="Name (optional)"
               placeholder="Name of the place"
               defaultValue={name.current}
-              onChange={onNameChange}
+              onChange={e => {
+                debouncedOnNameChange(e.target.value)
+              }}
             />
           )}
         </SearchFieldsWrapper>

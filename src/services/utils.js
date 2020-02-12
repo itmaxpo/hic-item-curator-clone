@@ -173,23 +173,25 @@ export const generateSearchQueryAccom = (country, area, supplier, _name) => {
   }
 
   if (name) {
-    const nameQuery = {
-      nested: {
-        path: 'name',
-        query: {
-          bool: {
-            must: [
-              {
-                wildcard: {
-                  'name.content': `${name}*`
+    name.forEach(nameToSearch => {
+      const nameQuery = {
+        nested: {
+          path: 'name',
+          query: {
+            bool: {
+              must: [
+                {
+                  wildcard: {
+                    'name.content': `${nameToSearch}*`
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       }
-    }
-    set(query, mustPath, [...get(query, mustPath, []), nameQuery])
+      set(query, mustPath, [...get(query, mustPath, []), nameQuery])
+    })
   }
 
   return query

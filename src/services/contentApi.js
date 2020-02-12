@@ -21,8 +21,7 @@ const fieldsToSelect = [
   'transport',
   'admin_level',
   'address',
-  'geolocation',
-  'supplier_tag'
+  'geolocation'
 ]
 /**
  * Return item fields
