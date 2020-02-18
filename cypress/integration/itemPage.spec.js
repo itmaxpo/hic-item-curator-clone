@@ -24,15 +24,19 @@ describe('Item page', () => {
   it('accommodation rooms check', () => {
     // Check rooms
     cy.get('[data-test=item-rooms-header]').contains('Rooms')
-    cy.get('.accordion')
-      .children()
-      .should('have.length', 4)
 
     const names = ['Presidential Suite', 'Front View', 'Luxury Suite', 'Pool View']
+    const mealBases = ['BB', 'BB+', 'FB', 'FB+']
     names.forEach((el, i) => {
-      cy.get('.accordion > div')
-        .eq(i)
+      cy.get(`[data-test=item-room-${i}]`)
+        .find('p')
+        .find('span')
+        .first()
         .contains(names[i])
+        .parent()
+        .find('span')
+        .last()
+        .contains(mealBases[i])
     })
   })
 
@@ -163,18 +167,20 @@ describe('Item page', () => {
   it('country check country information', () => {
     // Check location
     cy.get('[data-test=item-information-header]').contains('Information')
-    cy.get('#accordion__heading-additional_info')
-    cy.get('#accordion__heading-climate')
-    cy.get('#accordion__heading-cuisine')
-    cy.get('#accordion__heading-currency')
-    cy.get('#accordion__heading-dress')
-    cy.get('#accordion__heading-electricity')
-    cy.get('#accordion__heading-entry_requirements')
-    cy.get('#accordion__heading-health')
-    cy.get('#accordion__heading-safety')
+    cy.get('[data-test=item-information-additional_info]')
+    cy.get('[data-test=item-information-climate]')
+    cy.get('[data-test=item-information-cuisine]')
+    cy.get('[data-test=item-information-currency]')
+    cy.get('[data-test=item-information-dress]')
+    cy.get('[data-test=item-information-electricity]')
+    cy.get('[data-test=item-information-entry_requirements]')
+    cy.get('[data-test=item-information-health]')
+    cy.get('[data-test=item-information-safety]')
+
     // Check additional info
-    cy.get('#accordion__heading-additional_info').click()
-    cy.get('[data-test="item-information-Additional info"]').contains('Additional Infor EN')
+    cy.get('[data-test="item-information-additional_info"]')
+      .click()
+      .contains('Additional Infor EN')
   })
 
   it('country check language switcher', () => {
@@ -188,8 +194,9 @@ describe('Item page', () => {
       expect(queryString.parse(location.search).language).to.eq('de-DE')
     })
     cy.get('[data-test=item-description-wrapper]').contains('DE Desc')
-    cy.get('#accordion__heading-additional_info').click({ force: true })
-    cy.get('[data-test="item-information-Additional info"]').contains('Additional DE')
+    cy.get('[data-test="item-information-additional_info"]')
+      .click()
+      .contains('Additional DE')
 
     cy.get('[data-test=item-language-switcher]').click()
     cy.get('a')

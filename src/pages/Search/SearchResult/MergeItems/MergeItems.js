@@ -76,8 +76,8 @@ const MergeItems = ({ onMerge, onClose, isOpen, items, country }) => {
         <ButtonsContainer data-test="merge">
           <SubmitButton
             onButtonClick={onMergeHandler}
-            mockUpload
-            uploadTime={1500}
+            mockProgress
+            progressTime={1500}
           >{`Merge ${items.length} items`}</SubmitButton>
           <CancelButton onClick={onClose}>Cancel</CancelButton>
         </ButtonsContainer>

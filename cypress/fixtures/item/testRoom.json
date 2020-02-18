@@ -10,14 +10,14 @@
       "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
       "fields": {
         "primary_item_uuid": null,
-        "meal_base": [
+        "meal_basis": [
           {
             "content": "BB",
             "source": "tourvest",
             "source_key": null
           }
         ],
-        "name": [
+        "category": [
           {
             "content": "Presidential Suite",
             "source": "tourvest",
@@ -48,14 +48,14 @@
       "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
       "fields": {
         "primary_item_uuid": null,
-        "meal_base": [
+        "meal_basis": [
           {
-            "content": "BB",
+            "content": "BB+",
             "source": "tourvest",
             "source_key": null
           }
         ],
-        "name": [
+        "category": [
           {
             "content": "Front View",
             "source": "tourvest",
@@ -86,14 +86,14 @@
       "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
       "fields": {
         "primary_item_uuid": null,
-        "meal_base": [
+        "meal_basis": [
           {
-            "content": "BB",
+            "content": "FB",
             "source": "tourvest",
             "source_key": null
           }
         ],
-        "name": [
+        "category": [
           {
             "content": "Luxury Suite",
             "source": "tourvest",
@@ -124,14 +124,14 @@
       "parent_uuid": "916a2d27-4696-4c00-aaf1-d268d93e413b",
       "fields": {
         "primary_item_uuid": null,
-        "meal_base": [
+        "meal_basis": [
           {
-            "content": "BB",
+            "content": "FB+",
             "source": "tourvest",
             "source_key": null
           }
         ],
-        "name": [
+        "category": [
           {
             "content": "Pool View",
             "source": "tourvest",

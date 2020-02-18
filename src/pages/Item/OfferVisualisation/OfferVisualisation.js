@@ -99,7 +99,7 @@ const OfferVisualisation = ({
               <AccordionGroup>
                 {item.rooms.map((d, i) => (
                   <Accordion
-                    data-test={`item-room-${d.label}`}
+                    data-test={`item-room-${i}`}
                     key={i}
                     name={`${d.label}-${i}`}
                     title={d.label}
@@ -149,7 +149,7 @@ const OfferVisualisation = ({
           <AccordionGroup>
             {parsedDescriptions.map((d, i) => (
               <Accordion
-                data-test={`item-information-${d.label}`}
+                data-test={`item-information-${d.field}`}
                 key={i}
                 name={d.field}
                 title={d.label}
@@ -157,7 +157,7 @@ const OfferVisualisation = ({
                 {isEditing ? (
                   <Suspense fallback={<RichTextEditorLoader />}>
                     <StyledRichTextEditor
-                      data-test={`item-information-${d.label}-editor`}
+                      data-test={`item-information-${d.field}-editor`}
                       placeholder={`Please write something about the ${d.label.toLowerCase()}`}
                       value={d.value}
                       onChange={val => onChange(d.field, val)}

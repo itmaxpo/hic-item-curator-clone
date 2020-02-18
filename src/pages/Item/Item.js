@@ -16,6 +16,7 @@ import Loader from 'components/Loader'
 import { parseItemByType, transformToSupplyItem } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
+import { getFieldBySourcePriority } from 'utils/helpers'
 import { useNotification } from 'components/Notification'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
@@ -153,11 +154,14 @@ const ItemPage = ({ match, history }) => {
         case ACCOMMODATION_ITEM_TYPE:
           const accomRooms = await getRoomsForAccommodation(match.params.id)
 
-          const rooms = accomRooms['data'].map(room => ({
-            label: get(room, 'fields.name.0.content') || 'No name',
-            value: get(room, 'fields.description.0.content') || 'No description',
-            badge: get(room, 'fields.meal_base.0.content')
-          }))
+          const rooms = accomRooms['data'].map(room => {
+            return {
+              label:
+                get(getFieldBySourcePriority(get(room, 'fields.category')), 'content') || 'No name',
+              value: get(room, 'fields.description.0.content') || 'No description',
+              badge: get(room, 'fields.meal_basis.0.content')
+            }
+          })
 
           onChange('rooms', rooms)
           originalItem.current = { ...originalItem.current, rooms }

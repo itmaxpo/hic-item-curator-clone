@@ -9,7 +9,6 @@ import { ButtonWrapper } from './styles'
  * This is used to show UI feedback on long tasks.
  */
 const ProgressButton = ({ label, onButtonClick, disabled, isLoading, ...rest }) => {
-  // eslint-disable-next-line
   const [progress, setProgress] = useState(0)
 
   const mockUpload = (progress = 20) => {
@@ -39,6 +38,7 @@ const ProgressButton = ({ label, onButtonClick, disabled, isLoading, ...rest }) 
         isLoading={isLoading}
         onClick={onButtonClickHandler}
         fullWidth
+        progress={progress}
         {...rest}
       >
         {label}
