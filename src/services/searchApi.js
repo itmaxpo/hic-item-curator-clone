@@ -92,7 +92,7 @@ const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
  * @returns {Object}
  */
 const getAccommodations = async (
-  { country, area, name = '', supplier = '' },
+  { country, area, name = '', supplier = '', missingGeolocation = false },
   offset = 0,
   limit = 40
 ) => {
@@ -117,7 +117,7 @@ const getAccommodations = async (
           }
         },
         // We are asking only for 'name' property because accommodations don't have original_name
-        query: generateSearchQueryAccom(country, area, supplier, nameToSearch)
+        query: generateSearchQueryAccom(country, area, supplier, nameToSearch, missingGeolocation)
       }
     })
   }

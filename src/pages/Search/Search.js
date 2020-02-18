@@ -14,6 +14,7 @@ import {
 } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
 import { SadFaceIcon } from 'components/Icon'
+import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
 const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
@@ -35,9 +36,19 @@ const SearchPage = ({ history }) => {
 
   const parsedQuery = queryString.parse(history.location.search)
 
+  // this feature will be killed very soon 💀...
+  const onFilterByMissingGeolocation = filterValue => {
+    onQueryUpdate({
+      ...parsedQuery,
+      missingGeolocation: filterValue
+    })
+    setResults(null)
+  }
+
   // changes query in URL
   const onQueryUpdate = query => {
     history.push(`?${queryString.stringify(query)}`)
+    scrollToItemManager.setItemToScrollTo(null)
   }
 
   // changes query for SearchBox - so it clears "page" query
@@ -99,13 +110,17 @@ const SearchPage = ({ history }) => {
       setCountry(getQueryValue(parsedQuery, 'countryName', 'countryId').label)
     }
 
+    if (!parsedQuery.countryId) {
+      setCountry(undefined)
+    }
+
     setResults(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parsedQuery.countryId, parsedQuery.type])
 
   // effect to fire a search when pressing back button or url with sufficient data is provided
   useEffect(() => {
-    const { areaId, countryId, name, supplier, page } = parsedQuery
+    const { areaId, countryId, name, supplier, page, missingGeolocation } = parsedQuery
 
     /*
      * early returns (no auto-triggered search):
@@ -124,7 +139,16 @@ const SearchPage = ({ history }) => {
     )
       return
 
-    search({ country: countryId, area: areaId, name, supplier }, page - 1 || 0)
+    search(
+      {
+        country: countryId,
+        area: areaId,
+        name,
+        supplier,
+        missingGeolocation: missingGeolocation === 'true'
+      },
+      page - 1 || 0
+    )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -138,6 +162,7 @@ const SearchPage = ({ history }) => {
             history={history}
             locationQuery={parsedQuery}
             onQueryUpdate={searchBoxQueryUpdate}
+            onFilterByMissingGeolocation={onFilterByMissingGeolocation}
           />
         </Suspense>
         {isLoading && <StyledLoader />}

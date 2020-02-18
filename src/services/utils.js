@@ -115,17 +115,26 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
  * @param {string} name
  * @returns <ElasticSearchQuery>
  */
-export const generateSearchQueryAccom = (country, area, supplier, _name) => {
+export const generateSearchQueryAccom = (
+  country,
+  area,
+  supplier,
+  _name,
+  filterByMissingGeolocation
+) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const name = _name.includes(' ') ? _name.split(' ') : [_name]
 
   const mustPath = 'bool.should.0.bool.must'
+  const mustNotPath = 'bool.should.0.bool.must_not'
+
   const query = {
     bool: {
       should: [
         {
           bool: {
-            must: []
+            must: [],
+            must_not: []
           }
         }
       ]
@@ -192,6 +201,20 @@ export const generateSearchQueryAccom = (country, area, supplier, _name) => {
       }
       set(query, mustPath, [...get(query, mustPath, []), nameQuery])
     })
+  }
+
+  if (filterByMissingGeolocation) {
+    const missingGeolocationQuery = {
+      nested: {
+        path: 'geolocation',
+        query: {
+          exists: {
+            field: 'geolocation'
+          }
+        }
+      }
+    }
+    set(query, mustNotPath, missingGeolocationQuery)
   }
 
   return query

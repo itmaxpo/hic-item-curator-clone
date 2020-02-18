@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useContext } from 'react'
 import { get, isEmpty, debounce } from 'lodash'
-import { FlexContainer, COLORS, Icon } from '@tourlane/tourlane-ui'
+import { FlexContainer, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
   SearchBoxWrapper,
@@ -28,13 +28,20 @@ import SuppliersContext from 'contexts/Suppliers'
  * @param {Object} history
  * @returns {Object} Search Box
  */
-const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
+const SearchBox = ({
+  history,
+  search,
+  locationQuery,
+  onQueryUpdate,
+  onFilterByMissingGeolocation
+}) => {
   // Default values for state are coming from location query
   const typeFromQuery = get(locationQuery, 'type')
   const countryFromQuery = getQueryValue(locationQuery, 'countryName', 'countryId')
   const areaFromQuery = getQueryValue(locationQuery, 'areaName', 'areaId')
   const supplierFromQuery = getQueryValue(locationQuery, 'supplier', 'supplier')
   const nameFromQuery = get(locationQuery, 'name')
+  const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
 
   const name = useRef(nameFromQuery)
   const [category, setCategory] = useState(typeFromQuery)
@@ -104,7 +111,8 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
               country: get(country, 'value'),
               supplier: get(supplier, 'value'),
               area: get(area, 'value'),
-              name: name.current
+              name: name.current,
+              missingGeolocation
             },
             0,
             true
@@ -235,6 +243,19 @@ const SearchBox = ({ history, search, locationQuery, onQueryUpdate }) => {
             />
           )}
         </SearchFieldsWrapper>
+      )}
+      {category === ACCOMMODATION_ITEM_TYPE && (
+        <FlexContainer p={0} pb={1.5} alignSelf="center">
+          <Label>
+            <Checkbox
+              defaultChecked={missingGeolocation}
+              onChange={e => {
+                onFilterByMissingGeolocation(e.target.checked)
+              }}
+            />
+            Filter by missing geolocation
+          </Label>
+        </FlexContainer>
       )}
       <SearchWrapper p={0} alignItems={'center'} justify="between">
         <Search
