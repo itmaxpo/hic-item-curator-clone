@@ -10,6 +10,7 @@ export const SUPPLY = 'supply'
 export const COUNTRY_ITEM_TYPE = 'country'
 export const AREA_ITEM_TYPE = 'admin_area'
 export const ACCOMMODATION_ITEM_TYPE = 'accommodation'
+export const TOURISTIC_AREA_ITEM_TYPE = 'touristic_area'
 
 // Image API
 export const SHUTTERSTOCK = 'shutterstock'

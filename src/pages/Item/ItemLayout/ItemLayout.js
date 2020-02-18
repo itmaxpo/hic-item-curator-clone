@@ -35,7 +35,7 @@ import {
 import { SelectMarket } from '@tourlane/rooster'
 import { getItemFieldsById } from 'services/contentApi'
 import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
-import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE, TOURISTIC_AREA_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
 
@@ -133,7 +133,7 @@ const ItemLayout = ({
       const { data } = await getItemFieldsById(id)
       const name = getFieldName(data)
       // Store only item with a name
-      if (name) {
+      if (name && data.item_type !== TOURISTIC_AREA_ITEM_TYPE) {
         setBreadcrumbs(prevValues => [{ id: data.uuid, name }, ...prevValues])
       }
 
