@@ -152,7 +152,7 @@ export const setItemSpecificFieldsNoLocale = item => {
         ? transformValueIntoSupplySource(item[field], field)
         : typeof item[field] === 'boolean'
         ? transformValueIntoFieldNoLocale(item[field], field)
-        : item[field] && transformValueIntoFieldNoLocale(item[field], field)
+        : (item[field] || item[field] === '') && transformValueIntoFieldNoLocale(item[field], field)
     )
     .filter(field => !!field)
 }
@@ -223,7 +223,7 @@ export const getFieldContent = (item, fieldName, language = null) => {
     if (isEmpty(field)) return undefined
 
     return get(getFieldBySourcePriority(field), 'content')
-    // THis check is need for ROOM TYPE
+    // This check is needed for ROOM TYPE
   } else if (isObject(get(item, 'fields'))) {
     const field = language
       ? filter(get(item, 'fields')[fieldName], c => c.locale === language)

@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, Fragment } from 'react'
 import LazyLoad from 'react-lazyload'
-import { isEmpty, flatten } from 'lodash'
+import { isEmpty, flatten, get } from 'lodash'
 import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
-import { TitleWithContent, MapWrapper, SearchItemWrapper, GeoWrapper } from './styles'
+import { TitleWithContent, MapWrapper, SearchItemWrapper, LatLonWrapper } from './styles'
 import { RichTextEditorLoader } from './Description/styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
@@ -15,16 +15,19 @@ import {
 import { parsePolygonCoordinates } from './utils'
 import {
   H4,
-  Base,
   AccordionGroup,
   Skeleton,
   BlurInTransition,
-  Accordion
+  Accordion,
+  TextField,
+  FlexContainer
 } from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
 import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
+
+const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
 
 const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
 
@@ -190,32 +193,88 @@ const OfferVisualisation = ({
         address: item[FIELD_ADDRESS] || item[FIELD_NAME],
         geoCoords: item[FIELD_GEOLOCATION]
       }
+
       // Updating address and geolocation with a separate request
-      const onLocationChangeHandler = place => {
-        if (!place) return
-        onGeolocationUpdate({ lat: +place.lat, lon: +place.lon }, place.label)
+      const onLocationChangeHandler = (address, geolocation) => {
+        if (!address) {
+          onGeolocationUpdate(geolocation, '')
+        } else {
+          onGeolocationUpdate({ lat: +address.lat, lon: +address.lon }, address.label)
+        }
+      }
+
+      const searchBoxAddress = {
+        label: item[FIELD_ADDRESS] || ''.replace(/(\r\n|\n|\r)/gm, ''),
+        value: item[FIELD_ADDRESS]
       }
 
       return (
         <Fragment key={key}>
           <TitleWithContent>
-            <br />
             <H4 data-test={'item-location-header'}>Location</H4>
             {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
-              <GeoWrapper data-test={'address'} p={0} direction={'ltr'} alignItems={'center'}>
-                <Base>Update address: </Base>
-                <SearchBox onChange={onLocationChangeHandler} />
-                <br />
-              </GeoWrapper>
+              <FlexContainer style={{ width: '36%' }} p={0} pb={1.5} direction="ttb">
+                <div data-test="address">
+                  <SearchBox
+                    placeholder="Address"
+                    defaultValue={searchBoxAddress}
+                    onChange={onLocationChangeHandler}
+                  />
+                </div>
+                <LatLonWrapper p={0} pt={1} justifyContent="between">
+                  <TextField
+                    type="number"
+                    disabled={!!item[FIELD_ADDRESS]}
+                    data-test="latitude"
+                    placeholder="Latitude"
+                    value={get(coordinates, 'lat', '')}
+                    onChange={e =>
+                      onLocationChangeHandler(null, {
+                        ...item[FIELD_GEOLOCATION],
+                        lat: e.target.value && Number(e.target.value)
+                      })
+                    }
+                  />
+                  <TextField
+                    type="number"
+                    disabled={!!item[FIELD_ADDRESS]}
+                    data-test="longitude"
+                    placeholder="Longitude"
+                    value={get(coordinates, 'lng', '')}
+                    onChange={e =>
+                      onLocationChangeHandler(null, {
+                        ...item[FIELD_GEOLOCATION],
+                        lon: e.target.value && Number(e.target.value)
+                      })
+                    }
+                  />
+                </LatLonWrapper>
+              </FlexContainer>
             )}
             <MapWrapper>
-              <LazyLoad height="500px" once>
-                <Suspense fallback={<Skeleton height="500px" />}>
-                  <BlurInTransition>
-                    <Map coordinates={coordinates} polygon={polygon} locationInfo={locationInfo} />
-                  </BlurInTransition>
-                </Suspense>
-              </LazyLoad>
+              {coordinates && coordinates.lat && coordinates.lng ? (
+                <LazyLoad height="500px" once>
+                  <Suspense fallback={<Skeleton height="500px" />}>
+                    <BlurInTransition>
+                      <Map
+                        coordinates={coordinates}
+                        polygon={polygon}
+                        locationInfo={locationInfo}
+                      />
+                    </BlurInTransition>
+                  </Suspense>
+                </LazyLoad>
+              ) : (
+                <LazyLoad height="500px" once>
+                  <FlexContainer style={{ height: '100% ' }} p={0} pt={1} justify="center">
+                    <Suspense fallback={<Loader top={'45%'} />}>
+                      <BlurInTransition style={{ width: 'auto', height: 'auto' }}>
+                        <NoLocation alt="map-placeholder" height="70%" width="70%" />
+                      </BlurInTransition>
+                    </Suspense>
+                  </FlexContainer>
+                </LazyLoad>
+              )}
               {isLoadingAdditionalInfo && <Loader top={'45%'} />}
             </MapWrapper>
           </TitleWithContent>

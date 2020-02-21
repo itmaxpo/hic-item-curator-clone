@@ -30,7 +30,7 @@ const Map = ({ coordinates, polygon, locationInfo, ...rest }) => (
     }}
     {...rest}
   >
-    {isEmpty(polygon) && <MapMarker position={coordinates} type="circle-green" zIndex={100} />}
+    {isEmpty(polygon) && <MapMarker position={coordinates} type="marker" zIndex={100} />}
     {polygon && <MapPolygon paths={polygon} zIndex={100} />}
   </TuiMap>
 )

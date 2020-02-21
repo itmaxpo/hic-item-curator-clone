@@ -19,7 +19,12 @@ const addressSearch = (input, callback) => {
   searchAddress(input).then(response => callback(parseSearchBoxResponse(response)))
 }
 
-const SearchBox = ({ className, placeholder = 'Type to find', onChange = () => {} }) => {
+const SearchBox = ({
+  className,
+  placeholder = 'Type to find',
+  onChange = () => {},
+  defaultValue
+}) => {
   const onChangeHandler = value => {
     onChange(value)
   }
@@ -38,6 +43,7 @@ const SearchBox = ({ className, placeholder = 'Type to find', onChange = () => {
       openMenuOnClick={false}
       loadOptions={debouncedAddressSearch}
       onChange={onChangeHandler}
+      defaultValue={defaultValue}
     />
   )
 }

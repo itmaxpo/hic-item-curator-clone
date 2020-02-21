@@ -97,9 +97,8 @@ const ItemPage = ({ match, history }) => {
     // Updating current locale in local item
     const currentLocales = updateItemLocales(item)
     dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
-    // TODO: Have a PROMISE based if have any issues with || requests
+
     try {
-      // Update images
       await Promise.all([updateAttachments(), updateItemFields(item.id, fields, item.type)]).then(
         async () => {
           // Set original item to current item

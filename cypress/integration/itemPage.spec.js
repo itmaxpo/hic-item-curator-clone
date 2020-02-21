@@ -74,6 +74,42 @@ describe('Item page', () => {
     cy.get('[data-test=save-item-button]').click()
   })
 
+  it('accommodation clearing the address and setting geocoordinates', () => {
+    cy.get('[data-test=edit-item-button]').click()
+    cy.get('[data-test=item-page]').as('itemPage')
+
+    // assert that lat/lon inputs are disabled when there is an address
+    cy.get('@itemPage')
+      .find('[data-test=latitude]')
+      .should('be.disabled')
+
+    cy.get('@itemPage')
+      .find('[data-test=longitude]')
+      .should('be.disabled')
+
+    cy.get('@itemPage')
+      .find('[data-test=address]')
+      .clearSelectOption()
+
+    cy.get('@itemPage')
+      .find('[data-test=no-location]')
+      .should('exist')
+
+    cy.get('@itemPage')
+      .find('[data-test=latitude]')
+      .type('-34,5875522')
+
+    cy.get('@itemPage')
+      .find('[data-test=longitude]')
+      .type('-58,3972196')
+
+    cy.get('@itemPage')
+      .find('[data-test=no-location]')
+      .should('not.exist')
+
+    cy.get('[data-test=save-item-button]').click()
+  })
+
   it('accommodation check edited item properties', () => {
     // Check edited item
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel2')

@@ -39,15 +39,8 @@ export const StyledRichTextEditor = styled(RichTextEditor)`
   margin: 20px 60px 0 60px;
 `
 
-export const GeoWrapper = styled(FlexContainer)`
-  margin-bottom: 20px !important;
-
-  > p {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-
+export const LatLonWrapper = styled(FlexContainer)`
   > div {
-    width: 40%;
+    width: 48%;
   }
 `
