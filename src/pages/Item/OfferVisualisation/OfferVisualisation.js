@@ -208,6 +208,8 @@ const OfferVisualisation = ({
         value: item[FIELD_ADDRESS]
       }
 
+      const shouldRenderMap = (coordinates && coordinates.lat && coordinates.lng) || polygon
+
       return (
         <Fragment key={key}>
           <TitleWithContent>
@@ -252,7 +254,7 @@ const OfferVisualisation = ({
               </FlexContainer>
             )}
             <MapWrapper>
-              {coordinates && coordinates.lat && coordinates.lng ? (
+              {shouldRenderMap ? (
                 <LazyLoad height="500px" once>
                   <Suspense fallback={<Skeleton height="500px" />}>
                     <BlurInTransition>
