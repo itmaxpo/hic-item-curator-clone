@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef, useContext } from 'react'
-import { get, isEmpty, debounce } from 'lodash'
+import React, { useState, useCallback, useEffect, useContext } from 'react'
+import { get, debounce } from 'lodash'
 import { FlexContainer, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
@@ -36,29 +36,22 @@ const SearchBox = ({
   onFilterByMissingGeolocation
 }) => {
   // Default values for state are coming from location query
-  const typeFromQuery = get(locationQuery, 'type')
-  const countryFromQuery = getQueryValue(locationQuery, 'countryName', 'countryId')
-  const areaFromQuery = getQueryValue(locationQuery, 'areaName', 'areaId')
-  const supplierFromQuery = getQueryValue(locationQuery, 'supplier', 'supplier')
-  const nameFromQuery = get(locationQuery, 'name')
+  const category = get(locationQuery, 'type')
+  const country = getQueryValue(locationQuery, 'countryName', 'countryId')
+  const area = getQueryValue(locationQuery, 'areaName', 'areaId')
+  const supplier = getQueryValue(locationQuery, 'supplier', 'supplier')
+  const name = get(locationQuery, 'name')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
 
-  const name = useRef(nameFromQuery)
-  const [category, setCategory] = useState(typeFromQuery)
-  const [country, setCountry] = useState(countryFromQuery)
-  const [supplier, setSupplier] = useState(supplierFromQuery)
-  const [area, setArea] = useState(areaFromQuery)
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const { suppliers } = useContext(SuppliersContext)
 
   const onNameChange = value => {
-    name.current = value
-
     onQueryUpdate({
       ...locationQuery,
-      name: name.current
+      name: value
     })
   }
 
@@ -66,7 +59,6 @@ const SearchBox = ({
 
   const onCategoryCardClick = value => () => {
     onQueryUpdate({ ...locationQuery, type: value })
-    setCategory(value)
   }
 
   const onCountryChange = value => {
@@ -77,7 +69,6 @@ const SearchBox = ({
       areaId: '',
       areaName: ''
     })
-    setCountry(value)
   }
 
   const onSupplierChange = value => {
@@ -85,7 +76,6 @@ const SearchBox = ({
       ...locationQuery,
       supplier: get(value, 'value')
     })
-    setSupplier(value)
   }
 
   const onAreaChange = value => {
@@ -94,7 +84,6 @@ const SearchBox = ({
       areaId: get(value, 'value'),
       areaName: get(value, 'label')
     })
-    setArea(value)
   }
 
   const onSearchClick = async () => {
@@ -111,7 +100,7 @@ const SearchBox = ({
               country: get(country, 'value'),
               supplier: get(supplier, 'value'),
               area: get(area, 'value'),
-              name: name.current,
+              name,
               missingGeolocation
             },
             0,
@@ -160,28 +149,10 @@ const SearchBox = ({
     />
   )
 
-  // effect to clear area when country changes
-  useEffect(() => {
-    // This condition will prevent area value form location query to be null
-    // if there is coutry and area already in the query
-    if (!locationQuery.areaId) {
-      setArea(null)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [country])
-
   // effect to get Go To destination
   useEffect(() => {
     setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
-
-  // effect to go to initial state when app icon is clicked
-  useEffect(() => {
-    if (isEmpty(locationQuery)) {
-      setCategory(null)
-      setCountry(null)
-    }
-  }, [locationQuery])
 
   return (
     <SearchBoxWrapper data-test="searchBox">
@@ -236,7 +207,7 @@ const SearchBox = ({
             <NameField
               label="Name (optional)"
               placeholder="Name of the place"
-              defaultValue={name.current}
+              defaultValue={name}
               onChange={e => {
                 debouncedOnNameChange(e.target.value)
               }}
