@@ -14,6 +14,7 @@ export const locales = ['en-GB', 'en-US', 'de-DE', 'fr-FR', 'nl-NL']
 // FIELD NAMES CONSTANTS
 export const FIELD_ISO_CODE = 'iso_code'
 export const FIELD_NAME = 'name'
+export const FIELD_ORIGINAL_NAME = 'original_name'
 export const FIELD_DESCRIPTION = 'description'
 export const FIELD_GEOLOCATION = 'geolocation'
 export const FIELD_ADDRESS = 'address'
@@ -40,8 +41,8 @@ export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
 export const itemSameFieldsNoLocale = []
 // ITEM TYPE SPECIFIC FIELDS WITHOUT LOCALE
 export const itemSpecificFieldsNoLocale = {
-  [COUNTRY_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
-  [AREA_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
+  [COUNTRY_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
+  [AREA_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
   [ACCOMMODATION_ITEM_TYPE]: [FIELD_ADDRESS, FIELD_GEOLOCATION, FIELD_SUPPLIER_TAG]
 }
 // ITEM TYPE SPECIFIC FIELDS

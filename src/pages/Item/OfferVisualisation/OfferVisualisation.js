@@ -23,7 +23,13 @@ import {
   FlexContainer
 } from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
-import { itemSpecificFields, FIELD_ADDRESS, FIELD_NAME, FIELD_GEOLOCATION } from '../itemParser'
+import {
+  itemSpecificFields,
+  FIELD_ADDRESS,
+  FIELD_NAME,
+  FIELD_GEOLOCATION,
+  FIELD_ORIGINAL_NAME
+} from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
 
@@ -190,7 +196,7 @@ const OfferVisualisation = ({
         : undefined
 
       const locationInfo = {
-        address: item[FIELD_ADDRESS] || item[FIELD_NAME],
+        address: item[FIELD_ADDRESS] || item[FIELD_NAME] || item[FIELD_ORIGINAL_NAME],
         geoCoords: item[FIELD_GEOLOCATION]
       }
 

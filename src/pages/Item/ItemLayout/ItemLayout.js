@@ -34,7 +34,12 @@ import {
 } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import { getItemFieldsById } from 'services/contentApi'
-import { getFieldName, FIELD_NAME, FIELD_ACTIVE_DESTINATION } from '../itemParser'
+import {
+  getFieldName,
+  FIELD_NAME,
+  FIELD_ACTIVE_DESTINATION,
+  FIELD_ORIGINAL_NAME
+} from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE, TOURISTIC_AREA_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
@@ -72,7 +77,10 @@ const ItemLayout = ({
   onSave
 }) => {
   // used to generate breadcrumbs
-  const breadcrumbName = get(item, `locales['en-GB'].name`) || get(item, `locales['de-DE'].name`)
+  const breadcrumbName =
+    get(item, `locales['en-GB'].name`) ||
+    get(item, `locales['de-DE'].name`) ||
+    item[FIELD_ORIGINAL_NAME]
   const [breadcrumbs, setBreadcrumbs] = useState([])
   const [isFetchingBreadcrumbs, setIsFetchingBreadcrumbs] = useState(false)
 
