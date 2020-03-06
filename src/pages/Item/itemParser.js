@@ -22,6 +22,7 @@ export const FIELD_MEAL_BASE = 'meal_base'
 export const FIELD_ACTIVE_DESTINATION = 'active_destination'
 export const FIELD_SAFETY = 'safety'
 export const FIELD_CURRENCY = 'currency'
+export const FIELD_TRANSPORT = 'transport'
 export const FIELD_CUISINE = 'cuisine'
 export const FIELD_CLIMATE = 'climate'
 export const FIELD_DRESS = 'dress'
@@ -50,6 +51,7 @@ export const itemSpecificFields = {
   [COUNTRY_ITEM_TYPE]: [
     FIELD_SAFETY,
     FIELD_CURRENCY,
+    FIELD_TRANSPORT,
     FIELD_CUISINE,
     FIELD_CLIMATE,
     FIELD_DRESS,

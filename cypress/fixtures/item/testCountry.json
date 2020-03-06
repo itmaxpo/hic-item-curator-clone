@@ -86,6 +86,15 @@
         "dimensions": {}
       },
       {
+        "field_name": "transport",
+        "content_type": "string",
+        "content": "\u003cp\u003eTransport DE\u003c/p\u003e\n",
+        "locale": "de-DE",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
         "field_name": "climate",
         "content_type": "string",
         "content": "\u003cp\u003eClimate DE\u003c/p\u003e\n",
@@ -125,6 +134,15 @@
         "field_name": "additional_info",
         "content_type": "string",
         "content": "\u003cp\u003eAdditional Infor EN\u003c/p\u003e\n",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "transport",
+        "content_type": "string",
+        "content": "\u003cp\u003ehahah Transport fine EN\u003c/p\u003e\n",
         "locale": "en-GB",
         "source": "item_curator",
         "source_key": "item_curator",

@@ -8,6 +8,7 @@ const fieldsToSelect = [
   'description',
   'safety',
   'currency',
+  'transport',
   'cuisine',
   'climate',
   'dress',
