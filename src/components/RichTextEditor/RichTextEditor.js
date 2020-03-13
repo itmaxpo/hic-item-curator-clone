@@ -181,7 +181,7 @@ const RichTextEditor = ({
             editorKey={editorKey}
             handlePastedText={handlePastedText}
             toolbar={{
-              options: ['inline', 'list'],
+              options: ['inline', 'list', 'link'],
               inline: {
                 options: ['bold', 'italic']
               },
