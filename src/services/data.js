@@ -5,9 +5,9 @@ export const res1 = {
     item_type: 'accommodation',
     fields: [
       {
-        field_name: 'budget_calculator',
+        field_name: 'budget_category',
         content_type: 'string',
-        content: 'Eco-Budget',
+        content: 'Luxury',
         locale: 'en-GB',
         source: 'item_curator',
         source_key: 'item_curator',

@@ -102,7 +102,9 @@ const OfferVisualisation = ({
     [DESCRIPTION_COMPONENT_NAME]: key => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
     ),
-    [BUDGET_CATEGORY_COMPONENT_NAME]: key => <BudgetCategory key={key} isEditing={isEditing} />,
+    [BUDGET_CATEGORY_COMPONENT_NAME]: key => (
+      <BudgetCategory key={key} isEditing={isEditing} item={item} />
+    ),
     [ROOMS_COMPONENT_NAME]: key => {
       return (
         <Fragment key={key}>
