@@ -10,7 +10,8 @@ import {
   IMAGES_COMPONENT_NAME,
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
-  ROOMS_COMPONENT_NAME
+  ROOMS_COMPONENT_NAME,
+  BUDGET_CATEGORY_COMPONENT_NAME
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
 import {
@@ -36,6 +37,10 @@ import { capitalize } from 'pages/Search/utils'
 const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
 
 const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
+
+const BudgetCategory = lazy(() =>
+  import(/* webpackChunkName: "BudgetCategory" */ './BudgetCategory')
+)
 
 const ImageUploader = lazy(() =>
   import(/* webpackChunkName: "ImageUploader" */ 'components/ImageUploader')
@@ -97,6 +102,7 @@ const OfferVisualisation = ({
     [DESCRIPTION_COMPONENT_NAME]: key => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
     ),
+    [BUDGET_CATEGORY_COMPONENT_NAME]: key => <BudgetCategory key={key} isEditing={isEditing} />,
     [ROOMS_COMPONENT_NAME]: key => {
       return (
         <Fragment key={key}>

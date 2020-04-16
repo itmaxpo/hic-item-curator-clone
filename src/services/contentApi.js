@@ -1,6 +1,7 @@
 import queryString from 'query-string'
 import request from './request'
 import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
+import { res1 } from './data'
 
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
@@ -41,7 +42,10 @@ const getItemFieldsById = async id => {
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}${selectedFields}`
   )
 
-  return res.json()
+  // TODO: Check the actual response after TRIP-17
+  return res1
+
+  // return res.json()
 }
 
 /**
