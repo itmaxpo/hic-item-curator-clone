@@ -43,6 +43,7 @@ const getItemFieldsById = async id => {
   )
 
   // TODO: Check the actual response after TRIP-17
+  console.log('res', res)
   return res1
 
   // return res.json()

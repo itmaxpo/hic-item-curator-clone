@@ -11,7 +11,7 @@ export const IMAGES_COMPONENT_NAME = 'images'
 export const INFORMATION_COMPONENT_NAME = 'information'
 export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
-export const BUDGET_CATEGORY_COMPONENT_NAME = 'budget_category'
+export const BUDGET_CATEGORY_COMPONENT_NAME = 'budget_category' //TODO: Check TRIP-17
 
 // Update item by property name
 export const updateItemByProp = (item, prop, value) => ({ ...item, [prop]: value })
