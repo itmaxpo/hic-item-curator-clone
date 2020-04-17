@@ -23,7 +23,8 @@ const fieldsToSelect = [
   'admin_level',
   'address',
   'geolocation',
-  'original_name'
+  'original_name',
+  'accommodation_category'
 ]
 /**
  * Return item fields

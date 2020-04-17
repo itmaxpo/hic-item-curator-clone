@@ -11,7 +11,7 @@ import {
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME,
-  BUDGET_CATEGORY_COMPONENT_NAME
+  ACCOMM_CATEGORY_COMPONENT_NAME // TODO: Trip-17 align names with backend
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
 import {
@@ -102,8 +102,8 @@ const OfferVisualisation = ({
     [DESCRIPTION_COMPONENT_NAME]: key => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
     ),
-    [BUDGET_CATEGORY_COMPONENT_NAME]: key => (
-      <BudgetCategory key={key} isEditing={isEditing} item={item} />
+    [ACCOMM_CATEGORY_COMPONENT_NAME]: key => (
+      <BudgetCategory key={key} isEditing={isEditing} item={item} onChange={onChange} />
     ),
     [ROOMS_COMPONENT_NAME]: key => {
       return (
