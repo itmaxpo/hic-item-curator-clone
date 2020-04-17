@@ -1,7 +1,6 @@
 import queryString from 'query-string'
 import request from './request'
 import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
-import { res1 } from './data'
 
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
@@ -43,10 +42,8 @@ const getItemFieldsById = async id => {
   )
 
   // TODO: Check the actual response after TRIP-17
-  console.log('res', res)
-  return res1
 
-  // return res.json()
+  return res.json()
 }
 
 /**

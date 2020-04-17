@@ -2,8 +2,9 @@ import React, { useEffect, useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import { useAuth0 } from 'contexts/Auth'
+import { AccommCategoriesProvider } from 'contexts/AccommodationCategories'
+import { SuppliersContextProvider } from 'contexts/Suppliers'
 import { COLORS } from '@tourlane/tourlane-ui'
-import { SuppliersContextProvider } from './contexts/Suppliers'
 import { NotificationProvider } from 'components/Notification'
 import queryString from 'query-string'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
@@ -119,17 +120,19 @@ function App() {
   return (
     <AppWrapper>
       <SuppliersContextProvider>
-        <NotificationProvider>
-          <BrowserRouter>
-            <Suspense fallback={<LoadingPage />}>
-              <Switch>
-                <Route exact path="/" component={SearchPage} />
-                <Route exact path="/item/:id" component={ItemPage} />
-                <Route path="*" component={MissingPage} />
-              </Switch>
-            </Suspense>
-          </BrowserRouter>
-        </NotificationProvider>
+        <AccommCategoriesProvider>
+          <NotificationProvider>
+            <BrowserRouter>
+              <Suspense fallback={<LoadingPage />}>
+                <Switch>
+                  <Route exact path="/" component={SearchPage} />
+                  <Route exact path="/item/:id" component={ItemPage} />
+                  <Route path="*" component={MissingPage} />
+                </Switch>
+              </Suspense>
+            </BrowserRouter>
+          </NotificationProvider>
+        </AccommCategoriesProvider>
       </SuppliersContextProvider>
     </AppWrapper>
   )
