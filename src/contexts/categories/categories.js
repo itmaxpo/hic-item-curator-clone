@@ -1,18 +1,18 @@
 import React, { useState, useEffect, createContext } from 'react'
-import { getAccommCategoriesApi } from 'services/accommCategoriesApi'
+import { getCategoriesApi } from 'services/categoriesApi'
 import { CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
-const AccommCategoriesContext = createContext([])
+const CategoriesContext = createContext([])
 
 let globalCategories = []
 
 const DEFAULT_LABEL = 'No Category'
 
-export const AccommCategoriesProvider = ({ children }) => {
+export const CategoriesProvider = ({ children }) => {
   const [accommodationCategories, setAccommodationCategories] = useState([])
   useEffect(() => {
     async function getCategories() {
-      const res = await getAccommCategoriesApi()
+      const res = await getCategoriesApi()
       const categories = transformCategories(res)
       setAccommodationCategories(categories)
       globalCategories = categories
@@ -21,12 +21,12 @@ export const AccommCategoriesProvider = ({ children }) => {
   }, [])
 
   return (
-    <AccommCategoriesContext.Provider value={accommodationCategories}>
+    <CategoriesContext.Provider value={accommodationCategories}>
       {children}
-    </AccommCategoriesContext.Provider>
+    </CategoriesContext.Provider>
   )
 }
-export default AccommCategoriesContext
+export default CategoriesContext
 
 function transformCategories(res) {
   return res?.data.map(category => {
