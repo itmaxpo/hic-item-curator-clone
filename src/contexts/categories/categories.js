@@ -55,25 +55,17 @@ function sortCategories(categories) {
  * Other Helper methods
  */
 
-function getCategoryValue(item) {
-  if (!item[CATEGORY_COMPONENT_NAME]) return null
+export function getCategoryValue(item) {
+  const { value: defaultValue } = globalCategories.find(
+    category => category.label === DEFAULT_LABEL
+  )
+  if (!item[CATEGORY_COMPONENT_NAME]) return defaultValue
   const values = item[CATEGORY_COMPONENT_NAME].split('/')
   return values[values.length - 1]
 }
 
 export function getCategoryLabel(item) {
   const value = getCategoryValue(item)
-  const [category] = globalCategories.filter(category => {
-    if (category.value === value) return category.label
-    return null
-  })
-  return category ? category.label : DEFAULT_LABEL
-}
-
-export function getDefaultCategoryValue(item) {
-  const value = getCategoryValue(item)
-  const [{ value: defaultValue }] = globalCategories.filter(
-    category => category.label === DEFAULT_LABEL
-  )
-  return value || defaultValue
+  const { label } = globalCategories.find(category => category.value === value)
+  return label
 }
