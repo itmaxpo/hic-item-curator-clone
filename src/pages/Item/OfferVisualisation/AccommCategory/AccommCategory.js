@@ -2,17 +2,17 @@ import React, { Fragment, useContext } from 'react'
 import { H4, Dropdown, Big } from '@tourlane/tourlane-ui'
 import { TitleWithContent, SearchItemWrapper } from '../styles'
 import { Wrapper } from './styles'
-import CategoriesContext, { getCategoryLabel, getCategoryValue } from 'contexts/categories'
-import { CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
+import CategoriesContext, { getCategoryLabel, getCategoryValue } from 'contexts/AccommCategories'
+import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
-export const Category = ({ key, isEditing, item, onChange }) => {
+export const AccommCategory = ({ key, isEditing, item, onChange }) => {
   const categories = useContext(CategoriesContext)
 
   const categoryLabel = getCategoryLabel(item)
   const value = getCategoryValue(item)
 
   const handleChange = value => {
-    onChange([CATEGORY_COMPONENT_NAME], `kiwi://Elephant/Item/${value}`)
+    onChange([ACCOMM_CATEGORY_COMPONENT_NAME], `kiwi://Elephant/Item/${value}`)
   }
   return (
     <Fragment key={key}>

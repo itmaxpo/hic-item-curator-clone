@@ -35,7 +35,7 @@ export const FIELD_POLYGON = 'polygon'
 export const FIELD_ROOMS = 'rooms'
 export const FIELD_PHOTOS = 'photos'
 export const FIELD_SUPPLIER_TAG = 'supplier_tag'
-export const FIELD_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
+export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
@@ -45,7 +45,12 @@ export const itemSameFieldsNoLocale = []
 export const itemSpecificFieldsNoLocale = {
   [COUNTRY_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
   [AREA_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
-  [ACCOMMODATION_ITEM_TYPE]: [FIELD_ADDRESS, FIELD_GEOLOCATION, FIELD_SUPPLIER_TAG, FIELD_CATEGORY]
+  [ACCOMMODATION_ITEM_TYPE]: [
+    FIELD_ADDRESS,
+    FIELD_GEOLOCATION,
+    FIELD_SUPPLIER_TAG,
+    FIELD_ACCOMM_CATEGORY
+  ]
 }
 // ITEM TYPE SPECIFIC FIELDS
 export const itemSpecificFields = {

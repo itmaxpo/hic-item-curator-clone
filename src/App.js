@@ -2,7 +2,7 @@ import React, { useEffect, useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import { useAuth0 } from 'contexts/Auth'
-import { CategoriesProvider } from 'contexts/categories'
+import { AccommCategoriesProvider } from 'contexts/AccommCategories'
 import { SuppliersContextProvider } from 'contexts/Suppliers'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { NotificationProvider } from 'components/Notification'
@@ -120,7 +120,7 @@ function App() {
   return (
     <AppWrapper>
       <SuppliersContextProvider>
-        <CategoriesProvider>
+        <AccommCategoriesProvider>
           <NotificationProvider>
             <BrowserRouter>
               <Suspense fallback={<LoadingPage />}>
@@ -132,7 +132,7 @@ function App() {
               </Suspense>
             </BrowserRouter>
           </NotificationProvider>
-        </CategoriesProvider>
+        </AccommCategoriesProvider>
       </SuppliersContextProvider>
     </AppWrapper>
   )

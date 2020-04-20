@@ -6,7 +6,7 @@ import request from './request'
  *
  */
 
-export const getCategoriesApi = async () => {
+export const getAccommCategoriesApi = async () => {
   const res = await request(
     'GET',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items?item_type=accommodation_category&offset=0`
