@@ -6,22 +6,22 @@ import AccommCategoriesContext, {
   getCategoryLabel,
   getDefaultCategoryValue
 } from 'contexts/AccommodationCategories'
-import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
+import { CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
-export const BudgetCategory = ({ key, isEditing, item, onChange }) => {
+export const Category = ({ key, isEditing, item, onChange }) => {
   const accommCategories = useContext(AccommCategoriesContext)
 
   const categoryLabel = getCategoryLabel(item)
   const defaultValue = getDefaultCategoryValue(item)
 
   const handleChange = value => {
-    onChange([ACCOMM_CATEGORY_COMPONENT_NAME], `kiwi://Elephant/Item/${value}`)
+    onChange([CATEGORY_COMPONENT_NAME], `kiwi://Elephant/Item/${value}`)
   }
   return (
     <Fragment key={key}>
       <TitleWithContent withoutPadding>
         <SearchItemWrapper p={0} direction={'ttb'}>
-          <H4>BUDGET CATEGORY</H4>
+          <H4>CATEGORY</H4>
           {isEditing ? (
             <Wrapper>
               <Dropdown

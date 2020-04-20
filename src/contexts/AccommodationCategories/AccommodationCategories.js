@@ -1,10 +1,12 @@
 import React, { useState, useEffect, createContext } from 'react'
 import { getAccommCategoriesApi } from 'services/accommCategoriesApi'
-import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
+import { CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
 const AccommCategoriesContext = createContext([])
 
 let globalCategories = []
+
+const DEFAULT_LABEL = 'No Category'
 
 export const AccommCategoriesProvider = ({ children }) => {
   const [accommodationCategories, setAccommodationCategories] = useState([])
@@ -39,8 +41,8 @@ function transformCategories(res) {
  */
 
 function getCategoryValue(item) {
-  if (!item[ACCOMM_CATEGORY_COMPONENT_NAME]) return null
-  const values = item[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
+  if (!item[CATEGORY_COMPONENT_NAME]) return null
+  const values = item[CATEGORY_COMPONENT_NAME].split('/')
   return values[values.length - 1]
 }
 
@@ -49,13 +51,13 @@ export function getCategoryLabel(item) {
   const [category] = globalCategories.filter(category => {
     if (category.value === value) return category.label
   })
-  return category ? category.label : ''
+  return category ? category.label : DEFAULT_LABEL
 }
 
 export function getDefaultCategoryValue(item) {
   const value = getCategoryValue(item)
   const [{ value: defaultValue }] = globalCategories.filter(
-    category => category.label === 'No Category'
+    category => category.label === DEFAULT_LABEL
   )
   return value || defaultValue
 }
