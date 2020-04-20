@@ -1,3 +1,4 @@
+/* global Cypress cy */
 /**
  * Custom command 'homePageStub'.
  * Stubs the relevant APIs for the home page.
@@ -8,6 +9,11 @@ Cypress.Commands.add('homePageStub', () => {
   cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
   cy.route('GET', 'https://kiwi.**.com/configurations/suppliers.json', 'fixture:suppliers.json')
   cy.route('POST', 'https://kiwi.**.com/content/items', 'fixture:create/create-response.json')
+  cy.route(
+    'GET',
+    'https://kiwi.**.com/content/items?item_type=accommodation_category',
+    'fixture:item/accommodation-category.json'
+  )
   cy.route('GET', 'https://kiwi.**.com/content/items/**', 'fixture:item/new-item.json')
   cy.route('GET', 'https://kiwi.**.com/content/**/attachments', 'fixture:item/attachments.json')
 })

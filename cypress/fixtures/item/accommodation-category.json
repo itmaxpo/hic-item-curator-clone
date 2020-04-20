@@ -1,0 +1,106 @@
+{
+  "data": [
+    {
+      "uuid": "bb5f0223-fcb5-45ec-a59e-3b16386e765c",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "Eco-Budget",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    },
+    {
+      "uuid": "b86369a6-614b-44a7-b35c-f5c48018f1d1",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "Budget",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    },
+    {
+      "uuid": "5f8fa82a-c085-4925-944a-e3523b161ec2",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "Standard",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    },
+    {
+      "uuid": "1590ecc1-26d0-4a7c-b55b-2dea8009fe69",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "Luxury",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    },
+    {
+      "uuid": "adc55fbc-78aa-4f54-9423-ffb767d09ee5",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "High-End",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    },
+    {
+      "uuid": "6ca521b2-5de5-4e08-a4e6-d61ae87a0d13",
+      "parent_uuid": null,
+      "item_type": "accommodation_category",
+      "fields": [
+        {
+          "field_name": "name",
+          "content_type": "string",
+          "content": "No Category",
+          "locale": null,
+          "source": "supply",
+          "source_key": "supply",
+          "dimensions": {}
+        }
+      ],
+      "primary_item_uuid": null
+    }
+  ]
+}

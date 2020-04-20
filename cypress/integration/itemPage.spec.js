@@ -1,3 +1,4 @@
+/* global describe, it, cy, before */
 import * as queryString from 'query-string'
 
 const wetuDesc = `Spectacularly located`
@@ -74,7 +75,7 @@ describe('Item page', () => {
     cy.get('[data-test=save-item-button]').click()
   })
 
-  it('accommodation clearing the address and setting geocoordinates', () => {
+  it.only('accommodation clearing the address and setting geocoordinates', () => {
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-page]').as('itemPage')
 
@@ -110,9 +111,9 @@ describe('Item page', () => {
     cy.get('[data-test=save-item-button]').click()
   })
 
-  it('accommodation check edited item properties', () => {
+  it.only('accommodation check edited item properties', () => {
     // Check edited item
-    cy.get('h2').contains('131 on Herbert Baker Boutique Hotel2')
+    cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
     cy.get('[data-test=item-description-wrapper]').contains('new description here done')
   })
 
