@@ -2,13 +2,17 @@ import React, { Fragment, useContext } from 'react'
 import { H4, Dropdown, Big } from '@tourlane/tourlane-ui'
 import { TitleWithContent, SearchItemWrapper } from '../styles'
 import { Wrapper } from './styles'
-import AccommCategoriesContext, { getCategoryLabel } from 'contexts/AccommodationCategories'
+import AccommCategoriesContext, {
+  getCategoryLabel,
+  getDefaultCategoryValue
+} from 'contexts/AccommodationCategories'
 import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
 export const BudgetCategory = ({ key, isEditing, item, onChange }) => {
   const accommCategories = useContext(AccommCategoriesContext)
 
   const categoryLabel = getCategoryLabel(item)
+  const defaultValue = getDefaultCategoryValue(item)
 
   const handleChange = value => {
     onChange([ACCOMM_CATEGORY_COMPONENT_NAME], `kiwi://Elephant/Item/${value}`)
@@ -22,7 +26,7 @@ export const BudgetCategory = ({ key, isEditing, item, onChange }) => {
             <Wrapper>
               <Dropdown
                 placeholder="Select Budget"
-                value={categoryLabel ? categoryLabel : ''}
+                value={defaultValue}
                 fullWidth={false}
                 options={accommCategories}
                 onChange={handleChange}

@@ -46,8 +46,16 @@ function getCategoryValue(item) {
 
 export function getCategoryLabel(item) {
   const value = getCategoryValue(item)
-  const [{ label }] = globalCategories.filter(category => {
+  const [category] = globalCategories.filter(category => {
     if (category.value === value) return category.label
   })
-  return label
+  return category ? category.label : ''
+}
+
+export function getDefaultCategoryValue(item) {
+  const value = getCategoryValue(item)
+  const [{ value: defaultValue }] = globalCategories.filter(
+    category => category.label === 'No Category'
+  )
+  return value || defaultValue
 }
