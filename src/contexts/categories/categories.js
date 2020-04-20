@@ -13,7 +13,7 @@ export const CategoriesProvider = ({ children }) => {
   useEffect(() => {
     async function getCategories() {
       const res = await getCategoriesApi()
-      const categories = transformCategories(res)
+      const categories = sortCategories(transformCategories(res))
       setAccommodationCategories(categories)
       globalCategories = categories
     }
@@ -36,6 +36,21 @@ function transformCategories(res) {
   })
 }
 
+// ensure the sorting follows this order
+function sortCategories(categories) {
+  const orderedCategories = [
+    'No Category',
+    'Eco-Budget',
+    'Budget',
+    'Standard',
+    'Luxury',
+    'High-End'
+  ]
+  return orderedCategories.map(categoryLabel => {
+    return categories.find(categoryObj => categoryObj.label === categoryLabel)
+  })
+}
+
 /**
  * Other Helper methods
  */
@@ -50,6 +65,7 @@ export function getCategoryLabel(item) {
   const value = getCategoryValue(item)
   const [category] = globalCategories.filter(category => {
     if (category.value === value) return category.label
+    return null
   })
   return category ? category.label : DEFAULT_LABEL
 }

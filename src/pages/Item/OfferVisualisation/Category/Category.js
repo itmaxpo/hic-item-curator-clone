@@ -6,7 +6,7 @@ import CategoriesContext, { getCategoryLabel, getDefaultCategoryValue } from 'co
 import { CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 
 export const Category = ({ key, isEditing, item, onChange }) => {
-  const Categories = useContext(CategoriesContext)
+  const categories = useContext(CategoriesContext)
 
   const categoryLabel = getCategoryLabel(item)
   const defaultValue = getDefaultCategoryValue(item)
@@ -25,7 +25,7 @@ export const Category = ({ key, isEditing, item, onChange }) => {
                 placeholder="Select Budget"
                 value={defaultValue}
                 fullWidth={false}
-                options={Categories}
+                options={categories}
                 onChange={handleChange}
               />
             </Wrapper>
