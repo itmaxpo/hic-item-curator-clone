@@ -1,3 +1,4 @@
+/* global cy before */
 import {
   firstPageAreaData,
   secondPageAreaData,
@@ -6,7 +7,7 @@ import {
   testItemPage,
   pageAccomData,
   pageAccomDataAfterMerge
-} from './utils'
+} from '../../utils/utils'
 
 describe('Homepage', () => {
   before(() => {
@@ -25,6 +26,7 @@ describe('Homepage', () => {
       'https://kiwi.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
+
     cy.route(
       'GET',
       'https://kiwi.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
@@ -65,6 +67,11 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
+    cy.route(
+      'POST',
       'https://kiwi.**.com/search/v1/items?test-area',
       'fixture:search/goToArea.json'
     )
@@ -85,6 +92,11 @@ describe('Homepage', () => {
     cy.get('@searchBox')
       .find('[data-test=Area]')
       .click()
+
+    // select country: Argentina
+    cy.get('@searchBox')
+      .find('[data-test=country-dropdown]')
+      .setSelectOption('Argentina', 3000)
 
     // select area: Buenos Aires
     cy.get('@searchBox')
