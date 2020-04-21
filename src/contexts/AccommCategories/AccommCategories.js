@@ -13,7 +13,6 @@ export const AccommCategoriesProvider = ({ children }) => {
   useEffect(() => {
     async function getCategories() {
       const res = await getAccommCategoriesApi()
-      console.log('res', res)
       const categories = sortCategories(transformCategories(res))
       setAccommodationCategories(categories)
       globalCategories = categories
@@ -59,7 +58,7 @@ function sortCategories(categories) {
 export function getCategoryValue(item) {
   const { value: defaultValue } = globalCategories.find(
     category => category?.label === DEFAULT_LABEL
-  )
+  ) || { value: '' }
   if (!item[ACCOMM_CATEGORY_COMPONENT_NAME]) return defaultValue
   const values = item[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
   return values[values.length - 1]
@@ -67,6 +66,6 @@ export function getCategoryValue(item) {
 
 export function getCategoryLabel(item) {
   const value = getCategoryValue(item)
-  const { label } = globalCategories.find(category => category?.value === value)
+  const { label } = globalCategories.find(category => category?.value === value) || { label: '' }
   return label
 }
