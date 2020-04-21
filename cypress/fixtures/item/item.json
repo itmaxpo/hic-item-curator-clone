@@ -63,6 +63,15 @@
         "source": "item_curator",
         "source_key": "item_curator",
         "dimensions": {}
+      },
+      {
+        "field_name": "address",
+        "content_type": "string",
+        "content": "San Lorenzo ↵Ciudad de Mendoza↵660 5500↵Mendoza↵Argentina ",
+        "locale": null,
+        "source": "wetu",
+        "source_key": "gecko",
+        "dimensions": {}
       }
     ],
     "primary_item_uuid": null
