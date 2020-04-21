@@ -58,7 +58,7 @@ function sortCategories(categories) {
 
 export function getCategoryValue(item) {
   const { value: defaultValue } = globalCategories.find(
-    category => category.label === DEFAULT_LABEL
+    category => category?.label === DEFAULT_LABEL
   )
   if (!item[ACCOMM_CATEGORY_COMPONENT_NAME]) return defaultValue
   const values = item[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
@@ -67,6 +67,6 @@ export function getCategoryValue(item) {
 
 export function getCategoryLabel(item) {
   const value = getCategoryValue(item)
-  const { label } = globalCategories.find(category => category.value === value)
+  const { label } = globalCategories.find(category => category?.value === value)
   return label
 }
