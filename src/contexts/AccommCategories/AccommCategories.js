@@ -55,12 +55,17 @@ function sortCategories(categories) {
  * Other Helper methods
  */
 
-export function getCategoryValue(item) {
+export function getDefaultCategoryValue() {
   const { value: defaultValue } = globalCategories.find(
     category => category?.label === DEFAULT_LABEL
   ) || { value: '' }
-  if (!item[ACCOMM_CATEGORY_COMPONENT_NAME]) return defaultValue
-  const values = item[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
+  return defaultValue
+}
+
+export function getCategoryValue(item) {
+  const defaultValue = getDefaultCategoryValue()
+  if (!item?.[ACCOMM_CATEGORY_COMPONENT_NAME]) return defaultValue
+  const values = item?.[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
   return values[values.length - 1]
 }
 
