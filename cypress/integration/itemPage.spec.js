@@ -20,6 +20,11 @@ describe('Item page - Accommodation', () => {
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
+
+    // Check category
+    cy.get('[data-test=category]')
+      .find('p')
+      .contains('Eco-Budget')
   })
 
   it('accommodation rooms check', () => {
@@ -56,7 +61,7 @@ describe('Item page - Accommodation', () => {
     cy.get('.gm-style')
   })
 
-  it('accommodation editing item properties', () => {
+  it.only('accommodation editing item properties', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=save-item-button]')
@@ -66,14 +71,26 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=item-description-editor]')
       .find('[contenteditable="true"]')
       .type('new description here done')
+
+    // Edit category
+    // check the existing category selection is currently chosen Eco-Budget
+    cy.get('[data-test=category-dropdown]').contains('Eco-Budget')
+    cy.get('[data-test=category]').setSelectOption('High-End', 500)
+
     cy.get('[data-test=item-page]')
       .find('[data-test=address]')
       .setSelectOption('las heras recoleta argentina', 1500)
+
     cy.get('[data-test=save-item-button]').click()
 
     // assert edited item
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
     cy.get('[data-test=item-description-wrapper]').contains('new description here done')
+
+    // assert category
+    cy.get('[data-test=category]')
+      .find('p')
+      .contains('High-End')
 
     // assert the lat lng inputs are disabled when address has been filled out
     cy.get('[data-test=edit-item-button]').click()

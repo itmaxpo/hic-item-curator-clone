@@ -16,12 +16,13 @@ export const AccommCategory = ({ key, isEditing, item, onChange }) => {
   }
   return (
     <Fragment key={key}>
-      <TitleWithContent withoutPadding>
+      <TitleWithContent withoutPadding data-test="category">
         <SearchItemWrapper p={0} direction={'ttb'}>
           <H4>CATEGORY</H4>
           {isEditing ? (
             <Wrapper>
               <Dropdown
+                data-test="category-dropdown"
                 placeholder="Select Budget"
                 value={value}
                 fullWidth={false}
