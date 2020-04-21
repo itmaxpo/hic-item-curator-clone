@@ -1,3 +1,4 @@
+/* global cy before */
 describe('item specific fields checks', () => {
   before(() => {
     cy.getFetchPolyfill().as('fetchPolyfill')

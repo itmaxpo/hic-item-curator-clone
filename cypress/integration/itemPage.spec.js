@@ -1,8 +1,9 @@
+/* global describe, it, cy, before */
 import * as queryString from 'query-string'
 
 const wetuDesc = `Spectacularly located`
 
-describe('Item page', () => {
+describe('Item page - Accommodation', () => {
   before(() => {
     cy.getFetchPolyfill().as('fetchPolyfill')
     cy.get('@fetchPolyfill').itemPageAccommodationLoad()
@@ -19,6 +20,11 @@ describe('Item page', () => {
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
+
+    // Check category
+    cy.get('[data-test=category]')
+      .find('p')
+      .contains('Eco-Budget')
   })
 
   it('accommodation rooms check', () => {
@@ -55,30 +61,42 @@ describe('Item page', () => {
     cy.get('.gm-style')
   })
 
-  it('accommodation editing item layout', () => {
+  it.only('accommodation editing item properties', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=save-item-button]')
     cy.get('[data-test=cancel-item-button]')
-  })
-
-  it('accommodation editing item properties', () => {
     // EDIT ITEM
     cy.get('[data-test=item-title-input]').type('2')
     cy.get('[data-test=item-description-editor]')
       .find('[contenteditable="true"]')
       .type('new description here done')
+
+    // Edit category
+    // check the existing category selection is currently chosen Eco-Budget
+    cy.get('[data-test=category-dropdown]').contains('Eco-Budget')
+    cy.get('[data-test=category]').setSelectOption('High-End', 500)
+
     cy.get('[data-test=item-page]')
       .find('[data-test=address]')
       .setSelectOption('las heras recoleta argentina', 1500)
-    cy.get('[data-test=save-item-button]').click()
-  })
 
-  it('accommodation clearing the address and setting geocoordinates', () => {
+    cy.get('[data-test=save-item-button]').click()
+
+    // assert edited item
+    cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
+    cy.get('[data-test=item-description-wrapper]').contains('new description here done')
+
+    // assert category
+    cy.get('[data-test=category]')
+      .find('p')
+      .contains('High-End')
+
+    // assert the lat lng inputs are disabled when address has been filled out
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-page]').as('itemPage')
 
-    // assert that lat/lon inputs are disabled when there is an address
+    // Assert that lat/lon inputs are disabled when there is an address
     cy.get('@itemPage')
       .find('[data-test=latitude]')
       .should('be.disabled')
@@ -110,12 +128,6 @@ describe('Item page', () => {
     cy.get('[data-test=save-item-button]').click()
   })
 
-  it('accommodation check edited item properties', () => {
-    // Check edited item
-    cy.get('h2').contains('131 on Herbert Baker Boutique Hotel2')
-    cy.get('[data-test=item-description-wrapper]').contains('new description here done')
-  })
-
   it('accommodation cancel item editing changes', () => {
     // Edit for cancellation
     cy.get('[data-test=edit-item-button]').click()
@@ -128,37 +140,30 @@ describe('Item page', () => {
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
   })
+})
 
+describe('Item Page - Area', () => {
   it('area loads', () => {
     cy.getFetchPolyfill().as('fetchPolyfill')
     cy.get('@fetchPolyfill').itemPageAreaLoad()
     cy.get('h2').contains('Some example oof Area')
     cy.wait(4000)
-  })
 
-  // Check basic information
-  it('area check item layout', () => {
+    // check area item layout
     // Checking for language switcher
     cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains('Some description')
-  })
-
-  it('area check images', () => {
     // Check images
     cy.get('[data-test=item-images-header]').contains('Images')
     cy.get('[data-id=0]').contains('Cover image')
     cy.get('[data-id=1]')
     cy.get('[data-id=2]').should('not.exist')
-  })
 
-  it('area check location', () => {
     // Check location
     cy.get('[data-test=item-location-header]').contains('Location')
-  })
 
-  it('area check edit buttons', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-title-input]').type('2')
@@ -166,41 +171,33 @@ describe('Item page', () => {
       .find('[contenteditable="true"]')
       .type(' again')
     cy.get('[data-test=save-item-button]').click()
-  })
 
-  it('area check edited item', () => {
     // Check edited item
     cy.get('h2').contains('Some example oof Area2')
     cy.get('[data-test=item-description-wrapper]').contains('Some description again')
   })
-
+})
+describe('Item Page - Country', () => {
   it('country loads', () => {
     cy.getFetchPolyfill().as('fetchPolyfill')
     cy.get('@fetchPolyfill').itemPageCountryLoad()
     cy.get('h2').contains('South Africa')
     cy.wait(4000)
-  })
 
-  it('country check item layout', () => {
     // Checking for language switcher
     cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
     cy.get('[data-test=item-description-wrapper]').contains(wetuDesc)
-  })
 
-  it('country check images', () => {
+    //check images
     cy.get('[data-test=item-images-header]').contains('Images')
     cy.get('[data-id=0]').contains('Cover image')
     cy.get('[data-id=1]')
     cy.get('[data-id=2]').should('not.exist')
-  })
 
-  it('country check location', () => {
+    // check location
     cy.get('[data-test=item-location-header]').should('not.exist')
-  })
-
-  it('country check country information', () => {
     // Check location
     cy.get('[data-test=item-information-header]').contains('Information')
     cy.get('[data-test=item-information-additional_info]')
@@ -217,9 +214,8 @@ describe('Item page', () => {
     cy.get('[data-test="item-information-additional_info"]')
       .click()
       .contains('Additional Infor EN')
-  })
 
-  it('country check language switcher', () => {
+    // check language switcher
     cy.get('[data-test=item-language-switcher]').click()
     cy.get('a')
       .contains('Deutsch')

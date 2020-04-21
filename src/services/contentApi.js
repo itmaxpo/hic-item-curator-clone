@@ -23,7 +23,8 @@ const fieldsToSelect = [
   'admin_level',
   'address',
   'geolocation',
-  'original_name'
+  'original_name',
+  'accommodation_category'
 ]
 /**
  * Return item fields
@@ -40,6 +41,8 @@ const getItemFieldsById = async id => {
     'GET',
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}${selectedFields}`
   )
+
+  // TODO: Check the actual response after TRIP-17
 
   return res.json()
 }

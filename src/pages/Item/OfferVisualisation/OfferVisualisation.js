@@ -10,7 +10,8 @@ import {
   IMAGES_COMPONENT_NAME,
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
-  ROOMS_COMPONENT_NAME
+  ROOMS_COMPONENT_NAME,
+  ACCOMM_CATEGORY_COMPONENT_NAME // TODO: Trip-17 align names with backend
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
 import {
@@ -36,6 +37,10 @@ import { capitalize } from 'pages/Search/utils'
 const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
 
 const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
+
+const AccommCategory = lazy(() =>
+  import(/* webpackChunkName: "AccommCategory" */ './AccommCategory')
+)
 
 const ImageUploader = lazy(() =>
   import(/* webpackChunkName: "ImageUploader" */ 'components/ImageUploader')
@@ -96,6 +101,9 @@ const OfferVisualisation = ({
   const componentsRenderingMap = {
     [DESCRIPTION_COMPONENT_NAME]: key => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
+    ),
+    [ACCOMM_CATEGORY_COMPONENT_NAME]: key => (
+      <AccommCategory key={key} isEditing={isEditing} item={item} onChange={onChange} />
     ),
     [ROOMS_COMPONENT_NAME]: key => {
       return (

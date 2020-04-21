@@ -63,6 +63,24 @@
         "source": "item_curator",
         "source_key": "item_curator",
         "dimensions": {}
+      },
+      {
+        "field_name": "address",
+        "content_type": "string",
+        "content": "San Lorenzo ↵Ciudad de Mendoza↵660 5500↵Mendoza↵Argentina ",
+        "locale": null,
+        "source": "wetu",
+        "source_key": "gecko",
+        "dimensions": {}
+      },
+      {
+        "field_name": "accommodation_category",
+        "content_type": "reference",
+        "content": "kiwi://Elephant/Item/bb5f0223-fcb5-45ec-a59e-3b16386e765c",
+        "locale": null,
+        "source": "wetu",
+        "source_key": "wetu",
+        "dimensions": {}
       }
     ],
     "primary_item_uuid": null

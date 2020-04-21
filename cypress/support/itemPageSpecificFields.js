@@ -9,7 +9,11 @@ Cypress.Commands.add('itemPageAreaCountryStub', (type = 'accom') => {
   cy.route('GET', 'https://kiwi.**.com/content/suppliers?**', 'fixture:suppliers.json')
   cy.route('GET', 'https://kiwi.**.com/content/items/**', 'fixture:item/testCountry.json')
   cy.route('GET', 'https://kiwi.**.com/content/items/**/polygon', 'fixture:item/polygon.json')
-
+  cy.route(
+    'GET',
+    'https://kiwi.**.com/content/items?item_type=accommodation_category&offset=0',
+    'fixture:item/accommodation-category.json'
+  )
   cy.route(
     'GET',
     'https://kiwi.**.com/content/**/attachments?limit=50&offset=0',
