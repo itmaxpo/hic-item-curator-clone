@@ -24,7 +24,8 @@ const fieldsToSelect = [
   'address',
   'geolocation',
   'original_name',
-  'accommodation_category'
+  'accommodation_category',
+  'ranking'
 ]
 /**
  * Return item fields

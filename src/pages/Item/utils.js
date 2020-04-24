@@ -12,6 +12,7 @@ export const INFORMATION_COMPONENT_NAME = 'information'
 export const LOCATION_COMPONENT_NAME = 'location'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 export const ACCOMM_CATEGORY_COMPONENT_NAME = 'accommodation_category' //TODO: Check TRIP-17
+export const CATEGORY_AND_RANKING_COMPONENT_NAME = 'category_and_ranking'
 
 // Update item by property name
 export const updateItemByProp = (item, prop, value) => ({ ...item, [prop]: value })
@@ -34,7 +35,7 @@ export const componentsBasedOnType = type => {
     case ACCOMMODATION_ITEM_TYPE:
       return [
         DESCRIPTION_COMPONENT_NAME,
-        ACCOMM_CATEGORY_COMPONENT_NAME,
+        CATEGORY_AND_RANKING_COMPONENT_NAME,
         ROOMS_COMPONENT_NAME,
         IMAGES_COMPONENT_NAME,
         LOCATION_COMPONENT_NAME

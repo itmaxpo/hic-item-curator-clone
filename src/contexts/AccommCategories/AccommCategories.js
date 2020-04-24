@@ -10,6 +10,7 @@ const DEFAULT_LABEL = 'No Category'
 
 export const AccommCategoriesProvider = ({ children }) => {
   const [accommodationCategories, setAccommodationCategories] = useState([])
+
   useEffect(() => {
     async function getCategories() {
       const res = await getAccommCategoriesApi()
@@ -17,6 +18,7 @@ export const AccommCategoriesProvider = ({ children }) => {
       setAccommodationCategories(categories)
       globalCategories = categories
     }
+
     getCategories()
   }, [])
 

@@ -25,6 +25,10 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=category]')
       .find('p')
       .contains('Eco-Budget')
+
+    cy.get('[data-test=ranking]')
+      .find('p')
+      .contains('No Rank')
   })
 
   it('accommodation rooms check', () => {
@@ -72,10 +76,19 @@ describe('Item page - Accommodation', () => {
       .find('[contenteditable="true"]')
       .type('new description here done')
 
+    // Ranking Dropdown should be disabled
+    cy.get('[data-test=ranking]')
+      .invoke('attr', 'data-test-disabled')
+      .should('eq', 'false')
+
     // Edit category
     // check the existing category selection is currently chosen Eco-Budget
     cy.get('[data-test=category-dropdown]').contains('Eco-Budget')
     cy.get('[data-test=category]').setSelectOption('High-End', 500)
+
+    // Edit ranking
+    cy.get('[data-test=ranking-dropdown]').contains('No Rank')
+    cy.get('[data-test=ranking]').setSelectOption('2nd', 500)
 
     cy.get('[data-test=item-page]')
       .find('[data-test=address]')
@@ -91,6 +104,11 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=category]')
       .find('p')
       .contains('High-End')
+
+    // assert ranking
+    cy.get('[data-test=ranking]')
+      .find('p')
+      .contains('2nd')
 
     // assert the lat lng inputs are disabled when address has been filled out
     cy.get('[data-test=edit-item-button]').click()
@@ -126,6 +144,24 @@ describe('Item page - Accommodation', () => {
       .should('not.exist')
 
     cy.get('[data-test=save-item-button]').click()
+
+    cy.get('[data-test=edit-item-button]').click()
+    cy.get('[data-test=save-item-button]')
+
+    // changing the category should update the ranking
+    cy.get('[data-test=category]').setSelectOption('Standard', 500)
+
+    cy.get('[data-test=save-item-button]').click()
+
+    // assert category and ranking
+    cy.get('[data-test=category]')
+      .find('p')
+      .contains('Standard')
+
+    // assert ranking
+    cy.get('[data-test=ranking]')
+      .find('p')
+      .contains('No Rank')
   })
 
   it('accommodation cancel item editing changes', () => {

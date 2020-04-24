@@ -36,6 +36,7 @@ export const FIELD_ROOMS = 'rooms'
 export const FIELD_PHOTOS = 'photos'
 export const FIELD_SUPPLIER_TAG = 'supplier_tag'
 export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
+export const FIELD_ACCOMM_RANKING = 'ranking'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
@@ -49,7 +50,8 @@ export const itemSpecificFieldsNoLocale = {
     FIELD_ADDRESS,
     FIELD_GEOLOCATION,
     FIELD_SUPPLIER_TAG,
-    FIELD_ACCOMM_CATEGORY
+    FIELD_ACCOMM_CATEGORY,
+    FIELD_ACCOMM_RANKING
   ]
 }
 // ITEM TYPE SPECIFIC FIELDS
@@ -156,13 +158,17 @@ export const setItemSpecificFieldsNoLocale = item => {
   const fields = itemSpecificFieldsNoLocale[item.type]
 
   return fields
-    .map(field =>
-      field === FIELD_ACTIVE_DESTINATION
-        ? transformValueIntoSupplySource(item[field], field)
-        : typeof item[field] === 'boolean'
-        ? transformValueIntoFieldNoLocale(item[field], field)
-        : (item[field] || item[field] === '') && transformValueIntoFieldNoLocale(item[field], field)
-    )
+    .map(field => {
+      if (field === FIELD_ACTIVE_DESTINATION) {
+        return transformValueIntoSupplySource(item[field], field)
+      } else if (typeof item[field] === 'boolean' || field === FIELD_ACCOMM_RANKING) {
+        return transformValueIntoFieldNoLocale(item[field], field)
+      } else {
+        return (
+          (item[field] || item[field] === '') && transformValueIntoFieldNoLocale(item[field], field)
+        )
+      }
+    })
     .filter(field => !!field)
 }
 
