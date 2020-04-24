@@ -156,6 +156,15 @@ export const TabsPanelWrapper = styled.div`
   padding-top: 40px;
   margin-top: 35px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
+
+  ${({ isBlacklisted }) =>
+    isBlacklisted &&
+    `
+    background-color: ${COLORS.BACKGROUND_GRAY}
+    && div:not(.gm-style):not(.map-info-card) {
+      background-color: inherit;
+    }
+  `}
 `
 
 export const ActionButtonsWrapper = styled(Flex)`

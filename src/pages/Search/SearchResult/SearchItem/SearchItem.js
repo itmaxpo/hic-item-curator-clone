@@ -9,6 +9,7 @@ import {
   SearchItemCheckbox,
   SearchItemContentContainer,
   SearchItemInfoWrapper,
+  ItemTitleWrapper,
   ItemTitle,
   ItemSubtitle,
   ItemDescription,
@@ -21,6 +22,7 @@ import {
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import { Preloader } from 'components/LazyLoader'
 import { enrichItem, getCoverImage } from './utils'
+import BlacklistedMarketsChip from 'pages/Item/ItemLayout/Blacklisting/BlacklistedMarketsChip'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -130,9 +132,14 @@ export const SearchItem = ({
                 <StatusIndicator status={localItem.status} />
               </ItemBadge>
             </BadgeWrapper> */}
-          <ItemTitle data-test="title">
-            <span>{localItem.title}</span>
-          </ItemTitle>
+          <ItemTitleWrapper justify="between">
+            <ItemTitle data-test="title">
+              <span>{localItem.title}</span>
+            </ItemTitle>
+            {item?.blacklisted?.markets && (
+              <BlacklistedMarketsChip alignItems="center" markets={item.blacklisted.markets} />
+            )}
+          </ItemTitleWrapper>
           <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
           <ItemDescription data-test="description">
             <ShowMore collapsed={true} height={'60px'} size={'18px'}>

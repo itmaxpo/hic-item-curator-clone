@@ -66,7 +66,8 @@ export const parseItem = (item, itemType, isLoading = true) => ({
   description: getFieldValue(item.fields.description) || 'No description found.',
   allImages: [],
   isLoading,
-  isMerged: !!item.isMerged
+  isMerged: !!item.isMerged,
+  blacklisted: getFieldValue(get(item, 'fields.blacklisted', [])) || null
 })
 
 // give shape to the items

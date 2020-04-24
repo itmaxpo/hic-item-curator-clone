@@ -25,6 +25,7 @@ const fieldsToSelect = [
   'geolocation',
   'original_name',
   'accommodation_category',
+  'blacklisted',
   'ranking'
 ]
 /**

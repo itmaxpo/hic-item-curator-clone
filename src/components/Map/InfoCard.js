@@ -14,7 +14,7 @@ import { InfoCardWrapper, Info } from './styles'
  */
 const InfoCard = ({ address, geoCoords }) => {
   return (
-    <InfoCardWrapper>
+    <InfoCardWrapper className={'map-info-card'}>
       {address &&
         address.split(',').map((infoBit, index, arr) => (
           <Info key={index}>

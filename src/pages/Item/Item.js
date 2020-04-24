@@ -85,9 +85,10 @@ const ItemPage = ({ match, history }) => {
     onChange(prop, [...images, ...item.allImages])
   }
 
-  const onChange = (field, prop) => {
+  const onChange = useCallback((field, prop) => {
     dispatch({ type: 'updateField', field, value: prop })
-  }
+  }, [])
+
   // OnSave: Send request to BE, then update localCopy of the item
   // Cancel changes if BE returns error, store the changes locally (indexedDB?)
   const onSave = async () => {
@@ -241,7 +242,7 @@ const ItemPage = ({ match, history }) => {
     }
 
     fetchAllItemAttributes()
-  }, [match.params.id])
+  }, [match.params.id, onChange])
 
   const handlePageClose = useCallback(
     e => {

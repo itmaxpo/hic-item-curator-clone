@@ -47,8 +47,11 @@ export const ContentContainer = styled(FlexContainer)`
   position: relative;
 `
 
-export const ItemTitle = styled(Subline)`
+export const ItemTitleWrapper = styled(Flex)`
   margin-top: 2px;
+`
+
+export const ItemTitle = styled(Subline)`
   font-size: 22px !important;
 `
 

@@ -1,5 +1,5 @@
 /* global cy before */
-describe('item specific fields checks', () => {
+describe('Specific checks: image upload & description inspirations', () => {
   before(() => {
     cy.getFetchPolyfill().as('fetchPolyfill')
     cy.get('@fetchPolyfill').itemPageCountrySpecificLoad()

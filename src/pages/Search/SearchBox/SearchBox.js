@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react'
 import { get, debounce } from 'lodash'
-import { FlexContainer, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
+import { Flex, FlexContainer, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
   SearchBoxWrapper,
@@ -33,7 +33,8 @@ const SearchBox = ({
   search,
   locationQuery,
   onQueryUpdate,
-  onFilterByMissingGeolocation
+  onFilterByMissingGeolocation,
+  onFilterByBlacklist
 }) => {
   // Default values for state are coming from location query
   const category = get(locationQuery, 'type')
@@ -42,6 +43,7 @@ const SearchBox = ({
   const supplier = getQueryValue(locationQuery, 'supplier', 'supplier')
   const name = get(locationQuery, 'name')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
+  const blacklist = get(locationQuery, 'blacklist') === 'true'
 
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
@@ -101,7 +103,8 @@ const SearchBox = ({
               supplier: get(supplier, 'value'),
               area: get(area, 'value'),
               name,
-              missingGeolocation
+              missingGeolocation,
+              blacklist
             },
             0,
             true
@@ -217,15 +220,28 @@ const SearchBox = ({
       )}
       {category === ACCOMMODATION_ITEM_TYPE && (
         <FlexContainer p={0} pb={1.5} alignSelf="center">
-          <Label>
-            <Checkbox
-              defaultChecked={missingGeolocation}
-              onChange={e => {
-                onFilterByMissingGeolocation(e.target.checked)
-              }}
-            />
-            Filter by missing geolocation
-          </Label>
+          <Flex>
+            <Label>
+              <Checkbox
+                defaultChecked={missingGeolocation}
+                onChange={e => {
+                  onFilterByMissingGeolocation(e.target.checked)
+                }}
+              />
+              Filter by missing geolocation
+            </Label>
+          </Flex>
+          <FlexContainer p={0} pl={1.4} alignSelf="center">
+            <Label>
+              <Checkbox
+                defaultChecked={blacklist}
+                onChange={e => {
+                  onFilterByBlacklist(e.target.checked)
+                }}
+              />
+              Filter by blacklisted accommodations
+            </Label>
+          </FlexContainer>
         </FlexContainer>
       )}
       <SearchWrapper p={0} alignItems={'center'} justify="between">

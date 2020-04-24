@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import RichTextEditor from 'components/RichTextEditor'
+import RichTextEditor from './RichTextEditor'
 
 const StyledRichTextEditor = styled(RichTextEditor)`
   height: 100%;

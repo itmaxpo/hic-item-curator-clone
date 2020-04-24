@@ -36,6 +36,7 @@ export const FIELD_ROOMS = 'rooms'
 export const FIELD_PHOTOS = 'photos'
 export const FIELD_SUPPLIER_TAG = 'supplier_tag'
 export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
+export const FIELD_BLACKLISTED = 'blacklisted'
 export const FIELD_ACCOMM_RANKING = 'ranking'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
@@ -51,6 +52,7 @@ export const itemSpecificFieldsNoLocale = {
     FIELD_GEOLOCATION,
     FIELD_SUPPLIER_TAG,
     FIELD_ACCOMM_CATEGORY,
+    FIELD_BLACKLISTED,
     FIELD_ACCOMM_RANKING
   ]
 }
@@ -165,7 +167,8 @@ export const setItemSpecificFieldsNoLocale = item => {
         return transformValueIntoFieldNoLocale(item[field], field)
       } else {
         return (
-          (item[field] || item[field] === '') && transformValueIntoFieldNoLocale(item[field], field)
+          (item[field] || item[field] === '' || item[field] === null) &&
+          transformValueIntoFieldNoLocale(item[field], field)
         )
       }
     })

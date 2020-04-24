@@ -47,7 +47,9 @@ const ImageUploader = lazy(() =>
 )
 
 const StyledRichTextEditor = lazy(() =>
-  import(/* webpackChunkName: "StyledRichTextEditor" */ './Description/StyledRichTextEditor')
+  import(
+    /* webpackChunkName: "StyledRichTextEditor" */ 'components/RichTextEditor/StyledRichTextEditor'
+  )
 )
 
 const Map = lazy(() => import(/* webpackChunkName: "Map" */ 'components/Map'))

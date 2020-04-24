@@ -44,6 +44,13 @@ const SearchPage = ({ history }) => {
     })
     setResults(null)
   }
+  const onFilterByBlacklist = isBlacklist => {
+    onQueryUpdate({
+      ...parsedQuery,
+      blacklist: isBlacklist
+    })
+    setResults(null)
+  }
 
   // changes query in URL
   const onQueryUpdate = query => {
@@ -120,7 +127,7 @@ const SearchPage = ({ history }) => {
 
   // effect to fire a search when pressing back button or url with sufficient data is provided
   useEffect(() => {
-    const { areaId, countryId, name, supplier, page, missingGeolocation } = parsedQuery
+    const { areaId, countryId, name, supplier, page, missingGeolocation, blacklist } = parsedQuery
 
     /*
      * early returns (no auto-triggered search):
@@ -145,7 +152,8 @@ const SearchPage = ({ history }) => {
         area: areaId,
         name,
         supplier,
-        missingGeolocation: missingGeolocation === 'true'
+        missingGeolocation: missingGeolocation === 'true',
+        blacklist: blacklist === 'true'
       },
       page - 1 || 0
     )
@@ -163,6 +171,7 @@ const SearchPage = ({ history }) => {
             locationQuery={parsedQuery}
             onQueryUpdate={searchBoxQueryUpdate}
             onFilterByMissingGeolocation={onFilterByMissingGeolocation}
+            onFilterByBlacklist={onFilterByBlacklist}
           />
         </Suspense>
         {isLoading && <StyledLoader />}

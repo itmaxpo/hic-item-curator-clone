@@ -241,10 +241,12 @@ describe('Homepage', () => {
       .find('[data-test=country-dropdown]')
       .should('not.exist')
 
-    // search button is disabled
+    // search button is disabled (can't search)
     cy.get('@searchBox')
       .find('[data-test=search]')
-      .should('be.disabled')
+      .click()
+
+    cy.get('[data-test=searchResult]').should('not.exist')
   })
 
   it('search for accommodations', () => {

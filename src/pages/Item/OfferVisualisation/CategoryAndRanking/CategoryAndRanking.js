@@ -11,21 +11,26 @@ import { Wrapper } from './styles'
 
 export const CategoryAndRanking = ({ isEditing, item, onChange }) => {
   const [state, setState] = useState({
-    ranking: item?.ranking,
+    ranking: item?.ranking || null,
     category: item?.accommodation_category
   })
 
   const handleOnChange = field => value => {
-    setState({
-      ...state,
-      [field]: value
-    })
-
     if (field === 'category') {
       onChange(ACCOMM_CATEGORY_COMPONENT_NAME, `kiwi://Elephant/Item/${value}`)
       onChange('ranking', null)
+
+      setState({
+        ...state,
+        [field]: value,
+        ranking: null
+      })
     } else {
       onChange('ranking', value)
+      setState({
+        ...state,
+        [field]: value
+      })
     }
   }
 

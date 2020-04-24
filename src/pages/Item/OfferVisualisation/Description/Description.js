@@ -11,7 +11,7 @@ import { parseInspirations } from './utils'
 import { getRichTextValue } from 'utils/helpers'
 
 const StyledRichTextEditor = lazy(() =>
-  import(/* webpackChunkName: "RichTextEditor" */ './StyledRichTextEditor')
+  import(/* webpackChunkName: "RichTextEditor" */ 'components/RichTextEditor/StyledRichTextEditor')
 )
 
 const ContentInspiration = ({ description, inspirations }) => (

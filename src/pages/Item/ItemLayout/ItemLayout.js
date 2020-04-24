@@ -38,11 +38,13 @@ import {
   getFieldName,
   FIELD_NAME,
   FIELD_ACTIVE_DESTINATION,
-  FIELD_ORIGINAL_NAME
+  FIELD_ORIGINAL_NAME,
+  FIELD_BLACKLISTED
 } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE, TOURISTIC_AREA_ITEM_TYPE } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
+import Blacklisting from './Blacklisting'
 
 const Breadcrumbs = lazy(() =>
   import(/* webpackChunkName: "Breadcrumbs" */ 'components/Breadcrumbs')
@@ -254,6 +256,13 @@ const ItemLayout = ({
           </TitleLangWrapper>
         </TitleWrapper>
 
+        {item.type === ACCOMMODATION_ITEM_TYPE && (
+          <Blacklisting
+            isEditing={isEditing}
+            blacklist={item[FIELD_BLACKLISTED]}
+            onChange={onChange}
+          />
+        )}
         <Tabs defaultSelected={tabs[0]}>
           <TabsContainer>
             <PageContainer>
@@ -266,7 +275,7 @@ const ItemLayout = ({
               </TabList>
             </PageContainer>
           </TabsContainer>
-          <TabsPanelWrapper>
+          <TabsPanelWrapper isBlacklisted={!isEditing && !!item[FIELD_BLACKLISTED]}>
             {tabContents.map((tabPanel, i) => (
               <TabPanel key={tabPanel} name={tabs[i]}>
                 {tabPanel}

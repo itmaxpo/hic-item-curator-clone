@@ -14,3 +14,19 @@ export const TOURISTIC_AREA_ITEM_TYPE = 'touristic_area'
 
 // Image API
 export const SHUTTERSTOCK = 'shutterstock'
+
+// Tourlane Markets - will be an endpoint in the future
+export const MARKETS_FLAGS = {
+  'tourlane.co.uk': 'GB',
+  'tourlane.de': 'DE',
+  'tourlane.nl': 'NL',
+  'tourlane.fr': 'FR',
+  'tourlane.com': 'US'
+}
+
+export const MARKETS = Object.keys(MARKETS_FLAGS)
+
+export const BLACKLIST_REASONS = [
+  'We do not want to sell this accommodation',
+  'Temporarily not possible to sell this accommodation'
+]
