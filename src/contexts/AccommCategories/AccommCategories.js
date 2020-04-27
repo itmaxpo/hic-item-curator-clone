@@ -31,9 +31,18 @@ export const AccommCategoriesProvider = ({ children }) => {
 export default AccommCategoriesContext
 
 function transformCategories(res) {
-  return res?.data.map(category => {
+  const noCategory = {
+    fields: [
+      {
+        content: DEFAULT_LABEL
+      }
+    ],
+    uuid: null
+  }
+  const categories = [...res?.data, noCategory]
+  return categories.map(category => {
     const label = category?.fields[0]?.content
-    const value = category?.uuid
+    const value = category?.uuid ? `kiwi://Elephant/Item/${category?.uuid}` : null
     return { value, label }
   })
 }
@@ -60,15 +69,14 @@ function sortCategories(categories) {
 export function getDefaultCategoryValue() {
   const { value: defaultValue } = globalCategories.find(
     category => category?.label === DEFAULT_LABEL
-  ) || { value: '' }
+  ) || { value: null }
   return defaultValue
 }
 
 export function getCategoryValue(item) {
   const defaultValue = getDefaultCategoryValue()
   if (!item?.[ACCOMM_CATEGORY_COMPONENT_NAME]) return defaultValue
-  const values = item?.[ACCOMM_CATEGORY_COMPONENT_NAME].split('/')
-  return values[values.length - 1]
+  return item?.[ACCOMM_CATEGORY_COMPONENT_NAME]
 }
 
 export function getCategoryLabel(item) {

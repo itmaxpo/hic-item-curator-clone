@@ -18,6 +18,7 @@ import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 import { useNotification } from 'components/Notification'
+import { useFieldsRef } from './useFieldsRef'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
 const OfferVisualisation = lazy(() =>
@@ -58,6 +59,7 @@ const ItemPage = ({ match, history }) => {
   const allImagesOriginal = useRef([])
   const visibleImagesOriginal = useRef([])
 
+  const { cleanFields, updateFieldRef } = useFieldsRef()
   // Receive here id of item from route and send request to BE to get the item
   const [{ ...item }, dispatch] = useReducer(reducer, { id: match.params.id })
   const originalItem = useRef(null)
@@ -94,10 +96,14 @@ const ItemPage = ({ match, history }) => {
   const onSave = async () => {
     setIsEditing(false)
 
-    const fields = transformToSupplyItem(item)
+    let fields = transformToSupplyItem(item)
     // Updating current locale in local item
     const currentLocales = updateItemLocales(item)
     dispatch({ type: 'updateField', field: 'locales', value: currentLocales })
+
+    // The ranking field in the item is auto created when getting the item res by calling transformToSupplyItem
+    // Remove the ranking field before sending to BE when there is no existing ranking and the updated ranking is null to avoid BE error
+    fields = cleanFields(fields, item)
 
     try {
       await Promise.all([updateAttachments(), updateItemFields(item.id, fields, item.type)]).then(
@@ -112,6 +118,8 @@ const ItemPage = ({ match, history }) => {
           visibleImagesOriginal.current = [...item.visibleImages]
         }
       )
+      // Update the existing ranking after making an update
+      updateFieldRef(item)
     } catch (e) {
       enqueueNotification({
         variant: 'error',
@@ -174,7 +182,10 @@ const ItemPage = ({ match, history }) => {
     async function fetchItem() {
       try {
         const { data } = await getItemFieldsById(match.params.id)
-        return parseItemByType(data, language)
+        const results = parseItemByType(data, language)
+        // Record the initial ranking on item load to avoid updating existing falsy ranking to null again
+        updateFieldRef(results)
+        return results
       } catch (e) {
         console.warn(e)
       }
@@ -242,7 +253,7 @@ const ItemPage = ({ match, history }) => {
     }
 
     fetchAllItemAttributes()
-  }, [match.params.id, onChange])
+  }, [match.params.id, onChange, updateFieldRef])
 
   const handlePageClose = useCallback(
     e => {

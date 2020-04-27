@@ -84,6 +84,13 @@ jobs:
 
       - name: cypress
         run: npm run test:e2e
+
+      - name: Upload test screenshots
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: screenshots
+          path: ./cypress/screenshots
   # lighthouse:
   #   needs: build
   #   runs-on: ubuntu-latest
