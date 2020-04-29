@@ -29,10 +29,12 @@ const request = async (method, path, config, contentType, retries = 0) => {
   }
 
   // Prepare request options
-  // TODO: Get Auth0 token if required for requests. i.e: new Headers({ Authorization: `Bearer ${token}` })
-  const headers = new Headers({
-    Authorization: `Bearer ${tokenManager.getToken()}`
-  })
+  // nominatim request breaks if we include the auth token
+  const headers = path.includes('nominatim')
+    ? {}
+    : new Headers({
+        Authorization: `Bearer ${tokenManager.getToken()}`
+      })
 
   if (method !== 'GET') {
     const _contentType = contentType ? contentType : 'application/json'
