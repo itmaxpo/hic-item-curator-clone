@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback } from 'react'
 
 import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 import { getCategoryLabel } from 'contexts/AccommCategories'
