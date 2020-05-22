@@ -13,7 +13,6 @@ export const useFieldsRef = () => {
   }, [])
 
   const cleanFields = useCallback((fields, item) => {
-    console.log('fields', fields)
     let newFields = fields
     // if the ref is falsy, that means Elephant doesn't have this field
     // Don't save a falsy field to an non existant field in Elephant
