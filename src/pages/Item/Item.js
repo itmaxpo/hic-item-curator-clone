@@ -59,13 +59,13 @@ const ItemPage = ({ match, history }) => {
   const allImagesOriginal = useRef([])
   const visibleImagesOriginal = useRef([])
 
-  const { cleanFields, updateFieldRef } = useFieldsRef()
   // Receive here id of item from route and send request to BE to get the item
   const [{ ...item }, dispatch] = useReducer(reducer, { id: match.params.id })
   const originalItem = useRef(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
+  const { cleanFields, updateFieldRef } = useFieldsRef(item)
 
   const updateAttachments = async () => {
     try {
