@@ -13,12 +13,13 @@ import {
   updateItemAttachmentsById
 } from 'services/contentApi'
 import Loader from 'components/Loader'
-import { parseItemByType, transformToSupplyItem } from './itemParser'
+import { parseItemByType, transformToSupplyItem, FIELD_FRONT_DESK_PHONE } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 import { useNotification } from 'components/Notification'
 import { useFieldsRef } from './useFieldsRef'
+import { parsePhoneNumber } from './OfferVisualisation/utils'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
 const OfferVisualisation = lazy(() =>
@@ -66,6 +67,8 @@ const ItemPage = ({ match, history }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
   const { cleanFields, updateFieldRef } = useFieldsRef(item)
+  const [countryCode, setCountryCode] = useState('DE')
+  const phone = parsePhoneNumber(item[FIELD_FRONT_DESK_PHONE], countryCode)
 
   const updateAttachments = async () => {
     try {
@@ -299,11 +302,13 @@ const ItemPage = ({ match, history }) => {
             onChange={onChange}
             onCancel={onCancel}
             onSave={onSave}
+            onCountryUpdate={setCountryCode}
             tabs={['Offer Visualisation']}
             tabContents={[
               <Suspense fallback={<TabContentLoader />}>
                 <OfferVisualisation
                   item={item}
+                  phone={phone}
                   isLoadingAdditionalInfo={isLoadingAdditionalInfo}
                   isEditing={isEditing}
                   onImagesAdd={onImagesAdd}

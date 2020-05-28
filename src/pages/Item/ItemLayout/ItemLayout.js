@@ -39,9 +39,14 @@ import {
   FIELD_NAME,
   FIELD_ACTIVE_DESTINATION,
   FIELD_ORIGINAL_NAME,
-  FIELD_BLACKLISTED
+  FIELD_BLACKLISTED,
+  getFieldContent
 } from '../itemParser'
-import { ACCOMMODATION_ITEM_TYPE, TOURISTIC_AREA_ITEM_TYPE } from 'utils/constants'
+import {
+  ACCOMMODATION_ITEM_TYPE,
+  TOURISTIC_AREA_ITEM_TYPE,
+  COUNTRY_ITEM_TYPE
+} from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
 import Blacklisting from './Blacklisting'
@@ -65,6 +70,7 @@ const Breadcrumbs = lazy(() =>
  * @param {Object} item
  * @param {Boolean} isEditing
  * @param {Function} onChange (receives prop and value of item to change)
+ * @param {Function} onCountryUpdate (updates countryCode)
  * @returns ItemLayout component
  */
 const ItemLayout = ({
@@ -75,6 +81,7 @@ const ItemLayout = ({
   isEditing,
   onEdit,
   onChange,
+  onCountryUpdate,
   onCancel,
   onSave
 }) => {
@@ -142,6 +149,9 @@ const ItemLayout = ({
     async function fetchParent(id) {
       const { data } = await getItemFieldsById(id)
       const name = getFieldName(data)
+      if (data.item_type === COUNTRY_ITEM_TYPE) {
+        onCountryUpdate(getFieldContent(data, 'iso_code'))
+      }
       // Store only item with a name
       if (name && data.item_type !== TOURISTIC_AREA_ITEM_TYPE) {
         setBreadcrumbs(prevValues => [{ id: data.uuid, name }, ...prevValues])
@@ -163,7 +173,7 @@ const ItemLayout = ({
     }
 
     fetchAllItemParents()
-  }, [item.parentId])
+  }, [item.parentId, onCountryUpdate])
 
   const missingNameForLocaleFlagUrl = `//www.countryflags.io/${
     item.language.split('-')[1]

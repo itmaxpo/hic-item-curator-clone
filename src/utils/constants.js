@@ -5,6 +5,7 @@ export const ITEMS_PER_PAGE = 20
 export const SOURCE = 'item_curator'
 export const WETU = 'wetu'
 export const SUPPLY = 'supply'
+export const GIATA = 'giata'
 
 // ITEM TYPES
 export const COUNTRY_ITEM_TYPE = 'country'

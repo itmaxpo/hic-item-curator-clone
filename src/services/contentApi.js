@@ -3,7 +3,7 @@ import request from './request'
 import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
 
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
-
+// Add field names to receive them from BE
 const fieldsToSelect = [
   'description',
   'safety',
@@ -24,6 +24,7 @@ const fieldsToSelect = [
   'address',
   'geolocation',
   'original_name',
+  'front_desk_phone',
   'accommodation_category',
   'blacklisted',
   'ranking'

@@ -10,6 +10,7 @@ export const DESCRIPTION_COMPONENT_NAME = 'description'
 export const IMAGES_COMPONENT_NAME = 'images'
 export const INFORMATION_COMPONENT_NAME = 'information'
 export const LOCATION_COMPONENT_NAME = 'location'
+export const PHONE_COMPONENT_NAME = 'phone'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 export const ACCOMM_CATEGORY_COMPONENT_NAME = 'accommodation_category' //TODO: Check TRIP-17
 export const CATEGORY_AND_RANKING_COMPONENT_NAME = 'category_and_ranking'
@@ -38,6 +39,7 @@ export const componentsBasedOnType = type => {
         CATEGORY_AND_RANKING_COMPONENT_NAME,
         ROOMS_COMPONENT_NAME,
         IMAGES_COMPONENT_NAME,
+        PHONE_COMPONENT_NAME,
         LOCATION_COMPONENT_NAME
       ]
     default:

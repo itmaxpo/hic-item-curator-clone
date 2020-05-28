@@ -23,5 +23,6 @@ export const Name = styled(Subline)`
 `
 
 export const Info = styled(P)`
-  ${textStyles}
+  ${textStyles};
+  ${({ mt }) => mt && 'margin-top: 10px;'};
 `

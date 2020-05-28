@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FlexContainer, COLORS } from '@tourlane/tourlane-ui'
+import { FlexContainer, COLORS, Flex } from '@tourlane/tourlane-ui'
 
 export const TitleWithContent = styled.div`
   margin-bottom: 40px;
@@ -37,5 +37,28 @@ export const SearchItemWrapper = styled(FlexContainer)`
 export const LatLonWrapper = styled(FlexContainer)`
   > div {
     width: 48%;
+  }
+`
+
+export const PhoneWrapper = styled.div`
+  flex-grow: 1;
+  margin-left: 4%;
+`
+
+export const PhoneBlock = styled(Flex)`
+  width: 36%;
+`
+
+export const AddressBlock = styled(FlexContainer)`
+  width: 36%;
+`
+
+export const NoLocationWrapper = styled(FlexContainer)`
+  height: 100%;
+`
+
+export const CountryCodeWrapper = styled(Flex)`
+  > div:first-child {
+    min-width: 132px;
   }
 `

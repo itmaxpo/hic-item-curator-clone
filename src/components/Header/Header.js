@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Flex } from '@tourlane/tourlane-ui'
 import HeaderContentWrapper from '../AppContainer'
-import { StyledHeader, StyledLogoSvg } from './styles'
+import { StyledHeader, StyledLogoSvg, HeaderWrapper } from './styles'
 
 /**
  * Will render Logo and return all {children} that
@@ -14,12 +13,12 @@ import { StyledHeader, StyledLogoSvg } from './styles'
 let BaseHeader = ({ children }) => {
   return (
     <StyledHeader id={'sticky-header'}>
-      <Flex style={{ height: '100%' }}>
+      <HeaderWrapper>
         <Link to={'/'} data-test="app-icon">
           <StyledLogoSvg>Item Curator</StyledLogoSvg>
         </Link>
         <HeaderContentWrapper>{children}</HeaderContentWrapper>
-      </Flex>
+      </HeaderWrapper>
     </StyledHeader>
   )
 }

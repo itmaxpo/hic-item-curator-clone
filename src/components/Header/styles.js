@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { COLORS } from '@tourlane/tourlane-ui'
+import { COLORS, Flex } from '@tourlane/tourlane-ui'
 import { ReactComponent as LogoShortSvg } from 'icons/itemCuratorLogoShort.svg'
 
 export const StyledHeader = styled.div`
@@ -18,4 +18,8 @@ export const StyledHeader = styled.div`
 
 export const StyledLogoSvg = styled(LogoShortSvg)`
   padding: 10px 20px;
+`
+
+export const HeaderWrapper = styled(Flex)`
+  height: 100%;
 `

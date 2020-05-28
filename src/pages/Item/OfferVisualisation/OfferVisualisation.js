@@ -1,9 +1,21 @@
 import React, { lazy, Suspense, Fragment } from 'react'
 import LazyLoad from 'react-lazyload'
 import { isEmpty, flatten, get } from 'lodash'
+import { CountryCodeSelect } from '@tourlane/rooster'
+import PhoneIcon from '@tourlane/iconography/Glyphs/Navigation/Phone'
 import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
-import { TitleWithContent, MapWrapper, SearchItemWrapper, LatLonWrapper } from './styles'
+import {
+  TitleWithContent,
+  MapWrapper,
+  SearchItemWrapper,
+  LatLonWrapper,
+  PhoneWrapper,
+  PhoneBlock,
+  AddressBlock,
+  NoLocationWrapper,
+  CountryCodeWrapper
+} from './styles'
 import { RichTextEditorLoader } from './Description/styles'
 import {
   DESCRIPTION_COMPONENT_NAME,
@@ -11,6 +23,7 @@ import {
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
   ROOMS_COMPONENT_NAME,
+  PHONE_COMPONENT_NAME,
   CATEGORY_AND_RANKING_COMPONENT_NAME
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
@@ -21,7 +34,9 @@ import {
   BlurInTransition,
   Accordion,
   TextField,
-  FlexContainer
+  FlexContainer,
+  Flex,
+  Base
 } from '@tourlane/tourlane-ui'
 import ReactHtmlParser from 'react-html-parser'
 import {
@@ -29,7 +44,8 @@ import {
   FIELD_ADDRESS,
   FIELD_NAME,
   FIELD_GEOLOCATION,
-  FIELD_ORIGINAL_NAME
+  FIELD_ORIGINAL_NAME,
+  FIELD_FRONT_DESK_PHONE
 } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
@@ -76,6 +92,7 @@ const descriptions = item => {
  *
  * @name OfferVisualisation
  * @param {Object} item
+ * @param {Object} phone
  * @param {Boolean} isEditing (isEditing mode flag)
  * @param {Function} onChange
  * @param {Function} onGeolocationUpdate
@@ -84,6 +101,7 @@ const descriptions = item => {
  */
 const OfferVisualisation = ({
   item,
+  phone,
   isEditing,
   onChange,
   onGeolocationUpdate,
@@ -191,6 +209,53 @@ const OfferVisualisation = ({
         </Fragment>
       )
     },
+    [PHONE_COMPONENT_NAME]: key => {
+      let phoneText
+      if (phone.dialCode && phone.phoneNumber) {
+        phoneText = `${phone.dialCode} ${phone.phoneNumber}`
+      } else {
+        phoneText = phone.oldNumber ? phone.oldNumber : 'No number added'
+      }
+
+      return (
+        <Fragment key={key}>
+          <TitleWithContent>
+            <H4 data-test={'item-location-header'}>Front desk number</H4>
+
+            {isEditing ? (
+              <PhoneBlock direction="ttb">
+                <FlexContainer direction={'ltr'} pr={0} pl={0}>
+                  <CountryCodeWrapper>
+                    <CountryCodeSelect
+                      initialCountryCode={phone.countryCode}
+                      value={phone.countryCode}
+                      onChange={str =>
+                        onChange(FIELD_FRONT_DESK_PHONE, str.dialCode + phone.phoneNumber)
+                      }
+                    />
+                  </CountryCodeWrapper>
+                  <PhoneWrapper>
+                    <TextField
+                      data-test={'item-phone-number'}
+                      type="tel"
+                      shrinkPlaceholder
+                      placeholder={'Phone'}
+                      value={phone.phoneNumber}
+                      onValueChange={num => onChange(FIELD_FRONT_DESK_PHONE, phone.dialCode + num)}
+                      icon={<PhoneIcon />}
+                    />
+                  </PhoneWrapper>
+                </FlexContainer>
+              </PhoneBlock>
+            ) : (
+              <Flex>
+                <Base>{phoneText}</Base>
+              </Flex>
+            )}
+          </TitleWithContent>
+        </Fragment>
+      )
+    },
     [LOCATION_COMPONENT_NAME]: key => {
       const isMultipolygon = item.polygon.length > 1
 
@@ -231,7 +296,7 @@ const OfferVisualisation = ({
           <TitleWithContent>
             <H4 data-test={'item-location-header'}>Location</H4>
             {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
-              <FlexContainer style={{ width: '36%' }} p={0} pb={1.5} direction="ttb">
+              <AddressBlock p={0} pb={1.5} direction="ttb">
                 <div data-test="address">
                   <SearchBox
                     placeholder="Address"
@@ -267,7 +332,7 @@ const OfferVisualisation = ({
                     }
                   />
                 </LatLonWrapper>
-              </FlexContainer>
+              </AddressBlock>
             )}
             <MapWrapper>
               {shouldRenderMap ? (
@@ -284,13 +349,13 @@ const OfferVisualisation = ({
                 </LazyLoad>
               ) : (
                 <LazyLoad height="500px" once>
-                  <FlexContainer style={{ height: '100% ' }} p={0} pt={1} justify="center">
+                  <NoLocationWrapper p={0} pt={1} justify="center">
                     <Suspense fallback={<Loader top={'45%'} />}>
                       <BlurInTransition style={{ width: 'auto', height: 'auto' }}>
                         <NoLocation alt="map-placeholder" height="70%" width="70%" />
                       </BlurInTransition>
                     </Suspense>
-                  </FlexContainer>
+                  </NoLocationWrapper>
                 </LazyLoad>
               )}
               {isLoadingAdditionalInfo && <Loader top={'45%'} />}

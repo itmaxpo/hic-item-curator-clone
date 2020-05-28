@@ -35,6 +35,7 @@ export const FIELD_POLYGON = 'polygon'
 export const FIELD_ROOMS = 'rooms'
 export const FIELD_PHOTOS = 'photos'
 export const FIELD_SUPPLIER_TAG = 'supplier_tag'
+export const FIELD_FRONT_DESK_PHONE = 'front_desk_phone'
 export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
 export const FIELD_BLACKLISTED = 'blacklisted'
 export const FIELD_ACCOMM_RANKING = 'ranking'
@@ -51,6 +52,7 @@ export const itemSpecificFieldsNoLocale = {
     FIELD_ADDRESS,
     FIELD_GEOLOCATION,
     FIELD_SUPPLIER_TAG,
+    FIELD_FRONT_DESK_PHONE,
     FIELD_ACCOMM_CATEGORY,
     FIELD_BLACKLISTED,
     FIELD_ACCOMM_RANKING
@@ -239,7 +241,6 @@ export const getFieldContent = (item, fieldName, language = null) => {
       ? filter(get(item, 'fields'), c => c.field_name === fieldName && c.locale === language)
       : filter(get(item, 'fields'), c => c.field_name === fieldName)
     if (isEmpty(field)) return undefined
-
     return get(getFieldBySourcePriority(field), 'content')
     // This check is needed for ROOM TYPE
   } else if (isObject(get(item, 'fields'))) {

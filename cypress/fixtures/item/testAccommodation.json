@@ -63,6 +63,15 @@
         "source": "item_curator",
         "source_key": "item_curator",
         "dimensions": {}
+      },
+      {
+        "field_name": "front_desdk_phone",
+        "content_type": "string",
+        "content": "+36415512351255123",
+        "locale": null,
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
       }
     ],
     "primary_item_uuid": null
