@@ -1,6 +1,5 @@
 import React, { useState, useReducer, useCallback, useEffect, lazy, Suspense } from 'react'
 import ReactHtmlParser from 'react-html-parser'
-import { isEqual } from 'lodash/fp'
 import {
   Flex,
   FlexContainer,
@@ -32,11 +31,7 @@ const StyledRichTextEditor = lazy(() =>
 )
 
 const statusOptions = ['Whitelisted', 'Blacklisted'].map(label => ({ label, value: label }))
-const marketsOptions = ['All Markets', ...MARKETS].map(label =>
-  label === 'All Markets' ? { label, value: MARKETS } : { label, value: [label] }
-)
-const getOptionByValue = (options, value) =>
-  options.find(option => isEqual(option.value, value))?.value
+const marketsOptions = MARKETS.map(label => ({ label, value: label, checkbox: true }))
 
 function reducer(state, action) {
   switch (action.type) {
@@ -100,12 +95,17 @@ const BlacklistingBlock = ({ blacklist, onBlacklistChange }) => {
                 <H4 withBottomMargin>Market</H4>
                 <Dropdown
                   data-test="Markets"
-                  notClearable
+                  multiple
+                  options={marketsOptions}
+                  placeholder={'Select market'}
+                  shrinkPlaceholder
+                  value={state.markets}
                   onChange={value => {
                     onChange('markets', value)
                   }}
-                  options={marketsOptions}
-                  value={getOptionByValue(marketsOptions, state.markets)}
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                  withToggleAll
                 />
               </FlexContainer>
               <FlexContainer direction="ttb" p={0} pb={1}>

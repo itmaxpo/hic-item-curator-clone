@@ -22,7 +22,7 @@ export const BlacklistingBlockContainer = styled(Flex)`
 `
 
 export const MarketReasonContainer = styled(Flex)`
-  width: 40%;
+  width: 71%;
 `
 
 export const NotesContainer = styled(Flex)`
