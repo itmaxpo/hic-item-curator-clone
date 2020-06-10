@@ -16,7 +16,8 @@ import {
   BreadcrumbsLoader,
   MissingNameWrapper,
   TabsPanelWrapper,
-  ActionButtonsWrapper
+  ActionButtonsWrapper,
+  VisualizationWrapper
 } from './styles'
 import { generateBreadcrumbs } from './utils'
 import {
@@ -30,7 +31,8 @@ import {
   Tab,
   TabPanel,
   TabsContainer,
-  PageContainer
+  PageContainer,
+  Flex
 } from '@tourlane/tourlane-ui'
 import { SelectMarket } from '@tourlane/rooster'
 import { getItemFieldsById } from 'services/contentApi'
@@ -40,12 +42,14 @@ import {
   FIELD_ACTIVE_DESTINATION,
   FIELD_ORIGINAL_NAME,
   FIELD_BLACKLISTED,
+  FIELD_VISUALIZATION_DESTINATION,
   getFieldContent
 } from '../itemParser'
 import {
   ACCOMMODATION_ITEM_TYPE,
   TOURISTIC_AREA_ITEM_TYPE,
-  COUNTRY_ITEM_TYPE
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE
 } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
@@ -104,6 +108,10 @@ const ItemLayout = ({
 
   const onActiveDestinationChange = e => {
     onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
+  }
+
+  const onVizDestinationChange = e => {
+    onChange(FIELD_VISUALIZATION_DESTINATION, e.target.checked)
   }
 
   // force re-render of SelectMarket component
@@ -226,17 +234,30 @@ const ItemLayout = ({
                       </MissingNameWrapper>
                     ))}
                 </H2>
-                <ActiveWrapper>
-                  {item[FIELD_ACTIVE_DESTINATION] && (
-                    <ItemBadge
-                      width={'85px'}
-                      background={COLORS.ADVENTURE_GREEN}
-                      color={COLORS.SENSATION_WHITE}
-                    >
-                      <H4>Active</H4>
-                    </ItemBadge>
-                  )}
-                </ActiveWrapper>
+                <Flex>
+                  <ActiveWrapper>
+                    {item[FIELD_ACTIVE_DESTINATION] && (
+                      <ItemBadge
+                        width={'85px'}
+                        background={COLORS.ADVENTURE_GREEN}
+                        color={COLORS.SENSATION_WHITE}
+                      >
+                        <H4 bold>Active</H4>
+                      </ItemBadge>
+                    )}
+                  </ActiveWrapper>
+                  <VisualizationWrapper>
+                    {item[FIELD_VISUALIZATION_DESTINATION] && (
+                      <ItemBadge
+                        width={'260px'}
+                        background={COLORS.ADVENTURE_GREEN}
+                        color={COLORS.SENSATION_WHITE}
+                      >
+                        <H4 bold>Visualization destination</H4>
+                      </ItemBadge>
+                    )}
+                  </VisualizationWrapper>
+                </Flex>
               </ActiveTitleWrapper>
             ) : (
               <ActiveTitleWrapper p={0} direction={'ttb'}>
@@ -246,16 +267,28 @@ const ItemLayout = ({
                   placeholder={breadcrumbName}
                   onChange={onTitleChange}
                 />
-                {item.type !== ACCOMMODATION_ITEM_TYPE && (
-                  <CheckboxWrapper p={0} direction={'ltr'}>
-                    <Checkbox
-                      data-test={'item-is-active-checkbox'}
-                      defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
-                      onChange={onActiveDestinationChange}
-                    />
-                    <span>Is active destination</span>
-                  </CheckboxWrapper>
-                )}
+                <Flex>
+                  {item.type !== ACCOMMODATION_ITEM_TYPE && (
+                    <CheckboxWrapper p={0} direction={'ltr'}>
+                      <Checkbox
+                        data-test={'item-is-active-checkbox'}
+                        defaultChecked={item[FIELD_ACTIVE_DESTINATION]}
+                        onChange={onActiveDestinationChange}
+                      />
+                      <span>Is active destination</span>
+                    </CheckboxWrapper>
+                  )}
+                  {item.type === AREA_ITEM_TYPE && (
+                    <CheckboxWrapper p={0} direction={'ltr'}>
+                      <Checkbox
+                        data-test={'item-is-viz-checkbox'}
+                        defaultChecked={item[FIELD_VISUALIZATION_DESTINATION]}
+                        onChange={onVizDestinationChange}
+                      />
+                      <span>Is visualization destination</span>
+                    </CheckboxWrapper>
+                  )}
+                </Flex>
               </ActiveTitleWrapper>
             )}
 

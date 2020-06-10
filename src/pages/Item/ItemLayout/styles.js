@@ -17,7 +17,19 @@ export const ActiveWrapper = styled.div`
   && h4 {
     font-size: 10px;
     color: ${COLORS.SENSATION_WHITE};
-    font-weight: bold;
+  }
+`
+
+export const VisualizationWrapper = styled.div`
+  > div {
+    margin-left: 12px;
+    height: 26px;
+    padding: 0;
+  }
+
+  && h4 {
+    font-size: 10px;
+    color: ${COLORS.SENSATION_WHITE};
   }
 `
 
@@ -39,11 +51,13 @@ export const ActiveTitleWrapper = styled(FlexContainer)`
 
 export const CheckboxWrapper = styled(FlexContainer)`
   font-weight: 600;
+  margin-right: 12px;
 
   > span {
     position: relative;
     top: 3px;
     margin-left: 10px;
+    margin-right: 10px;
   }
 `
 

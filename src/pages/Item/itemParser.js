@@ -39,6 +39,7 @@ export const FIELD_FRONT_DESK_PHONE = 'front_desk_phone'
 export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
 export const FIELD_BLACKLISTED = 'blacklisted'
 export const FIELD_ACCOMM_RANKING = 'ranking'
+export const FIELD_VISUALIZATION_DESTINATION = 'visualization_destination'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
@@ -46,8 +47,8 @@ export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
 export const itemSameFieldsNoLocale = []
 // ITEM TYPE SPECIFIC FIELDS WITHOUT LOCALE
 export const itemSpecificFieldsNoLocale = {
-  [COUNTRY_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
-  [AREA_ITEM_TYPE]: [FIELD_ORIGINAL_NAME, FIELD_ACTIVE_DESTINATION],
+  [COUNTRY_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION],
+  [AREA_ITEM_TYPE]: [FIELD_ACTIVE_DESTINATION, FIELD_VISUALIZATION_DESTINATION],
   [ACCOMMODATION_ITEM_TYPE]: [
     FIELD_ADDRESS,
     FIELD_GEOLOCATION,
@@ -319,12 +320,14 @@ const getDescription = (item, _locale) => {
  */
 export const parseItemByType = (item, language) => {
   const geolocation = getFieldContent(item, FIELD_GEOLOCATION)
+  const originalName = getFieldContent(item, FIELD_ORIGINAL_NAME)
 
   // First fields similar for all types then specific fields for each type
   return {
     id: item.uuid,
     parentId: item.parent_uuid,
     type: item.item_type,
+    original_name: originalName,
     language,
     rooms: [],
     polygon: [],

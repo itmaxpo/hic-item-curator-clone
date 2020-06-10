@@ -182,6 +182,39 @@ Out task is to copy/paste all country information into area. There are only 2 st
 `[DESCRIPTION_COMPONENT_NAME, IMAGES_COMPONENT_NAME, INFORMATION_COMPONENT_NAME]`. Order matters! They are stored in `Item/utils` from `componentsBasedOnType` by key `COUNTRY_ITEM_TYPE`.
 Inside `OfferVisualisation` there is `componentsRenderingMap` that represents actual components with UI.
 
+**7. What is updateable and not updateable in item?**
+
+This is item object in transformed way (function `parseItemByType`):
+
+```
+{
+    id: item.uuid,
+    parentId: item.parent_uuid,
+    type: item.item_type,
+    original_name: originalName,
+    language,
+    rooms: [],
+    polygon: [],
+    allImages: [],
+    visibleImages: [],
+    geolocation: geolocation
+      ? {
+          lat: +geolocation.lat,
+          lng: +geolocation.lon
+        }
+      : null,
+    ...getItemSameFieldsNoLocale(item),           // fields here would be updated
+    ...getItemSameFields(item, language),         // fields here would be updated
+    ...getItemSpecificFieldsNoLocale(item),       // fields here would be updated
+    ...getItemSpecificFields(item, language),     // fields here would be updated
+    description: get(getDescription(item, language), 'content'),
+    descriptionInspiration: getItemDescriptionInspiration(item, language),
+    locales: getItemLocales(item)
+  }
+```
+
+These objects `itemSameFields`, `itemSameFieldsNoLocale`, `itemSpecificFieldsNoLocale`, `itemSpecificFields` are responsible for specific updatable fields. Everything that is here - would be sent to BE. If there was a field that must be updated and now is not - move it to item from any of the objects shown before.
+
 ## Available Scripts
 
 In the project directory, you can run:

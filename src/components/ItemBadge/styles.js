@@ -8,6 +8,7 @@ export const BadgeWrapper = styled.div`
   border-radius: 21px;
   letter-spacing: normal;
   text-align: center;
+  vertical-align: center;
   ${({ color }) => `color: ${color ? color : COLORS.NIGHTINGALE_BLACK}`};
   ${({ background }) => `background-color: ${background ? background : COLORS.LINE_GRAY}`};
 
