@@ -1,4 +1,4 @@
-import { get, isEmpty } from 'lodash'
+import { get } from 'lodash'
 import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 /**
@@ -60,13 +60,10 @@ export const getGoToDestination = (category, country, area) => {
 // Get correct item name or original_name
 export const getItemName = item => {
   const nameFields = get(item, 'fields.name')
-  const engName = nameFields.filter(name => name.locale === 'en-GB')
-  const deName = nameFields.filter(name => name.locale === 'de-DE')
+  const engName = nameFields.filter(name => name.locale === 'en-GB')[0]?.content
+  const deName = nameFields.filter(name => name.locale === 'de-DE')[0]?.content
 
-  return (
-    get(!isEmpty(engName) ? engName : deName, '0.content') ||
-    get(item, 'fields.original_name.0.content')
-  )
+  return engName || deName || nameFields[0]?.content || get(item, 'fields.original_name.0.content')
 }
 
 // To support names by locale, revisit filtering.
