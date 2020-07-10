@@ -23,8 +23,8 @@ describe('Item page - Accommodation', () => {
       .find('p')
       .contains('Eco-Budget')
 
-    // Check item whitelisted
-    cy.get('[data-test=Whitelisted]').contains('Whitelisted')
+    // Check item allowed
+    cy.get('[data-test=Allowed]').contains('Allowed')
 
     // Check item initial rank
     cy.get('[data-test=ranking]')

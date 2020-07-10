@@ -15,22 +15,22 @@ import {
 import {
   StyledCard,
   StatusContainer,
-  BlacklistingBlockContainer,
+  BlockedBlockContainer,
   MarketReasonContainer,
   RichTextEditorLoader,
   NotesContainer,
-  BlackListIndicatorWrapper,
+  BlockedIndicatorWrapper,
   StyledBase
 } from './styles'
-import { MARKETS, BLACKLIST_REASONS } from 'utils/constants'
-import { FIELD_BLACKLISTED } from '../../itemParser'
-import BlacklistedMarketsChip from './BlacklistedMarketsChip'
+import { MARKETS, BLOCKED_REASONS } from 'utils/constants'
+import { FIELD_BLOCKED } from '../../itemParser'
+import BlockedMarketsChip from './BlockedMarketsChip'
 
 const StyledRichTextEditor = lazy(() =>
   import(/* webpackChunkName: "RichTextEditor" */ 'components/RichTextEditor/StyledRichTextEditor')
 )
 
-const statusOptions = ['Whitelisted', 'Blacklisted'].map(label => ({ label, value: label }))
+const statusOptions = ['Allowed', 'Blocked'].map(label => ({ label, value: label }))
 const marketsOptions = MARKETS.map(label => ({ label, value: label, checkbox: true }))
 
 function reducer(state, action) {
@@ -48,33 +48,31 @@ function reducer(state, action) {
 function getInitialState() {
   return {
     markets: MARKETS,
-    reason: BLACKLIST_REASONS[0],
+    reason: BLOCKED_REASONS[0],
     notes: ''
   }
 }
 
-const BlacklistingBlock = ({ blacklist, onBlacklistChange }) => {
-  const [isBlacklisted, setIsBlacklisted] = useState(!!blacklist)
-  const [state, dispatch] = useReducer(reducer, blacklist || getInitialState())
+const BlockingBlock = ({ blocked, onBlockedChange }) => {
+  const [isBlocked, setIsBlocked] = useState(!!blocked)
+  const [state, dispatch] = useReducer(reducer, blocked || getInitialState())
 
   const onChange = useCallback((field, value) => {
     dispatch({ type: 'updateField', field, value })
   }, [])
 
   const onStatusChange = value => {
-    setIsBlacklisted(value === statusOptions[1].value)
+    setIsBlocked(value === statusOptions[1].value)
   }
 
-  const status = isBlacklisted ? statusOptions[1].value : statusOptions[0].value
+  const status = isBlocked ? statusOptions[1].value : statusOptions[0].value
 
   useEffect(() => {
-    isBlacklisted
-      ? onBlacklistChange(FIELD_BLACKLISTED, state)
-      : onBlacklistChange(FIELD_BLACKLISTED, null)
-  }, [isBlacklisted, state, onBlacklistChange])
+    isBlocked ? onBlockedChange(FIELD_BLOCKED, state) : onBlockedChange(FIELD_BLOCKED, null)
+  }, [isBlocked, state, onBlockedChange])
 
   return (
-    <Flex data-test="Blacklisting" direction="ttb">
+    <Flex data-test="Blocking" direction="ttb">
       <StatusContainer>
         <Base>
           <Strong>Status: </Strong>
@@ -87,9 +85,9 @@ const BlacklistingBlock = ({ blacklist, onBlacklistChange }) => {
           value={status}
         />
       </StatusContainer>
-      {isBlacklisted && (
+      {isBlocked && (
         <StyledCard>
-          <BlacklistingBlockContainer p={0} direction="ttb">
+          <BlockedBlockContainer p={0} direction="ttb">
             <MarketReasonContainer direction="ttb">
               <FlexContainer direction="ttb" p={0} pb={1}>
                 <H4 withBottomMargin>Market</H4>
@@ -111,7 +109,7 @@ const BlacklistingBlock = ({ blacklist, onBlacklistChange }) => {
               <FlexContainer direction="ttb" p={0} pb={1}>
                 <H4 withBottomMargin>Reason</H4>
                 <Flex direction="ttb" justify="between">
-                  {BLACKLIST_REASONS.map((reason, index) => (
+                  {BLOCKED_REASONS.map((reason, index) => (
                     <div key={reason}>
                       <Label withBottomMargin={index === 0} htmlFor={reason}>
                         <Radio
@@ -143,37 +141,37 @@ const BlacklistingBlock = ({ blacklist, onBlacklistChange }) => {
                 />
               </Suspense>
             </NotesContainer>
-          </BlacklistingBlockContainer>
+          </BlockedBlockContainer>
         </StyledCard>
       )}
     </Flex>
   )
 }
 
-const BlacklistIndicator = ({ blacklist }) => (
+const BlockedIndicator = ({ blocked }) => (
   <Flex direction="ttb">
-    {!!blacklist ? (
+    {!!blocked ? (
       <Flex justify="between">
         <StyledBase data-test="Reason" color={COLORS.INACTIVE_GRAY}>
-          {ReactHtmlParser(blacklist?.notes)}
+          {ReactHtmlParser(blocked?.notes)}
         </StyledBase>
-        <BlacklistedMarketsChip markets={blacklist?.markets} />
+        <BlockedMarketsChip markets={blocked?.markets} />
       </Flex>
     ) : (
-      <BlackListIndicatorWrapper alignSelf="end">
-        <Chip data-test="Whitelisted" variant={'primary'}>
-          Whitelisted
+      <BlockedIndicatorWrapper alignSelf="end">
+        <Chip data-test="Allowed" variant={'primary'}>
+          Allowed
         </Chip>
-      </BlackListIndicatorWrapper>
+      </BlockedIndicatorWrapper>
     )}
   </Flex>
 )
 
-const Blacklisting = ({ isEditing, blacklist, onChange }) =>
+const Blocking = ({ isEditing, blocked, onChange }) =>
   isEditing ? (
-    <BlacklistingBlock blacklist={blacklist} onBlacklistChange={onChange} />
+    <BlockingBlock blocked={blocked} onBlockedChange={onChange} />
   ) : (
-    <BlacklistIndicator blacklist={blacklist} />
+    <BlockedIndicator blocked={blocked} />
   )
 
-export default Blacklisting
+export default Blocking

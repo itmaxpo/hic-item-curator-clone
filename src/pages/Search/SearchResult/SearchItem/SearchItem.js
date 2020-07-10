@@ -22,7 +22,7 @@ import {
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import { Preloader } from 'components/LazyLoader'
 import { enrichItem, getCoverImage } from './utils'
-import BlacklistedMarketsChip from 'pages/Item/ItemLayout/Blacklisting/BlacklistedMarketsChip'
+import BlockedMarketsChip from 'pages/Item/ItemLayout/Blocking/BlockedMarketsChip'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -136,8 +136,8 @@ export const SearchItem = ({
             <ItemTitle data-test="title">
               <span>{localItem.title}</span>
             </ItemTitle>
-            {item?.blacklisted?.markets && (
-              <BlacklistedMarketsChip alignItems="center" markets={item.blacklisted.markets} />
+            {item?.blocked?.markets && (
+              <BlockedMarketsChip alignItems="center" markets={item.blocked.markets} />
             )}
           </ItemTitleWrapper>
           <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>

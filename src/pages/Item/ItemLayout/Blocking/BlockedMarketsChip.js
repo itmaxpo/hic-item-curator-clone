@@ -1,6 +1,6 @@
 import React from 'react'
 import { MARKETS_FLAGS } from 'utils/constants'
-import { BlackListIndicatorWrapper, StyledIconFlag, StyledChip } from './styles'
+import { BlockedIndicatorWrapper, StyledIconFlag, StyledChip } from './styles'
 import { Flex } from '@tourlane/tourlane-ui'
 
 const getMarketsFlags = markets => (
@@ -16,9 +16,9 @@ const getMarketsFlags = markets => (
 )
 
 const BlacklistedMarketsChip = ({ markets, ...rest }) => (
-  <BlackListIndicatorWrapper {...rest}>
-    <StyledChip strong>Blacklisted markets: {getMarketsFlags(markets)}</StyledChip>
-  </BlackListIndicatorWrapper>
+  <BlockedIndicatorWrapper {...rest}>
+    <StyledChip strong>Blocked markets: {getMarketsFlags(markets)}</StyledChip>
+  </BlockedIndicatorWrapper>
 )
 
 export default BlacklistedMarketsChip

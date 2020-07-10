@@ -41,7 +41,7 @@ import {
   FIELD_NAME,
   FIELD_ACTIVE_DESTINATION,
   FIELD_ORIGINAL_NAME,
-  FIELD_BLACKLISTED,
+  FIELD_BLOCKED,
   FIELD_VISUALIZATION_DESTINATION,
   getFieldContent
 } from '../itemParser'
@@ -53,7 +53,7 @@ import {
 } from 'utils/constants'
 import ItemBadge from 'components/ItemBadge'
 import LazyLoader from 'components/LazyLoader'
-import Blacklisting from './Blacklisting'
+import Blocking from './Blocking'
 
 const Breadcrumbs = lazy(() =>
   import(/* webpackChunkName: "Breadcrumbs" */ 'components/Breadcrumbs')
@@ -300,11 +300,7 @@ const ItemLayout = ({
         </TitleWrapper>
 
         {item.type === ACCOMMODATION_ITEM_TYPE && (
-          <Blacklisting
-            isEditing={isEditing}
-            blacklist={item[FIELD_BLACKLISTED]}
-            onChange={onChange}
-          />
+          <Blocking isEditing={isEditing} blocked={item[FIELD_BLOCKED]} onChange={onChange} />
         )}
         <Tabs defaultSelected={tabs[0]}>
           <TabsContainer>
@@ -318,7 +314,7 @@ const ItemLayout = ({
               </TabList>
             </PageContainer>
           </TabsContainer>
-          <TabsPanelWrapper isBlacklisted={!isEditing && !!item[FIELD_BLACKLISTED]}>
+          <TabsPanelWrapper isBlocked={!isEditing && !!item[FIELD_BLOCKED]}>
             {tabContents.map((tabPanel, i) => (
               <TabPanel key={tabPanel} name={tabs[i]}>
                 {tabPanel}

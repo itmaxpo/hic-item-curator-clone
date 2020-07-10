@@ -17,7 +17,7 @@ export const StatusContainer = styled(Flex)`
   }
 `
 
-export const BlacklistingBlockContainer = styled(Flex)`
+export const BlockedBlockContainer = styled(Flex)`
   padding: 40px 60px;
 `
 
@@ -31,7 +31,7 @@ export const NotesContainer = styled(Flex)`
   }
 `
 
-export const BlackListIndicatorWrapper = styled(Flex)`
+export const BlockedIndicatorWrapper = styled(Flex)`
   height: 34px;
   > span {
     height: 34px;
