@@ -106,7 +106,7 @@
     "react-truncate-markup": "^4.0.0",
     "serve": "^11.2.0",
     "sortablejs": "^1.10.0-rc3",
-    "standard-version": "^6.0.1",
+    "standard-version": "^8.0.1",
     "start-server-and-test": "^1.9.1"
   },
   "homepage": "/"
