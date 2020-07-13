@@ -7,7 +7,7 @@ const getMarketsFlags = markets => (
   <Flex inline>
     {markets.map(market => (
       <StyledIconFlag
-        data-test={`Blacklisted-${MARKETS_FLAGS[market]}`}
+        data-test={`Blocked-${MARKETS_FLAGS[market]}`}
         country={MARKETS_FLAGS[market]}
         rounded
       />

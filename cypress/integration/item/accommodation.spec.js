@@ -70,22 +70,22 @@ describe('Item page - Accommodation', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
 
-    // Blacklisting
-    cy.get('[data-test=Blacklisting]').as('Blacklisting')
+    // Blocking
+    cy.get('[data-test=Blocking]').as('Blocking')
 
-    cy.get('@Blacklisting')
+    cy.get('@Blocking')
       .find('[data-test=Status]')
-      .setSelectOption('Blacklisted')
+      .setSelectOption('Blocked')
 
-    cy.get('@Blacklisting')
+    cy.get('@Blocking')
       .find('[data-test=Markets]')
       .setSelectOption('all markets')
 
-    cy.get('@Blacklisting')
+    cy.get('@Blocking')
       .find('[data-test=Reason-1]')
       .click({ force: true })
 
-    cy.get('@Blacklisting')
+    cy.get('@Blocking')
       .find('[data-test=Notes]')
       .type('Closed for Corona Season ⚰️')
 
@@ -120,11 +120,11 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=item-description-wrapper]').contains('new description here done')
 
     // assert blacklisting
-    cy.get('[data-test=Blacklisted-GB]').should('exist')
-    cy.get('[data-test=Blacklisted-DE]').should('exist')
-    cy.get('[data-test=Blacklisted-NL]').should('exist')
-    cy.get('[data-test=Blacklisted-FR]').should('exist')
-    cy.get('[data-test=Blacklisted-US]').should('exist')
+    cy.get('[data-test=Blocked-GB]').should('exist')
+    cy.get('[data-test=Blocked-DE]').should('exist')
+    cy.get('[data-test=Blocked-NL]').should('exist')
+    cy.get('[data-test=Blocked-FR]').should('exist')
+    cy.get('[data-test=Blocked-US]').should('exist')
 
     cy.get('[data-test=Reason]').contains('Closed for Corona Season ⚰️')
 
