@@ -15,7 +15,7 @@ export const useFieldsRef = item => {
   const cleanFields = useCallback((fields, item) => {
     let newFields = fields
     // if the ref is falsy, that means Elephant doesn't have this field
-    // Don't save a null value to an non existant field in Elephant
+    // Dont save a null value to an non existant field in Elephant
     // else it causes error
     if (!item.ranking && !rankingRef.current) {
       newFields = fields.filter(field => field.field_name !== 'ranking')
