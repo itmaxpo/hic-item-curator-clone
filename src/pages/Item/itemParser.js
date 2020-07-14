@@ -37,7 +37,7 @@ export const FIELD_PHOTOS = 'photos'
 export const FIELD_SUPPLIER_TAG = 'supplier_tag'
 export const FIELD_FRONT_DESK_PHONE = 'front_desk_phone'
 export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP-17
-export const FIELD_BLACKLISTED = 'blacklisted'
+export const FIELD_BLOCKED = 'blocked'
 export const FIELD_ACCOMM_RANKING = 'ranking'
 export const FIELD_VISUALIZATION_DESTINATION = 'visualization_destination'
 
@@ -55,7 +55,7 @@ export const itemSpecificFieldsNoLocale = {
     FIELD_SUPPLIER_TAG,
     FIELD_FRONT_DESK_PHONE,
     FIELD_ACCOMM_CATEGORY,
-    FIELD_BLACKLISTED,
+    FIELD_BLOCKED,
     FIELD_ACCOMM_RANKING
   ]
 }

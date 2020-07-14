@@ -27,7 +27,7 @@ export const MARKETS_FLAGS = {
 
 export const MARKETS = Object.keys(MARKETS_FLAGS)
 
-export const BLACKLIST_REASONS = [
+export const BLOCKED_REASONS = [
   'We do not want to sell this accommodation',
   'Temporarily not possible to sell this accommodation'
 ]
