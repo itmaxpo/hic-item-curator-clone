@@ -153,7 +153,7 @@ const ImageUploader = ({
           <Suspense fallback={<Skeleton height="268px" />}>
             <DraggableGallery
               title={'Image library'}
-              placeholder={'Image library'}
+              placeholder={'Image library (not visible)'}
               images={allImages}
               options={options}
               onChange={onAllImagesUpdate}
