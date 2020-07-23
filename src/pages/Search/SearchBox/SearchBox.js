@@ -239,7 +239,7 @@ const SearchBox = ({
                   onFilterByBlacklist(e.target.checked)
                 }}
               />
-              Filter by blacklisted accommodations
+              Filter by blocked accommodations
             </Label>
           </FlexContainer>
         </FlexContainer>
