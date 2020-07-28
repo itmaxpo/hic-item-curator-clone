@@ -12,7 +12,15 @@ import {
   IconJumpy
 } from './styles'
 import { HappyFileIcon, SadFileIcon } from 'components/Icon'
-import { SHUTTERSTOCK } from 'utils/constants'
+import {
+  SHUTTERSTOCK,
+  WETU,
+  LONELY_PLANET,
+  IMAGE_DRAG_N_DROP_TEXT,
+  IMAGE_SEARCH_TEXT,
+  ISTOCK_PHOTO,
+  UNSPLASH
+} from 'utils/constants'
 
 const ImageSearch = lazy(() =>
   import(/* webpackChunkName: "ImageSearch" */ 'components/ImageSearch')
@@ -30,15 +38,19 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
 
   const fileInputRef = useRef()
   const imageSourceOptions = [
-    { value: 'wetu', label: 'WETU' },
-    { value: 'lonely_planet', label: 'Lonely Planet' },
-    { value: SHUTTERSTOCK, label: 'Shutterstock' }
+    { value: WETU, label: 'WETU' },
+    { value: LONELY_PLANET, label: 'Lonely Planet' },
+    { value: SHUTTERSTOCK, label: 'Shutterstock' },
+    { value: ISTOCK_PHOTO, label: 'iStockphoto' },
+    { value: UNSPLASH, label: 'Unsplash' }
   ]
   // Dynamically change explanation text on imageSource changed
   const imageSourceText = {
-    wetu: `Please drag & drop images here \n or browse files`,
-    lonely_planet: `Please drag & drop images here \n or browse files`,
-    [SHUTTERSTOCK]: `Please use search to find images`
+    [WETU]: IMAGE_DRAG_N_DROP_TEXT,
+    [LONELY_PLANET]: IMAGE_DRAG_N_DROP_TEXT,
+    [SHUTTERSTOCK]: IMAGE_SEARCH_TEXT,
+    [ISTOCK_PHOTO]: IMAGE_DRAG_N_DROP_TEXT,
+    [UNSPLASH]: IMAGE_DRAG_N_DROP_TEXT
   }
 
   const openFileDialog = () => {

@@ -8,6 +8,7 @@ import {
 } from 'services/contentApi'
 import { useNotification } from 'components/Notification'
 import { Skeleton } from '@tourlane/tourlane-ui'
+import { capitalizeBy } from 'pages/Item/utils'
 const UploadImageBlock = lazy(() => import(/* webpackChunkName: "UploadImageBlock" */ './styles'))
 
 const DraggableGallery = lazy(() =>
@@ -90,7 +91,7 @@ const ImageUploader = ({
                   isError: false,
                   isSelected: false,
                   isVisible: false,
-                  sourceKey: fileUrl.data.source_key,
+                  sourceKey: capitalizeBy(fileUrl.data.source_key),
                   tags: fileUrl.data.tags
                 }
 
