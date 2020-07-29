@@ -18,6 +18,8 @@ export const SHUTTERSTOCK = 'shutterstock'
 export const LONELY_PLANET = 'lonely_planet'
 export const ISTOCK_PHOTO = 'istockphoto'
 export const UNSPLASH = 'unsplash'
+export const DMC = 'dmc'
+export const SUPPLY_WEBSITE = 'supply_website'
 
 export const IMAGE_DRAG_N_DROP_TEXT = 'Please drag & drop images here \n or browse files'
 export const IMAGE_SEARCH_TEXT = 'Please use search to find images'
