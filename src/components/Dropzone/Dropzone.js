@@ -19,7 +19,10 @@ import {
   IMAGE_DRAG_N_DROP_TEXT,
   IMAGE_SEARCH_TEXT,
   ISTOCK_PHOTO,
-  UNSPLASH
+  UNSPLASH,
+  DMC,
+  SUPPLY_WEBSITE,
+  GIATA
 } from 'utils/constants'
 
 const ImageSearch = lazy(() =>
@@ -42,7 +45,10 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     { value: LONELY_PLANET, label: 'Lonely Planet' },
     { value: SHUTTERSTOCK, label: 'Shutterstock' },
     { value: ISTOCK_PHOTO, label: 'iStockphoto' },
-    { value: UNSPLASH, label: 'Unsplash' }
+    { value: UNSPLASH, label: 'Unsplash' },
+    { value: DMC, label: 'DMC' },
+    { value: SUPPLY_WEBSITE, label: 'Supply Website' },
+    { value: GIATA, label: 'Giata' }
   ]
   // Dynamically change explanation text on imageSource changed
   const imageSourceText = {
@@ -50,7 +56,10 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     [LONELY_PLANET]: IMAGE_DRAG_N_DROP_TEXT,
     [SHUTTERSTOCK]: IMAGE_SEARCH_TEXT,
     [ISTOCK_PHOTO]: IMAGE_DRAG_N_DROP_TEXT,
-    [UNSPLASH]: IMAGE_DRAG_N_DROP_TEXT
+    [UNSPLASH]: IMAGE_DRAG_N_DROP_TEXT,
+    [DMC]: IMAGE_DRAG_N_DROP_TEXT,
+    [SUPPLY_WEBSITE]: IMAGE_DRAG_N_DROP_TEXT,
+    [GIATA]: IMAGE_DRAG_N_DROP_TEXT
   }
 
   const openFileDialog = () => {
