@@ -34,7 +34,7 @@ const SearchBox = ({
   locationQuery,
   onQueryUpdate,
   onFilterByMissingGeolocation,
-  onFilterByBlacklist
+  onFilterByBlocklist
 }) => {
   // Default values for state are coming from location query
   const category = get(locationQuery, 'type')
@@ -43,7 +43,7 @@ const SearchBox = ({
   const supplier = getQueryValue(locationQuery, 'supplier', 'supplier')
   const name = get(locationQuery, 'name')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
-  const blacklist = get(locationQuery, 'blacklist') === 'true'
+  const blocked = get(locationQuery, 'blocked') === 'true'
 
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
@@ -104,7 +104,7 @@ const SearchBox = ({
               area: get(area, 'value'),
               name,
               missingGeolocation,
-              blacklist
+              blocked
             },
             0,
             true
@@ -234,9 +234,9 @@ const SearchBox = ({
           <FlexContainer p={0} pl={1.4} alignSelf="center">
             <Label>
               <Checkbox
-                defaultChecked={blacklist}
+                defaultChecked={blocked}
                 onChange={e => {
-                  onFilterByBlacklist(e.target.checked)
+                  onFilterByBlocklist(e.target.checked)
                 }}
               />
               Filter by blocked accommodations
