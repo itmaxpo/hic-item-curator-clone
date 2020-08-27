@@ -92,7 +92,7 @@ const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
  * @returns {Object}
  */
 const getAccommodations = async (
-  { country, area, name = '', supplier = '', missingGeolocation = false, blacklist = false },
+  { country, area, name = '', supplier = '', missingGeolocation = false, blocked = false },
   offset = 0,
   limit = 40
 ) => {
@@ -123,7 +123,7 @@ const getAccommodations = async (
           supplier,
           nameToSearch,
           missingGeolocation,
-          blacklist
+          blocked
         )
       }
     })

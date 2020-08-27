@@ -121,7 +121,7 @@ export const generateSearchQueryAccom = (
   supplier,
   _name,
   filterByMissingGeolocation,
-  blacklist
+  blocked
 ) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const name = _name.includes(' ') ? _name.split(' ') : [_name]
@@ -217,16 +217,16 @@ export const generateSearchQueryAccom = (
     }
     set(query, mustNotPath, missingGeolocationQuery)
   }
-  if (blacklist) {
-    const blacklistQuery = {
+  if (blocked) {
+    const blockedQuery = {
       nested: {
-        path: 'blacklisted',
+        path: 'blocked',
         query: {
           bool: {
             must: [
               {
                 exists: {
-                  field: 'blacklisted'
+                  field: 'blocked'
                 }
               }
             ]
@@ -234,7 +234,7 @@ export const generateSearchQueryAccom = (
         }
       }
     }
-    set(query, mustPath, [...get(query, mustPath, []), blacklistQuery])
+    set(query, mustPath, [...get(query, mustPath, []), blockedQuery])
   }
   return query
 }
