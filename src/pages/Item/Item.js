@@ -68,6 +68,7 @@ const ItemPage = ({ match, history }) => {
   const [isLoadingAdditionalInfo, setIsLoadingAdditionalInfo] = useState(true)
   const { cleanFields, updateFieldRef } = useFieldsRef(item)
   const [countryCode, setCountryCode] = useState('DE')
+  const [phoneTouched, setPhoneTouched] = useState(false)
   const phone = parsePhoneNumber(item[FIELD_FRONT_DESK_PHONE], countryCode)
 
   const updateAttachments = async () => {
@@ -90,7 +91,10 @@ const ItemPage = ({ match, history }) => {
     onChange(prop, [...images, ...item.allImages])
   }
 
-  const onChange = useCallback((field, prop) => {
+  const onChange = useCallback((field, prop, oldPhoneNumber) => {
+    if (field === FIELD_FRONT_DESK_PHONE && oldPhoneNumber !== prop) {
+      setPhoneTouched(true)
+    }
     dispatch({ type: 'updateField', field, value: prop })
   }, [])
 
@@ -106,7 +110,7 @@ const ItemPage = ({ match, history }) => {
 
     // The ranking field in the item is auto created when getting the item res by calling transformToSupplyItem
     // Remove the ranking field before sending to BE when there is no existing ranking and the updated ranking is null to avoid BE error
-    fields = cleanFields(fields, item)
+    fields = cleanFields(fields, item, phoneTouched)
 
     try {
       await Promise.all([updateAttachments(), updateItemFields(item.id, fields, item.type)]).then(

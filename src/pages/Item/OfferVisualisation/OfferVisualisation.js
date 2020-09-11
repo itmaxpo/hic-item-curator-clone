@@ -211,10 +211,10 @@ const OfferVisualisation = ({
     },
     [PHONE_COMPONENT_NAME]: key => {
       let phoneText
-      if (phone.dialCode && phone.phoneNumber) {
+      if (phone.dialCode && phone.phoneNumber && phone.isValid) {
         phoneText = `${phone.dialCode} ${phone.phoneNumber}`
       } else {
-        phoneText = phone.oldNumber ? phone.oldNumber : 'No number added'
+        phoneText = 'No number added'
       }
 
       return (
@@ -230,7 +230,11 @@ const OfferVisualisation = ({
                       initialCountryCode={phone.countryCode}
                       value={phone.countryCode}
                       onChange={str =>
-                        onChange(FIELD_FRONT_DESK_PHONE, str.dialCode + phone.phoneNumber)
+                        onChange(
+                          FIELD_FRONT_DESK_PHONE,
+                          str.dialCode + phone.phoneNumber,
+                          item[FIELD_FRONT_DESK_PHONE]
+                        )
                       }
                     />
                   </CountryCodeWrapper>
@@ -241,7 +245,13 @@ const OfferVisualisation = ({
                       shrinkPlaceholder
                       placeholder={'Phone'}
                       value={phone.phoneNumber}
-                      onValueChange={num => onChange(FIELD_FRONT_DESK_PHONE, phone.dialCode + num)}
+                      onValueChange={num =>
+                        onChange(
+                          FIELD_FRONT_DESK_PHONE,
+                          phone.dialCode + num,
+                          item[FIELD_FRONT_DESK_PHONE]
+                        )
+                      }
                       icon={<PhoneIcon />}
                     />
                   </PhoneWrapper>

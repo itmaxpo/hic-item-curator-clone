@@ -13,11 +13,13 @@ export const parsePhoneNumber = (phoneNumber, accommodationCountryCode) => {
   const countryCode = phone.getRegionCode() || accommodationCountryCode
   const tel = phone.getNumber('significant') || ''
   const dialCode = phone.getCountryCode() ? `+${phone.getCountryCode()}` : accommodationCountryCode
+  const isValid = phone.isValid()
 
   return {
     countryCode,
     phoneNumber: tel,
     oldNumber,
-    dialCode
+    dialCode,
+    isValid
   }
 }
