@@ -34,13 +34,15 @@ export const useFieldsRef = item => {
       })
     }
 
-    const { content } = fields.find(({ field_name }) => field_name === FIELD_FRONT_DESK_PHONE)
-    const { isValid: isPhoneNumberValid } = parsePhoneNumber(content)
+    const content = fields.find(({ field_name }) => field_name === FIELD_FRONT_DESK_PHONE)?.content
+    if (content) {
+      const { isValid: isPhoneNumberValid } = parsePhoneNumber(content)
 
-    if (!isPhoneNumberValid && !phoneTouched) {
-      newFields = newFields.filter(field => {
-        return field.field_name !== FIELD_FRONT_DESK_PHONE
-      })
+      if (!isPhoneNumberValid && !phoneTouched) {
+        newFields = newFields.filter(field => {
+          return field.field_name !== FIELD_FRONT_DESK_PHONE
+        })
+      }
     }
 
     return newFields
