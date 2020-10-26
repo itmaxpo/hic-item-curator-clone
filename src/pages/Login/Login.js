@@ -18,7 +18,19 @@ const Login = () => {
     <BackgroundSingleCard>
       <LogoSvg>Item Curator</LogoSvg>
       <StyledP>Seamless and smooth item management.</StyledP>
-      <StyledButton onClick={() => loginWithRedirect({})}>Login with Google</StyledButton>
+      <StyledButton
+        onClick={() =>
+          // https://github.com/auth0/auth0-spa-js/issues/574#issuecomment-688838781
+          loginWithRedirect({
+            appState: {
+              // this targetUrl is used in src/indexjs/:onRedirectCallback()
+              targetUrl: window.location.href
+            }
+          })
+        }
+      >
+        Login with Google
+      </StyledButton>
     </BackgroundSingleCard>
   )
 }
