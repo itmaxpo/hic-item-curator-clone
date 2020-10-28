@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import { FlexContainer, Flex, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
+import { Link } from 'react-router-dom'
+
 import { UnhappyIcon } from 'components/Icon'
 import ResizedImage from 'components/ResizedImage'
 
@@ -103,4 +105,10 @@ export const StyledResizedImage = styled(ResizedImage)`
 
 export const StyledUnhappyIcon = styled(UnhappyIcon)`
   margin: auto;
+`
+
+// since this is rendered as parent of a FlexContainer, setting width to 100%
+export const UnstyledLink = styled(Link)`
+  width: 100%;
+  text-decoration: none;
 `

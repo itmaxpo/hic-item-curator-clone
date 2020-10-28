@@ -153,8 +153,6 @@ export const SearchResult = withRouter(
       if (item.isLoading || e.target.nodeName === 'BUTTON') {
         e.preventDefault()
       } else {
-        // Always should be on the top of the new page
-        window.scrollTo(0, 0)
         scrollToItemManager.setItemToScrollTo(item.id)
         history.push(`/item/${item.id}?language=en-GB`)
       }

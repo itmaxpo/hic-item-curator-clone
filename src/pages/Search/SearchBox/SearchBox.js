@@ -50,11 +50,19 @@ const SearchBox = ({
 
   const { suppliers } = useContext(SuppliersContext)
 
-  const onNameChange = value => {
+  const onNameChange = e => {
+    const value = e?.target?.value
+    const keyCode = e?.keyCode
+
     onQueryUpdate({
       ...locationQuery,
       name: value
     })
+
+    // Execute search if enter pressed
+    if (keyCode === 13) {
+      onSearchClick()
+    }
   }
 
   const debouncedOnNameChange = debounce(onNameChange, 300)
@@ -211,8 +219,12 @@ const SearchBox = ({
               label="Name (optional)"
               placeholder="Name of the place"
               defaultValue={name}
-              onChange={e => {
-                debouncedOnNameChange(e.target.value)
+              // listening to keyDown to capture "enter" to execute search
+              onKeyDown={event => {
+                // since React pools all events for perf optimization,
+                // we can only access event specific properties asynchronously by persisting event using event.persist()
+                event.persist()
+                debouncedOnNameChange(event)
               }}
             />
           )}

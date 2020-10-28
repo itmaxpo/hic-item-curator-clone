@@ -17,12 +17,14 @@ import {
   BadgeWrapperPhoto,
   SearchItemPhotosWrapper,
   StyledResizedImage,
-  StyledUnhappyIcon
+  StyledUnhappyIcon,
+  UnstyledLink
 } from './styles'
 import { P, FlexContainer } from '@tourlane/tourlane-ui'
 import { Preloader } from 'components/LazyLoader'
 import { enrichItem, getCoverImage } from './utils'
 import BlockedMarketsChip from 'pages/Item/ItemLayout/Blocking/BlockedMarketsChip'
+import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -133,9 +135,18 @@ export const SearchItem = ({
               </ItemBadge>
             </BadgeWrapper> */}
           <ItemTitleWrapper justify="between">
-            <ItemTitle data-test="title">
-              <span>{localItem.title}</span>
-            </ItemTitle>
+            <UnstyledLink
+              onClick={e => {
+                // stopping propagation to avoid JS clicking in parent which will open the link in current tab
+                e.stopPropagation()
+                scrollToItemManager.setItemToScrollTo(localItem.id)
+              }}
+              to={`/item/${localItem.id}?language=en-GB`}
+            >
+              <ItemTitle data-test="title">
+                <span>{localItem.title}</span>
+              </ItemTitle>
+            </UnstyledLink>
             {item?.blocked?.markets && (
               <BlockedMarketsChip alignItems="center" markets={item.blocked.markets} />
             )}
