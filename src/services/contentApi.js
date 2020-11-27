@@ -218,11 +218,15 @@ const setItemAttachmentsById = async (id, filename, s3_key, source_key) => {
 }
 
 const updateItemFields = async (id, fields) => {
-  let res = await request('PATCH', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}`, {
-    body: {
-      fields
+  let res = await request(
+    'PATCH',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}?ignore_dupes=true`,
+    {
+      body: {
+        fields
+      }
     }
-  })
+  )
 
   return res.json()
 }
