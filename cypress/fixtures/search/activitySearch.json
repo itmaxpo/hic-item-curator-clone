@@ -11,7 +11,10 @@
         "uuid": "eb300912-821a-48e0-b3f0-411c53d634zz",
         "name": "Argentina"
       },
-      "location": null
+      "location": {
+        "lat": -63.616673,
+        "lon": -38.416096
+      }
     },
     {
       "uuid": "3d408b52-ec50-4b44-ab6e-8fc24850d2a3",
