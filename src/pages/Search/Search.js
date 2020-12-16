@@ -5,11 +5,12 @@ import Layout from 'components/Layout'
 import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, insertPage } from './utils'
-import { getAreasInCountry, getAccommodations } from 'services/searchApi'
+import { getAreasInCountry, getAccommodations, getActivities } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
   ACCOMMODATION_ITEM_TYPE,
+  ACTIVITY_ITEM_TYPE,
   ITEMS_PER_PAGE
 } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
@@ -18,6 +19,9 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
 const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
+const ActivitiesSearchResult = lazy(() =>
+  import(/* webpackChunkName: "ActivitiesSearchResult" */ './ActivitiesSearchResult')
+)
 
 /**
  * This is the Search Page component
@@ -93,6 +97,13 @@ const SearchPage = ({ history }) => {
         )
         break
       }
+      case ACTIVITY_ITEM_TYPE: {
+        const { data, meta } = await getActivities(prevPayload.current, index)
+        setResults(prevResults =>
+          insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
+        )
+        break
+      }
       default:
         return
     }
@@ -127,7 +138,16 @@ const SearchPage = ({ history }) => {
 
   // effect to fire a search when pressing back button or url with sufficient data is provided
   useEffect(() => {
-    const { areaId, countryId, name, supplier, page, missingGeolocation, blocked } = parsedQuery
+    const {
+      areaId,
+      countryId,
+      name,
+      supplier,
+      provider,
+      page,
+      missingGeolocation,
+      blocked
+    } = parsedQuery
 
     /*
      * early returns (no auto-triggered search):
@@ -152,6 +172,7 @@ const SearchPage = ({ history }) => {
         area: areaId,
         name,
         supplier,
+        provider,
         missingGeolocation: missingGeolocation === 'true',
         blocked: blocked === 'true'
       },
@@ -177,19 +198,35 @@ const SearchPage = ({ history }) => {
         {isLoading && <StyledLoader />}
         {!isEmpty(flattenedResults) && (
           <Suspense fallback={<StyledLoader />}>
-            <SearchResult
-              results={flattenedResults}
-              setResults={newResults => {
-                setResults(newResults)
-              }}
-              fetchMoreItems={search}
-              isLoading={isLoading}
-              locationQuery={parsedQuery}
-              onQueryUpdate={onQueryUpdate}
-              itemType={itemTypeRef.current}
-              country={country}
-              page={Number(parsedQuery.page)}
-            />
+            {itemTypeRef.current === ACTIVITY_ITEM_TYPE ? (
+              <ActivitiesSearchResult
+                results={flattenedResults}
+                setResults={newResults => {
+                  setResults(newResults)
+                }}
+                fetchMoreItems={search}
+                isLoading={isLoading}
+                locationQuery={parsedQuery}
+                onQueryUpdate={onQueryUpdate}
+                itemType={itemTypeRef.current}
+                country={country}
+                page={Number(parsedQuery.page)}
+              />
+            ) : (
+              <SearchResult
+                results={flattenedResults}
+                setResults={newResults => {
+                  setResults(newResults)
+                }}
+                fetchMoreItems={search}
+                isLoading={isLoading}
+                locationQuery={parsedQuery}
+                onQueryUpdate={onQueryUpdate}
+                itemType={itemTypeRef.current}
+                country={country}
+                page={Number(parsedQuery.page)}
+              />
+            )}
           </Suspense>
         )}
         {results && isEmpty(flattenedResults) && !isLoading && (

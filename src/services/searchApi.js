@@ -132,4 +132,29 @@ const getAccommodations = async (
   return res.json()
 }
 
-export { getCountries, getAreasInCountry, getAccommodations }
+/**
+ * Returns activities
+ *
+ * @name getActivities
+ * @param {Object} payload { name, supplier, country }
+ * @param {Number} offset
+ * @param {Number} limit
+ * @returns {Object}
+ */
+const getActivities = async (
+  { name = '', supplier = '', country = '', provider = '' },
+  offset = 0,
+  limit = 40
+) => {
+  if (onLighthouseMode) return mockItems
+
+  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
+  const res = await request(
+    'GET',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country=${country}&name=${nameToSearch}`
+  )
+
+  return res.json()
+}
+
+export { getCountries, getAreasInCountry, getAccommodations, getActivities }
