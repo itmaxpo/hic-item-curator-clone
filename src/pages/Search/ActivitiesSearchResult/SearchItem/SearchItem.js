@@ -26,8 +26,6 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
  *
  * @param {Object} item
  * @param {Number} index
- * @param {Function} onSelect
- * @param {Array<String>} selectedItems
  * @param {Function} onItemClick
  */
 export const SearchItem = ({ item, onItemClick, updateItemRef }) => {
@@ -45,7 +43,7 @@ export const SearchItem = ({ item, onItemClick, updateItemRef }) => {
       if (isLoading) {
         setIsLoading(false)
         const enrichedItem = await enrichItem(localItem)
-        updateItemRef(enrichedItem, localItem.isMerged)
+        updateItemRef(enrichedItem)
         setLocalItem(enrichedItem)
       }
     }
@@ -78,7 +76,7 @@ export const SearchItem = ({ item, onItemClick, updateItemRef }) => {
 
   return (
     <SearchItemWrapper
-      id={localItem.id}
+      id={localItem.uuid}
       data-test="search-item"
       p={3 / 4}
       direction={'ltr'}
@@ -97,9 +95,9 @@ export const SearchItem = ({ item, onItemClick, updateItemRef }) => {
               onClick={e => {
                 // stopping propagation to avoid JS clicking in parent which will open the link in current tab
                 e.stopPropagation()
-                scrollToItemManager.setItemToScrollTo(localItem.id)
+                scrollToItemManager.setItemToScrollTo(localItem.uuid)
               }}
-              to={`/item/${localItem.id}?language=en-GB`}
+              to={`/activity/${localItem.uuid}?language=en-GB`}
             >
               <ItemTitle data-test="title">
                 <span>{localItem.name}</span>

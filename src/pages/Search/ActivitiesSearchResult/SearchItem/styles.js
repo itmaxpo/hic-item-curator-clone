@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import { FlexContainer, Flex, Checkbox, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
+import { FlexContainer, Flex, COLORS, Subline, Base } from '@tourlane/tourlane-ui'
 import { Link } from 'react-router-dom'
 
-import { UnhappyIcon } from 'components/Icon'
 import ResizedImage from 'components/ResizedImage'
 
 export const SearchItemWrapper = styled(FlexContainer)`
@@ -17,17 +16,6 @@ export const SearchItemWrapper = styled(FlexContainer)`
     box-shadow: 0 2px 17px 0 rgba(63, 65, 68, 0.3);
     transition: box-shadow 0.5s ease-out;
   }
-
-  ${({ isMerged }) =>
-    isMerged
-      ? `
-          border-bottom: 4px solid ${COLORS.ADVENTURE_GREEN};
-        `
-      : ''}
-`
-
-export const SearchItemCheckbox = styled(Checkbox)`
-  margin-top: 4px;
 `
 
 export const SearchItemContentContainer = styled(Flex)`
@@ -41,12 +29,6 @@ export const SearchItemInfoWrapper = styled(FlexContainer)`
     margin-left: 10px;
     position: relative;
   }
-`
-
-export const ContentContainer = styled(FlexContainer)`
-  flex-grow: 2;
-  margin-right: 18px !important;
-  position: relative;
 `
 
 export const ItemTitleWrapper = styled(Flex)`
@@ -70,13 +52,6 @@ export const ItemDescription = styled.div`
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
-export const BadgeWrapper = styled.div`
-  position: absolute;
-  top: -2px;
-  right: 12px;
-  font-weight: 600;
-`
-
 export const SearchItemPhotosWrapper = styled(FlexContainer)`
   width: 280px;
   height: 170px;
@@ -93,18 +68,8 @@ export const SearchItemPhotosWrapper = styled(FlexContainer)`
       : ''}
 `
 
-export const BadgeWrapperPhoto = styled.div`
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-`
-
 export const StyledResizedImage = styled(ResizedImage)`
   border-radius: 4px;
-`
-
-export const StyledUnhappyIcon = styled(UnhappyIcon)`
-  margin: auto;
 `
 
 // since this is rendered as parent of a FlexContainer, setting width to 100%

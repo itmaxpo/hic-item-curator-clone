@@ -151,7 +151,7 @@ const getActivities = async (
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
   const res = await request(
     'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country=${country}&name=${nameToSearch}`
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country_uuid=${country}&name=${nameToSearch}`
   )
 
   return res.json()

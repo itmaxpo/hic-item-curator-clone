@@ -205,11 +205,8 @@ const SearchPage = ({ history }) => {
                   setResults(newResults)
                 }}
                 fetchMoreItems={search}
-                isLoading={isLoading}
                 locationQuery={parsedQuery}
                 onQueryUpdate={onQueryUpdate}
-                itemType={itemTypeRef.current}
-                country={country}
                 page={Number(parsedQuery.page)}
               />
             ) : (
