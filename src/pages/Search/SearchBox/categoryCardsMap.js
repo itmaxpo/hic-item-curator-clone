@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlagIcon, MapPinIcon, HomeIcon } from 'components/Icon'
+import { FlagIcon, MapPinIcon, HomeIcon, BeachIcon } from 'components/Icon'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
@@ -27,6 +27,6 @@ export const categoryCardsMap = [
   {
     value: ACTIVITY_ITEM_TYPE,
     displayName: 'Activity',
-    icon: () => <HomeIcon />
+    icon: () => <BeachIcon />
   }
 ]
