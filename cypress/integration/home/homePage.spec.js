@@ -365,4 +365,185 @@ describe('Homepage', () => {
       testItemPage(pageAccomDataAfterMerge)
     })
   })
+
+  it('Search for activities with no filters', () => {
+    cy.server()
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/activities?*',
+      'fixture:search/activitySearch.json'
+    )
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // select activity tab
+    cy.get('@searchBox')
+      .find('[data-test=Activity]')
+      .click()
+
+    // click search button
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .click()
+
+    cy.get('[data-test=search-item]').should('have.length', 14)
+  })
+
+  it('Searching for activities by country', () => {
+    cy.server()
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/activities?*',
+      'fixture:search/activitySearch.json'
+    )
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // select activity tab
+    cy.get('@searchBox')
+      .find('[data-test=Activity]')
+      .click()
+
+    // select country: Argentina
+    cy.get('@searchBox')
+      .find('[data-test=country-dropdown]')
+      .setSelectOption('Argentina', 3000)
+
+    // click search button
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .click({ force: true })
+
+    cy.get('[data-test=search-item]').should('have.length', 14)
+
+    cy.get('[data-test=search-item]')
+      .first()
+      .as('searchItem')
+
+    // select search item title
+    cy.get('@searchItem')
+      .find('[data-test=title]')
+      .contains('111')
+    cy.get('@searchItem')
+      .find('[data-test=subtitle]')
+      .contains('Argentina')
+    cy.get('@searchItem')
+      .find('[data-test=provider]')
+      .contains('Provider: Creole')
+    cy.get('@searchItem')
+      .find('[data-test=supplier]')
+      .contains('Supplier: Chamäleon')
+    cy.get('@searchItem')
+      .find('[data-test=description]')
+      .contains(
+        'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a mo'
+      )
+    cy.url().should('include', 'countryId')
+    cy.url().should('include', 'countryName')
+  })
+
+  it('Searching for activities by supplier', () => {
+    cy.server()
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/activities?*',
+      'fixture:search/activitySearch.json'
+    )
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // select activity tab
+    cy.get('@searchBox')
+      .find('[data-test=Activity]')
+      .click()
+
+    // select country: Argentina
+    cy.get('@searchBox')
+      .find('[data-test=supplier-dropdown]')
+      .click()
+      .setSelectOption('AAT Kings', 300)
+
+    //click search button
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .click({ force: true })
+
+    cy.url().should('include', 'supplier=AAT%20Kings')
+  })
+
+  it('Searching for activities by name', () => {
+    cy.server()
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/activities?*',
+      'fixture:search/activitySearch.json'
+    )
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // select activity tab
+    cy.get('@searchBox')
+      .find('[data-test=Activity]')
+      .click()
+
+    // enter a name to search
+    cy.get('@searchBox')
+      .find('[data-test=name-search]')
+      .type('Kung Fu Fighting')
+
+    //click search button
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .click({ force: true })
+
+    cy.url().should('include', 'name=Kung%20Fu%20Fighting')
+  })
+
+  it('Searching for activities by provider', () => {
+    cy.server()
+    cy.route(
+      'GET',
+      'https://kiwi.**.com/content/activities?*',
+      'fixture:search/activitySearch.json'
+    )
+    cy.route(
+      'POST',
+      'https://kiwi.**.com/search/v1/items?test-country',
+      'fixture:search/goToCountry.json'
+    )
+
+    cy.get('[data-test=searchBox]').as('searchBox')
+
+    // select activity tab
+    cy.get('@searchBox')
+      .find('[data-test=Activity]')
+      .click()
+
+    // enter a provider to search
+    cy.get('@searchBox')
+      .find('[data-test=provider-search]')
+      .type('Creole')
+
+    //click search button
+    cy.get('@searchBox')
+      .find('[data-test=search]')
+      .click({ force: true })
+
+    cy.url().should('include', 'provider=Creole')
+  })
 })
