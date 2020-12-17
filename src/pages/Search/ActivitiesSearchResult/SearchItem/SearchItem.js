@@ -53,7 +53,7 @@ export const SearchItem = ({ item, onItemClick, updateItemRef }) => {
     getEnrichedItem()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localItem, updateItemRef])
-
+  //TODO: https://tourlane.atlassian.net/browse/TRIP-1836
   // const Image = useCallback(() => {
   //   const noPictures = isLoading === false && isEmpty(localItem.allImages)
 
