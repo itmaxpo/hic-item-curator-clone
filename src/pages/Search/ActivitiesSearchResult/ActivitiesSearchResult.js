@@ -1,17 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { isEmpty, flatten, uniqBy } from 'lodash'
+import { isEmpty, flatten } from 'lodash'
 import { withRouter } from 'react-router-dom'
 import { FlexContainer, ExtraSmall, H4 } from '@tourlane/tourlane-ui'
 import Pagination from 'components/Pagination'
-import {
-  paginateResults,
-  scrollToActions,
-  missingId,
-  getParentNameList,
-  getItemsNames,
-  updateItemsWithNames,
-  enrichItems
-} from './utils'
+import { paginateResults, scrollToActions, missingId, enrichItems } from './utils'
 import SearchItem from './SearchItem'
 import {
   SearchResultContainer,
@@ -19,7 +11,7 @@ import {
   BottomWrapper,
   TotalItemsWrapper
 } from './styles'
-import { ACCOMMODATION_ITEM_TYPE, ITEMS_PER_PAGE } from 'utils/constants'
+import { ITEMS_PER_PAGE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 
 /**
@@ -34,46 +26,26 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
  * @param {Array} results (results from search)
  * @param {Function} setResults - callback to update results from search - used to enrich items
  * @param {Function} fetchMoreItems - fetch missing items, as we only fetch chunks of 40 items
- * @param {Boolean} isLoading - search is in progress
  * @param {Object} locationQuery - query url
  * @param {Function} onQueryUpdate - callback to update query url
- * @param {String} itemType - type of items searched and displayed
- * @param {String} country - country of items searched and displayed
  * @param {Object} history from react-router
  * @returns {Function} Search Result component
  */
 export const ActivitiesSearchResult = withRouter(
-  ({
-    history,
-    results,
-    setResults,
-    fetchMoreItems,
-    isLoading,
-    locationQuery,
-    onQueryUpdate,
-    itemType,
-    country,
-    page
-  }) => {
+  ({ history, results, setResults, fetchMoreItems, locationQuery, onQueryUpdate, page }) => {
     const searchContainer = useRef(null)
     const [currentPage, setCurrentPage] = useState(page || 1)
     const [allResults, setAllResults] = useState(paginateResults(results, ITEMS_PER_PAGE))
-    const [parentNameList, setParentNameList] = useState(
-      uniqBy(getParentNameList(allResults[currentPage - 1]), 'id')
-    )
-
     const enrichedItemsRef = useRef([])
 
-    const updateItemRef = useCallback((updatedItem, isMerged) => {
-      if (isMerged) enrichedItemsRef.current = [updatedItem, ...enrichedItemsRef.current]
-      else enrichedItemsRef.current.push(updatedItem)
+    const updateItemRef = useCallback(updatedItem => {
+      enrichedItemsRef.current.push(updatedItem)
     }, [])
 
     /* this method returns the search results
      * with an enriched version of the items.
      * It is meant to be called when changing pages
-     * or after merging items so it doesn't affect performance,
-     * given that these two actions already causes a re render of the items.
+     * so it doesn't affect performance.
      */
     const updateCurrentPageEnrichedItems = () => {
       if (isEmpty(enrichedItemsRef.current)) return results
@@ -105,40 +77,19 @@ export const ActivitiesSearchResult = withRouter(
       }
     }
 
-    const onItemClick = (e, item) => {
+    const onItemClick = (e, activity) => {
       // Prevent clicking event before item loaded || 'show more' clicked
-      if (item.isLoading || e.target.nodeName === 'BUTTON') {
+      if (activity.isLoading || e.target.nodeName === 'BUTTON') {
         e.preventDefault()
       } else {
-        scrollToItemManager.setItemToScrollTo(item.id)
-        history.push(`/item/${item.id}?language=en-GB`)
+        scrollToItemManager.setItemToScrollTo(activity.uuid)
+        history.push(`/activities/${activity.uuid}?language=en-GB`)
       }
     }
 
     useEffect(() => {
       setAllResults(paginateResults(results, ITEMS_PER_PAGE))
     }, [results])
-
-    // on page changes, feed the parentNameList with the new parent ids with fetched names
-    useEffect(() => {
-      async function getParentNames() {
-        let newParentNameList = uniqBy(
-          [...parentNameList, ...getParentNameList(allResults[currentPage - 1])],
-          'id'
-        )
-
-        const itemsToFetchNames = newParentNameList.filter(({ fetched }) => fetched === false)
-
-        const parentNames = await getItemsNames(itemsToFetchNames)
-
-        newParentNameList = updateItemsWithNames(newParentNameList, parentNames)
-
-        setParentNameList(newParentNameList)
-      }
-
-      if (itemType === ACCOMMODATION_ITEM_TYPE) getParentNames()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage])
 
     // effect to run after the user comes back from the item page
     useEffect(() => {
@@ -160,10 +111,8 @@ export const ActivitiesSearchResult = withRouter(
             </FlexContainer>
             {allResults[currentPage - 1].map((item, i) => (
               <SearchItem
-                key={item.id}
+                key={item.uuid}
                 item={item}
-                country={country}
-                selectedItems={[]}
                 index={i}
                 onItemClick={onItemClick}
                 updateItemRef={updateItemRef}
