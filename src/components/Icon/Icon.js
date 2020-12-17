@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { SvgIcon } from '@tourlane/tourlane-ui'
+import { SvgIcon, COLORS } from '@tourlane/tourlane-ui'
+import TuiBeachIcon from '@tourlane/iconography/Glyphs/Activities/Beach'
 
 import { ReactComponent as AlertSvg } from 'icons/alert.svg'
 import { ReactComponent as CloseSvg } from 'icons/close.svg'
@@ -223,6 +224,12 @@ const CheckIcon = props => (
   </StyledSvgIcon>
 )
 
+const BeachIcon = props => (
+  <SvgIcon size={22} color={COLORS.ELEMENT_GRAY} alt="check" {...props}>
+    <TuiBeachIcon />
+  </SvgIcon>
+)
+
 export {
   AlertIcon,
   LightCloseIcon,
@@ -253,5 +260,6 @@ export {
   SadFileIcon,
   SadFaceIcon,
   MergeBigIcon,
-  CheckIcon
+  CheckIcon,
+  BeachIcon
 }
