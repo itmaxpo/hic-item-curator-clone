@@ -1,5 +1,4 @@
 import { getItemAttachmentsById } from 'services/contentApi'
-import { filter, get } from 'lodash'
 
 // enriched item with attachments and parent administrative area
 export const enrichItem = async item => {
@@ -20,5 +19,4 @@ export const enrichItem = async item => {
 const parseAttachmentsResponse = response => (response ? { allImages: response.data } : null)
 
 export const getCoverImage = images =>
-  filter(images, ({ tags }) => get(tags, 'order') === 0 && get(tags, 'visible') === true)[0] ||
-  images[0]
+  images?.filter(img => img?.tags?.order === 0 && img?.tags?.visible === true)?.[0]

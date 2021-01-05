@@ -26,22 +26,6 @@ export const BottomWrapper = styled(FlexContainer)`
   border-bottom: 1px solid ${COLORS.LINE_GRAY};
 `
 
-export const ItemsPerPageWrapper = styled(FlexContainer)`
-  min-width: 140px;
-  height: 38px;
-  position: absolute;
-  right: 0;
-  top: 10px;
-
-  > p {
-    margin-right: 10px;
-  }
-
-  > div {
-    width: 100px;
-  }
-`
-
 export const TotalItemsWrapper = styled(FlexContainer)`
   position: absolute;
   right: 0;
