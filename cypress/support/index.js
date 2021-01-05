@@ -13,9 +13,18 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+/* global Cypress cy */
+
 import 'cypress-file-upload'
 import './commands'
 import './upload'
 import './homePage'
 import './itemPage'
 import './itemPageSpecificFields'
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // We can ignore this error - https://stackoverflow.com/a/50387233/2564302
+  if (err.message.includes('ResizeObserver loop limit exceeded')) {
+    return false
+  }
+})
