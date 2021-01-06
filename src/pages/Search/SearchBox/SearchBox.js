@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react'
 import { get, debounce } from 'lodash'
-import { Flex, FlexContainer, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
+import {
+  Flex,
+  FlexContainer,
+  COLORS,
+  Icon,
+  Label,
+  Checkbox,
+  Container
+} from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import {
   SearchBoxWrapper,
@@ -16,7 +24,12 @@ import {
 import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
 import IconCard from 'components/IconCard'
-import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import {
+  COUNTRY_ITEM_TYPE,
+  AREA_ITEM_TYPE,
+  ACCOMMODATION_ITEM_TYPE,
+  ACTIVITY_ITEM_TYPE
+} from 'utils/constants'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
 import SuppliersContext from 'contexts/Suppliers'
 
@@ -42,6 +55,7 @@ const SearchBox = ({
   const area = getQueryValue(locationQuery, 'areaName', 'areaId')
   const supplier = getQueryValue(locationQuery, 'supplier', 'supplier')
   const name = get(locationQuery, 'name')
+  const provider = get(locationQuery, 'provider')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
   const blocked = get(locationQuery, 'blocked') === 'true'
 
@@ -65,8 +79,6 @@ const SearchBox = ({
     }
   }
 
-  const debouncedOnNameChange = debounce(onNameChange, 300)
-
   const onCategoryCardClick = value => () => {
     onQueryUpdate({ ...locationQuery, type: value })
   }
@@ -88,6 +100,15 @@ const SearchBox = ({
     })
   }
 
+  const onProviderChange = e => {
+    const value = e?.target?.value
+
+    onQueryUpdate({
+      ...locationQuery,
+      provider: value
+    })
+  }
+
   const onAreaChange = value => {
     onQueryUpdate({
       ...locationQuery,
@@ -95,6 +116,9 @@ const SearchBox = ({
       areaName: get(value, 'label')
     })
   }
+
+  const debouncedOnNameChange = debounce(onNameChange, 300)
+  const debouncedOnProviderChange = debounce(onProviderChange, 300)
 
   const onSearchClick = async () => {
     if (!goToDestination) {
@@ -113,6 +137,18 @@ const SearchBox = ({
               name,
               missingGeolocation,
               blocked
+            },
+            0,
+            true
+          )
+          break
+        case ACTIVITY_ITEM_TYPE:
+          await search(
+            {
+              country: get(country, 'value'),
+              supplier: get(supplier, 'value'),
+              name,
+              provider
             },
             0,
             true
@@ -164,7 +200,6 @@ const SearchBox = ({
   useEffect(() => {
     setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
-
   return (
     <SearchBoxWrapper data-test="searchBox">
       <SearchBoxTitle>What item are you looking for?</SearchBoxTitle>
@@ -203,7 +238,7 @@ const SearchBox = ({
             renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
             onChange={onCountryChange}
           />
-          {category === ACCOMMODATION_ITEM_TYPE && (
+          {(category === ACCOMMODATION_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE) && (
             <Dropdown
               dataTest="supplier-dropdown"
               label="Supplier"
@@ -213,7 +248,9 @@ const SearchBox = ({
               onChange={onSupplierChange}
             />
           )}
-          <AreaDropdown hidden={category === COUNTRY_ITEM_TYPE} />
+          <AreaDropdown
+            hidden={category === COUNTRY_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE}
+          />
           {category === ACCOMMODATION_ITEM_TYPE && (
             <NameField
               label="Name (optional)"
@@ -227,6 +264,38 @@ const SearchBox = ({
                 debouncedOnNameChange(event)
               }}
             />
+          )}
+          {category === ACTIVITY_ITEM_TYPE && (
+            <FlexContainer p={0} mt={1}>
+              <NameField
+                label="Name"
+                placeholder="Name of the activity"
+                data-test="name-search"
+                defaultValue={name}
+                // listening to keyDown to capture "enter" to execute search
+                onKeyDown={event => {
+                  // since React pools all events for perf optimization,
+                  // we can only access event specific properties asynchronously by persisting event using event.persist()
+                  event.persist()
+                  debouncedOnNameChange(event)
+                }}
+              />
+              <Container p={0} ml={1}>
+                <NameField
+                  label="Provider"
+                  placeholder="Provider of the activity"
+                  defaultValue={provider}
+                  data-test="provider-search"
+                  // listening to keyDown to capture "enter" to execute search
+                  onKeyDown={event => {
+                    // since React pools all events for perf optimization,
+                    // we can only access event specific properties asynchronously by persisting event using event.persist()
+                    event.persist()
+                    debouncedOnProviderChange(event)
+                  }}
+                />
+              </Container>
+            </FlexContainer>
           )}
         </SearchFieldsWrapper>
       )}
@@ -260,7 +329,7 @@ const SearchBox = ({
         <Search
           data-test="search"
           isLoading={isLoading}
-          disabled={!country && !supplier}
+          disabled={category !== ACTIVITY_ITEM_TYPE ? !country && !supplier : false}
           destination={goToDestination}
           onButtonClick={onSearchClick}
         />

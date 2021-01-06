@@ -11,6 +11,7 @@ export const GIATA = 'giata'
 export const COUNTRY_ITEM_TYPE = 'country'
 export const AREA_ITEM_TYPE = 'admin_area'
 export const ACCOMMODATION_ITEM_TYPE = 'accommodation'
+export const ACTIVITY_ITEM_TYPE = 'activity'
 export const TOURISTIC_AREA_ITEM_TYPE = 'touristic_area'
 
 // Image API

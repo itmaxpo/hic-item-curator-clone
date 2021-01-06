@@ -79,7 +79,7 @@ export const Search = ({ destination, ...rest }) => (
 
 export const CategoryCardsWrapper = styled(FlexContainer)`
   && {
-    width: 460px;
+    width: 614px;
     align-self: center;
   }
 `

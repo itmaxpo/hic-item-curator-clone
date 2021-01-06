@@ -1,6 +1,6 @@
 import { isEmpty, chunk, get, flatten } from 'lodash'
 import { getFieldBySourcePriority } from 'utils/helpers'
-import { ITEMS_PER_PAGE } from 'utils/constants'
+import { ITEMS_PER_PAGE, ACTIVITY_ITEM_TYPE } from 'utils/constants'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
@@ -88,7 +88,7 @@ export const calculateIndex = (page, itemsPerPage) => itemsPerPage * page
 
 // inserts new page and paginates array
 export const insertPage = (pages, index, items, totalCount, itemType) => {
-  const parsedItems = parseItems(items, itemType)
+  const parsedItems = itemType === ACTIVITY_ITEM_TYPE ? items : parseItems(items, itemType)
 
   // when pages are already defined/created (have the right size from the totalCount)
   if (pages && pages.length) {
