@@ -1,4 +1,3 @@
-import * as React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import LazyLoad from 'react-lazyload'
 import { Chip, FlexContainer, P } from '@tourlane/tourlane-ui'
@@ -31,7 +30,7 @@ import {
 
 const Image = ({ itemId }) => {
   let { isLoading, data: images = [], error } = usePromise(async () => {
-    let { data: images } = await getItemAttachmentsById(itemId)
+    let { data: images } = await getItemAttachmentsById(itemId, 0, 'activity')
 
     return images
   }, [itemId])
@@ -65,17 +64,11 @@ export const SearchItem = ({ item, onClick }) => (
     direction={'ltr'}
     isMerged={item.isMerged}
   >
-    <SearchItemContentContainer onClick={e => onClick(e, item)}>
+    <SearchItemContentContainer onClick={(e) => onClick(e, item)}>
       <SearchItemInfoWrapper p={0} direction="ttb">
-        {/* TODO: Uncomment when status should be rendered */}
-        {/* <BadgeWrapper>
-              <ItemBadge width={'139px'}>
-                <StatusIndicator status={item.status} />
-              </ItemBadge>
-            </BadgeWrapper> */}
         <ItemTitleWrapper justify="between">
           <UnstyledLink
-            onClick={e => {
+            onClick={(e) => {
               // stopping propagation to avoid JS clicking in parent which will open the link in current tab
               e.stopPropagation()
               scrollToItemManager.setItemToScrollTo(item.uuid)

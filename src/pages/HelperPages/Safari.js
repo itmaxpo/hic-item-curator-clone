@@ -18,7 +18,7 @@ const SafariPage = ({ onContinue }) => {
       <StyledP>Hey, looks like you are using Safari!</StyledP>
       <P>
         In order for this website to work, please go to your browser's{' '}
-        <strong>Preferences > Privacy</strong> tab and uncheck the{' '}
+        <strong>Preferences {'>'} Privacy</strong> tab and uncheck the{' '}
         <strong>Prevent cross-site tracking</strong> option and restart your browser
       </P>
       <img

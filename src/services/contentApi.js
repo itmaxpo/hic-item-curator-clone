@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import request from './request'
+import request, { getJson } from './request'
 import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
 import {
   FIELD_ISO_CODE,
@@ -71,7 +71,7 @@ const fieldsToSelect = [
  * @param {String} id
  * @returns {Object}
  */
-const getItemFieldsById = async id => {
+const getItemFieldsById = async (id) => {
   if (onLighthouseMode) return mockItemFields
 
   const selectedFields = `?selected_fields=${fieldsToSelect}`
@@ -92,7 +92,7 @@ const getItemFieldsById = async id => {
  * @param {String} id
  * @returns {Object}
  */
-const getItemPolygonCoordinatesById = async id => {
+const getItemPolygonCoordinatesById = async (id) => {
   if (onLighthouseMode) return mockPolygon
   let res = await request('GET', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/polygon`)
 
@@ -114,22 +114,14 @@ const getSuppliers = async () => {
   return res.json()
 }
 
-/**
- * Return item attachments
- *
- * @name getItemAttachmentsById
- * @param {String} id
- * @returns {Object}
- */
-const getItemAttachmentsById = async (id, offset = 0) => {
+const getItemAttachmentsById = async (id, offset = 0, itemType) => {
   if (onLighthouseMode) return mockAttachments
 
-  let res = await request(
-    'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments?limit=50&offset=${offset}`
-  )
-
-  return res.json()
+  return getJson(`${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments`, {
+    offset,
+    limit: 50,
+    item_type: itemType
+  })
 }
 
 /**
@@ -141,7 +133,7 @@ const getItemAttachmentsById = async (id, offset = 0) => {
  * @returns {Object}
  */
 const updateItemAttachmentsById = async (id, attachments, isVisible) => {
-  let req = att =>
+  let req = (att) =>
     request(
       'PATCH',
       `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments/${att.id}`,
@@ -156,7 +148,9 @@ const updateItemAttachmentsById = async (id, attachments, isVisible) => {
       }
     )
 
-  const promises = await Promise.all([...attachments.map(att => req(att).then(res => res.json()))])
+  const promises = await Promise.all([
+    ...attachments.map((att) => req(att).then((res) => res.json()))
+  ])
 
   return promises
 }
@@ -231,7 +225,7 @@ const updateItemFields = async (id, fields) => {
   return res.json()
 }
 
-const getRoomsForAccommodation = async id => {
+const getRoomsForAccommodation = async (id) => {
   let res
   // add a condition to modify request if it is e2e test environment
   if (window.Cypress || process.env.REACT_APP_CI) {
@@ -265,7 +259,7 @@ const getRoomsForAccommodation = async id => {
  * @param {Array<String>} ids
  * @returns {Object} merged item
  */
-const mergeItems = async ids => {
+const mergeItems = async (ids) => {
   let res = await request('POST', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/merge`, {
     body: {
       item_uuids: ids,

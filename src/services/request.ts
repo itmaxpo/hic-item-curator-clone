@@ -1,16 +1,19 @@
 import { tokenManager } from 'utils/TokenManager'
 import { notificationManager } from 'utils/NotificationManager'
-/* global Headers, fetch */
+import { stringify } from 'query-string'
 
 /**
  * Performs an HTTP request. Using Fetch
  * Handles refreshing tokens if needed and stores auth0 token for every request
  *
- * @name request
- * @params method, path, config
- * @returns {Promise<response>} response
  */
-const request = async (method, path, config, contentType, retries = 0) => {
+const request = async <Payload = any>(
+  method: string,
+  path: string,
+  config?: Omit<RequestInit, 'body'> & { body?: Payload },
+  contentType?: string,
+  retries = 0
+): Promise<Response> => {
   if (!window.navigator.onLine) {
     notificationManager.notify({
       variant: 'error',
@@ -30,18 +33,17 @@ const request = async (method, path, config, contentType, retries = 0) => {
 
   // Prepare request options
   // nominatim request breaks if we include the auth token
-  const headers = path.includes('nominatim')
+  const headers: Record<string, string> = path.includes('nominatim')
     ? {}
-    : new Headers({
+    : {
         Authorization: `Bearer ${tokenManager.getToken()}`
-      })
+      }
 
   if (method !== 'GET') {
-    const _contentType = contentType ? contentType : 'application/json'
-    headers.set('Content-Type', _contentType)
+    headers['Content-Type'] = contentType ? contentType : 'application/json'
   }
 
-  let fetchOpts = { method, headers }
+  let fetchOpts: RequestInit = { method, headers }
 
   if (config) {
     const { body, ...otherConfig } = config
@@ -52,7 +54,7 @@ const request = async (method, path, config, contentType, retries = 0) => {
   }
 
   return fetch(path, fetchOpts)
-    .then(response => {
+    .then((response) => {
       // valid response status
       const validStatuses = [200, 201, 302]
 
@@ -63,20 +65,20 @@ const request = async (method, path, config, contentType, retries = 0) => {
           variant: 'error',
           message: `Got an Authorization error from the backend (${path}). Please refresh the page.`
         })
-        return request(method, path, config, retries + 1)
+        return request(method, path, config, contentType, retries + 1)
       } else if (response.status === 404) {
         console.warn(`Could not find ${path}`)
         notificationManager.notify({ variant: 'error', message: `Service not found: ${path}` })
         return response
       } else if (!validStatuses.includes(response.status)) {
-        let responseError
+        let responseError: any
 
         response
           .json()
           .then(({ error }) => {
             responseError = error
           })
-          .catch(error => {
+          .catch((error) => {
             responseError = error
           })
           .finally(() => {
@@ -88,14 +90,33 @@ const request = async (method, path, config, contentType, retries = 0) => {
 
       return response
     })
-    .catch(error => {
+    .catch((error) => {
       console.warn('Error: ', error)
       notificationManager.notify({
         variant: 'error',
         message: 'Error - refresh page'
       })
       return error
-    })
+    }) as Promise<Response>
 }
+
+export const requestJson = async <Response, Payload = any>(
+  method: string,
+  path: string,
+  body?: Payload
+): Promise<Response> => {
+  let response = await request<Payload>(method, path, { body }, 'application/vnd.api+json')
+
+  if (response.status >= 400) {
+    let json: any = await response.json()
+
+    throw json?.errors ?? json
+  }
+
+  return response.json()
+}
+
+export const getJson = (path: string, params: Record<string, any>) =>
+  requestJson('GET', path + (params ? `?${stringify(params)}` : ''))
 
 export default request
