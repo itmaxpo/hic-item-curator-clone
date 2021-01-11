@@ -11,8 +11,7 @@ import {
 
 describe('Homepage', () => {
   before(() => {
-    cy.getFetchPolyfill().as('fetchPolyfill')
-    cy.get('@fetchPolyfill').homePageLoad()
+    cy.homePageLoad()
   })
 
   it('it loads', () => {

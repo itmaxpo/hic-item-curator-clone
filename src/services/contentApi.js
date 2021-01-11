@@ -124,6 +124,15 @@ const getItemAttachmentsById = async (id, offset = 0, itemType) => {
   })
 }
 
+export const getActivityById = async (id, language = 'en-GB') => {
+  let res = await request(
+    'GET',
+    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities/${id}?locale=${language}`
+  )
+
+  return res.json()
+}
+
 /**
  * Update item attachment by id
  *

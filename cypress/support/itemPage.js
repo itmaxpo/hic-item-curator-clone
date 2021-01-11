@@ -43,23 +43,10 @@ Cypress.Commands.add('itemPageAccommodationStub', (type = 'accom') => {
  * Custom command 'itemPageAccoommodationLoad'.
  * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
  */
-Cypress.Commands.add(
-  'itemPageAccommodationLoad',
-  {
-    prevSubject: true
-  },
-  fetchPolyfill => {
-    cy.itemPageAccommodationStub()
-    cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB', {
-      onBeforeLoad(win) {
-        // replace win.fetch with polyfill, so that Cypress can stub XHR requests
-        delete win.fetch
-        win.eval(fetchPolyfill)
-        win.fetch = win.unfetch
-      }
-    })
-  }
-)
+Cypress.Commands.add('itemPageAccommodationLoad', () => {
+  cy.itemPageAccommodationStub()
+  cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB')
+})
 
 /**
  * Custom command 'itemPageAreaStub'.
@@ -104,23 +91,10 @@ Cypress.Commands.add('itemPageAreaStub', (type = 'accom') => {
  * Custom command 'itemPageAreaLoad'.
  * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
  */
-Cypress.Commands.add(
-  'itemPageAreaLoad',
-  {
-    prevSubject: true
-  },
-  fetchPolyfill => {
-    cy.itemPageAreaStub()
-    cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB', {
-      onBeforeLoad(win) {
-        // replace win.fetch with polyfill, so that Cypress can stub XHR requests
-        delete win.fetch
-        win.eval(fetchPolyfill)
-        win.fetch = win.unfetch
-      }
-    })
-  }
-)
+Cypress.Commands.add('itemPageAreaLoad', () => {
+  cy.itemPageAreaStub()
+  cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB')
+})
 
 /**
  * Custom command 'itemPageAreaStub'.
@@ -166,20 +140,7 @@ Cypress.Commands.add('itemPageCountryStub', (type = 'accom') => {
  * Custom command 'itemPageCountryLoad'.
  * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
  */
-Cypress.Commands.add(
-  'itemPageCountryLoad',
-  {
-    prevSubject: true
-  },
-  fetchPolyfill => {
-    cy.itemPageCountryStub()
-    cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB', {
-      onBeforeLoad(win) {
-        // replace win.fetch with polyfill, so that Cypress can stub XHR requests
-        delete win.fetch
-        win.eval(fetchPolyfill)
-        win.fetch = win.unfetch
-      }
-    })
-  }
-)
+Cypress.Commands.add('itemPageCountryLoad', () => {
+  cy.itemPageCountryStub()
+  cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB')
+})

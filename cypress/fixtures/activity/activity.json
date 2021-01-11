@@ -1,0 +1,35 @@
+{
+  "data": {
+    "uuid": "eb300912-821a-48e0-b3f0-411c53d6340a",
+    "supplier_id": "Chamäleon",
+    "name": "My Activity",
+    "provider": "Creole",
+    "original_id": "c90a49ba-46e1-4b70-b6a4-c9d14021cd56",
+    "description": "This is to test the description in English language this is amazing",
+    "country": null,
+    "location": null,
+    "display_name": "English Name",
+    "inclusions": "Inclusions",
+    "exclusions": "Exclusions",
+    "what_to_bring": "What to bring",
+    "themes": ["Beach"],
+    "restrictions": {
+      "weight": {
+        "restricted": false,
+        "min": null,
+        "max": null
+      },
+      "height": {
+        "restricted": true,
+        "min": "1.5",
+        "max": "3"
+      },
+      "physical_conditions": {
+        "restricted": false,
+        "notes": null
+      },
+      "pregnancy_restricted": false,
+      "disability_restricted": false
+    }
+  }
+}

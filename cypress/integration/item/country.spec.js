@@ -5,8 +5,7 @@ const wetuDesc = `Spectacularly located`
 
 describe('Item Page - Country', () => {
   it('country loads', () => {
-    cy.getFetchPolyfill().as('fetchPolyfill')
-    cy.get('@fetchPolyfill').itemPageCountryLoad()
+    cy.itemPageCountryLoad()
     cy.get('h2').contains('South Africa')
     cy.wait(4000)
 

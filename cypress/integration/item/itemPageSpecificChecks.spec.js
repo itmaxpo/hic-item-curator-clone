@@ -1,8 +1,7 @@
 /* global cy before */
 describe('Specific checks: image upload & description inspirations', () => {
   before(() => {
-    cy.getFetchPolyfill().as('fetchPolyfill')
-    cy.get('@fetchPolyfill').itemPageCountrySpecificLoad()
+    cy.itemPageCountrySpecificLoad()
     cy.get('h2').contains('South Africa')
     cy.wait(4000)
   })

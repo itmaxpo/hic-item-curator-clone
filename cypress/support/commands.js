@@ -25,20 +25,6 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 /**
- * Custom command 'fetchPolyfill'.
- * Grab a 'fetch' polyfill from a remote URL.
- */
-Cypress.Commands.add('getFetchPolyfill', () => {
-  let polyfill
-
-  const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js'
-  cy.request(polyfillUrl).then(response => {
-    polyfill = response.body
-    return polyfill
-  })
-})
-
-/**
  * Custom command 'setSelectOption'.
  * Selects an option in a 'react-select' component
  */

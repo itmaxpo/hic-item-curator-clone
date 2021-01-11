@@ -87,7 +87,7 @@ const BlockingBlock = ({ blocked, onBlockedChange }) => {
       </StatusContainer>
       {isBlocked && (
         <StyledCard>
-          <BlockedBlockContainer p={0} direction="ttb">
+          <BlockedBlockContainer direction="ttb">
             <MarketReasonContainer direction="ttb">
               <FlexContainer direction="ttb" p={0} pb={1}>
                 <H4 withBottomMargin>Market</H4>

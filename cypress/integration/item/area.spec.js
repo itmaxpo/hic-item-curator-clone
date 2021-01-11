@@ -1,11 +1,10 @@
-/* global describe, it, cy, before */
+/* global describe, it, cy */
 
 describe('Item Page - Area', () => {
   it('area loads', () => {
-    cy.getFetchPolyfill().as('fetchPolyfill')
-    cy.get('@fetchPolyfill').itemPageAreaLoad()
-    cy.get('h2').contains('Some example oof Area')
+    cy.itemPageAreaLoad()
     cy.wait(4000)
+    cy.get('h2').contains('Some example oof Area')
 
     // check area item layout
     // Checking for language switcher

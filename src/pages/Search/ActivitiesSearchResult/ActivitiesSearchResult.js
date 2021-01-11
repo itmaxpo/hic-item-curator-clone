@@ -38,7 +38,7 @@ export const ActivitiesSearchResult = withRouter(
     const [currentPage, setCurrentPage] = useState(page || 1)
     const paginatedResults = paginateResults(results, ITEMS_PER_PAGE)
 
-    const onPageChange = async page => {
+    const onPageChange = async (page) => {
       onQueryUpdate({ ...locationQuery, page })
 
       // Calculate offsetTop for searchContainer to scroll to it
@@ -64,7 +64,7 @@ export const ActivitiesSearchResult = withRouter(
         e.preventDefault()
       } else {
         scrollToItemManager.setItemToScrollTo(activity.uuid)
-        history.push(`/activities/${activity.uuid}?language=en-GB`)
+        history.push(`/activity/${activity.uuid}?language=en-GB`)
       }
     }
 
@@ -84,8 +84,8 @@ export const ActivitiesSearchResult = withRouter(
             <FlexContainer px={0} py={1}>
               <H4>All Activities</H4>
             </FlexContainer>
-            {paginatedResults[currentPage - 1].map(item => (
-              <SearchItem key={item.uuid} item={item} onItemClick={onItemClick} />
+            {paginatedResults[currentPage - 1].map((item) => (
+              <SearchItem key={item.uuid} item={item} onClick={onItemClick} />
             ))}
             {/* Rendering part after all results has been shown */}
             <BottomWrapper p={3 / 4} alignItems={'center'}>

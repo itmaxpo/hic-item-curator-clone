@@ -29,8 +29,8 @@ export let usePromise = (resolver, deps = []) => {
     dispatch(['load'])
 
     resolver()
-      .then(data => dispatch(['success', data]))
-      .catch(e => dispatch(['error', e]))
+      .then((data) => dispatch(['success', data]))
+      .catch((e) => dispatch(['error', e]))
 
     // deps array is responsible exactly for that
     // eslint-disable-next-line react-hooks/exhaustive-deps

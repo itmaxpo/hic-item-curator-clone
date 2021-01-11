@@ -15,12 +15,14 @@
 
 /* global Cypress cy */
 
+import './hooks'
 import 'cypress-file-upload'
 import './commands'
 import './upload'
 import './homePage'
 import './itemPage'
 import './itemPageSpecificFields'
+import './activity'
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   // We can ignore this error - https://stackoverflow.com/a/50387233/2564302

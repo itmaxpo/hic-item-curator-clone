@@ -2,8 +2,7 @@
 
 describe('Item page - Accommodation', () => {
   before(() => {
-    cy.getFetchPolyfill().as('fetchPolyfill')
-    cy.get('@fetchPolyfill').itemPageAccommodationLoad()
+    cy.itemPageAccommodationLoad()
   })
 
   it('accommodation loads', () => {
@@ -32,7 +31,7 @@ describe('Item page - Accommodation', () => {
       .contains('No Rank')
   })
 
-  it('accommodation rooms check', () => {
+  it.only('accommodation rooms check', () => {
     // Check rooms
     cy.get('[data-test=item-rooms-header]').contains('Rooms')
 
@@ -40,13 +39,7 @@ describe('Item page - Accommodation', () => {
     const mealBases = ['BB', 'BB+', 'FB', 'FB+']
     names.forEach((el, i) => {
       cy.get(`[data-test=item-room-${i}]`)
-        .find('p')
-        .find('span')
-        .first()
         .contains(names[i])
-        .parent()
-        .find('span')
-        .last()
         .contains(mealBases[i])
     })
   })

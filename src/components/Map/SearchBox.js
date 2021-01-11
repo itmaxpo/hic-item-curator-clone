@@ -23,7 +23,8 @@ const SearchBox = ({
   className,
   placeholder = 'Type to find',
   onChange = () => {},
-  defaultValue
+  defaultValue,
+  disabled
 }) => (
   <DropdownSelect
     className={className}
@@ -35,6 +36,7 @@ const SearchBox = ({
     loadOptions={addressSearch}
     onChange={onChange}
     defaultValue={defaultValue}
+    isDisabled={disabled}
   />
 )
 
