@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { debounce } from 'lodash'
 import { DropdownSelect } from '@tourlane/tourlane-ui'
 import { searchAddress } from 'services/addressApi'
@@ -15,37 +15,27 @@ import { parseSearchBoxResponse } from './utils'
  * @returns {Object} SearchBox Component
  */
 
-const addressSearch = (input, callback) => {
-  searchAddress(input).then(response => callback(parseSearchBoxResponse(response)))
-}
+const addressSearch = debounce((input, callback) => {
+  searchAddress(input).then((response) => callback(parseSearchBoxResponse(response)))
+}, 1000)
 
 const SearchBox = ({
   className,
   placeholder = 'Type to find',
   onChange = () => {},
   defaultValue
-}) => {
-  const onChangeHandler = value => {
-    onChange(value)
-  }
-
-  // usage policy states an absolute maximum of 1 request per second
-  // https://operations.osmfoundation.org/policies/nominatim/
-  const debouncedAddressSearch = useCallback(debounce(addressSearch, 1000), [])
-
-  return (
-    <DropdownSelect
-      className={className}
-      isAsync
-      isClearable
-      cacheOptions
-      placeholder={placeholder}
-      openMenuOnClick={false}
-      loadOptions={debouncedAddressSearch}
-      onChange={onChangeHandler}
-      defaultValue={defaultValue}
-    />
-  )
-}
+}) => (
+  <DropdownSelect
+    className={className}
+    isAsync
+    isClearable
+    cacheOptions
+    placeholder={placeholder}
+    openMenuOnClick={false}
+    loadOptions={addressSearch}
+    onChange={onChange}
+    defaultValue={defaultValue}
+  />
+)
 
 export default SearchBox
