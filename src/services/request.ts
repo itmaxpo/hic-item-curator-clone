@@ -55,10 +55,6 @@ const request = async <Payload = any>(
 
   return fetch(path, fetchOpts)
     .then((response) => {
-      // valid response status
-      const validStatuses = [200, 201, 302]
-
-      // Check status
       if (response.status === 401) {
         console.warn(`Authorization error.`)
         notificationManager.notify({
@@ -69,23 +65,6 @@ const request = async <Payload = any>(
       } else if (response.status === 404) {
         console.warn(`Could not find ${path}`)
         notificationManager.notify({ variant: 'error', message: `Service not found: ${path}` })
-        return response
-      } else if (!validStatuses.includes(response.status)) {
-        let responseError: any
-
-        response
-          .json()
-          .then(({ error }) => {
-            responseError = error
-          })
-          .catch((error) => {
-            responseError = error
-          })
-          .finally(() => {
-            return Error(
-              `Error communicating with ${path}: ${response.status} (${responseError.message})`
-            )
-          })
       }
 
       return response
@@ -103,20 +82,27 @@ const request = async <Payload = any>(
 export const requestJson = async <Response, Payload = any>(
   method: string,
   path: string,
-  body?: Payload
+  body?: Payload,
+  contentType = 'application/vnd.api+json'
 ): Promise<Response> => {
-  let response = await request<Payload>(method, path, { body }, 'application/vnd.api+json')
+  let response = await request<Payload>(method, path, { body }, contentType)
 
   if (response.status >= 400) {
     let json: any = await response.json()
 
-    throw json?.errors ?? json
+    throw json?.errors ?? json?.error ?? json
   }
 
   return response.json()
 }
 
-export const getJson = (path: string, params: Record<string, any>) =>
-  requestJson('GET', path + (params ? `?${stringify(params)}` : ''))
+export const getJson = <Response>(path: string, params?: Record<string, any>) =>
+  requestJson<Response>('GET', path + (params ? `?${stringify(params)}` : ''))
+
+export const patchJson = <Response, Payload = Response>(
+  path: string,
+  payload: Payload,
+  contentType?: string
+) => requestJson<Response, Payload>('PATCH', path, payload, contentType)
 
 export default request
