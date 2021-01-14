@@ -53,10 +53,7 @@ Cypress.Commands.add(
     prevSubject: true
   },
   (element, option, wait = 0) => {
-    cy.wrap(element)
-      .find('input:text')
-      .focus()
-      .type('{selectall}{backspace}', { force: true })
+    cy.wrap(element).find('input:text').focus().type('{selectall}{backspace}', { force: true })
   }
 )
 
@@ -69,9 +66,9 @@ Cypress.Commands.add(
   {
     prevSubject: true
   },
-  element => {
-    cy.wrap(element)
-      .find('[class*=singleValue]')
-      .invoke('text')
+  (element) => {
+    cy.wrap(element).find('[class*=singleValue]').invoke('text')
   }
 )
+
+Cypress.Commands.add('getByName', (name) => cy.get(`[name='${name}']`))

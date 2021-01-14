@@ -73,6 +73,7 @@ export const Activity = ({ match }) => {
         </Flex>
 
         <HookForm
+          data-test="activity-form"
           form={form}
           disabled={!isEditing || isSubmitting}
           onSubmit={async (data, { setErrors }) => {
