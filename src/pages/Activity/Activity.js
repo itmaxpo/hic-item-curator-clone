@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import queryString from 'query-string'
 import { useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
 
@@ -22,9 +21,10 @@ import { SearchBox } from 'components/Map'
 import Layout from 'components/Layout'
 import { HFCheckbox, HFDropdown, HFTextField, HookForm } from 'components/hook-form'
 import { getActivityById, updateActivity } from '../../services/activityApi'
+import { usePromise } from '../../utils/usePromise'
 import { Images } from './Images'
 import { Map } from './Map'
-import { Market } from './Market'
+import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
 
 const formSpacing = [12, 12, 15, 18, 24]
@@ -39,29 +39,23 @@ const FieldGroup = ({ title, children }) => (
   </>
 )
 
-export const Activity = ({ match, history }) => {
+export const Activity = ({ match }) => {
+  const [market] = useMarket()
+  const { data: activity } = usePromise(() => getActivityById(match.params?.id, market), [
+    match.params?.id,
+    market
+  ])
+
   const form = useForm({})
   const { isSubmitting } = form.formState
-  const [activity, setActivity] = useState({})
-  const images = []
-  const [isEditing, setIsEditing] = useState(false)
-  const { language } = queryString.parse(history.location.search)
 
   useEffect(() => {
-    const getActivity = async () => {
-      const data = await getActivityById(match.params?.id, language)
+    form.reset(activity)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activity])
 
-      setActivity(data)
-      form.reset(data)
-    }
-
-    getActivity()
-  }, [match, match.params, language])
-
-  const onLanguageChange = (e, locale) => {
-    e.preventDefault()
-    history.push(`?${queryString.stringify({ language: locale })}`)
-  }
+  const images = []
+  const [isEditing, setIsEditing] = useState(false)
 
   const coordinates = { lat: activity?.location?.lat, lng: activity?.location?.lon }
 
@@ -74,7 +68,7 @@ export const Activity = ({ match, history }) => {
             <Base color={COLORS.ELEMENT_GRAY} bold>
               Switch content to:
             </Base>
-            <Market language={language} disabled={isEditing} onLanguageChange={onLanguageChange} />
+            <Market disabled={isEditing} />
           </Flex>
         </Flex>
 
@@ -84,7 +78,7 @@ export const Activity = ({ match, history }) => {
           onSubmit={async (data, { setErrors }) => {
             try {
               setIsEditing(false)
-              await updateActivity({ locale: language, uuid: activity.uuid, ...data })
+              await updateActivity({ locale: market, uuid: activity.uuid, ...data })
             } catch (e) {
               setIsEditing(true)
 

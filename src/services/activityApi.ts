@@ -36,11 +36,11 @@ interface IActivity {
   what_to_bring: string | null
 }
 
-export const getActivityById = async (id: string | number, language = 'en-GB') => {
+export const getActivityById = async (id: string | number, locale = 'en-GB') => {
   let { data } = await getJson<{ data: IActivity }>(
     `${process.env.REACT_APP_KIWI_CONTENT_API}/activities/${id}`,
     {
-      language
+      locale
     }
   )
 
