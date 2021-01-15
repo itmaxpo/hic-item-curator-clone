@@ -1,6 +1,6 @@
 import ReactHtmlParser from 'react-html-parser'
 import LazyLoad from 'react-lazyload'
-import { Chip, FlexContainer, P } from '@tourlane/tourlane-ui'
+import { Chip, P, Flex } from '@tourlane/tourlane-ui'
 
 import ShowMore from 'components/ShowMore'
 
@@ -81,14 +81,11 @@ export const SearchItem = ({ item, onClick }) => (
           </UnstyledLink>
         </ItemTitleWrapper>
         <ItemSubtitle data-test="subtitle">{item?.country?.name}</ItemSubtitle>
-        <FlexContainer mb={0.5} p={0}>
-          <FlexContainer p={0} mr={0.5}>
-            <Chip data-test="provider">Provider: {item.provider}</Chip>
-          </FlexContainer>
-          <FlexContainer p={0}>
-            <Chip data-test="supplier">Supplier: {item.supplier_id}</Chip>
-          </FlexContainer>
-        </FlexContainer>
+        <Flex gap={16} mb={16}>
+          {item.provider && <Chip data-test="provider">Provider: {item.provider}</Chip>}
+          <Chip data-test="supplier">Supplier: {item.supplier_id}</Chip>
+        </Flex>
+
         <ItemDescription data-test="description">
           <ShowMore collapsed={true} height={'60px'} size={'18px'}>
             {ReactHtmlParser(item.description)}
