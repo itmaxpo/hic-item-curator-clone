@@ -18,11 +18,12 @@ export const HFTextField = ({ control, name, disabled, ...props }: Props) => {
       control={control ?? formCtx?.form.control}
       name={name}
       defaultValue=""
-      render={(field) => (
+      render={({ value, ...field }) => (
         <TextField
           disabled={disabled ?? formCtx?.disabled}
           error={get(formCtx?.form.formState.errors, name)?.message}
           hideErrorOnFocus={false}
+          value={value ?? ''}
           {...props}
           {...field}
         />
