@@ -10,7 +10,7 @@
     "@tourlane/tourlane-ui": "^7.23.1",
     "awesome-phonenumber": "^2.33.0",
     "cuid": "^2.1.6",
-    "cypress": "^3.7.0",
+    "cypress": "^3.8.3",
     "draftjs-to-html": "^0.8.4",
     "lodash": "^4.17.15",
     "query-string": "^6.8.3",
@@ -51,7 +51,7 @@
     "start-server:staging": "npm run build:staging && npm start",
     "start-server:testing": "npm run build:testing && npm run start:testing",
     "serve": "serve -s build -l 3000",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --browser chrome --headless",
     "test:e2e": "CI=1 npm install cypress; start-server-and-test start-server:testing http://localhost:3000 cy:run",
     "serve:lhci": "NODE_ENV=production npm run serve",
     "lighthouse": "lhci autorun"
