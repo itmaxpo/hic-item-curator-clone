@@ -1,14 +1,11 @@
-import React, { lazy, Suspense, useRef } from 'react'
+import { lazy, Suspense } from 'react'
 import LazyLoad from 'react-lazyload'
 import cuid from 'cuid'
-import {
-  getItemAttachmentsPresignedPost,
-  uploadingImage,
-  setItemAttachmentsById
-} from 'services/contentApi'
 import { useNotification } from 'components/Notification'
 import { Skeleton } from '@tourlane/tourlane-ui'
 import { capitalizeBy } from 'pages/Item/utils'
+import { addAttachmentToItem } from '../../services/attachmentsApi'
+import { allSettled } from '../../utils/promise'
 const UploadImageBlock = lazy(() => import(/* webpackChunkName: "UploadImageBlock" */ './styles'))
 
 const DraggableGallery = lazy(() =>
@@ -20,11 +17,7 @@ const DraggableGallery = lazy(() =>
  *
  * @name ImageUploader
  * @param {Function} onUploadDrop
- * @param {Array<String>} images
  * @param {Boolean} isEditing
- * @param {Boolean} isSaved
-
- * @returns {Object} ImageUploader
  */
 const ImageUploader = ({
   id,
@@ -34,7 +27,6 @@ const ImageUploader = ({
   onImagesAdd,
   isEditing
 }) => {
-  const fetchedImages = useRef([])
   const { enqueueNotification } = useNotification()
 
   const options = {
@@ -45,16 +37,13 @@ const ImageUploader = ({
     }
   }
 
-  const onUploadDrop = (files, imageSource) => {
-    fetchedImages.current = []
-    // Will receive array of URL's to show user that images are loading
+  const onUploadDrop = async (files, imageSource) => {
     const filesToFetch = files
-      .filter(file => file.type.includes('image'))
-      .map((file, i) => ({
+      .filter((file) => file.type.includes('image'))
+      .map((file) => ({
         id: cuid(),
         value: '',
         isLoading: true,
-        isError: file.size > 62914560,
         isSelected: false,
         isVisible: false,
         fileName: file.name,
@@ -62,59 +51,57 @@ const ImageUploader = ({
       }))
     // Set images locally to show isLoading state
     onImagesUpdate('allImages', [...filesToFetch, ...allImages])
-    // Filter to handle only JPEG/PNG images and fetch images and presigned_posts
-    filesToFetch.forEach((file, i) => {
-      try {
-        if (file.isError) {
-          throw Error('File size exceeds 60MB')
-        } else {
-          getItemAttachmentsPresignedPost(id, file).then(uploadedPost => {
-            const url = uploadedPost.data.url
-            const s3Key = uploadedPost.data.fields.key
-            const s3stuff = uploadedPost.data.fields
 
-            const fileData = new FormData()
+    let [uploaded, failedToUpload] = await allSettled(
+      files.map(async (file) => {
+        let { uuid, url, source_key, tags, s3_key } = await addAttachmentToItem({
+          itemId: id,
+          source_key: imageSource,
+          file
+        })
 
-            Object.keys(uploadedPost.data.fields).forEach(key => {
-              fileData.append(key, uploadedPost.data.fields[key])
-            })
-            fileData.append('file', file.file)
-
-            uploadingImage(url, fileData, s3stuff).then(data => {
-              setItemAttachmentsById(id, file.fileName, s3Key, imageSource).then(fileUrl => {
-                const fetchedFile = {
-                  id: fileUrl.data.uuid,
-                  order: undefined,
-                  value: fileUrl.data.url,
-                  s3_key: s3Key,
-                  isLoading: false,
-                  isError: false,
-                  isSelected: false,
-                  isVisible: false,
-                  sourceKey: capitalizeBy(fileUrl.data.source_key),
-                  tags: fileUrl.data.tags
-                }
-
-                fetchedImages.current = [fetchedFile, ...fetchedImages.current]
-
-                if (fetchedImages.current.length === files.length) {
-                  onImagesAdd('allImages', [...fetchedImages.current])
-                  enqueueNotification({
-                    variant: 'default',
-                    message: 'All images successfully uploaded!'
-                  })
-                }
-              })
-            })
-          })
+        return {
+          id: uuid,
+          value: url,
+          s3_key,
+          isLoading: false,
+          isSelected: false,
+          isVisible: false,
+          sourceKey: capitalizeBy(source_key),
+          tags
         }
-      } catch (error) {
-        enqueueNotification({ variant: 'error', message: error.message })
-      }
-    })
+      })
+    )
+
+    if (failedToUpload.length === 0) {
+      enqueueNotification({
+        variant: 'default',
+        message: 'All images successfully uploaded!'
+      })
+    } else if (uploaded.length === 0) {
+      enqueueNotification({
+        variant: 'error',
+        message: 'Failed to upload any file, check console for details.'
+      })
+    } else {
+      enqueueNotification({
+        variant: 'error',
+        message: `Failed to ${failedToUpload.length} out of ${files.length} files, check console for details.`
+      })
+    }
+
+    if (uploaded.length > 0) {
+      onImagesAdd('allImages', uploaded)
+    }
+
+    if (failedToUpload.length > 0) {
+      console.group('[ImageUploader] Failed to upload image')
+      failedToUpload.forEach((e) => console.error(e))
+      console.groupEnd()
+    }
   }
 
-  const onAllImagesUpdate = items => {
+  const onAllImagesUpdate = (items) => {
     const attachments = items.map((img, i) => ({
       ...img,
       isVisible: false
@@ -122,7 +109,7 @@ const ImageUploader = ({
     onImagesUpdate('allImages', attachments)
   }
 
-  const onVisibleImagesUpdate = items => {
+  const onVisibleImagesUpdate = (items) => {
     // transform images to store their current order
     const attachments = items.map((img, i) => ({
       ...img,
@@ -133,8 +120,8 @@ const ImageUploader = ({
     onImagesUpdate('visibleImages', attachments)
   }
 
-  const onVisibleImagesDelete = items => {
-    const updatedImages = items.filter(image => !image.isSelected)
+  const onVisibleImagesDelete = (items) => {
+    const updatedImages = items.filter((image) => !image.isSelected)
     onImagesUpdate('visibleImages', updatedImages)
   }
 

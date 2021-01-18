@@ -7,7 +7,7 @@ import ShowMore from 'components/ShowMore'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import ItemBadge from '../../../../components/ItemBadge'
 import { Preloader } from '../../../../components/LazyLoader'
-import { getItemAttachmentsById } from '../../../../services/contentApi'
+import { getItemAttachments } from '../../../../services/attachmentsApi'
 import { usePromise } from '../../../../utils/usePromise'
 import {
   BadgeWrapperPhoto,
@@ -29,11 +29,10 @@ import {
 } from './styles'
 
 const Image = ({ itemId }) => {
-  let { isLoading, data: images = [], error } = usePromise(async () => {
-    let { data: images } = await getItemAttachmentsById(itemId, 0, 'activity')
-
-    return images
-  }, [itemId])
+  let [{ isLoading, data: images = [], error }] = usePromise(
+    () => getItemAttachments({ itemId, itemType: 'activity' }),
+    [itemId]
+  )
 
   if (isLoading) return <Preloader />
 

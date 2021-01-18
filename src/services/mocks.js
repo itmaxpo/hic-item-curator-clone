@@ -1,3 +1,7 @@
+import { parse } from 'query-string'
+
+export const isLighthouseMode = () => parse(window.location.search).lighthouse === 'true'
+
 const mockSuppliers = [
   {
     name: 'AAT Kings',

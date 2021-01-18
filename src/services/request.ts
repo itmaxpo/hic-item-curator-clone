@@ -83,7 +83,7 @@ export const requestJson = async <Response, Payload = any>(
   method: string,
   path: string,
   body?: Payload,
-  contentType = 'application/vnd.api+json'
+  contentType?: string
 ): Promise<Response> => {
   let response = await request<Payload>(method, path, { body }, contentType)
 
@@ -99,10 +99,16 @@ export const requestJson = async <Response, Payload = any>(
 export const getJson = <Response>(path: string, params?: Record<string, any>) =>
   requestJson<Response>('GET', path + (params ? `?${stringify(params)}` : ''))
 
-export const patchJson = <Response, Payload = Response>(
+export const patchJson = <Response, Payload>(
   path: string,
   payload: Payload,
   contentType?: string
 ) => requestJson<Response, Payload>('PATCH', path, payload, contentType)
+
+export const postJson = <Response, Payload = {}>(
+  path: string,
+  payload: Payload,
+  contentType?: string
+) => requestJson<Response, Payload>('POST', path, payload, contentType)
 
 export default request

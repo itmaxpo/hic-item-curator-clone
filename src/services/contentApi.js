@@ -155,62 +155,6 @@ const updateItemAttachmentsById = async (id, attachments, isVisible) => {
   return promises
 }
 
-/**
- * Send item attachments to receive s3_key
- *
- * @name getItemAttachmentsPresignedPost
- * @param {String} id
- * @param {FileObject} file
- * @returns {Object}
- */
-const getItemAttachmentsPresignedPost = async (id, file) => {
-  let res = await request(
-    'POST',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/presigned_posts`,
-    {
-      body: {
-        filename: file.fileName,
-        mime_type: 'image/jpeg'
-      }
-    }
-  )
-
-  return res.json()
-}
-
-const uploadingImage = async (url, fileData) => {
-  let res = await fetch(url, {
-    method: 'post',
-    body: fileData
-  })
-
-  return res
-}
-
-/**
- * Send item attachments with s3_key
- *
- * @name setItemAttachmentsById
- * @param {String} id
- * @returns {Object}
- */
-const setItemAttachmentsById = async (id, filename, s3_key, source_key) => {
-  let res = await request(
-    'POST',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments`,
-    {
-      body: {
-        filename,
-        mime_type: 'image/jpeg',
-        s3_key,
-        source_key
-      }
-    }
-  )
-
-  return res.json()
-}
-
 const updateItemFields = async (id, fields) => {
   let res = await request(
     'PATCH',
@@ -278,8 +222,5 @@ export {
   getRoomsForAccommodation,
   mergeItems,
   getItemPolygonCoordinatesById,
-  getSuppliers,
-  getItemAttachmentsPresignedPost,
-  uploadingImage,
-  setItemAttachmentsById
+  getSuppliers
 }

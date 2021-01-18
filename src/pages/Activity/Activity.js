@@ -14,15 +14,18 @@ import {
   COLORS,
   SecondaryButton,
   GhostButton,
-  ButtonWithLoader
+  ButtonWithLoader,
+  Image
 } from '@tourlane/tourlane-ui'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { SearchBox } from 'components/Map'
 import Layout from 'components/Layout'
 import { HFCheckbox, HFDropdown, HFTextField, HookForm } from 'components/hook-form'
+import { UnhappyIcon } from '../../components/Icon'
+import { ItemImagesUpload } from '../../components/ItemImagesUpload'
 import { getActivityById, updateActivity } from '../../services/activityApi'
+import { getItemAttachments } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
-import { Images } from './Images'
 import { Map } from './Map'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
@@ -39,25 +42,50 @@ const FieldGroup = ({ title, children }) => (
   </>
 )
 
+const IMAGE_SIZE = 120
+
+const ImageCard = ({ children }) => (
+  <Card height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
+    {children}
+  </Card>
+)
+
+export const Images = ({ images }) =>
+  images.length ? (
+    <Flex gap={formSpacing} flexWrap="wrap">
+      {images.map(({ url }) => (
+        <ImageCard key={url}>
+          <Image src={url} height={IMAGE_SIZE} />
+        </ImageCard>
+      ))}
+    </Flex>
+  ) : (
+    <ImageCard>
+      <Flex justifyContent="center" alignItems="center" fullHeight>
+        <UnhappyIcon />
+      </Flex>
+    </ImageCard>
+  )
+
 export const Activity = ({ match }) => {
+  const id = match.params?.id
   const [market] = useMarket()
-  const { data: activity } = usePromise(() => getActivityById(match.params?.id, market), [
-    match.params?.id,
-    market
-  ])
+  const [{ data: activity }] = usePromise(() => getActivityById(id, market), [id, market])
 
   const form = useForm({})
   const { isSubmitting } = form.formState
+  const [isEditing, setIsEditing] = useState(false)
 
   useEffect(() => {
     form.reset(activity)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activity])
 
-  const images = []
-  const [isEditing, setIsEditing] = useState(false)
-
   const coordinates = { lat: activity?.location?.lat, lng: activity?.location?.lon }
+
+  let [{ data: images = [] }, reFetchImages] = usePromise(() =>
+    getItemAttachments({ itemId: id, itemType: 'activity' })
+  )
 
   return (
     <Layout>
@@ -84,6 +112,7 @@ export const Activity = ({ match }) => {
               setIsEditing(true)
 
               if (e instanceof Error) {
+                console.error(e)
               } else {
                 setErrors(mapValues(e, (errors) => errors.join(', ')))
               }
@@ -161,7 +190,18 @@ export const Activity = ({ match }) => {
 
               <Flex flexDirection="column">
                 <H5 withBottomMargin>Images</H5>
-                <Images images={images} isEditing={isEditing} />
+
+                <Flex gap={formSpacing}>
+                  {isEditing && (
+                    <Flex flex={1}>
+                      <ItemImagesUpload itemId={id} itemType="activity" onUpload={reFetchImages} />
+                    </Flex>
+                  )}
+
+                  <Flex flex={1}>
+                    <Images images={images} />
+                  </Flex>
+                </Flex>
               </Flex>
 
               <Flex gap={formSpacing}>
