@@ -8,16 +8,19 @@ type HtmlFormProps = React.DetailedHTMLProps<
   HTMLFormElement
 >
 
-interface Props<T = any> extends Omit<HtmlFormProps, 'onSubmit'> {
+interface IHFContextValue<T = any> {
   form: UseFormMethods<T>
   disabled?: boolean
+}
+
+const Context = createContext<IHFContextValue | undefined>(undefined)
+
+export const useHFContext = () => useContext(Context)
+
+interface Props<T = any> extends Omit<HtmlFormProps, 'onSubmit'>, IHFContextValue<T> {
   onSubmit: (data: T, helpers: { setErrors: (errors: Record<keyof T, string>) => void }) => void
   children: React.ReactNode
 }
-
-const Context = createContext<Omit<Props, 'onSubmit' | 'children'> | undefined>(undefined)
-
-export const useHFContext = () => useContext(Context)
 
 export const HookForm = ({ onSubmit, children, form, disabled, ...props }: Props) => (
   <Context.Provider value={{ form, disabled }}>

@@ -113,8 +113,8 @@ export const getItemAttachments = async ({
   offset?: number
   limit?: number
   itemType: ItemType
-}) => {
-  if (isLighthouseMode()) return mockAttachments
+}): Promise<IAttachment[]> => {
+  if (isLighthouseMode()) return (mockAttachments as unknown) as IAttachment[]
 
   let { data } = await getJson<{ data: IAttachment[] }>(
     `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${itemId}/attachments`,

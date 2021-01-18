@@ -19,24 +19,16 @@ const addressSearch = debounce((input, callback) => {
   searchAddress(input).then((response) => callback(parseSearchBoxResponse(response)))
 }, 1000)
 
-const SearchBox = ({
-  className,
-  placeholder = 'Type to find',
-  onChange = () => {},
-  defaultValue,
-  disabled
-}) => (
+const SearchBox = ({ placeholder = 'Type to find', disabled, ...props }) => (
   <DropdownSelect
-    className={className}
     isAsync
     isClearable
     cacheOptions
     placeholder={placeholder}
     openMenuOnClick={false}
     loadOptions={addressSearch}
-    onChange={onChange}
-    defaultValue={defaultValue}
     isDisabled={disabled}
+    {...props}
   />
 )
 

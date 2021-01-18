@@ -20,6 +20,7 @@ interface IActivity {
     lat: number
     lon: number
   }
+  address: string | null
   exclusions: string | null
   inclusions: string | null
   restrictions: {

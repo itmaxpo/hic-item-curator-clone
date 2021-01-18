@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react'
 import { some } from 'lodash'
 import styled from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
@@ -42,17 +41,12 @@ const Breadcrumb = ({ breadcrumb, isLast }) =>
   isLast ? (
     <strong>{breadcrumb.text}</strong>
   ) : (
-    <Fragment>
+    <>
       <Link to={breadcrumb.url}>{breadcrumb.text}</Link>
       <StyledArrow />
-    </Fragment>
+    </>
   )
 
-/**
- * Breadcrumbs
- *
- * @param {Array<{ text: String, url: String }>} breadcrumbs
- */
 const Breadcrumbs = ({ className, breadcrumbs }) => (
   <StyledNav className={className}>
     {some(breadcrumbs) &&

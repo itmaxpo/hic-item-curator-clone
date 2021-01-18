@@ -3242,128 +3242,122 @@ const mockItems = {
   ]
 }
 
-const mockAttachments = {
-  data: [
-    {
-      uuid: '045569bb-bb86-4ffb-b951-666907e6112e',
-      filename: 'ng6.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/AoPKVi1_55JnylDryLSPog/ng6.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/AoPKVi1_55JnylDryLSPog/ng6.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 0,
-        width: 695,
-        height: 457,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:15Z',
-      updated_at: '2019-11-06T13:09:54Z'
+const mockAttachments = [
+  {
+    uuid: '045569bb-bb86-4ffb-b951-666907e6112e',
+    filename: 'ng6.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/AoPKVi1_55JnylDryLSPog/ng6.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/AoPKVi1_55JnylDryLSPog/ng6.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 0,
+      width: 695,
+      height: 457,
+      visible: true
     },
-    {
-      uuid: '8acff8b9-23b3-4e59-b3ca-8d0e299b4a2f',
-      filename: 'ng1.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/gAvx6nYimSCO9JZ_xcDz-w/ng1.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/gAvx6nYimSCO9JZ_xcDz-w/ng1.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 1,
-        width: 696,
-        height: 463,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:16Z',
-      updated_at: '2019-11-06T13:09:54Z'
+    created_at: '2019-10-21T09:01:15Z',
+    updated_at: '2019-11-06T13:09:54Z'
+  },
+  {
+    uuid: '8acff8b9-23b3-4e59-b3ca-8d0e299b4a2f',
+    filename: 'ng1.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/gAvx6nYimSCO9JZ_xcDz-w/ng1.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/gAvx6nYimSCO9JZ_xcDz-w/ng1.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 1,
+      width: 696,
+      height: 463,
+      visible: true
     },
-    {
-      uuid: 'ff59dc67-d486-4f34-8fee-c3dba509ceae',
-      filename: 'ng3.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/FqZV0DDWiG4bucYzBOHlPw/ng3.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/FqZV0DDWiG4bucYzBOHlPw/ng3.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 2,
-        width: 816,
-        height: 465,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:16Z',
-      updated_at: '2019-11-06T13:09:54Z'
+    created_at: '2019-10-21T09:01:16Z',
+    updated_at: '2019-11-06T13:09:54Z'
+  },
+  {
+    uuid: 'ff59dc67-d486-4f34-8fee-c3dba509ceae',
+    filename: 'ng3.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/FqZV0DDWiG4bucYzBOHlPw/ng3.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/FqZV0DDWiG4bucYzBOHlPw/ng3.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 2,
+      width: 816,
+      height: 465,
+      visible: true
     },
-    {
-      uuid: '0eeeab92-68f8-42d5-a062-460d547a21e8',
-      filename: 'ng4.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/nt6QfxJEX-EYxvkh1ma7Jw/ng4.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/nt6QfxJEX-EYxvkh1ma7Jw/ng4.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 3,
-        width: 690,
-        height: 451,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:16Z',
-      updated_at: '2019-11-06T13:09:54Z'
+    created_at: '2019-10-21T09:01:16Z',
+    updated_at: '2019-11-06T13:09:54Z'
+  },
+  {
+    uuid: '0eeeab92-68f8-42d5-a062-460d547a21e8',
+    filename: 'ng4.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/nt6QfxJEX-EYxvkh1ma7Jw/ng4.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/nt6QfxJEX-EYxvkh1ma7Jw/ng4.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 3,
+      width: 690,
+      height: 451,
+      visible: true
     },
-    {
-      uuid: 'f50da339-2214-4fe4-a55c-3c8f2fa3807a',
-      filename: 'ng5.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/sadog4555yc3HDdU7D9RSg/ng5.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/sadog4555yc3HDdU7D9RSg/ng5.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 4,
-        width: 694,
-        height: 456,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:16Z',
-      updated_at: '2019-11-06T13:09:54Z'
+    created_at: '2019-10-21T09:01:16Z',
+    updated_at: '2019-11-06T13:09:54Z'
+  },
+  {
+    uuid: 'f50da339-2214-4fe4-a55c-3c8f2fa3807a',
+    filename: 'ng5.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/sadog4555yc3HDdU7D9RSg/ng5.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/sadog4555yc3HDdU7D9RSg/ng5.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 4,
+      width: 694,
+      height: 456,
+      visible: true
     },
-    {
-      uuid: 'bc838913-e416-4904-ade1-9b5fe6883d27',
-      filename: 'ng2.png',
-      url:
-        'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/q8exrh4EdpPJYsmeI9DbkA/ng2.png',
-      mime_type: 'image/png',
-      s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/q8exrh4EdpPJYsmeI9DbkA/ng2.png',
-      locale: null,
-      source: 'wetu',
-      source_key: 'gecko',
-      tags: {
-        order: 5,
-        width: 697,
-        height: 464,
-        visible: true
-      },
-      created_at: '2019-10-21T09:01:16Z',
-      updated_at: '2019-11-06T13:09:54Z'
-    }
-  ],
-  meta: {
-    count: 6,
-    total_count: 6
+    created_at: '2019-10-21T09:01:16Z',
+    updated_at: '2019-11-06T13:09:54Z'
+  },
+  {
+    uuid: 'bc838913-e416-4904-ade1-9b5fe6883d27',
+    filename: 'ng2.png',
+    url:
+      'https://elephant-images-staging.s3.eu-west-1.amazonaws.com/items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/q8exrh4EdpPJYsmeI9DbkA/ng2.png',
+    mime_type: 'image/png',
+    s3_key: 'items/95760e7d-dcc9-4740-af16-0a7276311513/image/png/q8exrh4EdpPJYsmeI9DbkA/ng2.png',
+    locale: null,
+    source: 'wetu',
+    source_key: 'gecko',
+    tags: {
+      order: 5,
+      width: 697,
+      height: 464,
+      visible: true
+    },
+    created_at: '2019-10-21T09:01:16Z',
+    updated_at: '2019-11-06T13:09:54Z'
   }
-}
+]
 
 const mockItemFields = {
   data: {

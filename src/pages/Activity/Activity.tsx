@@ -20,19 +20,23 @@ import {
 import Breadcrumbs from 'components/Breadcrumbs'
 import { SearchBox } from 'components/Map'
 import Layout from 'components/Layout'
-import { HFCheckbox, HFDropdown, HFTextField, HookForm } from 'components/hook-form'
+import { HFCheckbox, HFDropdown, HFTextField, HookForm, useHFContext } from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
 import { getActivityById, updateActivity } from '../../services/activityApi'
 import { getItemAttachments } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
-import { Map } from './Map'
+import MapComponent from 'components/Map'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
+import NoLocation from '../Item/OfferVisualisation/NoLocation'
+
+import type React from 'react'
+import type { RouteComponentProps } from 'react-router-dom'
 
 const formSpacing = [12, 12, 15, 18, 24]
 
-const FieldGroup = ({ title, children }) => (
+const FieldGroup: React.FC<{ title: string }> = ({ title, children }) => (
   <>
     <H5 withBottomMargin>{title}</H5>
 
@@ -44,13 +48,13 @@ const FieldGroup = ({ title, children }) => (
 
 const IMAGE_SIZE = 120
 
-const ImageCard = ({ children }) => (
+const ImageCard: React.FC = ({ children }) => (
   <Card height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
     {children}
   </Card>
 )
 
-export const Images = ({ images }) =>
+const Images: React.FC<{ images: { url: string }[] }> = ({ images }) =>
   images.length ? (
     <Flex gap={formSpacing} flexWrap="wrap">
       {images.map(({ url }) => (
@@ -67,7 +71,38 @@ export const Images = ({ images }) =>
     </ImageCard>
   )
 
-export const Activity = ({ match }) => {
+const AddressSearch: React.FC<{}> = () => {
+  let {
+    disabled,
+    form: { register, unregister, setValue, watch }
+  } = useHFContext()!
+
+  useEffect(() => {
+    register('location')
+    register('address')
+
+    return () => {
+      unregister('location')
+      unregister('address')
+    }
+  }, [register, unregister])
+
+  return (
+    <SearchBox
+      disabled={disabled}
+      placeholder="Address"
+      defaultInputValue={watch('address')}
+      onChange={(v: any) => {
+        if (v) {
+          setValue('location', { lat: +v.lat, lon: +v.lon })
+          setValue('address', v.display_name)
+        }
+      }}
+    />
+  )
+}
+
+export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params?.id
   const [market] = useMarket()
   const [{ data: activity }] = usePromise(() => getActivityById(id, market), [id, market])
@@ -81,18 +116,20 @@ export const Activity = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activity])
 
-  const coordinates = { lat: activity?.location?.lat, lng: activity?.location?.lon }
-
   let [{ data: images = [] }, reFetchImages] = usePromise(() =>
     getItemAttachments({ itemId: id, itemType: 'activity' })
   )
+
+  let location = form.watch('location')
 
   return (
     <Layout>
       <Box px={90} py={30}>
         <Flex justifyContent="between">
+          {/* @ts-ignore */}
           <Breadcrumbs breadcrumbs={getActivityBreadcrumbs(activity)} />
-          <Flex>
+
+          <Flex gap={formSpacing}>
             <Base color={COLORS.ELEMENT_GRAY} bold>
               Switch content to:
             </Base>
@@ -107,7 +144,7 @@ export const Activity = ({ match }) => {
           onSubmit={async (data, { setErrors }) => {
             try {
               setIsEditing(false)
-              await updateActivity({ locale: market, uuid: activity.uuid, ...data })
+              await updateActivity({ locale: market, uuid: activity!.uuid, ...data })
             } catch (e) {
               setIsEditing(true)
 
@@ -168,20 +205,17 @@ export const Activity = ({ match }) => {
 
                   <Flex direction="ttb">
                     <H5 withBottomMargin>Activity Location</H5>
-
-                    <SearchBox
-                      disabled={!isEditing}
-                      placeholder="Address"
-                      defaultValue={{
-                        label: '',
-                        value: `${coordinates.lat},${coordinates.lng}`
-                      }}
-                      onChange={() => {}}
-                    />
+                    <AddressSearch />
                   </Flex>
                 </Flex>
 
-                <Map coordinates={coordinates} />
+                <Flex flex={1}>
+                  {location ? (
+                    <MapComponent coordinates={{ lat: location.lat, lng: location.lon }} />
+                  ) : (
+                    <NoLocation alt="map-placeholder" height="140px" />
+                  )}
+                </Flex>
               </Flex>
 
               <Hr />

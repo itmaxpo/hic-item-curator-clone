@@ -1,13 +1,21 @@
-import { useEffect, useReducer } from 'react'
+import { Reducer, useEffect, useReducer } from 'react'
 
-// TODO: move to TS
-export let usePromise = (resolver, deps = []) => {
-  let [data, dispatch] = useReducer(
-    (data, [action, payload]) => {
+interface IState<T> {
+  isLoading: boolean
+  data?: T
+  error?: any
+}
+
+export let usePromise = <T>(
+  resolver: () => Promise<T>,
+  deps: any[] = []
+): [IState<T>, () => void] => {
+  let [data, dispatch] = useReducer<Reducer<IState<T>, [string, any?]>>(
+    (state, [action, payload]) => {
       switch (action) {
         case 'load': {
           return {
-            ...data,
+            ...state,
             isLoading: true
           }
         }
