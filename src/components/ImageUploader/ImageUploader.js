@@ -76,17 +76,17 @@ const ImageUploader = ({
     if (failedToUpload.length === 0) {
       enqueueNotification({
         variant: 'default',
-        message: 'All images successfully uploaded!'
+        message: 'All images successfully uploaded'
       })
     } else if (uploaded.length === 0) {
       enqueueNotification({
         variant: 'error',
-        message: 'Failed to upload any file, check console for details.'
+        message: 'Failed to upload any file'
       })
     } else {
       enqueueNotification({
         variant: 'error',
-        message: `Failed to ${failedToUpload.length} out of ${files.length} files, check console for details.`
+        message: `Failed to ${failedToUpload.length} out of ${files.length} files`
       })
     }
 

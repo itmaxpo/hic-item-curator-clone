@@ -46,7 +46,7 @@ export const ItemImagesUpload = ({ itemType, itemId, onUpload }: Props) => {
         } else if (uploaded.length > 0) {
           enqueueNotification({
             variant: 'default',
-            message: `Uploaded ${uploaded.length} out of ${files.length} images. See console for details.`
+            message: `Uploaded ${uploaded.length} out of ${files.length} images`
           })
         } else {
           // uploaded.length === 0
