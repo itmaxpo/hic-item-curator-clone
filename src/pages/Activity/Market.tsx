@@ -4,7 +4,7 @@ import { SelectMarket } from '@tourlane/rooster'
 
 export const useMarket = (): [string, (v: string) => void] => {
   let history = useHistory()
-  let { language } = parse(history.location.search)
+  let { language = 'en-GB' } = parse(history.location.search)
 
   return [language as string, (language: string) => history.push(`?${stringify({ language })}`)]
 }
