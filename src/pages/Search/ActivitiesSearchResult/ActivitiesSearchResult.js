@@ -1,10 +1,11 @@
-import * as React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { withRouter } from 'react-router-dom'
+import flatten from 'lodash/flatten'
+
 import { ExtraSmall, FlexContainer, H4 } from '@tourlane/tourlane-ui'
 
 import Pagination from 'components/Pagination'
-import { ITEMS_PER_PAGE } from 'utils/constants'
+import { ITEMS_PER_PAGE, ACTIVITY_ITEM_TYPE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import SearchItem from './SearchItem'
 import {
@@ -14,47 +15,62 @@ import {
   TotalItemsWrapper
 } from './styles'
 import { missingId, paginateResults, scrollToActions } from './utils'
+import { calculateIndex, insertPage } from '../utils'
+import { getActivities } from 'services/searchApi'
+import { NoResults } from '../Search'
 
-/**
- * This is component, that is responsible for rendering all search results
- * Will receive Array<SearchResult> and transform it to Array<Array<SearchResult>>
- * for pagination feature
- * Wrapped in withRouter HOC to have access to <history>
- *
- *
- * @name SearchResult
- * @param {Object} history from react-router
- * @param {Array} results (results from search)
- * @param {Function} setResults - callback to update results from search - used to enrich items
- * @param {Function} fetchMoreItems - fetch missing items, as we only fetch chunks of 40 items
- * @param {Object} locationQuery - query url
- * @param {Function} onQueryUpdate - callback to update query url
- * @param {Object} history from react-router
- * @returns {Function} Search Result component
- */
 export const ActivitiesSearchResult = withRouter(
-  ({ history, results, fetchMoreItems, locationQuery, onQueryUpdate, page }) => {
+  ({ history, locationQuery, onQueryUpdate, setIsLoading, isLoading }) => {
+    const {
+      areaId,
+      countryId,
+      name,
+      supplier,
+      provider,
+      missingGeolocation,
+      blocked
+    } = locationQuery
     const searchContainer = useRef(null)
-    const [currentPage, setCurrentPage] = useState(page || 1)
-    const paginatedResults = paginateResults(results, ITEMS_PER_PAGE)
+    const [currentPage, setCurrentPage] = useState(Number(locationQuery.page) || 1)
+    const [activities, setActivities] = useState([])
+
+    // Find diff between activities & results
+    const paginatedResults = paginateResults(activities, ITEMS_PER_PAGE)
+
+    const searchActivities = async (page) => {
+      setIsLoading(true)
+      const index = calculateIndex(page ? page - 1 : currentPage - 1, ITEMS_PER_PAGE)
+
+      const { data, meta } = await getActivities(
+        {
+          country: countryId,
+          area: areaId,
+          name,
+          supplier,
+          provider,
+          missingGeolocation: missingGeolocation === 'true',
+          blocked: blocked === 'true'
+        },
+        index
+      )
+
+      setActivities(flatten(insertPage(null, index, data, meta.total_count, ACTIVITY_ITEM_TYPE)))
+      setIsLoading(false)
+    }
 
     const onPageChange = async (page) => {
       onQueryUpdate({ ...locationQuery, page })
-
       // Calculate offsetTop for searchContainer to scroll to it
       scrollToActions(searchContainer)
 
+      setCurrentPage(page)
       // check if page is empty
       if (paginatedResults[page - 1].some(missingId)) {
         try {
-          // fetch more items, then we set the current page.
-          await fetchMoreItems(null, page - 1)
-          setCurrentPage(page)
+          await searchActivities(page)
         } catch (e) {
           console.warn(e)
         }
-      } else {
-        setCurrentPage(page)
       }
     }
 
@@ -70,23 +86,30 @@ export const ActivitiesSearchResult = withRouter(
 
     // effect to run after the user comes back from the item page
     useEffect(() => {
+      searchActivities().then()
+
       setTimeout(() => {
         scrollToItemManager.scrollToItem()
       }, 500)
-    }, [])
+      // eslint-disable-next-line
+    }, [countryId, supplier, name, provider])
 
     return (
       <FlexContainer data-test="searchResult" p={0} direction="ttb" id={'search-container'}>
         {paginatedResults.length === 0 ? (
-          <FlexContainer>No results</FlexContainer>
+          !isLoading && <NoResults />
         ) : (
           <SearchResultContainer data-test="page">
             <FlexContainer px={0} py={1}>
               <H4>All Activities</H4>
             </FlexContainer>
-            {paginatedResults[currentPage - 1].map((item) => (
-              <SearchItem key={item.uuid} item={item} onClick={onItemClick} />
-            ))}
+
+            {paginatedResults[currentPage - 1]
+              .filter(({ uuid }) => uuid)
+              .map((item) => (
+                <SearchItem key={item.uuid} item={item} onClick={onItemClick} />
+              ))}
+
             {/* Rendering part after all results has been shown */}
             <BottomWrapper p={3 / 4} alignItems={'center'}>
               {paginatedResults.length > 1 ? (
@@ -105,7 +128,7 @@ export const ActivitiesSearchResult = withRouter(
                     </ExtraSmall>
                     <ExtraSmall>
                       <span>Total items: </span>
-                      {results.length}
+                      {activities.length}
                     </ExtraSmall>
                   </TotalItemsWrapper>
                 </PaginationCenteredWrapper>

@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import { useState, useCallback, useEffect, useContext } from 'react'
 import { get, debounce } from 'lodash'
+
 import {
   Flex,
   FlexContainer,
@@ -10,6 +11,7 @@ import {
   Container
 } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
+
 import {
   SearchBoxWrapper,
   SearchBoxTitle,
@@ -47,7 +49,9 @@ const SearchBox = ({
   locationQuery,
   onQueryUpdate,
   onFilterByMissingGeolocation,
-  onFilterByBlocklist
+  onFilterByBlocklist,
+  setCategory,
+  isLoading
 }) => {
   // Default values for state are coming from location query
   const category = get(locationQuery, 'type')
@@ -60,11 +64,9 @@ const SearchBox = ({
   const blocked = get(locationQuery, 'blocked') === 'true'
 
   const [goToDestination, setGoToDestination] = useState(undefined)
-  const [isLoading, setIsLoading] = useState(false)
-
   const { suppliers } = useContext(SuppliersContext)
 
-  const onNameChange = e => {
+  const onNameChange = (e) => {
     const value = e?.target?.value
     const keyCode = e?.keyCode
 
@@ -79,11 +81,12 @@ const SearchBox = ({
     }
   }
 
-  const onCategoryCardClick = value => () => {
+  const onCategoryCardClick = (value) => () => {
+    setCategory(value)
     onQueryUpdate({ ...locationQuery, type: value })
   }
 
-  const onCountryChange = value => {
+  const onCountryChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
       countryId: get(value, 'value'),
@@ -93,14 +96,14 @@ const SearchBox = ({
     })
   }
 
-  const onSupplierChange = value => {
+  const onSupplierChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
       supplier: get(value, 'value')
     })
   }
 
-  const onProviderChange = e => {
+  const onProviderChange = (e) => {
     const value = e?.target?.value
 
     onQueryUpdate({
@@ -109,7 +112,7 @@ const SearchBox = ({
     })
   }
 
-  const onAreaChange = value => {
+  const onAreaChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
       areaId: get(value, 'value'),
@@ -123,7 +126,6 @@ const SearchBox = ({
   const onSearchClick = async () => {
     if (!goToDestination) {
       // set search results
-      setIsLoading(true)
       switch (category) {
         case AREA_ITEM_TYPE:
           await search({ country: country.value }, 0, true)
@@ -142,24 +144,9 @@ const SearchBox = ({
             true
           )
           break
-        case ACTIVITY_ITEM_TYPE:
-          await search(
-            {
-              country: get(country, 'value'),
-              supplier: get(supplier, 'value'),
-              name,
-              provider
-            },
-            0,
-            true
-          )
-          break
         default:
           return
       }
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 200)
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
@@ -168,11 +155,11 @@ const SearchBox = ({
   }
 
   const countrySearch = useCallback(
-    value => getCountries(value.toLowerCase()).then(({ data }) => parseSearchResponse(data)),
+    (value) => getCountries(value.toLowerCase()).then(({ data }) => parseSearchResponse(data)),
     []
   )
   const areaSearch = useCallback(
-    value =>
+    (value) =>
       getAreasInCountry({ name: value.toLowerCase(), country: country.value }).then(({ data }) =>
         parseSearchResponse(data)
       ),
@@ -257,7 +244,7 @@ const SearchBox = ({
               placeholder="Name of the place"
               defaultValue={name}
               // listening to keyDown to capture "enter" to execute search
-              onKeyDown={event => {
+              onKeyDown={(event) => {
                 // since React pools all events for perf optimization,
                 // we can only access event specific properties asynchronously by persisting event using event.persist()
                 event.persist()
@@ -273,7 +260,7 @@ const SearchBox = ({
                 data-test="name-search"
                 defaultValue={name}
                 // listening to keyDown to capture "enter" to execute search
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   // since React pools all events for perf optimization,
                   // we can only access event specific properties asynchronously by persisting event using event.persist()
                   event.persist()
@@ -287,7 +274,7 @@ const SearchBox = ({
                   defaultValue={provider}
                   data-test="provider-search"
                   // listening to keyDown to capture "enter" to execute search
-                  onKeyDown={event => {
+                  onKeyDown={(event) => {
                     // since React pools all events for perf optimization,
                     // we can only access event specific properties asynchronously by persisting event using event.persist()
                     event.persist()
@@ -305,7 +292,7 @@ const SearchBox = ({
             <Label>
               <Checkbox
                 defaultChecked={missingGeolocation}
-                onChange={e => {
+                onChange={(e) => {
                   onFilterByMissingGeolocation(e.target.checked)
                 }}
               />
@@ -316,7 +303,7 @@ const SearchBox = ({
             <Label>
               <Checkbox
                 defaultChecked={blocked}
-                onChange={e => {
+                onChange={(e) => {
                   onFilterByBlocklist(e.target.checked)
                 }}
               />
@@ -325,15 +312,18 @@ const SearchBox = ({
           </FlexContainer>
         </FlexContainer>
       )}
-      <SearchWrapper p={0} alignItems={'center'} justify="between">
-        <Search
-          data-test="search"
-          isLoading={isLoading}
-          disabled={category !== ACTIVITY_ITEM_TYPE ? !country && !supplier : false}
-          destination={goToDestination}
-          onButtonClick={onSearchClick}
-        />
-      </SearchWrapper>
+
+      {category !== ACTIVITY_ITEM_TYPE && (
+        <SearchWrapper p={0} alignItems={'center'} justify="between">
+          <Search
+            data-test="search"
+            isLoading={isLoading}
+            disabled={!country && !supplier}
+            destination={goToDestination}
+            onButtonClick={onSearchClick}
+          />
+        </SearchWrapper>
+      )}
     </SearchBoxWrapper>
   )
 }

@@ -1,11 +1,13 @@
-import React, { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'react'
+import { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'react'
 import { flatten, isEmpty } from 'lodash'
 import queryString from 'query-string'
-import Layout from 'components/Layout'
+
 import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
+
+import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, insertPage } from './utils'
-import { getAreasInCountry, getAccommodations, getActivities } from 'services/searchApi'
+import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
@@ -23,6 +25,13 @@ const ActivitiesSearchResult = lazy(() =>
   import(/* webpackChunkName: "ActivitiesSearchResult" */ './ActivitiesSearchResult')
 )
 
+export const NoResults = () => (
+  <FlexContainer p={0} mt={2} direction={'ttb'} center alignItems={'center'}>
+    <SadFaceIcon />
+    <Subline>No results</Subline>
+  </FlexContainer>
+)
+
 /**
  * This is the Search Page component
  * Also it is a Home page for the app and server as '/' route
@@ -32,23 +41,34 @@ const ActivitiesSearchResult = lazy(() =>
  * @returns {Function} Search Page
  */
 const SearchPage = ({ history }) => {
+  const parsedQuery = queryString.parse(history.location.search)
+  const {
+    areaId,
+    countryId,
+    name,
+    supplier,
+    provider,
+    page,
+    missingGeolocation,
+    blocked
+  } = parsedQuery
+
   const prevPayload = useRef(undefined)
   const itemTypeRef = useRef(undefined)
   const [results, setResults] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [country, setCountry] = useState(undefined)
-
-  const parsedQuery = queryString.parse(history.location.search)
+  const [category, setCategory] = useState(parsedQuery.type)
 
   // this feature will be killed very soon 💀...
-  const onFilterByMissingGeolocation = filterValue => {
+  const onFilterByMissingGeolocation = (filterValue) => {
     onQueryUpdate({
       ...parsedQuery,
       missingGeolocation: filterValue
     })
     setResults(null)
   }
-  const onFilterByBlocklist = isBlocked => {
+  const onFilterByBlocklist = (isBlocked) => {
     onQueryUpdate({
       ...parsedQuery,
       blocked: isBlocked
@@ -57,13 +77,13 @@ const SearchPage = ({ history }) => {
   }
 
   // changes query in URL
-  const onQueryUpdate = query => {
+  const onQueryUpdate = (query) => {
     history.push(`?${queryString.stringify(query)}`)
     scrollToItemManager.setItemToScrollTo(null)
   }
 
   // changes query for SearchBox - so it clears "page" query
-  const searchBoxQueryUpdate = query => {
+  const searchBoxQueryUpdate = (query) => {
     onQueryUpdate({ ...query, page: undefined })
   }
 
@@ -79,27 +99,20 @@ const SearchPage = ({ history }) => {
 
     prevPayload.current = payload || prevPayload.current
 
-    setIsLoading(true)
-
     // set search results
     switch (itemTypeRef.current) {
       case AREA_ITEM_TYPE: {
+        setIsLoading(true)
         const { data, meta } = await getAreasInCountry(prevPayload.current, index)
-        setResults(prevResults =>
+        setResults((prevResults) =>
           insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
         )
         break
       }
       case ACCOMMODATION_ITEM_TYPE: {
+        setIsLoading(true)
         const { data, meta } = await getAccommodations(prevPayload.current, index)
-        setResults(prevResults =>
-          insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
-        )
-        break
-      }
-      case ACTIVITY_ITEM_TYPE: {
-        const { data, meta } = await getActivities(prevPayload.current, index)
-        setResults(prevResults =>
+        setResults((prevResults) =>
           insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
         )
         break
@@ -109,7 +122,6 @@ const SearchPage = ({ history }) => {
     }
 
     setIsLoading(false)
-    return
   }
 
   const flattenedResults = useMemo(() => {
@@ -138,17 +150,6 @@ const SearchPage = ({ history }) => {
 
   // effect to fire a search when pressing back button or url with sufficient data is provided
   useEffect(() => {
-    const {
-      areaId,
-      countryId,
-      name,
-      supplier,
-      provider,
-      page,
-      missingGeolocation,
-      blocked
-    } = parsedQuery
-
     /*
      * early returns (no auto-triggered search):
      * - user haven't selected an item tab
@@ -193,26 +194,26 @@ const SearchPage = ({ history }) => {
             onQueryUpdate={searchBoxQueryUpdate}
             onFilterByMissingGeolocation={onFilterByMissingGeolocation}
             onFilterByBlocklist={onFilterByBlocklist}
+            setCategory={setCategory}
+            isLoading={isLoading}
           />
         </Suspense>
+
         {isLoading && <StyledLoader />}
-        {!isEmpty(flattenedResults) && (
-          <Suspense fallback={<StyledLoader />}>
-            {itemTypeRef.current === ACTIVITY_ITEM_TYPE ? (
-              <ActivitiesSearchResult
-                results={flattenedResults}
-                setResults={newResults => {
-                  setResults(newResults)
-                }}
-                fetchMoreItems={search}
-                locationQuery={parsedQuery}
-                onQueryUpdate={onQueryUpdate}
-                page={Number(parsedQuery.page)}
-              />
-            ) : (
+
+        <Suspense fallback={<StyledLoader />}>
+          {category === ACTIVITY_ITEM_TYPE ? (
+            <ActivitiesSearchResult
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              locationQuery={parsedQuery}
+              onQueryUpdate={onQueryUpdate}
+            />
+          ) : (
+            !isEmpty(flattenedResults) && (
               <SearchResult
                 results={flattenedResults}
-                setResults={newResults => {
+                setResults={(newResults) => {
                   setResults(newResults)
                 }}
                 fetchMoreItems={search}
@@ -223,15 +224,11 @@ const SearchPage = ({ history }) => {
                 country={country}
                 page={Number(parsedQuery.page)}
               />
-            )}
-          </Suspense>
-        )}
-        {results && isEmpty(flattenedResults) && !isLoading && (
-          <FlexContainer p={0} mt={2} direction={'ttb'} center alignItems={'center'}>
-            <SadFaceIcon />
-            <Subline>No results</Subline>
-          </FlexContainer>
-        )}
+            )
+          )}
+        </Suspense>
+
+        {results && isEmpty(flattenedResults) && !isLoading && <NoResults />}
       </Wrapper>
     </Layout>
   )

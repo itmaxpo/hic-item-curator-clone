@@ -3,19 +3,19 @@ import { getFieldBySourcePriority } from 'utils/helpers'
 import { ITEMS_PER_PAGE, ACTIVITY_ITEM_TYPE } from 'utils/constants'
 
 // Used to store or utilities used on the page
-export const filterEmptyEntities = entities => entities.filter(entity => !isEmpty(entity))
+export const filterEmptyEntities = (entities) => entities.filter((entity) => !isEmpty(entity))
 
 // Used to create paginated array
 export const paginateArray = (arr, pageSize = ITEMS_PER_PAGE) => chunk(arr, pageSize)
 
 // Used to return 's' if counter > 2. E.g.: `Photo{addSToString(2)}` -> Photos
-export const addSToString = counter => (counter !== 1 ? 's' : '')
+export const addSToString = (counter) => (counter !== 1 ? 's' : '')
 
 // Capitalize first letter in string
-export const capitalize = str => str[0].toUpperCase() + str.slice(1)
+export const capitalize = (str) => str[0].toUpperCase() + str.slice(1)
 
 // Generate Array from 1 to N
-export const generateArrayTo = n => [...Array(n).keys()]
+export const generateArrayTo = (n) => [...Array(n).keys()]
 
 // Move element [from] iomdex [to] index and return updatedArray
 export const moveFromTo = (arr, from, to) => {
@@ -31,7 +31,7 @@ export const addElementToIndex = (arr, to, elem) => {
 }
 
 // Check for EN then DE value then whatever is there
-const getFieldValue = field => {
+const getFieldValue = (field) => {
   const engField = field.filter(({ locale }) => locale === 'en-GB')
   const deField = field.filter(({ locale }) => locale === 'de-DE')
 
@@ -62,7 +62,7 @@ export const parseItem = (item, itemType, isLoading = true) => ({
   id: item.id,
   parentId: item.parent_uuid,
   type: itemType || item.item_type,
-  title: getItemTitle(item.fields.name, item),
+  title: getItemTitle(item?.fields?.name, item),
   description: getFieldValue(item.fields.description) || 'No description found.',
   allImages: [],
   isLoading,
@@ -71,16 +71,16 @@ export const parseItem = (item, itemType, isLoading = true) => ({
 })
 
 // give shape to the items
-const parseItems = (items, itemType) => items.map(item => parseItem(item, itemType))
+const parseItems = (items, itemType) => items.map((item) => parseItem(item, itemType))
 
 // eslint-disable-next-line array-callback-return
-const createArrayOfSize = size => Array.apply(null, Array(size)).map(() => {})
+const createArrayOfSize = (size) => Array.apply(null, Array(size)).map(() => {})
 
 // create the pages:
 // we get only the first two pages (40 items) but we get the total items
 // so we create the pages (even the empty ones) to correctly build
 // our pagination component
-const createPages = arraySize => createArrayOfSize(arraySize)
+const createPages = (arraySize) => createArrayOfSize(arraySize)
 
 // index of page in the data array (before paginating).
 // equals offset.

@@ -40,22 +40,16 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select country tab
-    cy.get('@searchBox')
-      .find('[data-test=Country]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Country]').click()
 
     // select country: Argentina
-    cy.get('@searchBox')
-      .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 3000)
+    cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)
 
     // go to country
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
+    cy.get('@searchBox').find('[data-test=search]').click()
 
     // assert that user is redirected to item page
-    cy.location().should(location => {
+    cy.location().should((location) => {
       expect(location.pathname).to.eq('/item/test-argentina')
     })
 
@@ -88,27 +82,19 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select country tab
-    cy.get('@searchBox')
-      .find('[data-test=Area]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Area]').click()
 
     // select country: Argentina
-    cy.get('@searchBox')
-      .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 3000)
+    cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)
 
     // select area: Buenos Aires
-    cy.get('@searchBox')
-      .find('[data-test=area-dropdown]')
-      .setSelectOption('Buenos Aires', 3000)
+    cy.get('@searchBox').find('[data-test=area-dropdown]').setSelectOption('Buenos Aires', 3000)
 
     // go to area
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
+    cy.get('@searchBox').find('[data-test=search]').click()
 
     // assert that user is redirected to item page
-    cy.location().should(location => {
+    cy.location().should((location) => {
       expect(location.pathname).to.eq('/item/test-buenos-aires')
     })
 
@@ -130,15 +116,10 @@ describe('Homepage', () => {
 
     cy.get('[data-test=searchBox]').as('searchBox')
     // clear area
-    cy.get('@searchBox')
-      .find('[data-test=area-dropdown]')
-      .clearSelectOption()
+    cy.get('@searchBox').find('[data-test=area-dropdown]').clearSelectOption()
 
     // search for areas
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
-      .wait(1000)
+    cy.get('@searchBox').find('[data-test=search]').click().wait(1000)
 
     cy.get('[data-test=searchResult]').as('searchResult')
 
@@ -148,20 +129,14 @@ describe('Homepage', () => {
     })
 
     // go to next page and assert
-    cy.get('@searchResult')
-      .find('[data-test=next-page]')
-      .click()
-      .wait(1000)
+    cy.get('@searchResult').find('[data-test=next-page]').click().wait(1000)
 
     cy.get('[data-test=page]').within(() => {
       testItemPage(secondPageAreaData)
     })
 
     // go to previous page and assert first page items again
-    cy.get('@searchResult')
-      .find('[data-test=previous-page]')
-      .click()
-      .wait(1000)
+    cy.get('@searchResult').find('[data-test=previous-page]').click().wait(1000)
 
     cy.get('[data-test=page]').within(() => {
       testItemPage(firstPageAreaData)
@@ -174,10 +149,7 @@ describe('Homepage', () => {
       'fixture:search/secondAreaSearch.json'
     )
     // go to 5th page and assert
-    cy.get('@searchResult')
-      .find('[data-test=page-5]')
-      .click()
-      .wait(1000)
+    cy.get('@searchResult').find('[data-test=page-5]').click().wait(1000)
 
     // assert 5th page items
     cy.get('[data-test=page]').within(() => {
@@ -191,10 +163,7 @@ describe('Homepage', () => {
       'fixture:search/lastAreaSearch.json'
     )
     // go to last page and assert
-    cy.get('@searchResult')
-      .find('[data-test=last-page]')
-      .click()
-      .wait(1000)
+    cy.get('@searchResult').find('[data-test=last-page]').click().wait(1000)
 
     cy.get('[data-test=page]').within(() => {
       testItemPage(lastPageAreaData)
@@ -219,7 +188,7 @@ describe('Homepage', () => {
       .click()
       // assert that user is redirected to item page
       .location()
-      .should(location => {
+      .should((location) => {
         expect(location.pathname).to.include('/item/1392f674-67de-4ca5-8764-81f3f2de918d')
       })
       .go('back')
@@ -236,14 +205,10 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // country dropdown should not be rendered
-    cy.get('@searchBox')
-      .find('[data-test=country-dropdown]')
-      .should('not.exist')
+    cy.get('@searchBox').find('[data-test=country-dropdown]').should('not.exist')
 
     // search button is disabled (can't search)
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
+    cy.get('@searchBox').find('[data-test=search]').click()
 
     cy.get('[data-test=searchResult]').should('not.exist')
   })
@@ -275,20 +240,13 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select accommodation tab
-    cy.get('@searchBox')
-      .find('[data-test=Accommodation]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Accommodation]').click()
 
     // select country: Argentina
-    cy.get('@searchBox')
-      .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 3000)
+    cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)
 
     // search for accommodations
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
-      .wait(1000)
+    cy.get('@searchBox').find('[data-test=search]').click().wait(1000)
 
     cy.get('[data-test=searchResult]').as('searchResult')
 
@@ -325,10 +283,7 @@ describe('Homepage', () => {
     })
 
     // click merge action button
-    cy.get('@searchResult')
-      .find('#items-sticky-actions')
-      .find('[data-test=merge]')
-      .click()
+    cy.get('@searchResult').find('#items-sticky-actions').find('[data-test=merge]').click()
 
     cy.get('[data-test=mergeItems]').as('mergeItems')
 
@@ -336,10 +291,7 @@ describe('Homepage', () => {
     cy.get('@mergeItems')
       .find('[data-test=items]')
       .within(() => {
-        cy.get('[data-test=item]')
-          .eq(0)
-          .find('[data-test=title]')
-          .contains(pageAccomData[1].title)
+        cy.get('[data-test=item]').eq(0).find('[data-test=title]').contains(pageAccomData[1].title)
 
         cy.get('[data-test=item]')
           .eq(1)
@@ -348,10 +300,7 @@ describe('Homepage', () => {
       })
 
     // merge!
-    cy.get('@mergeItems')
-      .find('[data-test=merge]')
-      .click()
-      .wait(1500)
+    cy.get('@mergeItems').find('[data-test=merge]').click().wait(1500)
 
     // assertions after merge
 
@@ -376,14 +325,7 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select activity tab
-    cy.get('@searchBox')
-      .find('[data-test=Activity]')
-      .click()
-
-    // click search button
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Activity]').click()
 
     cy.get('[data-test=search-item]').should('have.length', 14)
   })
@@ -404,39 +346,20 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select activity tab
-    cy.get('@searchBox')
-      .find('[data-test=Activity]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Activity]').click()
 
     // select country: Argentina
-    cy.get('@searchBox')
-      .find('[data-test=country-dropdown]')
-      .setSelectOption('Argentina', 3000)
-
-    // click search button
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click({ force: true })
+    cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)
 
     cy.get('[data-test=search-item]').should('have.length', 14)
 
-    cy.get('[data-test=search-item]')
-      .first()
-      .as('searchItem')
+    cy.get('[data-test=search-item]').first().as('searchItem')
 
     // select search item title
-    cy.get('@searchItem')
-      .find('[data-test=title]')
-      .contains('111')
-    cy.get('@searchItem')
-      .find('[data-test=subtitle]')
-      .contains('Argentina')
-    cy.get('@searchItem')
-      .find('[data-test=provider]')
-      .contains('Provider: Creole')
-    cy.get('@searchItem')
-      .find('[data-test=supplier]')
-      .contains('Supplier: Chamäleon')
+    cy.get('@searchItem').find('[data-test=title]').contains('111')
+    cy.get('@searchItem').find('[data-test=subtitle]').contains('Argentina')
+    cy.get('@searchItem').find('[data-test=provider]').contains('Provider: Creole')
+    cy.get('@searchItem').find('[data-test=supplier]').contains('Supplier: Chamäleon')
     cy.get('@searchItem')
       .find('[data-test=description]')
       .contains(
@@ -462,20 +385,13 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select activity tab
-    cy.get('@searchBox')
-      .find('[data-test=Activity]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Activity]').click()
 
     // select country: Argentina
     cy.get('@searchBox')
       .find('[data-test=supplier-dropdown]')
       .click()
       .setSelectOption('AAT Kings', 300)
-
-    //click search button
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click({ force: true })
 
     cy.url().should('include', 'supplier=AAT%20Kings')
   })
@@ -496,19 +412,10 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select activity tab
-    cy.get('@searchBox')
-      .find('[data-test=Activity]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Activity]').click()
 
     // enter a name to search
-    cy.get('@searchBox')
-      .find('[data-test=name-search]')
-      .type('Kung Fu Fighting')
-
-    //click search button
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click({ force: true })
+    cy.get('@searchBox').find('[data-test=name-search]').type('Kung Fu Fighting')
 
     cy.url().should('include', 'name=Kung%20Fu%20Fighting')
   })
@@ -529,19 +436,10 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select activity tab
-    cy.get('@searchBox')
-      .find('[data-test=Activity]')
-      .click()
+    cy.get('@searchBox').find('[data-test=Activity]').click()
 
     // enter a provider to search
-    cy.get('@searchBox')
-      .find('[data-test=provider-search]')
-      .type('Creole')
-
-    //click search button
-    cy.get('@searchBox')
-      .find('[data-test=search]')
-      .click({ force: true })
+    cy.get('@searchBox').find('[data-test=provider-search]').type('Creole')
 
     cy.url().should('include', 'provider=Creole')
   })
