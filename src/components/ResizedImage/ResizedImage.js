@@ -1,4 +1,3 @@
-import React from 'react'
 import LazyLoader from 'components/LazyLoader'
 
 const getImageUrlWithParams = (url, width, height, fit) =>

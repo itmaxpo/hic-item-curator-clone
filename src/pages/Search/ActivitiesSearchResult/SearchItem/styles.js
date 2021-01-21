@@ -52,7 +52,7 @@ export const ItemDescription = styled.div`
   color: ${COLORS.NIGHTINGALE_BLACK};
 `
 
-export const SearchItemPhotosWrapper = styled(FlexContainer)`
+export const SearchItemPhotosWrapper = styled(Flex)`
   width: 280px;
   height: 170px;
   position: relative;
