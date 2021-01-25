@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
+import type { RouteComponentProps } from 'react-router-dom'
 
 import {
   FlexContainer,
@@ -30,9 +31,11 @@ import MapComponent from 'components/Map'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
 import NoLocation from '../Item/OfferVisualisation/NoLocation'
+import { CarouselLoader } from 'components/Carousel'
 
-import type React from 'react'
-import type { RouteComponentProps } from 'react-router-dom'
+const ImageCarousel = lazy(
+  () => import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
+)
 
 const formSpacing = [12, 12, 15, 18, 24]
 
@@ -48,17 +51,20 @@ const FieldGroup: React.FC<{ title: string }> = ({ title, children }) => (
 
 const IMAGE_SIZE = 120
 
-const ImageCard: React.FC = ({ children }) => (
-  <Card height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
+const ImageCard: React.FC<{ onClick?: () => void }> = ({ children, onClick }) => (
+  <Card onClick={onClick} height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
     {children}
   </Card>
 )
 
-const Images: React.FC<{ images: { url: string }[] }> = ({ images }) =>
+const Images: React.FC<{ images: { url: string }[]; onImageClick: (i: number) => void }> = ({
+  images,
+  onImageClick
+}) =>
   images.length ? (
     <Flex gap={formSpacing} flexWrap="wrap">
-      {images.map(({ url }) => (
-        <ImageCard key={url}>
+      {images.map(({ url }, i) => (
+        <ImageCard key={url} onClick={() => onImageClick(i)}>
           <Image src={url} height={IMAGE_SIZE} />
         </ImageCard>
       ))}
@@ -110,6 +116,8 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   const form = useForm({})
   const { isSubmitting } = form.formState
   const [isEditing, setIsEditing] = useState(false)
+  const [isImageCarouselOpen, toggleImageCarousel] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
   useEffect(() => {
     form.reset(activity)
@@ -233,7 +241,25 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                   )}
 
                   <Flex flex={1}>
-                    <Images images={images} />
+                    <Images
+                      images={images}
+                      onImageClick={(i) => {
+                        setSelectedImageIndex(i)
+                        toggleImageCarousel(true)
+                      }}
+                    />
+
+                    {isImageCarouselOpen && (
+                      <Suspense fallback={<CarouselLoader />}>
+                        {/*@ts-ignore*/}
+                        <ImageCarousel
+                          selectedItem={selectedImageIndex}
+                          images={images}
+                          open={isImageCarouselOpen}
+                          onClose={() => toggleImageCarousel(false)}
+                        />
+                      </Suspense>
+                    )}
                   </Flex>
                 </Flex>
               </Flex>
