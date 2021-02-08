@@ -21,7 +21,14 @@ import {
 import Breadcrumbs from 'components/Breadcrumbs'
 import { SearchBox } from 'components/Map'
 import Layout from 'components/Layout'
-import { HFCheckbox, HFDropdown, HFTextField, HookForm, useHFContext } from 'components/hook-form'
+import {
+  HFCheckbox,
+  HFDropdown,
+  HFTextField,
+  HookForm,
+  useHFContext,
+  HFRichTextEditor
+} from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
 import { getActivityById, updateActivity } from '../../services/activityApi'
@@ -107,6 +114,28 @@ const AddressSearch: React.FC<{}> = () => {
     />
   )
 }
+
+const RichTextEditorWithEditorProps: React.FC<{ name: string; label: string }> = ({
+  name,
+  label
+}) => (
+  <HFRichTextEditor
+    name={name}
+    label={label}
+    resizable
+    editorProps={{
+      toolbar: {
+        options: ['inline', 'list'],
+        inline: {
+          options: ['bold']
+        },
+        list: {
+          options: ['unordered']
+        }
+      }
+    }}
+  />
+)
 
 export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params?.id
@@ -228,7 +257,7 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
 
               <Hr />
 
-              <HFTextField name="description" label="Description" multiline />
+              <RichTextEditorWithEditorProps name="description" label="Description" />
 
               <Flex flexDirection="column">
                 <H5 withBottomMargin>Images</H5>
@@ -266,8 +295,8 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
 
               <Flex gap={formSpacing}>
                 <Flex direction="ttb" flex={1} gap={formSpacing}>
-                  <HFTextField name="inclusions" label="Inclusions" multiline />
-                  <HFTextField name="what_to_bring" label="What to bring" multiline />
+                  <RichTextEditorWithEditorProps name="inclusions" label="Inclusions" />
+                  <RichTextEditorWithEditorProps name="what_to_bring" label="What to bring" />
 
                   <FieldGroup title="Additional PAX information">
                     <HFCheckbox
@@ -293,7 +322,7 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                 </Flex>
 
                 <Flex flexDirection="column" gap={formSpacing} flex={1}>
-                  <HFTextField name="exclusions" multiline label="Exclusions" />
+                  <RichTextEditorWithEditorProps name="exclusions" label="Exclusions" />
 
                   <FieldGroup title="Activity Restrictions">
                     <HFCheckbox
@@ -306,13 +335,13 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                         <HFTextField
                           name="restrictions.weight.min"
                           type="number"
-                          placeholder="Min"
+                          placeholder="Min(kg)"
                           shrinkPlaceholder
                         />
                         <HFTextField
                           name="restrictions.weight.max"
                           type="number"
-                          placeholder="Max"
+                          placeholder="Max(kg)"
                           shrinkPlaceholder
                         />
                       </Flex>
@@ -328,13 +357,13 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                         <HFTextField
                           name="restrictions.height.min"
                           type="number"
-                          placeholder="Min"
+                          placeholder="Min(cm)"
                           shrinkPlaceholder
                         />
                         <HFTextField
                           name="restrictions.height.max"
                           type="number"
-                          placeholder="Max"
+                          placeholder="Max(cm)"
                           shrinkPlaceholder
                         />
                       </Flex>

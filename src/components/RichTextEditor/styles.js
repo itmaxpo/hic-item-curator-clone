@@ -8,13 +8,13 @@ export const Wrapper = styled.div`
   font-size: 15px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
 
-  ${props =>
+  ${(props) =>
     props.isEditing &&
     css`
       border: 1px solid ${COLORS.ELEMENT_GRAY};
     `}
 
-  ${props =>
+  ${(props) =>
     props.resizable &&
     css`
       resize: vertical;
@@ -22,12 +22,19 @@ export const Wrapper = styled.div`
       min-height: 150px;
     `}
 
-  ${props =>
+  ${(props) =>
     !props.textWrap &&
     css`
       & .draft-editor-container .public-DraftStyleDefault-block {
         white-space: nowrap;
       }
+    `}
+
+    ${(props) =>
+    props.disabled &&
+    css`
+      background-color: ${COLORS.BACKGROUND_GRAY};
+      cursor: not-allowed;
     `}
 `
 

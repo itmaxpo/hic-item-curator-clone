@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { EditorState, Modifier, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
 import { get } from 'lodash'
 import cuid from 'cuid'
@@ -8,10 +8,37 @@ import draftToHtml from 'draftjs-to-html'
 import './styles.css'
 import { StyledLabel, Wrapper } from './styles'
 import { getRichTextValue } from 'utils/helpers'
+import { usePrevious } from '@tourlane/tourlane-ui'
 
-const isHTML = str => {
+const isHTML = (str) => {
   const doc = new DOMParser().parseFromString(str, 'text/html')
-  return Array.from(doc.body.childNodes).some(node => node.nodeType === 1)
+  return Array.from(doc.body.childNodes).some((node) => node.nodeType === 1)
+}
+
+// Generate an EditorState object from a provided value
+const getInitialEditorState = (value) => {
+  let editorState = EditorState.createEmpty()
+
+  // Initialize editor with provided value
+  if (value) {
+    if (isHTML(value) && getRichTextValue(value)) {
+      // handle HTML value
+      const blocksFromHTML = convertFromHTML(value)
+      if (blocksFromHTML.contentBlocks) {
+        const contentState = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
+        )
+        editorState = EditorState.createWithContent(contentState)
+      }
+    } else {
+      // handle plain text value
+      const contentState = ContentState.createFromText(getRichTextValue(value))
+      editorState = EditorState.createWithContent(contentState)
+    }
+  }
+
+  return editorState
 }
 
 /**
@@ -21,38 +48,22 @@ const isHTML = str => {
  * Returns props that need to be passed to the Editor.
  */
 const useEditorState = ({ value, onChange }) => {
-  // Generate an EditorState object from a provided value
-  const getInitialEditorState = useCallback(value => {
-    let editorState = EditorState.createEmpty()
-
-    // Initialize editor with provided value
-    if (value) {
-      if (isHTML(value) && getRichTextValue(value)) {
-        // handle HTML value
-        const blocksFromHTML = convertFromHTML(value)
-        if (blocksFromHTML.contentBlocks) {
-          const contentState = ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap
-          )
-          editorState = EditorState.createWithContent(contentState)
-        }
-      } else {
-        // handle plain text value
-        const contentState = ContentState.createFromText(getRichTextValue(value))
-        editorState = EditorState.createWithContent(contentState)
-      }
-    }
-
-    return editorState
-  }, [])
+  const typingStarted = useRef(false)
+  const previousValue = usePrevious(value, true)
 
   // Keep track of editor state
   const [editorState, setEditorState] = useState(() => getInitialEditorState(value))
 
+  useEffect(() => {
+    if (!typingStarted.current && previousValue !== value) {
+      setEditorState(() => getInitialEditorState(value))
+    }
+  }, [value, previousValue])
+
   // Handle editor state change
   const onEditorStateChange = useCallback(
-    editorState => {
+    (editorState) => {
+      typingStarted.current = true
       // Update editor state
       setEditorState(editorState)
 
@@ -146,6 +157,7 @@ const RichTextEditor = ({
   textWrap = true,
   resizable = false,
   label,
+  editorProps = {},
   ...otherProps
 }) => {
   const { editorState, onEditorStateChange } = useEditorState({ value, onChange })
@@ -189,6 +201,8 @@ const RichTextEditor = ({
                 options: ['unordered', 'ordered']
               }
             }}
+            readOnly={otherProps.disabled}
+            {...editorProps}
           />
         </Wrapper>
       </div>
