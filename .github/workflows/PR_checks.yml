@@ -37,6 +37,9 @@ jobs:
       - name: linting
         run: npm run lint
 
+      - name: typescript
+        run: npm run tsc
+
   unit_tests:
     needs: build
     runs-on: ubuntu-latest

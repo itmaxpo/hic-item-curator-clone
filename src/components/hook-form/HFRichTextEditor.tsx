@@ -3,10 +3,10 @@ import get from 'lodash/get'
 import { StyledRichTextEditor } from 'components/RichTextEditor'
 import { useHFContext } from './HookForm'
 
-import React from 'react'
+import type React from 'react'
 import { FormItem } from '@tourlane/tourlane-ui'
 
-interface Props extends React.ComponentProps<typeof StyledRichTextEditor> {
+interface Props extends React.ComponentProps<any> {
   name: string
   control?: Control
 }

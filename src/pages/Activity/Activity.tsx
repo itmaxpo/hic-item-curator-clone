@@ -1,40 +1,40 @@
+import type React from 'react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
 import type { RouteComponentProps } from 'react-router-dom'
 
 import {
-  FlexContainer,
-  Flex,
-  Box,
+  Base,
+  ButtonWithLoader,
   Card,
+  COLORS,
+  Flex,
+  GhostButton,
   H2,
   H5,
   Hr,
-  Base,
-  COLORS,
-  SecondaryButton,
-  GhostButton,
-  ButtonWithLoader,
-  Image
+  Image,
+  SecondaryButton
 } from '@tourlane/tourlane-ui'
+
 import Breadcrumbs from 'components/Breadcrumbs'
-import { SearchBox } from 'components/Map'
+import MapComponent, { SearchBox } from 'components/Map'
 import Layout from 'components/Layout'
 import {
+  createHelpers,
   HFCheckbox,
   HFDropdown,
+  HFRichTextEditor,
   HFTextField,
   HookForm,
-  useHFContext,
-  HFRichTextEditor
+  useHFContext
 } from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
-import { getActivityById, updateActivity } from '../../services/activityApi'
+import { getActivityById, IActivity, updateActivity } from '../../services/activityApi'
 import { getItemAttachments } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
-import MapComponent from 'components/Map'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
 import NoLocation from '../Item/OfferVisualisation/NoLocation'
@@ -142,7 +142,8 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   const [market] = useMarket()
   const [{ data: activity }] = usePromise(() => getActivityById(id, market), [id, market])
 
-  const form = useForm({})
+  const form = useForm<IActivity>({})
+  const { setErrors } = createHelpers(form)
   const { isSubmitting } = form.formState
   const [isEditing, setIsEditing] = useState(false)
   const [isImageCarouselOpen, toggleImageCarousel] = useState(false)
@@ -160,8 +161,59 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   let location = form.watch('location')
 
   return (
-    <Layout>
-      <Box px={90} py={30}>
+    // @ts-ignore
+    <Layout
+      headerContent={
+        <Flex data-test={'item-title-wrapper'} justifyContent="space-between" alignItems="center">
+          <H2>{form.watch('name')}</H2>
+
+          {isEditing ? (
+            <Flex gap={formSpacing}>
+              <GhostButton
+                size="small"
+                onClick={() => {
+                  setIsEditing(false)
+                  form.reset(activity)
+                  form.clearErrors()
+                }}
+              >
+                Cancel
+              </GhostButton>
+
+              <ButtonWithLoader
+                size="small"
+                isLoading={isSubmitting}
+                onClick={form.handleSubmit(async (data) => {
+                  try {
+                    setIsEditing(false)
+                    await updateActivity({ ...data, locale: market, uuid: activity!.uuid })
+                  } catch (e) {
+                    setIsEditing(true)
+
+                    if (e instanceof Error) {
+                      console.error(e)
+                    } else {
+                      setErrors(mapValues(e, (errors) => errors.join(', ')))
+                    }
+                  }
+                })}
+              >
+                Save
+              </ButtonWithLoader>
+            </Flex>
+          ) : (
+            <SecondaryButton
+              size="small"
+              onClick={() => setIsEditing(true)}
+              data-test="edit-content"
+            >
+              Edit Content
+            </SecondaryButton>
+          )}
+        </Flex>
+      }
+    >
+      <Flex flexDirection="column" px={90} py={30} gap={formSpacing}>
         <Flex justifyContent="between">
           {/* @ts-ignore */}
           <Breadcrumbs breadcrumbs={getActivityBreadcrumbs(activity)} />
@@ -174,56 +226,7 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
           </Flex>
         </Flex>
 
-        <HookForm
-          data-test="activity-form"
-          form={form}
-          disabled={!isEditing || isSubmitting}
-          onSubmit={async (data, { setErrors }) => {
-            try {
-              setIsEditing(false)
-              await updateActivity({ locale: market, uuid: activity!.uuid, ...data })
-            } catch (e) {
-              setIsEditing(true)
-
-              if (e instanceof Error) {
-                console.error(e)
-              } else {
-                setErrors(mapValues(e, (errors) => errors.join(', ')))
-              }
-            }
-          }}
-        >
-          <FlexContainer data-test={'item-title-wrapper'} px={0} justifyContent="between">
-            <H2>{form.watch('name')}</H2>
-
-            {isEditing ? (
-              <Flex gap={16}>
-                <GhostButton
-                  size="small"
-                  onClick={() => {
-                    setIsEditing(false)
-                    form.reset(activity)
-                    form.clearErrors()
-                  }}
-                >
-                  Cancel
-                </GhostButton>
-
-                <ButtonWithLoader type="submit" isLoading={isSubmitting}>
-                  Save
-                </ButtonWithLoader>
-              </Flex>
-            ) : (
-              <SecondaryButton
-                size="small"
-                onClick={() => setIsEditing(true)}
-                data-test="edit-content"
-              >
-                Edit Content
-              </SecondaryButton>
-            )}
-          </FlexContainer>
-
+        <HookForm data-test="activity-form" form={form} disabled={!isEditing || isSubmitting}>
           <Card>
             <Flex flexDirection="column" p={32} gap={formSpacing}>
               <Flex gap={formSpacing}>
@@ -395,7 +398,7 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
             </Flex>
           </Card>
         </HookForm>
-      </Box>
+      </Flex>
     </Layout>
   )
 }

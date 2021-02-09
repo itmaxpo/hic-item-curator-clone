@@ -7,7 +7,7 @@ interface MinMaxRestriction {
   max: number | null
 }
 
-interface IActivity {
+export interface IActivity {
   uuid: string
   original_id: string
   supplier_id: string

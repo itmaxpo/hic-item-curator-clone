@@ -23,13 +23,4 @@ let BaseHeader = ({ children }) => {
   )
 }
 
-/**
- * This is global Header component for the whole app
- * Has 2 parts
- *
- * @name Header
- * @param
- */
-const Header = ({ children }) => <BaseHeader>{children}</BaseHeader>
-
-export default Header
+export default BaseHeader

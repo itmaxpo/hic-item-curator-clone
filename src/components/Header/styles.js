@@ -7,7 +7,6 @@ export const StyledHeader = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  height: 68px;
   width: 100%;
   z-index: 3;
   background: ${COLORS.BACKGROUND_GRAY};
