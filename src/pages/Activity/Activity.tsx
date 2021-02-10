@@ -32,7 +32,7 @@ import {
 } from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
-import { getActivityById, IActivity, updateActivity } from '../../services/activityApi'
+import { getActivityById, IActivity, updateActivity } from 'services/activityApi'
 import { getItemAttachments } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
 import { Market, useMarket } from './Market'
