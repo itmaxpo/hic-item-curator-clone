@@ -1,5 +1,5 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react'
-import { getSuppliers } from 'services/contentApi'
+import { getSuppliers } from 'services/configurationsApi'
 import { parseSuppliers } from './utils'
 
 const SuppliersContext = createContext({

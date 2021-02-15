@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import request, { getJson } from './request'
-import { mockSuppliers, mockAttachments, mockItemFields, mockPolygon } from './mocks'
+import { mockAttachments, mockItemFields, mockPolygon } from './mocks'
 import {
   FIELD_ISO_CODE,
   FIELD_NAME,
@@ -95,21 +95,6 @@ const getItemFieldsById = async (id) => {
 const getItemPolygonCoordinatesById = async (id) => {
   if (onLighthouseMode) return mockPolygon
   let res = await request('GET', `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/polygon`)
-
-  return res.json()
-}
-
-/**
- * Return suppliers
- *
- * @name getSuppliers
- * @param {Number} offset
- * @returns {Object}
- */
-const getSuppliers = async () => {
-  if (onLighthouseMode) return mockSuppliers
-
-  let res = await request('GET', process.env.REACT_APP_KIWI_SUPPLIERS_API)
 
   return res.json()
 }
@@ -221,6 +206,5 @@ export {
   updateItemFields,
   getRoomsForAccommodation,
   mergeItems,
-  getItemPolygonCoordinatesById,
-  getSuppliers
+  getItemPolygonCoordinatesById
 }
