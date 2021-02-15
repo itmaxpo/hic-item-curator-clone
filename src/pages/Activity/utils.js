@@ -32,6 +32,5 @@ const THEMES = [
 export const getThemes = () =>
   THEMES.map((theme) => ({
     value: theme,
-    label: theme,
-    toggle: true
+    label: theme
   }))

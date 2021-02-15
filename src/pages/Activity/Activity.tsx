@@ -239,8 +239,6 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                     multiple
                     options={getThemes()}
                     closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                    withToggleAll
                   />
 
                   <Flex direction="ttb">
