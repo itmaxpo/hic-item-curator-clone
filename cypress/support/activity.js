@@ -7,7 +7,7 @@ Cypress.Commands.add('activityStub', (type = 'accom') => {
   // stub API
   cy.server()
   cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
-  cy.route('GET', 'https://kiwi.**.com/configurations/suppliers.json', 'fixture:suppliers.json')
+  cy.route('GET', 'https://kiwi.**.com/configurations/v2/suppliers.json', 'fixture:suppliers.json')
   cy.route('GET', 'https://kiwi.**.com/content/activities/**', 'fixture:activity/activity.json')
   cy.route(
     'GET',
