@@ -90,6 +90,8 @@ const AddressSearch: React.FC<{}> = () => {
     form: { register, unregister, setValue, watch }
   } = useHFContext()!
 
+  const address = watch('address')
+
   useEffect(() => {
     register('location')
     register('address')
@@ -102,9 +104,10 @@ const AddressSearch: React.FC<{}> = () => {
 
   return (
     <SearchBox
+      key={address}
       disabled={disabled}
       placeholder="Address"
-      defaultInputValue={watch('address')}
+      defaultInputValue={address}
       onChange={(v: any) => {
         if (v) {
           setValue('location', { lat: +v.lat, lon: +v.lon })
