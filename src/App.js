@@ -1,14 +1,14 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
-import { Route, BrowserRouter, Switch } from 'react-router-dom'
-import { useAuth0 } from 'contexts/Auth'
+import { Route, BrowserRouter, Switch, useHistory } from 'react-router-dom'
 import { AccommCategoriesProvider } from 'contexts/AccommCategories'
 import { SuppliersContextProvider } from 'contexts/Suppliers'
 import { COLORS } from '@tourlane/tourlane-ui'
-import { NotificationProvider } from 'components/Notification'
+import { NotificationProvider, useNotification } from 'components/Notification'
 import queryString from 'query-string'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import LoadingPage from 'pages/Loading'
+import { authManager } from './utils/AuthManager'
 
 const isSafari11 = () =>
   navigator.browserSpecs &&
@@ -34,6 +34,26 @@ const SafariPage = lazy(() =>
   import(/* webpackChunkName: "SafariPage" */ 'pages/HelperPages/Safari')
 )
 
+let AuthListener = ({ children }) => {
+  let { enqueueNotification } = useNotification()
+  let history = useHistory()
+
+  useEffect(
+    () =>
+      authManager.subscribe((e) => {
+        if (e === 'login_failed') {
+          enqueueNotification({ variant: 'error', message: 'Login failed' })
+          history.push('/login')
+        } else if (e === 'login_success') {
+          enqueueNotification({ message: 'Login success' })
+        }
+      }),
+    [enqueueNotification, history]
+  )
+
+  return <>{children}</>
+}
+
 /**
  * This is entry for the whole app
  * Will check if user isAuthenticated, if not - go to Login page
@@ -43,7 +63,6 @@ const SafariPage = lazy(() =>
  * @returns App
  */
 function App() {
-  const { isAuthenticated, loading } = useAuth0()
   const [showSafariPage, setShowSafariPage] = useState(isSafari11())
 
   // Used to handle animation of changes between sticky header and search actions
@@ -98,18 +117,6 @@ function App() {
     window.addEventListener('scroll', handleScroll)
   }, [])
 
-  if (loading) {
-    return <LoadingPage />
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <Suspense fallback={<LoadingPage />}>
-        <LoginPage />
-      </Suspense>
-    )
-  }
-
   if (showSafariPage) {
     return (
       <Suspense fallback={<LoadingPage />}>
@@ -124,14 +131,17 @@ function App() {
         <AccommCategoriesProvider>
           <NotificationProvider>
             <BrowserRouter>
-              <Suspense fallback={<LoadingPage />}>
-                <Switch>
-                  <Route exact path="/" component={SearchPage} />
-                  <Route exact path="/item/:id" component={ItemPage} />
-                  <Route exact path="/activity/:id" component={ActivityPage} />
-                  <Route path="*" component={MissingPage} />
-                </Switch>
-              </Suspense>
+              <AuthListener>
+                <Suspense fallback={<LoadingPage />}>
+                  <Switch>
+                    <Route exact path="/" component={SearchPage} />
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/item/:id" component={ItemPage} />
+                    <Route path="/activity/:id" component={ActivityPage} />
+                    <Route path="*" component={MissingPage} />
+                  </Switch>
+                </Suspense>
+              </AuthListener>
             </BrowserRouter>
           </NotificationProvider>
         </AccommCategoriesProvider>

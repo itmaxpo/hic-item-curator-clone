@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Slide } from '@material-ui/core'
 
 import { MenuIcon, ChevronLeftIcon, LogoutIcon, SearchIcon } from 'components/Icon'
+import { authManager } from 'utils/AuthManager'
 import {
   StyledSidebar,
   StyledCircleButton,
@@ -9,7 +10,6 @@ import {
   SidebarMenu,
   LogoutContainer
 } from './styles'
-import { useAuth0 } from 'contexts/Auth/AuthProvider'
 
 /**
  * Renders block with next behaviour:
@@ -21,12 +21,6 @@ import { useAuth0 } from 'contexts/Auth/AuthProvider'
  */
 const Sidebar = ({ expanded = false }) => {
   const [isExpanded, setIsExpanded] = useState(expanded)
-  const { logout } = useAuth0()
-
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin
-    })
 
   return (
     <>
@@ -61,7 +55,9 @@ const Sidebar = ({ expanded = false }) => {
             </a>
           </SidebarMenu>
           <LogoutContainer>
-            <LogoutIcon onClick={() => logoutWithRedirect({})} />
+            <LogoutIcon
+              onClick={() => authManager.logout({ returnTo: `${window.location.origin}/login` })}
+            />
             <StyledSubline>Log out</StyledSubline>
           </LogoutContainer>
         </StyledSidebar>

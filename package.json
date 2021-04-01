@@ -20,7 +20,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-lazyload": "^2.6.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.1",
+    "react-scripts": "^4.0.3",
     "react-spinners": "^0.5.13",
     "react-spring": "^8.0.27",
     "recompose": "^0.30.0",

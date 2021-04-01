@@ -1,7 +1,8 @@
 import React from 'react'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
-import { useAuth0 } from 'contexts/Auth/AuthProvider'
 import { P, Button } from '@tourlane/tourlane-ui'
+import { authManager } from 'utils/AuthManager'
+import { usePromise } from 'utils/usePromise'
 import { StyledP, StyledLink } from './styles'
 import { BackgroundSingleCard } from 'components/Background'
 
@@ -14,7 +15,7 @@ import { BackgroundSingleCard } from 'components/Background'
  */
 
 const MissingPage = ({ history }) => {
-  const { user } = useAuth0()
+  const [{ data: user }] = usePromise(() => authManager.getUser(), [])
 
   return (
     <BackgroundSingleCard>

@@ -1,4 +1,4 @@
-import { tokenManager } from 'utils/TokenManager'
+import { authManager } from 'utils/AuthManager'
 import { notificationManager } from 'utils/NotificationManager'
 import { stringify } from 'query-string'
 
@@ -36,7 +36,7 @@ const request = async <Payload = any>(
   const headers: Record<string, string> = path.includes('nominatim')
     ? {}
     : {
-        Authorization: `Bearer ${tokenManager.getToken()}`
+        Authorization: `Bearer ${await authManager.getToken()}`
       }
 
   if (method !== 'GET') {
@@ -56,12 +56,7 @@ const request = async <Payload = any>(
   return fetch(path, fetchOpts)
     .then((response) => {
       if (response.status === 401) {
-        console.warn(`Authorization error.`)
-        notificationManager.notify({
-          variant: 'error',
-          message: `Got an Authorization error from the backend (${path}). Please refresh the page.`
-        })
-        return request(method, path, config, contentType, retries + 1)
+        throw response
       } else if (response.status === 404) {
         console.warn(`Could not find ${path}`)
         notificationManager.notify({ variant: 'error', message: `Service not found: ${path}` })
