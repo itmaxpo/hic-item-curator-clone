@@ -1,4 +1,4 @@
-import { get, set } from 'lodash'
+import { get, set, trim } from 'lodash'
 // SEARCH API UTILS START
 
 /**
@@ -12,7 +12,7 @@ export const generateSearchQueryCountry = (propNames, value) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const values = value.includes(' ') ? value.split(' ') : [value]
 
-  const generateQueryByProp = propName => ({
+  const generateQueryByProp = (propName) => ({
     bool: {
       must: [
         {
@@ -20,7 +20,7 @@ export const generateSearchQueryCountry = (propNames, value) => {
             path: propName,
             query: {
               bool: {
-                must: values.map(val => ({
+                must: values.map((val) => ({
                   wildcard: {
                     [`${propName}.content`]: `${val}*`
                   }
@@ -35,7 +35,7 @@ export const generateSearchQueryCountry = (propNames, value) => {
 
   return {
     bool: {
-      should: propNames.map(prop => generateQueryByProp(prop))
+      should: propNames.map((prop) => generateQueryByProp(prop))
     }
   }
 }
@@ -51,7 +51,7 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
   const values = value.includes(' ') ? value.split(' ') : [value]
 
-  const generateQueryByProp = propName => ({
+  const generateQueryByProp = (propName) => ({
     bool: {
       must: [
         {
@@ -86,7 +86,7 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
             path: propName,
             query: {
               bool: {
-                must: values.map(val => ({
+                must: values.map((val) => ({
                   wildcard: {
                     [`${propName}.content`]: `${val}*`
                   }
@@ -101,10 +101,15 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
 
   return {
     bool: {
-      should: propNames.map(prop => generateQueryByProp(prop))
+      should: propNames.map((prop) => generateQueryByProp(prop))
     }
   }
 }
+
+// elastic search doesn't treat properly dots
+// ".st." -> "st"
+// "st.st" -> "st st"
+const replaceDots = (str) => trim(str, '.').replaceAll('.', ' ')
 
 /**
  * Return query to search by accommodation
@@ -124,7 +129,7 @@ export const generateSearchQueryAccom = (
   blocked
 ) => {
   // To handle strings with spaces (e.g. 'south ') - split a string by ' '
-  const name = _name.includes(' ') ? _name.split(' ') : [_name]
+  const name = _name.split(' ').map(replaceDots)
 
   const mustPath = 'bool.should.0.bool.must'
   const mustNotPath = 'bool.should.0.bool.must_not'
@@ -183,7 +188,7 @@ export const generateSearchQueryAccom = (
   }
 
   if (name) {
-    name.forEach(nameToSearch => {
+    name.forEach((nameToSearch) => {
       const nameQuery = {
         nested: {
           path: 'name',
