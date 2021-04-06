@@ -97,7 +97,7 @@ const ItemLayout = ({
   const [breadcrumbs, setBreadcrumbs] = useState([])
   const [isFetchingBreadcrumbs, setIsFetchingBreadcrumbs] = useState(false)
 
-  const onTitleChange = e => {
+  const onTitleChange = (e) => {
     onChange(FIELD_NAME, e.target.value)
   }
 
@@ -106,11 +106,11 @@ const ItemLayout = ({
     history.push(`?${queryString.stringify({ language: locale })}`)
   }
 
-  const onActiveDestinationChange = e => {
+  const onActiveDestinationChange = (e) => {
     onChange(FIELD_ACTIVE_DESTINATION, e.target.checked)
   }
 
-  const onVizDestinationChange = e => {
+  const onVizDestinationChange = (e) => {
     onChange(FIELD_VISUALIZATION_DESTINATION, e.target.checked)
   }
 
@@ -138,7 +138,7 @@ const ItemLayout = ({
   // effect to update item name in breadcrumbs when changed by user
   useEffect(() => {
     if (breadcrumbs.length > 1) {
-      setBreadcrumbs(prevBreadcrumbs => {
+      setBreadcrumbs((prevBreadcrumbs) => {
         const lastBreadcrumb = prevBreadcrumbs[prevBreadcrumbs.length - 1]
 
         if (lastBreadcrumb) {
@@ -162,7 +162,7 @@ const ItemLayout = ({
       }
       // Store only item with a name
       if (name && data.item_type !== TOURISTIC_AREA_ITEM_TYPE) {
-        setBreadcrumbs(prevValues => [{ id: data.uuid, name }, ...prevValues])
+        setBreadcrumbs((prevValues) => [{ id: data.uuid, name }, ...prevValues])
       }
 
       // If there is a parent, fetch it
@@ -184,7 +184,7 @@ const ItemLayout = ({
   }, [item.parentId, onCountryUpdate])
 
   const missingNameForLocaleFlagUrl = `//www.countryflags.io/${
-    item.language.split('-')[1]
+    item.language?.split('-')[1]
   }/flat/48.png`
 
   return (
@@ -306,7 +306,7 @@ const ItemLayout = ({
           <TabsContainer>
             <PageContainer>
               <TabList label={'item'}>
-                {tabs.map(tab => (
+                {tabs.map((tab) => (
                   <Tab key={tab} name={tab}>
                     {tab}
                   </Tab>

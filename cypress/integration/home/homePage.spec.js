@@ -370,6 +370,7 @@ describe('Homepage', () => {
   })
 
   it('Searching for activities by supplier', () => {
+    cy.homePageLoad()
     cy.server()
     cy.route(
       'GET',

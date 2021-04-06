@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useContext } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { get, debounce } from 'lodash'
 
 import {
@@ -11,6 +11,8 @@ import {
   Container
 } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
+import { getSuppliers } from 'services/configurationsApi'
+import { usePromise } from 'utils/usePromise'
 
 import {
   SearchBoxWrapper,
@@ -33,7 +35,6 @@ import {
   ACTIVITY_ITEM_TYPE
 } from 'utils/constants'
 import { getCountries, getAreasInCountry } from 'services/searchApi'
-import SuppliersContext from 'contexts/Suppliers'
 
 /**
  * This is the Search Box component,
@@ -64,7 +65,13 @@ const SearchBox = ({
   const blocked = get(locationQuery, 'blocked') === 'true'
 
   const [goToDestination, setGoToDestination] = useState(undefined)
-  const { suppliers } = useContext(SuppliersContext)
+  const [{ data: suppliers = [] }] = usePromise(
+    async () =>
+      (await getSuppliers())
+        .filter(({ supplier_id }) => supplier_id)
+        .map(({ name, supplier_id }) => ({ value: supplier_id, label: name })),
+    []
+  )
 
   const onNameChange = (e) => {
     const value = e?.target?.value
