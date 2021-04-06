@@ -23,9 +23,10 @@ const THEMES = [
   'Outdoor/Adventure',
   'Photography',
   'Romance/Honeymoon',
+  'Sightseeing',
   'Trekking',
   'Wellness',
-  'Wildlife',
+  'Wildlife / Nature',
   'Winter'
 ]
 
