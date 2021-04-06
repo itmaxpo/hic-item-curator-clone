@@ -1,5 +1,7 @@
 import * as searchApi from 'services/searchApi'
 
+jest.mock('../../utils/AuthManager.ts')
+
 describe('searchApi.js', () => {
   it('to be defined', () => {
     expect(searchApi).toBeDefined()
