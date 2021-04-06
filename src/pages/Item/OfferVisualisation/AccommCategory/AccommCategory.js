@@ -1,20 +1,21 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { H4, Dropdown, Big } from '@tourlane/tourlane-ui'
+import { useAccommodationCategories } from 'contexts/AccommCategories/AccommCategories'
 import { Wrapper } from './styles'
-import CategoriesContext, {
+import {
   getCategoryLabel,
   getCategoryValue,
   getDefaultCategoryValue
 } from 'contexts/AccommCategories'
 
 export const AccommCategory = ({ isEditing, item, onChange }) => {
-  const categories = useContext(CategoriesContext)
+  const categories = useAccommodationCategories()
 
-  const categoryLabel = getCategoryLabel(item)
-  const value = getCategoryValue(item)
+  const categoryLabel = getCategoryLabel(item, categories)
+  const value = getCategoryValue(item, categories)
 
-  const handleChange = value => {
-    const categoryValue = !value ? getDefaultCategoryValue() : value
+  const handleChange = (value) => {
+    const categoryValue = !value ? getDefaultCategoryValue(categories) : value
     onChange(categoryValue)
   }
 

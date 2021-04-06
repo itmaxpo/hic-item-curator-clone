@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 
 import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
-import { getCategoryLabel } from 'contexts/AccommCategories'
 
 import AccommCategory from '../AccommCategory'
 import AccommRanking from '../AccommRanking'
@@ -23,7 +22,7 @@ export const CategoryAndRanking = ({ isEditing, item, onChange }) => {
     },
     [onChange]
   )
-  const noCategory = getCategoryLabel(item) === 'No Category'
+  const noCategory = item[ACCOMM_CATEGORY_COMPONENT_NAME] == null
   const disabledRanking = noCategory || !item.accommodation_category
 
   return (

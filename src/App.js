@@ -1,7 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
 import { Route, BrowserRouter, Switch, useHistory } from 'react-router-dom'
-import { AccommCategoriesProvider } from 'contexts/AccommCategories'
 import { SuppliersContextProvider } from 'contexts/Suppliers'
 import { COLORS } from '@tourlane/tourlane-ui'
 import { NotificationProvider, useNotification } from 'components/Notification'
@@ -128,23 +127,21 @@ function App() {
   return (
     <AppWrapper>
       <SuppliersContextProvider>
-        <AccommCategoriesProvider>
-          <NotificationProvider>
-            <BrowserRouter>
-              <AuthListener>
-                <Suspense fallback={<LoadingPage />}>
-                  <Switch>
-                    <Route exact path="/" component={SearchPage} />
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/item/:id" component={ItemPage} />
-                    <Route path="/activity/:id" component={ActivityPage} />
-                    <Route path="*" component={MissingPage} />
-                  </Switch>
-                </Suspense>
-              </AuthListener>
-            </BrowserRouter>
-          </NotificationProvider>
-        </AccommCategoriesProvider>
+        <NotificationProvider>
+          <BrowserRouter>
+            <AuthListener>
+              <Suspense fallback={<LoadingPage />}>
+                <Switch>
+                  <Route exact path="/" component={SearchPage} />
+                  <Route path="/login" component={LoginPage} />
+                  <Route path="/item/:id" component={ItemPage} />
+                  <Route path="/activity/:id" component={ActivityPage} />
+                  <Route path="*" component={MissingPage} />
+                </Switch>
+              </Suspense>
+            </AuthListener>
+          </BrowserRouter>
+        </NotificationProvider>
       </SuppliersContextProvider>
     </AppWrapper>
   )
