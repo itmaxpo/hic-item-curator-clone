@@ -47,8 +47,7 @@ const getInitialEditorState = (value) => {
  * Takes the external props 'value' and 'onChange'
  * Returns props that need to be passed to the Editor.
  */
-const useEditorState = ({ value, onChange }) => {
-  const typingStarted = useRef(false)
+const useEditorState = ({ value, onChange, typingStarted }) => {
   const previousValue = usePrevious(value, true)
 
   // Keep track of editor state
@@ -58,6 +57,7 @@ const useEditorState = ({ value, onChange }) => {
     if (!typingStarted.current && previousValue !== value) {
       setEditorState(() => getInitialEditorState(value))
     }
+    // eslint-disable-next-line
   }, [value, previousValue])
 
   // Handle editor state change
@@ -73,6 +73,7 @@ const useEditorState = ({ value, onChange }) => {
         onChange(htmlValue)
       }
     },
+    // eslint-disable-next-line
     [onChange]
   )
 
@@ -160,11 +161,14 @@ const RichTextEditor = ({
   editorProps = {},
   ...otherProps
 }) => {
-  const { editorState, onEditorStateChange } = useEditorState({ value, onChange })
+  // helps to prevent cursor jumping on text changes
+  const typingStarted = useRef(false)
+  const { editorState, onEditorStateChange } = useEditorState({ value, onChange, typingStarted })
   const { editorRef, handleWrapperClick } = useEditorFocus()
   const { editorKey, handlePastedText } = useEditorPaste()
 
   const onBlurAction = () => {
+    typingStarted.current = false
     // If onBlur function provided, return html
     if (otherProps.onBlur) {
       const htmlValue = draftToHtml(convertToRaw(editorState.getCurrentContent()))
