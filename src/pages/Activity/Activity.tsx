@@ -16,7 +16,8 @@ import {
   Hr,
   Image,
   SecondaryButton,
-  FlexBox
+  FlexBox,
+  Strong
 } from '@tourlane/tourlane-ui'
 
 import Breadcrumbs from 'components/Breadcrumbs'
@@ -229,6 +230,19 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
             <Market disabled={isEditing} />
           </Flex>
         </Flex>
+
+        <div>
+          {activity?.supplier_id && (
+            <>
+              <Strong>Supplier: </Strong> {activity?.supplier_id},{' '}
+            </>
+          )}
+          {activity?.provider && (
+            <>
+              <Strong>Provider:</Strong> {activity?.provider}
+            </>
+          )}
+        </div>
 
         <HookForm data-test="activity-form" form={form} disabled={!isEditing || isSubmitting}>
           <Card>
