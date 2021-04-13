@@ -15,7 +15,8 @@ import {
   H5,
   Hr,
   Image,
-  SecondaryButton
+  SecondaryButton,
+  FlexBox
 } from '@tourlane/tourlane-ui'
 
 import Breadcrumbs from 'components/Breadcrumbs'
@@ -244,10 +245,10 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                     closeMenuOnSelect={false}
                   />
 
-                  <Flex direction="ttb">
+                  <FlexBox direction="ttb" maxWidth="800px">
                     <H5 withBottomMargin>Activity Location</H5>
                     <AddressSearch />
-                  </Flex>
+                  </FlexBox>
                 </Flex>
 
                 <Flex flex={1}>
