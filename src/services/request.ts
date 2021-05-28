@@ -31,11 +31,12 @@ const request = async <Payload = any>(
     throw new Error(`Error fetching ${path}`)
   }
 
-  const headers: Record<string, string> = { Application: 'item-curator' }
+  const headers: Record<string, string> = {}
 
   // Prepare request options
-  // nominatim request breaks if we include the auth token
+  // nominatim request breaks if we include any header
   if (!path.includes('nominatim')) {
+    headers.Application = 'item-curator'
     headers.Authorization = `Bearer ${await authManager.getToken()}`
   }
 
