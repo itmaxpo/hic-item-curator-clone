@@ -64,13 +64,13 @@ export const generateSearchQueryArea = (countryId, propNames, value) => {
               },
               {
                 nested: {
-                  path: 'ancestors',
+                  path: 'ancestors_tree',
                   query: {
                     bool: {
                       must: [
                         {
                           match: {
-                            'ancestors.content': `kiwi://Elephant/Item/${countryId}`
+                            'ancestors_tree.uuid': countryId
                           }
                         }
                       ]
