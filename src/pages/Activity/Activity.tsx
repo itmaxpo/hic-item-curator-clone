@@ -17,7 +17,8 @@ import {
   Image,
   SecondaryButton,
   FlexBox,
-  Strong
+  Strong,
+  Big
 } from '@tourlane/tourlane-ui'
 
 import Breadcrumbs from 'components/Breadcrumbs'
@@ -164,6 +165,7 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   )
 
   let location = form.watch('location')
+  const areas = activity?.touristic_areas?.map(({ name }) => name).join(', ')
 
   return (
     // @ts-ignore
@@ -258,6 +260,9 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                     options={getThemes()}
                     closeMenuOnSelect={false}
                   />
+
+                  <Big strong>Area(s)</Big>
+                  <Base>{areas}</Base>
 
                   <FlexBox direction="ttb" maxWidth="800px">
                     <H5 withBottomMargin>Activity Location</H5>

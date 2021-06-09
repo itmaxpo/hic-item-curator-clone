@@ -20,6 +20,7 @@ export interface IActivity {
     lat: number
     lon: number
   }
+  touristic_areas: { uuid: string; name: string }[]
   address: string | null
   exclusions: string | null
   inclusions: string | null
