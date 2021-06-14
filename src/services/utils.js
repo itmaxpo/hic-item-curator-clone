@@ -150,13 +150,13 @@ export const generateSearchQueryAccom = (
   if (area || country) {
     const ancestorQuery = {
       nested: {
-        path: 'ancestors',
+        path: 'ancestors_tree',
         query: {
           bool: {
             must: [
               {
                 match: {
-                  'ancestors.content': `kiwi://Elephant/Item/${area || country}`
+                  'ancestors_tree.uuid': area ?? country
                 }
               }
             ]
