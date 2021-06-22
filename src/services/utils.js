@@ -188,7 +188,7 @@ export const generateSearchQueryAccom = (
   }
 
   if (name) {
-    name.forEach((nameToSearch) => {
+    name.forEach((nameToSearch, index) => {
       const nameQuery = {
         nested: {
           path: 'name',
@@ -197,7 +197,7 @@ export const generateSearchQueryAccom = (
               must: [
                 {
                   wildcard: {
-                    'name.content': `${nameToSearch}*`
+                    'name.content': index === 0 ? `*${nameToSearch}*` : `* ${nameToSearch}*`
                   }
                 }
               ]
