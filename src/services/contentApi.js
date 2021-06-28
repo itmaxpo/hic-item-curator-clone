@@ -117,13 +117,14 @@ const getItemAttachmentsById = async (id, offset = 0, itemType) => {
  * @param {String} attachments
  * @returns {Object}
  */
-const updateItemAttachmentsById = async (id, attachments, isVisible) => {
+const updateItemAttachmentsById = async (id, type, attachments, isVisible) => {
   let req = (att) =>
     request(
       'PATCH',
       `${process.env.REACT_APP_KIWI_CONTENT_API}/items/${id}/attachments/${att.id}`,
       {
         body: {
+          item_type: type,
           tags: {
             ...att.tags,
             visible: isVisible,

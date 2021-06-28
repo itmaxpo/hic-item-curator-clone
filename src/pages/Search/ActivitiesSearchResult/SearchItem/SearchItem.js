@@ -36,7 +36,9 @@ const Image = ({ itemId }) => {
 
   if (isLoading) return <Preloader />
 
-  if (error || images.length === 0) {
+  const visibleImages = images.filter(({ tags }) => tags?.visible !== false)
+
+  if (error || visibleImages.length === 0) {
     return <StyledUnhappyIcon />
   }
 
@@ -47,7 +49,7 @@ const Image = ({ itemId }) => {
       <BadgeWrapperPhoto data-test="photo">
         <ItemBadge width={'95px'}>
           <P>
-            {images.length} Photo{addSToString(images.length)}
+            {visibleImages.length} Photo{addSToString(visibleImages.length)}
           </P>
         </ItemBadge>
       </BadgeWrapperPhoto>

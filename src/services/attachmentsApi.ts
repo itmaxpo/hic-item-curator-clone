@@ -50,7 +50,7 @@ const uploadPreSignedFile = ({ url, fields }: IPreSignedPost, file: File) => {
 
 const SIZE_LIMIT = 62914560 // 60mb
 
-interface IAttachment {
+export interface IAttachment {
   uuid: string
   filename: string
   height: number
@@ -61,9 +61,10 @@ interface IAttachment {
   locale: string | null
   source: string | null
   source_key: string | null
-  tags: Record<string, string> | null
+  tags: { order: number; visible: boolean } | null
   created_at: string
   updated_at: string
+  notVisible?: boolean
 }
 
 export const addAttachmentToItem = async ({

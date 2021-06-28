@@ -1,57 +1,44 @@
-import React, { useCallback, useMemo, useReducer, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import NotificationContext from './NotificationContext'
 import NotificationHub from './NotificationHub'
 import { notificationManager } from 'utils/NotificationManager'
 
-const initialState = {
-  notifications: []
-}
+const NotificationProvider = ({ children }) => {
+  const [notifications, setNotifications] = useState([])
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'enqueueNotification': {
-      const key = action.notification.key || new Date().getTime() + Math.random()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const enqueueNotification = ({
+    key = new Date().getTime() + Math.random(),
+    autoHideDuration = 5000,
+    onClose,
+    ...notification
+  }) => {
+    const timer = setTimeout(() => {
+      removeNotification(key)
+      onClose?.()
+    }, autoHideDuration)
 
-      const newNotification = {
-        key,
-        ...action.notification
-      }
-
-      return {
-        ...state,
-        notifications: [...state.notifications, newNotification]
+    const closeNotification = (runOnClose = true) => {
+      clearTimeout(timer)
+      removeNotification(key)
+      if (runOnClose) {
+        onClose?.()
       }
     }
-    case 'closeNotification':
-      return {
-        ...state,
-        notifications: state.notifications.filter(notification => notification.key !== action.key)
-      }
-    default:
-      throw new Error()
+
+    setNotifications((notifications) => [
+      ...notifications,
+      { key, onClose: closeNotification, ...notification }
+    ])
+
+    return closeNotification
   }
-}
 
-/**
- * NotificationProvider component.
- */
-const NotificationProvider = ({ children }) => {
-  const [{ notifications }, dispatch] = useReducer(reducer, initialState)
-
-  // display a new notification with the provided Notification props
-  const enqueueNotification = useCallback(notification => {
-    dispatch({ type: 'enqueueNotification', notification })
-  }, [])
-
-  // close the notification with the provided key
-  const closeNotification = useCallback(key => {
-    dispatch({ type: 'closeNotification', key })
-  }, [])
-
-  const contextValue = useMemo(() => ({ enqueueNotification, closeNotification }), [
-    enqueueNotification,
-    closeNotification
-  ])
+  const removeNotification = (key) => {
+    setNotifications((notifications) =>
+      notifications.filter((notification) => notification.key !== key)
+    )
+  }
 
   // effect to assign notification singleton the enqueueNotification method.
   // this allows dispatching notifications from the request class
@@ -60,9 +47,9 @@ const NotificationProvider = ({ children }) => {
   }, [enqueueNotification])
 
   return (
-    <NotificationContext.Provider value={contextValue}>
+    <NotificationContext.Provider value={{ enqueueNotification }}>
       {children}
-      <NotificationHub notifications={notifications} closeNotification={closeNotification} />
+      <NotificationHub notifications={notifications} />
     </NotificationContext.Provider>
   )
 }

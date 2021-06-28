@@ -1,8 +1,9 @@
-import type React from 'react'
+import { FC } from 'react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
 import type { RouteComponentProps } from 'react-router-dom'
+import styled from 'styled-components'
 
 import {
   Base,
@@ -18,8 +19,11 @@ import {
   SecondaryButton,
   FlexBox,
   Strong,
-  Big
+  Big,
+  AlarmButton,
+  IconCircle
 } from '@tourlane/tourlane-ui'
+import DeleteIcon from '@tourlane/iconography/Glyphs/Navigation/Delete'
 
 import Breadcrumbs from 'components/Breadcrumbs'
 import MapComponent, { SearchBox } from 'components/Map'
@@ -36,20 +40,30 @@ import {
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
 import { getActivityById, IActivity, updateActivity } from 'services/activityApi'
-import { getItemAttachments } from '../../services/attachmentsApi'
+import { getItemAttachments, IAttachment } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
 import NoLocation from '../Item/OfferVisualisation/NoLocation'
 import { CarouselLoader } from 'components/Carousel'
+import { useNotification } from '../../components/Notification'
+import { updateItemAttachmentsById } from '../../services/contentApi'
 
 const ImageCarousel = lazy(
   () => import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
 )
 
+const IconCircleStyled = styled(IconCircle)`
+  cursor: pointer;
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  z-index: 1;
+`
+
 const formSpacing = [12, 12, 15, 18, 24]
 
-const FieldGroup: React.FC<{ title: string }> = ({ title, children }) => (
+const FieldGroup: FC<{ title: string }> = ({ title, children }) => (
   <>
     <H5 withBottomMargin>{title}</H5>
 
@@ -61,23 +75,68 @@ const FieldGroup: React.FC<{ title: string }> = ({ title, children }) => (
 
 const IMAGE_SIZE = 120
 
-const ImageCard: React.FC<{ onClick?: () => void }> = ({ children, onClick }) => (
+const ImageCard: FC<{ onClick?: () => void }> = ({ children, onClick }) => (
   <Card onClick={onClick} height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
     {children}
   </Card>
 )
 
-const Images: React.FC<{ images: { url: string }[]; onImageClick: (i: number) => void }> = ({
-  images,
-  onImageClick
-}) =>
-  images.length ? (
+const Images: FC<{
+  images: IAttachment[]
+  onImageClick: (i: number) => void
+  isEditing: boolean
+  onDelete: (uuid: string, i: number) => void
+}> = ({ images, onImageClick, isEditing, onDelete }) => {
+  const { enqueueNotification } = useNotification()
+  const [imagesIdsToDelete, setImagesToDelete] = useState(() => new Set())
+
+  return images.length && !images?.every(({ uuid }) => imagesIdsToDelete.has(uuid)) ? (
     <Flex gap={formSpacing} flexWrap="wrap">
-      {images.map(({ url }, i) => (
-        <ImageCard key={url} onClick={() => onImageClick(i)}>
-          <Image src={url} height={IMAGE_SIZE} />
-        </ImageCard>
-      ))}
+      {images
+        .filter(({ uuid }) => !imagesIdsToDelete.has(uuid))
+        .map(({ url, filename, uuid }, i) => (
+          <div key={uuid} style={{ position: 'relative' }}>
+            {isEditing && (
+              <IconCircleStyled
+                icon={<DeleteIcon />}
+                sizeVariant="tiny"
+                onClick={() => {
+                  setImagesToDelete((s) => new Set(s).add(uuid))
+
+                  const closeNotification = enqueueNotification({
+                    variant: 'alarm',
+                    type: 'block',
+                    borderDirection: 'bottom',
+                    onClose: () => onDelete(uuid, i),
+                    message: (
+                      <Flex justifyContent="space-between" alignItems="center">
+                        <Base strong>Image deleted ({filename})</Base>
+
+                        <AlarmButton
+                          size="small"
+                          onClick={() => {
+                            closeNotification(false)
+                            setImagesToDelete((s) => {
+                              const d = new Set(s)
+                              d.delete(uuid)
+                              return d
+                            })
+                          }}
+                        >
+                          UNDO
+                        </AlarmButton>
+                      </Flex>
+                    )
+                  })
+                }}
+              />
+            )}
+
+            <ImageCard key={url} onClick={() => onImageClick(i)}>
+              <Image src={url} height={IMAGE_SIZE} />
+            </ImageCard>
+          </div>
+        ))}
     </Flex>
   ) : (
     <ImageCard>
@@ -86,8 +145,9 @@ const Images: React.FC<{ images: { url: string }[]; onImageClick: (i: number) =>
       </Flex>
     </ImageCard>
   )
+}
 
-const AddressSearch: React.FC<{}> = () => {
+const AddressSearch = () => {
   let {
     disabled,
     form: { register, unregister, setValue, watch }
@@ -121,10 +181,7 @@ const AddressSearch: React.FC<{}> = () => {
   )
 }
 
-const RichTextEditorWithEditorProps: React.FC<{ name: string; label: string }> = ({
-  name,
-  label
-}) => (
+const RichTextEditorWithEditorProps: FC<{ name: string; label: string }> = ({ name, label }) => (
   <HFRichTextEditor
     name={name}
     label={label}
@@ -143,10 +200,11 @@ const RichTextEditorWithEditorProps: React.FC<{ name: string; label: string }> =
   />
 )
 
-export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params?.id
   const [market] = useMarket()
   const [{ data: activity }] = usePromise(() => getActivityById(id, market), [id, market])
+  const { enqueueNotification } = useNotification()
 
   const form = useForm<IActivity>({})
   const { setErrors } = createHelpers(form)
@@ -160,9 +218,10 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activity])
 
-  let [{ data: images = [] }, reFetchImages] = usePromise(() =>
-    getItemAttachments({ itemId: id, itemType: 'activity' })
-  )
+  const [{ data: images = [] }, reFetchImages] = usePromise(async () => {
+    const images = await getItemAttachments({ itemId: id, itemType: 'activity' })
+    return images.filter(({ tags }) => tags?.visible !== false)
+  })
 
   let location = form.watch('location')
   const areas = activity?.touristic_areas?.map(({ name }) => name).join(', ')
@@ -296,9 +355,30 @@ export const Activity: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                   <Flex flex={1}>
                     <Images
                       images={images}
+                      isEditing={isEditing}
                       onImageClick={(i) => {
                         setSelectedImageIndex(i)
                         toggleImageCarousel(true)
+                      }}
+                      onDelete={async (imageId, imageOrder) => {
+                        try {
+                          const deletedImage: any = await updateItemAttachmentsById(
+                            id,
+                            'activity',
+                            [{ id: imageId, order: imageOrder }] as any,
+                            false
+                          )
+                          // TODO: upon accommodation image deletion complete - let's move error handling to the service
+                          if (deletedImage[0]?.error?.length > 0) {
+                            throw Error(deletedImage[0].error.join(', '))
+                          }
+                        } catch (e) {
+                          enqueueNotification({
+                            variant: 'error',
+                            message: `Failed to update image. ${e?.message}`
+                          })
+                          console.error(e)
+                        }
                       }}
                     />
 

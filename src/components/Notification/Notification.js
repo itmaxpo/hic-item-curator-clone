@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { COLORS, Flex, SHADOWS } from '@tourlane/tourlane-ui'
+import { COLORS, Flex, SHADOWS, NotificationBlock } from '@tourlane/tourlane-ui'
 import { AlertIcon, CloseIcon } from 'components/Icon'
 
 const Container = styled.div`
@@ -40,7 +39,7 @@ const StyledAlertIcon = styled(AlertIcon)`
 `
 
 /// default action that calls the provided onClose callback on click
-const getDefaultAction = onClose => <StyledCloseIcon onClick={onClose} />
+const getDefaultAction = (onClose) => <StyledCloseIcon onClick={onClose} />
 
 /**
  * Notification component.
@@ -55,11 +54,10 @@ const Notification = ({
   // Type of notification. 'default' or 'error'.
   variant = 'default',
 
+  type = 'simple',
+
   // If true, the notification is open
   open = true,
-
-  // Time to wait before calling the onClose function. This behavior is Disabled if the value is null
-  autoHideDuration = 6000,
 
   // Callback fired when the component requests to be closed
   onClose = () => {},
@@ -80,24 +78,18 @@ const Notification = ({
     )
   }
 
-  // set timer to call onClose when autoHideDuration passes
-  useEffect(() => {
-    let timer = null
-    if (autoHideDuration) {
-      timer = setTimeout(() => {
-        onClose()
-      }, autoHideDuration)
-    }
-    return () => {
-      timer && clearTimeout(timer)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoHideDuration])
-
-  return (
+  return type === 'block' ? (
+    <NotificationBlock
+      style={{ marginBottom: '5px' }}
+      width={[440, null, 660]}
+      variant={variant}
+      message={message}
+      {...otherProps}
+    />
+  ) : (
     <Container {...otherProps}>
       <Message>{messageElement}</Message>
-      {actionElement ? <Action>{actionElement}</Action> : null}
+      {actionElement && <Action>{actionElement}</Action>}
     </Container>
   )
 }

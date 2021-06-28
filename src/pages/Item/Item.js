@@ -73,9 +73,9 @@ const ItemPage = ({ match, history }) => {
 
   const updateAttachments = async () => {
     try {
-      const imagesNotVisibleAnymore = allImagesOriginal.current.filter(img => img.isVisible)
-      await updateItemAttachmentsById(item.id, imagesNotVisibleAnymore, false)
-      await updateItemAttachmentsById(item.id, item.visibleImages, true)
+      const imagesNotVisibleAnymore = allImagesOriginal.current.filter((img) => img.isVisible)
+      await updateItemAttachmentsById(item.id, 'accommodation', imagesNotVisibleAnymore, false)
+      await updateItemAttachmentsById(item.id, 'accommodation', item.visibleImages, true)
     } catch (e) {
       enqueueNotification({
         variant: 'error',
@@ -119,7 +119,7 @@ const ItemPage = ({ match, history }) => {
           originalItem.current = { ...item, locales: currentLocales }
           // Update originals for Images
           allImagesOriginal.current = [
-            ...allImagesOriginal.current.filter(img => !img.isVisible),
+            ...allImagesOriginal.current.filter((img) => !img.isVisible),
             ...item.visibleImages
           ]
           visibleImagesOriginal.current = [...item.visibleImages]
@@ -158,7 +158,7 @@ const ItemPage = ({ match, history }) => {
 
     const language = get(queryString.parse(window.location.search), 'language') || 'en-GB'
 
-    const fetchAdditionalInformation = async item => {
+    const fetchAdditionalInformation = async (item) => {
       switch (item.type) {
         case AREA_ITEM_TYPE:
           const polygon = await getItemPolygonCoordinatesById(match.params.id)
@@ -169,7 +169,7 @@ const ItemPage = ({ match, history }) => {
         case ACCOMMODATION_ITEM_TYPE:
           const accomRooms = await getRoomsForAccommodation(match.params.id)
 
-          const rooms = accomRooms['data'].map(room => {
+          const rooms = accomRooms['data'].map((room) => {
             return {
               label:
                 get(getFieldBySourcePriority(get(room, 'fields.category')), 'content') || 'No name',
@@ -211,7 +211,7 @@ const ItemPage = ({ match, history }) => {
 
       await fetchImagesRecursively()
 
-      const photos = fetchedImages.map(att => ({
+      const photos = fetchedImages.map((att) => ({
         id: att.uuid,
         order: get(att, 'tags.order'),
         value: att.url,
@@ -225,10 +225,10 @@ const ItemPage = ({ match, history }) => {
       }))
       // Only visibleImages have order
       const visibleImages = photos
-        .filter(att => att.isVisible)
+        .filter((att) => att.isVisible)
         .sort((img1, img2) => img1.order - img2.order)
 
-      const allImages = photos.filter(att => !att.isVisible)
+      const allImages = photos.filter((att) => !att.isVisible)
 
       allImagesOriginal.current = photos
       visibleImagesOriginal.current = visibleImages
@@ -243,7 +243,7 @@ const ItemPage = ({ match, history }) => {
       setIsLoading(true)
       setIsLoadingAdditionalInfo(true)
 
-      await Promise.all([fetchItem(), fetchAttachments()]).then(async values => {
+      await Promise.all([fetchItem(), fetchAttachments()]).then(async (values) => {
         const [item, attachments] = values
         const itemWithAttachments = { ...item, ...attachments }
 
@@ -263,7 +263,7 @@ const ItemPage = ({ match, history }) => {
   }, [match.params.id, onChange, updateFieldRef])
 
   const handlePageClose = useCallback(
-    e => {
+    (e) => {
       if (isEditing) {
         onPageClosing(e)
       }
