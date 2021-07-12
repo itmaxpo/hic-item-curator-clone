@@ -40,7 +40,7 @@ export interface IActivity {
 
 export const getActivityById = async (id: string | number, locale = 'en-GB') => {
   let { data } = await getJson<{ data: IActivity }>(
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities/${id}`,
+    `${process.env.REACT_APP_PARTNERS_API}/content/activities/${id}`,
     {
       locale
     }
@@ -94,7 +94,7 @@ const updatePropsMapping: Partial<Record<keyof IActivityPayload, string>> = {
 export const updateActivity = async ({ uuid, ...activity }: IActivity & { locale: string }) => {
   try {
     let { data } = await patchJson<{ data: IActivity }, IActivityPayload>(
-      `${process.env.REACT_APP_KIWI_CONTENT_API}/activities/${uuid}`,
+      `${process.env.REACT_APP_PARTNERS_API}/content/activities/${uuid}`,
       {
         ...activity,
         ...mapValues(updatePropsMapping, (key) => get(activity, key!))

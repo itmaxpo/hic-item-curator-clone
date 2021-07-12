@@ -76,7 +76,7 @@
       {
         "field_name": "accommodation_category",
         "content_type": "reference",
-        "content": "kiwi://Elephant/Item/bb5f0223-fcb5-45ec-a59e-3b16386e765c",
+        "content": "partners-staging://Elephant/Item/bb5f0223-fcb5-45ec-a59e-3b16386e765c",
         "locale": null,
         "source": "wetu",
         "source_key": "wetu",

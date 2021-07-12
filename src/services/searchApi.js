@@ -8,6 +8,8 @@ import {
 } from './utils'
 import { mockItems } from './mocks'
 
+const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
+
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
 const nameProperties = ['name', 'original_name']
@@ -18,15 +20,15 @@ const nameProperties = ['name', 'original_name']
  * @param {String} name
  * @returns {Object}
  */
-const getCountries = async name => {
+const getCountries = async (name) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res
   // add a condition to modify request if it is e2e test environment
   if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-country`, {})
+    res = await request('POST', `${SEARCH_API_URL}?test-country`, {})
   } else {
-    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+    res = await request('POST', SEARCH_API_URL, {
       body: {
         item_types: ['country'],
         query: generateSearchQueryCountry(nameProperties, nameToSearch)
@@ -57,9 +59,9 @@ const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
   let res
   // add a condition to modify request if it is e2e test environment
   if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-area`, {})
+    res = await request('POST', `${SEARCH_API_URL}?test-area`, {})
   } else {
-    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+    res = await request('POST', SEARCH_API_URL, {
       body: {
         item_types: ['admin_area'],
         offset,
@@ -103,9 +105,9 @@ const getAccommodations = async (
   let res
   // add a condition to modify request if it is e2e test environment
   if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${process.env.REACT_APP_KIWI_SEARCH_API}?test-accommodation`, {})
+    res = await request('POST', `${SEARCH_API_URL}?test-accommodation`, {})
   } else {
-    res = await request('POST', process.env.REACT_APP_KIWI_SEARCH_API, {
+    res = await request('POST', SEARCH_API_URL, {
       body: {
         item_types: ['accommodation'],
         offset,
@@ -151,7 +153,7 @@ const getActivities = async (
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
   const res = await request(
     'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country_uuid=${country}&name=${nameToSearch}`
+    `${process.env.REACT_APP_PARTNERS_API}/content/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country_uuid=${country}&name=${nameToSearch}`
   )
 
   return res.json()

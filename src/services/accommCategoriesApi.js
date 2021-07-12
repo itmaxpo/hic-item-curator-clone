@@ -9,7 +9,7 @@ import request from './request'
 export const getAccommCategoriesApi = async () => {
   const res = await request(
     'GET',
-    `${process.env.REACT_APP_KIWI_CONTENT_API}/items?item_type=accommodation_category&offset=0`
+    `${process.env.REACT_APP_PARTNERS_API}/content/items?item_type=accommodation_category&offset=0`
   )
   return res.json()
 }

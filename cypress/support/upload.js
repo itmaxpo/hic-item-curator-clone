@@ -7,7 +7,7 @@ Cypress.Commands.add('fileUploadSuccessStub', (fixture = 'test.jpg') => {
 
   // stub API
   cy.server()
-  cy.route('POST', 'https://kiwi.**.com/content/**/attachments', fixturePath)
+  cy.route('POST', 'https://partners-staging.**.com/content/**/attachments', fixturePath)
 })
 
 /**
@@ -19,7 +19,7 @@ Cypress.Commands.add('fileUploadErrorStub', () => {
   cy.server()
   cy.route({
     method: 'POST',
-    url: 'https://kiwi.**.com/content/**/attachments',
+    url: 'https://partners-staging.**.com/content/**/attachments',
     status: 422,
     response: {}
   })

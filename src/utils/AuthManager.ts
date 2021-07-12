@@ -23,7 +23,7 @@ class AuthManager {
     domain: process.env.REACT_APP_AUTH_DOMAIN!,
     client_id: process.env.REACT_APP_AUTH_CLIENT_ID!,
     redirect_uri: window.location.origin,
-    audience: process.env.REACT_APP_AUTH_AUDIENCE,
+    audience: process.env.REACT_APP_PARTNERS_API,
     scope: 'read:all'
   })
 

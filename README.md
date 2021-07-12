@@ -154,7 +154,7 @@ _FE -> BE_: For the backwards transformation we use `transformToSupplyItem`. Thi
 **4. How to add a new field to a specific type of item?**
 
 Every time FE send GET request like this:
-`https://kiwi.tlservers.com/content/items/55e3bb6d-14cc-4e37-ae1c-173813f8e4c1?selected_fields=description,safety,currency,transport,cuisine,climate,dress,additional_info,name,iso_code,active_destination,health,electricity,entry_requirements,transport,admin_level,address,geolocation,original_name,front_desk_phone,accommodation_category,blacklisted,ranking`, it is required to provide all fields, that FE expect after this `?selected_fields=`.
+`https://partners.tlservers.com/content/items/55e3bb6d-14cc-4e37-ae1c-173813f8e4c1?selected_fields=description,safety,currency,transport,cuisine,climate,dress,additional_info,name,iso_code,active_destination,health,electricity,entry_requirements,transport,admin_level,address,geolocation,original_name,front_desk_phone,accommodation_category,blacklisted,ranking`, it is required to provide all fields, that FE expect after this `?selected_fields=`.
 
 It is okay with the current structure, but what if we need to add a new field for all or a specific item type? Let's try to figure this out! Our task is to add a new field called `taco` for the `accommodation`. Here is step-by-step guide on how to do it painlessly!
 

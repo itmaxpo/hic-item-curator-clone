@@ -22,18 +22,18 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-country',
+      'https://partners-staging.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
 
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
       'fixture:search/emptyAreaName.json'
     )
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/**/attachments**',
+      'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
 
@@ -60,22 +60,22 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-country',
+      'https://partners-staging.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-area',
+      'https://partners-staging.**.com/search/v1/items?test-area',
       'fixture:search/goToArea.json'
     )
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
       'fixture:search/emptyAreaName.json'
     )
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/**/attachments**',
+      'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
 
@@ -119,23 +119,27 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-country',
+      'https://partners-staging.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-accommodation',
+      'https://partners-staging.**.com/search/v1/items?test-accommodation',
       'fixture:search/accomSearch.json'
     )
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/**/attachments**',
+      'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
-    cy.route('GET', 'https://kiwi.**.com/content/items/**?**', 'fixture:search/emptyAreaName.json')
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/af406cf9-8f9e-4d92-9c1f-1baa14c9d454?**',
+      'https://partners-staging.**.com/content/items/**?**',
+      'fixture:search/emptyAreaName.json'
+    )
+    cy.route(
+      'GET',
+      'https://partners-staging.**.com/content/items/af406cf9-8f9e-4d92-9c1f-1baa14c9d454?**',
       'fixture:search/areaName.json'
     )
 
@@ -160,10 +164,14 @@ describe('Homepage', () => {
 
   it('merging accommodations', () => {
     cy.server()
-    cy.route('POST', 'https://kiwi.**.com/content/items/merge', 'fixture:search/merge.json')
+    cy.route(
+      'POST',
+      'https://partners-staging.**.com/content/items/merge',
+      'fixture:search/merge.json'
+    )
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/items/**/attachments**',
+      'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
 
@@ -220,7 +228,7 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/activities?*',
+      'https://partners-staging.**.com/content/activities?*',
       'fixture:search/activitySearch.json'
     )
 
@@ -236,12 +244,12 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'GET',
-      'https://kiwi.**.com/content/activities?*',
+      'https://partners-staging.**.com/content/activities?*',
       'fixture:search/activitySearch.json'
     )
     cy.route(
       'POST',
-      'https://kiwi.**.com/search/v1/items?test-country',
+      'https://partners-staging.**.com/search/v1/items?test-country',
       'fixture:search/goToCountry.json'
     )
 

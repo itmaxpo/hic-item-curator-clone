@@ -18,4 +18,4 @@ export interface ISupplier {
 }
 
 export const getSuppliers = async () =>
-  getJson<ISupplier[]>(`${process.env.REACT_APP_KIWI_HOST}/configurations/v2/suppliers.json`)
+  getJson<ISupplier[]>(`${process.env.REACT_APP_PARTNERS_API}/configurations/v2/suppliers.json`)
