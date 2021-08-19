@@ -8,7 +8,6 @@ import Loader from 'components/Loader'
 import {
   TitleWithContent,
   MapWrapper,
-  SearchItemWrapper,
   LatLonWrapper,
   PhoneWrapper,
   PhoneBlock,
@@ -22,7 +21,6 @@ import {
   IMAGES_COMPONENT_NAME,
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
-  ROOMS_COMPONENT_NAME,
   PHONE_COMPONENT_NAME,
   CATEGORY_AND_RANKING_COMPONENT_NAME
 } from '../utils'
@@ -71,14 +69,14 @@ const StyledRichTextEditor = lazy(() =>
 const Map = lazy(() => import(/* webpackChunkName: "Map" */ 'components/Map'))
 
 // Fake data to test components
-const descriptions = item => {
+const descriptions = (item) => {
   // active_destination ==> 'Active destination'
-  const parseCountryFieldName = fieldName => capitalize(fieldName.split('_').join(' '))
+  const parseCountryFieldName = (fieldName) => capitalize(fieldName.split('_').join(' '))
 
   return itemSpecificFields[item.type]
-    .filter(f => f !== 'active_destination')
+    .filter((f) => f !== 'active_destination')
     .sort()
-    .map(field => ({
+    .map((field) => ({
       label: parseCountryFieldName(field),
       field: field,
       value: !isEmpty(item[field]) && item[field]
@@ -119,43 +117,14 @@ const OfferVisualisation = ({
   // This map always receives:
   //    - <key> to provide a specific key for every element to render them properly
   const componentsRenderingMap = {
-    [DESCRIPTION_COMPONENT_NAME]: key => (
+    [DESCRIPTION_COMPONENT_NAME]: (key) => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
     ),
-    [CATEGORY_AND_RANKING_COMPONENT_NAME]: key => (
+    [CATEGORY_AND_RANKING_COMPONENT_NAME]: (key) => (
       <CategoryAndRanking key={key} isEditing={isEditing} item={item} onChange={onChange} />
     ),
-    [ROOMS_COMPONENT_NAME]: key => {
-      return (
-        <Fragment key={key}>
-          <TitleWithContent withoutPadding>
-            <H4 data-test={'item-rooms-header'}>Rooms</H4>
-            {isLoadingAdditionalInfo && <Loader top={'45%'} />}
 
-            {item.rooms && item.rooms.length > 0 ? (
-              <AccordionGroup>
-                {item.rooms.map((d, i) => (
-                  <Accordion
-                    data-test={`item-room-${i}`}
-                    key={i}
-                    name={`${d.label}-${i}`}
-                    title={d.label}
-                    badge={d.badge}
-                  >
-                    {d.value}
-                  </Accordion>
-                ))}
-              </AccordionGroup>
-            ) : (
-              <SearchItemWrapper p={0} direction={'ttb'} data-test={'item-rooms-empty'}>
-                No rooms available
-              </SearchItemWrapper>
-            )}
-          </TitleWithContent>
-        </Fragment>
-      )
-    },
-    [IMAGES_COMPONENT_NAME]: key => {
+    [IMAGES_COMPONENT_NAME]: (key) => {
       return (
         <Fragment key={key}>
           <TitleWithContent>
@@ -174,7 +143,7 @@ const OfferVisualisation = ({
         </Fragment>
       )
     },
-    [INFORMATION_COMPONENT_NAME]: key => {
+    [INFORMATION_COMPONENT_NAME]: (key) => {
       const parsedDescriptions = descriptions(item)
 
       return (
@@ -197,7 +166,7 @@ const OfferVisualisation = ({
                       data-test={`item-information-${d.field}-editor`}
                       placeholder={`Please write something about the ${d.label.toLowerCase()}`}
                       value={d.value}
-                      onChange={val => onChange(d.field, val)}
+                      onChange={(val) => onChange(d.field, val)}
                     />
                   </Suspense>
                 ) : (
@@ -209,7 +178,7 @@ const OfferVisualisation = ({
         </Fragment>
       )
     },
-    [PHONE_COMPONENT_NAME]: key => {
+    [PHONE_COMPONENT_NAME]: (key) => {
       let phoneText
       if (phone.dialCode && phone.phoneNumber && phone.isValid) {
         phoneText = `${phone.dialCode} ${phone.phoneNumber}`
@@ -229,7 +198,7 @@ const OfferVisualisation = ({
                     <CountryCodeSelect
                       initialCountryCode={phone.countryCode}
                       value={phone.countryCode}
-                      onChange={str =>
+                      onChange={(str) =>
                         onChange(
                           FIELD_FRONT_DESK_PHONE,
                           str.dialCode + phone.phoneNumber,
@@ -245,7 +214,7 @@ const OfferVisualisation = ({
                       shrinkPlaceholder
                       placeholder={'Phone'}
                       value={phone.phoneNumber}
-                      onValueChange={num =>
+                      onValueChange={(num) =>
                         onChange(
                           FIELD_FRONT_DESK_PHONE,
                           phone.dialCode + num,
@@ -266,12 +235,12 @@ const OfferVisualisation = ({
         </Fragment>
       )
     },
-    [LOCATION_COMPONENT_NAME]: key => {
+    [LOCATION_COMPONENT_NAME]: (key) => {
       const isMultipolygon = item.polygon.length > 1
 
       const polygon = item.polygon.length
         ? isMultipolygon
-          ? item.polygon.map(multipolygon => parsePolygonCoordinates(multipolygon))
+          ? item.polygon.map((multipolygon) => parsePolygonCoordinates(multipolygon))
           : [parsePolygonCoordinates(flatten(item.polygon))]
         : null
 
@@ -321,7 +290,7 @@ const OfferVisualisation = ({
                     data-test="latitude"
                     placeholder="Latitude"
                     value={get(coordinates, 'lat', '')}
-                    onChange={e =>
+                    onChange={(e) =>
                       onLocationChangeHandler(null, {
                         ...item[FIELD_GEOLOCATION],
                         lat: e.target.value && Number(e.target.value)
@@ -334,7 +303,7 @@ const OfferVisualisation = ({
                     data-test="longitude"
                     placeholder="Longitude"
                     value={get(coordinates, 'lng', '')}
-                    onChange={e =>
+                    onChange={(e) =>
                       onLocationChangeHandler(null, {
                         ...item[FIELD_GEOLOCATION],
                         lon: e.target.value && Number(e.target.value)

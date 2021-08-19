@@ -5,7 +5,7 @@ describe('Item page - Accommodation', () => {
     cy.itemPageAccommodationLoad()
   })
 
-  it('accommodation loads', () => {
+  it.only('accommodation loads', () => {
     cy.wait(4000)
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
   })
@@ -18,30 +18,13 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=item-description-wrapper]').contains('No description')
 
     // Check category
-    cy.get('[data-test=category]')
-      .find('p')
-      .contains('Eco-Budget')
+    cy.get('[data-test=category]').find('p').contains('Eco-Budget')
 
     // Check item allowed
     cy.get('[data-test=Allowed]').contains('Allowed')
 
     // Check item initial rank
-    cy.get('[data-test=ranking]')
-      .find('p')
-      .contains('No Rank')
-  })
-
-  it.only('accommodation rooms check', () => {
-    // Check rooms
-    cy.get('[data-test=item-rooms-header]').contains('Rooms')
-
-    const names = ['Presidential Suite', 'Front View', 'Luxury Suite', 'Pool View']
-    const mealBases = ['BB', 'BB+', 'FB', 'FB+']
-    names.forEach((el, i) => {
-      cy.get(`[data-test=item-room-${i}]`)
-        .contains(names[i])
-        .contains(mealBases[i])
-    })
+    cy.get('[data-test=ranking]').find('p').contains('No Rank')
   })
 
   it('accommodation images check', () => {
@@ -66,21 +49,13 @@ describe('Item page - Accommodation', () => {
     // Blocking
     cy.get('[data-test=Blocking]').as('Blocking')
 
-    cy.get('@Blocking')
-      .find('[data-test=Status]')
-      .setSelectOption('Blocked')
+    cy.get('@Blocking').find('[data-test=Status]').setSelectOption('Blocked')
 
-    cy.get('@Blocking')
-      .find('[data-test=Markets]')
-      .setSelectOption('all markets')
+    cy.get('@Blocking').find('[data-test=Markets]').setSelectOption('all markets')
 
-    cy.get('@Blocking')
-      .find('[data-test=Reason-1]')
-      .click({ force: true })
+    cy.get('@Blocking').find('[data-test=Reason-1]').click({ force: true })
 
-    cy.get('@Blocking')
-      .find('[data-test=Notes]')
-      .type('Closed for Corona Season ⚰️')
+    cy.get('@Blocking').find('[data-test=Notes]').type('Closed for Corona Season ⚰️')
 
     // EDIT ITEM
     cy.get('[data-test=item-title-input]').type('2')
@@ -89,9 +64,7 @@ describe('Item page - Accommodation', () => {
       .type('new description here done')
 
     // Ranking Dropdown should be disabled
-    cy.get('[data-test=ranking]')
-      .invoke('attr', 'data-test-disabled')
-      .should('eq', 'false')
+    cy.get('[data-test=ranking]').invoke('attr', 'data-test-disabled').should('eq', 'false')
 
     // Edit category
     // check the existing category selection is currently chosen Eco-Budget
@@ -122,47 +95,29 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=Reason]').contains('Closed for Corona Season ⚰️')
 
     // assert category
-    cy.get('[data-test=category]')
-      .find('p')
-      .contains('High-End')
+    cy.get('[data-test=category]').find('p').contains('High-End')
 
     // assert ranking
-    cy.get('[data-test=ranking]')
-      .find('p')
-      .contains('2nd')
+    cy.get('[data-test=ranking]').find('p').contains('2nd')
 
     // Assert the lat lng inputs are disabled when address has been filled out
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-page]').as('itemPage')
 
     // Assert that lat/lon inputs are disabled when there is an address
-    cy.get('@itemPage')
-      .find('[data-test=latitude]')
-      .should('be.disabled')
+    cy.get('@itemPage').find('[data-test=latitude]').should('be.disabled')
 
-    cy.get('@itemPage')
-      .find('[data-test=longitude]')
-      .should('be.disabled')
+    cy.get('@itemPage').find('[data-test=longitude]').should('be.disabled')
 
-    cy.get('@itemPage')
-      .find('[data-test=address]')
-      .clearSelectOption()
+    cy.get('@itemPage').find('[data-test=address]').clearSelectOption()
 
-    cy.get('@itemPage')
-      .find('[data-test=no-location]')
-      .should('exist')
+    cy.get('@itemPage').find('[data-test=no-location]').should('exist')
 
-    cy.get('@itemPage')
-      .find('[data-test=latitude]')
-      .type('-34,5875522')
+    cy.get('@itemPage').find('[data-test=latitude]').type('-34,5875522')
 
-    cy.get('@itemPage')
-      .find('[data-test=longitude]')
-      .type('-58,3972196')
+    cy.get('@itemPage').find('[data-test=longitude]').type('-58,3972196')
 
-    cy.get('@itemPage')
-      .find('[data-test=no-location]')
-      .should('not.exist')
+    cy.get('@itemPage').find('[data-test=no-location]').should('not.exist')
 
     cy.get('[data-test=save-item-button]').click()
 
@@ -174,14 +129,10 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=save-item-button]').click()
 
     // assert category and ranking
-    cy.get('[data-test=category]')
-      .find('p')
-      .contains('Standard')
+    cy.get('[data-test=category]').find('p').contains('Standard')
 
     // assert ranking
-    cy.get('[data-test=ranking]')
-      .find('p')
-      .contains('No Rank')
+    cy.get('[data-test=ranking]').find('p').contains('No Rank')
   })
 
   it('accommodation cancel item editing changes', () => {

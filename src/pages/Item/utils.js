@@ -27,7 +27,7 @@ export const updateItemKey = (item, globalProp, prop, value) => {
 // Receives item.type (e.g. 'accommodation')
 // Returns Array<String> based on type (should be ORDERED in the way it should be shown):
 // accommodation -> ['description', 'images', 'information', 'location']
-export const componentsBasedOnType = type => {
+export const componentsBasedOnType = (type) => {
   switch (type) {
     case COUNTRY_ITEM_TYPE:
       return [DESCRIPTION_COMPONENT_NAME, IMAGES_COMPONENT_NAME, INFORMATION_COMPONENT_NAME]
@@ -42,7 +42,6 @@ export const componentsBasedOnType = type => {
       return [
         DESCRIPTION_COMPONENT_NAME,
         CATEGORY_AND_RANKING_COMPONENT_NAME,
-        ROOMS_COMPONENT_NAME,
         IMAGES_COMPONENT_NAME,
         PHONE_COMPONENT_NAME,
         LOCATION_COMPONENT_NAME
@@ -68,8 +67,8 @@ export const changeItemLocale = (item, language) => {
 /**
  * Store current item and update selected language values
  */
-export const updateItemLocales = item => {
-  const isFieldInLocale = field =>
+export const updateItemLocales = (item) => {
+  const isFieldInLocale = (field) =>
     itemSameFields.includes(field) || itemSpecificFields[item.type].includes(field)
 
   const locale = Object.keys(item).reduce(
@@ -88,6 +87,6 @@ export const capitalizeBy = (str = '', separator = '_') => {
 
   return str
     .split(separator)
-    .map(sub => sub[0].toUpperCase() + sub.slice(1))
+    .map((sub) => sub[0].toUpperCase() + sub.slice(1))
     .join(' ')
 }
