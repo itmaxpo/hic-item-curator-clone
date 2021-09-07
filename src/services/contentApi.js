@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import request, { getJson } from './request'
+import request, { getJson, postJson } from './request'
 import { mockAttachments, mockItemFields, mockPolygon } from './mocks'
 import {
   FIELD_ISO_CODE,
@@ -197,14 +197,12 @@ const getRoomsForAccommodation = async (id) => {
  * @returns {Object} merged item
  */
 const mergeItems = async (ids) => {
-  let res = await request('POST', `${process.env.REACT_APP_PARTNERS_API}/content/items/merge`, {
-    body: {
-      item_uuids: ids,
-      selected_fields: '*'
-    }
+  let res = await postJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/merge`, {
+    item_uuids: ids,
+    selected_fields: '*'
   })
 
-  return res.json()
+  return res
 }
 
 export {

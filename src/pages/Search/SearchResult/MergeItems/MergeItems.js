@@ -41,7 +41,7 @@ const MergeItems = ({ onMerge, onClose, isOpen, items, country }) => {
   const onMergeHandler = async () => {
     const itemsToMerge = [...items]
     try {
-      const { data } = await mergeItems(itemsToMerge.map(item => item.id))
+      const { data } = await mergeItems(itemsToMerge.map((item) => item.id))
 
       // 2.5s delay to let progress button animation finish
       setTimeout(() => {
@@ -53,7 +53,7 @@ const MergeItems = ({ onMerge, onClose, isOpen, items, country }) => {
         onClose()
       }, 2720)
     } catch (e) {
-      enqueueNotification({ variant: 'error', message: 'Items could not be merged' })
+      enqueueNotification({ variant: 'error', message: e || 'Items could not be merged' })
       onClose()
       return
     }
