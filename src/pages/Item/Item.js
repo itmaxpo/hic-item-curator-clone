@@ -220,7 +220,7 @@ const ItemPage = ({ match, history }) => {
         isError: false,
         isSelected: false,
         sourceKey: capitalizeBy(att.source_key),
-        isVisible: !!get(att, 'tags.visible'),
+        isVisible: att.tags?.visible || !att.tags?.hasOwnProperty('visible'),
         tags: att.tags
       }))
       // Only visibleImages have order
