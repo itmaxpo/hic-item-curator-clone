@@ -1,14 +1,17 @@
 import React from 'react'
-import { Checkbox } from '@tourlane/tourlane-ui'
-import { ActionsWrapper, ActionIcons, ActionButton } from './styles'
+import { Checkbox, Flex, Tooltip, ExtraSmall, IconButton, COLORS } from '@tourlane/tourlane-ui'
+import InfoIcon from '@tourlane/iconography/Glyphs/Notifications/Info'
+import { ActionsWrapper, ActionIcons, ActionButton, MergeInfoWrapper } from './styles'
 import { MergeIcon } from 'components/Icon'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
-const getAllActions = selectedItems => {
+const getAllActions = (selectedItems) => {
   return [
     {
       icon: () => <MergeIcon />,
       isActive: selectedItems.length > 1,
-      action: 'merge'
+      action: 'merge',
+      label: 'Merge'
     }
   ]
 }
@@ -21,13 +24,17 @@ const getAllActions = selectedItems => {
  * @param {Array<Array<Object>>} allResults   (all search results as paginated array: Array of Array's)
  * @param {Function} onActionClick            (callback executed when specific action is clicked)
  * @param {Array<Object>} selectedItems       (selected search results items)
+ * @param {Boolean} selectAllRequired         (it will decide either to show select all checkbox or not)
+ * @param {string} itemType                   (item type from utils/constants)
  */
 export const Actions = ({
   isAllSelected,
   onAllSelectClick,
   allResults,
   onActionClick,
-  selectedItems
+  selectedItems,
+  itemType,
+  selectAllRequired = true
 }) => {
   const availableActions = getAllActions(selectedItems)
 
@@ -35,26 +42,52 @@ export const Actions = ({
     onActionClick(action, selectedItems)
   }
 
+  const ActionContainer = selectAllRequired ? ActionIcons : Flex
+
   return (
     <ActionsWrapper p={3 / 4} alignItems={'center'} id={'items-sticky-actions'}>
-      <Checkbox
-        value={isAllSelected}
-        name="isAllItemsSelected"
-        checked={isAllSelected}
-        onChange={() => onAllSelectClick(!isAllSelected)}
-      />
-
-      <ActionIcons>
-        {availableActions.map(
-          (action, i) =>
-            action.isActive && (
-              <ActionButton data-test={action.action} key={i} onClick={() => onClick(action)}>
-                Merge
-                {action.icon()}
-              </ActionButton>
-            )
-        )}
-      </ActionIcons>
+      {selectAllRequired && (
+        <Checkbox
+          value={isAllSelected}
+          name="isAllItemsSelected"
+          checked={isAllSelected}
+          onChange={() => onAllSelectClick(!isAllSelected)}
+        />
+      )}
+      <ActionContainer>
+        <Flex alignItems="center">
+          {availableActions.map(
+            (action, i) =>
+              action.isActive && (
+                <ActionButton data-test={action.action} key={i} onClick={() => onClick(action)}>
+                  {action.label}
+                  {action.icon()}
+                </ActionButton>
+              )
+          )}
+          {itemType === ACCOMMODATION_ITEM_TYPE && selectedItems.length > 1 && (
+            <MergeInfoWrapper pl={10}>
+              <Tooltip
+                position={'bottom'}
+                content={
+                  <Flex py={12} px={2}>
+                    <ExtraSmall data-test="mergeInfoMessage">
+                      Only 2 items can be merged at a time.
+                    </ExtraSmall>
+                  </Flex>
+                }
+              >
+                <IconButton
+                  data-test="mergeInfo"
+                  icon={<InfoIcon />}
+                  iconColor={COLORS.ADVENTURE_GREEN}
+                  iconSize={22}
+                />
+              </Tooltip>
+            </MergeInfoWrapper>
+          )}
+        </Flex>
+      </ActionContainer>
     </ActionsWrapper>
   )
 }

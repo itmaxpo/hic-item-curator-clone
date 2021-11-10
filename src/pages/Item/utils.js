@@ -14,6 +14,7 @@ export const PHONE_COMPONENT_NAME = 'phone'
 export const ROOMS_COMPONENT_NAME = 'rooms'
 export const ACCOMM_CATEGORY_COMPONENT_NAME = 'accommodation_category' //TODO: Check TRIP-17
 export const CATEGORY_AND_RANKING_COMPONENT_NAME = 'category_and_ranking'
+export const SOURCE = 'source'
 
 // Update item by property name
 export const updateItemByProp = (item, prop, value) => ({ ...item, [prop]: value })
@@ -44,7 +45,8 @@ export const componentsBasedOnType = (type) => {
         CATEGORY_AND_RANKING_COMPONENT_NAME,
         IMAGES_COMPONENT_NAME,
         PHONE_COMPONENT_NAME,
-        LOCATION_COMPONENT_NAME
+        LOCATION_COMPONENT_NAME,
+        SOURCE
       ]
     default:
       return [DESCRIPTION_COMPONENT_NAME]

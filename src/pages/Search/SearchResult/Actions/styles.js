@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FlexContainer, SecondaryButton } from '@tourlane/tourlane-ui'
+import { FlexContainer, SecondaryButton, Flex } from '@tourlane/tourlane-ui'
 
 export const ActionsWrapper = styled(FlexContainer)`
   padding: 0px 108px !important;
@@ -31,4 +31,8 @@ export const ActionButton = styled(SecondaryButton)`
       margin-left: 7px;
     }
   }
+`
+
+export const MergeInfoWrapper = styled(Flex)`
+  height: 22px;
 `

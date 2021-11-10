@@ -13,7 +13,8 @@ import {
   PhoneBlock,
   AddressBlock,
   NoLocationWrapper,
-  CountryCodeWrapper
+  CountryCodeWrapper,
+  SearchItemWrapper
 } from './styles'
 import { RichTextEditorLoader } from './Description/styles'
 import {
@@ -22,7 +23,8 @@ import {
   INFORMATION_COMPONENT_NAME,
   LOCATION_COMPONENT_NAME,
   PHONE_COMPONENT_NAME,
-  CATEGORY_AND_RANKING_COMPONENT_NAME
+  CATEGORY_AND_RANKING_COMPONENT_NAME,
+  SOURCE
 } from '../utils'
 import { parsePolygonCoordinates } from './utils'
 import {
@@ -47,6 +49,7 @@ import {
 } from '../itemParser'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
+import { Source } from './Source/Source'
 
 const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
 
@@ -341,6 +344,13 @@ const OfferVisualisation = ({
             </MapWrapper>
           </TitleWithContent>
         </Fragment>
+      )
+    },
+    [SOURCE]: (key) => {
+      return (
+        <SearchItemWrapper key={key} direction={'ttb'}>
+          <Source source={item.source ?? []} />
+        </SearchItemWrapper>
       )
     }
   }

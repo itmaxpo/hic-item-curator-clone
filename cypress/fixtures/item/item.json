@@ -81,6 +81,33 @@
         "source": "wetu",
         "source_key": "wetu",
         "dimensions": {}
+      },
+      {
+        "field_name": "dmc_id",
+        "content_type": "string",
+        "content": "HER011",
+        "locale": null,
+        "source": "PrivateSafaris",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "external_id",
+        "content_type": "string",
+        "content": "ChIJ60upcG1hlR4RzgqTgm7BjT0",
+        "locale": null,
+        "source": "google_places",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "external_id",
+        "content_type": "string",
+        "content": "237903",
+        "locale": null,
+        "source": "giata",
+        "source_key": "supply",
+        "dimensions": {}
       }
     ],
     "primary_item_uuid": null

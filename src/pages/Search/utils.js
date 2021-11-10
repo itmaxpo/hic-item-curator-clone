@@ -1,6 +1,6 @@
 import { isEmpty, chunk, get, flatten } from 'lodash'
 import { getFieldBySourcePriority } from 'utils/helpers'
-import { ITEMS_PER_PAGE, ACTIVITY_ITEM_TYPE } from 'utils/constants'
+import { ITEMS_PER_PAGE, ACTIVITY_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 
 // Used to store or utilities used on the page
 export const filterEmptyEntities = (entities) => entities.filter((entity) => !isEmpty(entity))
@@ -67,7 +67,18 @@ export const parseItem = (item, itemType, isLoading = true) => ({
   allImages: [],
   isLoading,
   isMerged: !!item.isMerged,
-  blocked: getFieldValue(get(item, 'fields.blocked', [])) || null
+  blocked: getFieldValue(get(item, 'fields.blocked', [])) || null,
+  ...(itemType === ACCOMMODATION_ITEM_TYPE
+    ? {
+        source: [
+          ...new Set(
+            [...(item?.fields?.dmc_id ?? []), ...(item?.fields?.external_id ?? [])].map(
+              ({ source }) => source
+            )
+          )
+        ]
+      }
+    : {})
 })
 
 // give shape to the items

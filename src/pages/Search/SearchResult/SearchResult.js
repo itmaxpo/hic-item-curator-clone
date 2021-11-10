@@ -93,7 +93,7 @@ export const SearchResult = withRouter(
       return enrichedResults
     }
     // If isSelected then add all current items to selectedItems
-    const onAllSelectClick = isSelected => {
+    const onAllSelectClick = (isSelected) => {
       const selected = isSelected ? allResults[currentPage - 1] : []
       setSelectedItems(selected)
       setIsAllSelected(isSelected)
@@ -114,7 +114,7 @@ export const SearchResult = withRouter(
       }
     }
 
-    const onPageChange = async page => {
+    const onPageChange = async (page) => {
       // If page changed diselect selected allItems
       setSelectedItems([])
       setIsAllSelected(false)
@@ -140,7 +140,7 @@ export const SearchResult = withRouter(
       }
     }
     // Updates selectedItems array
-    const onItemSelect = updatedItem => {
+    const onItemSelect = (updatedItem) => {
       const allIds = map(selectedItems, 'id').includes(updatedItem.id)
         ? selectedItems.filter(({ id }) => id !== updatedItem.id)
         : [...selectedItems, updatedItem]
@@ -222,6 +222,8 @@ export const SearchResult = withRouter(
           allResults={allResults}
           onActionClick={onActionClick}
           selectedItems={selectedItems}
+          itemType={itemType}
+          selectAllRequired={itemType !== ACCOMMODATION_ITEM_TYPE}
         />
         {allResults.length === 0 ? (
           <FlexContainer>No results</FlexContainer>
@@ -231,6 +233,7 @@ export const SearchResult = withRouter(
               <SearchItem
                 key={item.id}
                 item={item}
+                itemType={itemType}
                 country={country}
                 areaName={getItemNameById(parentNameList, item.parentId)}
                 selectedItems={selectedItems}
@@ -238,6 +241,11 @@ export const SearchResult = withRouter(
                 onItemSelect={onItemSelect}
                 onItemClick={onItemClick}
                 updateItemRef={updateItemRef}
+                selectable={
+                  itemType !== ACCOMMODATION_ITEM_TYPE ||
+                  selectedItems.length < 2 ||
+                  selectedItems.map(({ id }) => id).includes(item.id)
+                } /** restrict more than two items to select in the case of the accommodation */
               />
             ))}
             {/* Rendering part after all results has been shown */}

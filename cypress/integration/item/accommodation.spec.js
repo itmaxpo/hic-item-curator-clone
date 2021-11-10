@@ -147,4 +147,8 @@ describe('Item page - Accommodation', () => {
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
     cy.get('[data-test=item-description-wrapper]').contains('No description')
   })
+
+  it('verify accommodation source', () => {
+    cy.get('[data-test=source]').should('exist').contains('Giata, Google Places, Private Safaris')
+  })
 })

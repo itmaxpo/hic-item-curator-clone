@@ -46,6 +46,15 @@
         "dimensions": {}
       },
       {
+        "field_name": "external_id",
+        "content_type": "string",
+        "content": "66902",
+        "locale": null,
+        "source": "wetu",
+        "source_key": "gecko",
+        "dimensions": {}
+      },
+      {
         "field_name": "geolocation",
         "content_type": "geo_point",
         "content": { "lat": -31.431219, "lon": 152.896896 },

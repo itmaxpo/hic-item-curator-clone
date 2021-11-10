@@ -20,11 +20,13 @@ import {
   StyledUnhappyIcon,
   UnstyledLink
 } from './styles'
-import { P, FlexContainer } from '@tourlane/tourlane-ui'
+import { P, FlexContainer, Flex, Strong, Small } from '@tourlane/tourlane-ui'
 import { Preloader } from 'components/LazyLoader'
 import { enrichItem, getCoverImage } from './utils'
 import BlockedMarketsChip from 'pages/Item/ItemLayout/Blocking/BlockedMarketsChip'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { beautifyString } from 'utils/helpers'
 
 /**
  * This component is rendering item with ability to select/deselect
@@ -35,16 +37,19 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
  * @param {Function} onSelect
  * @param {Array<String>} selectedItems
  * @param {Function} onItemClick
+ * @param {Boolean} selectable
  */
 export const SearchItem = ({
   item,
+  itemType,
   index,
   onItemSelect,
   onItemClick,
   updateItemRef,
   selectedItems,
   areaName,
-  country
+  country,
+  selectable
 }) => {
   const [localItem, setLocalItem] = useState(item)
   // Subtitle needs to be a separated state because for accommodations we have to
@@ -123,10 +128,11 @@ export const SearchItem = ({
           name="isItemSelected"
           checked={map(selectedItems, 'id').includes(localItem.id)}
           onChange={onCheckboxChange}
+          disabled={!selectable}
         />
       </FlexContainer>
 
-      <SearchItemContentContainer onClick={e => onItemClick(e, localItem)}>
+      <SearchItemContentContainer onClick={(e) => onItemClick(e, localItem)}>
         <SearchItemInfoWrapper p={0} direction="ttb">
           {/* TODO: Uncomment when status should be rendered */}
           {/* <BadgeWrapper>
@@ -136,7 +142,7 @@ export const SearchItem = ({
             </BadgeWrapper> */}
           <ItemTitleWrapper justify="between">
             <UnstyledLink
-              onClick={e => {
+              onClick={(e) => {
                 // stopping propagation to avoid JS clicking in parent which will open the link in current tab
                 e.stopPropagation()
                 scrollToItemManager.setItemToScrollTo(localItem.id)
@@ -152,6 +158,16 @@ export const SearchItem = ({
             )}
           </ItemTitleWrapper>
           <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
+          {itemType === ACCOMMODATION_ITEM_TYPE && (
+            <Flex direction={'ltr'} align={'center'} data-test="source">
+              <Flex>
+                <Small>
+                  <Strong>Source:</Strong>
+                  {` ${beautifyString(item.source.sort((a, b) => a.localeCompare(b)).join(', '))}`}
+                </Small>
+              </Flex>
+            </Flex>
+          )}
           <ItemDescription data-test="description">
             <ShowMore collapsed={true} height={'60px'} size={'18px'}>
               {ReactHtmlParser(localItem.description)}

@@ -40,6 +40,8 @@ export const FIELD_ACCOMM_CATEGORY = 'accommodation_category' //TODO: Check TRIP
 export const FIELD_BLOCKED = 'blocked'
 export const FIELD_ACCOMM_RANKING = 'ranking'
 export const FIELD_VISUALIZATION_DESTINATION = 'visualization_destination'
+export const FIELD_DMC_ID = 'dmc_id'
+export const FIELD_EXTERNAL_ID = 'external_id'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
 export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
@@ -97,7 +99,7 @@ export const itemSpecificFields = {
  * @param {Object} item
  * @returns {Object}
  */
-export const getItemSameFieldsNoLocale = item =>
+export const getItemSameFieldsNoLocale = (item) =>
   itemSameFieldsNoLocale.reduce(
     (accum, field) => ({
       ...accum,
@@ -106,7 +108,7 @@ export const getItemSameFieldsNoLocale = item =>
     {}
   )
 
-export const getItemSpecificFieldsNoLocale = item =>
+export const getItemSpecificFieldsNoLocale = (item) =>
   itemSpecificFieldsNoLocale[item.item_type].reduce(
     (accum, field) => ({
       ...accum,
@@ -160,21 +162,21 @@ export const getItemSpecificFields = (item, locale) => {
  * @param {String} locale
  * @returns {Array<Object>}
  */
-export const setItemSameFieldsNoLocale = item => {
+export const setItemSameFieldsNoLocale = (item) => {
   return itemSameFieldsNoLocale
-    .map(field =>
+    .map((field) =>
       typeof item[field] === 'boolean'
         ? transformValueIntoFieldNoLocale(item[field], field)
         : item[field] && transformValueIntoFieldNoLocale(item[field], field)
     )
-    .filter(field => !!field)
+    .filter((field) => !!field)
 }
 
-export const setItemSpecificFieldsNoLocale = item => {
+export const setItemSpecificFieldsNoLocale = (item) => {
   const fields = itemSpecificFieldsNoLocale[item.type]
 
   return fields
-    .map(field => {
+    .map((field) => {
       if (field === FIELD_ACTIVE_DESTINATION) {
         return transformValueIntoSupplySource(item[field], field)
       } else if (typeof item[field] === 'boolean' || field === FIELD_ACCOMM_RANKING) {
@@ -186,7 +188,7 @@ export const setItemSpecificFieldsNoLocale = item => {
         )
       }
     })
-    .filter(field => !!field)
+    .filter((field) => !!field)
 }
 
 /**
@@ -197,10 +199,10 @@ export const setItemSpecificFieldsNoLocale = item => {
  * @param {String} locale
  * @returns {Array<Object>}
  */
-export const setItemSameFields = item => {
+export const setItemSameFields = (item) => {
   return itemSameFields
-    .map(field => item[field] && transformValueIntoField(item[field], field, item.language))
-    .filter(field => !!field)
+    .map((field) => item[field] && transformValueIntoField(item[field], field, item.language))
+    .filter((field) => !!field)
 }
 
 /**
@@ -211,11 +213,11 @@ export const setItemSameFields = item => {
  * @param {String} locale
  * @returns {Array<Object>}
  */
-export const setItemSpecificFields = item => {
+export const setItemSpecificFields = (item) => {
   const fields = itemSpecificFields[item.type]
   return fields
-    .map(field => item[field] && transformValueIntoField(item[field], field, item.language))
-    .filter(field => !!field)
+    .map((field) => item[field] && transformValueIntoField(item[field], field, item.language))
+    .filter((field) => !!field)
 }
 
 /**
@@ -225,13 +227,13 @@ export const setItemSpecificFields = item => {
  *
  * @param {Object} item
  */
-export const getFieldName = item => {
+export const getFieldName = (item) => {
   // TODO: Remove this check when room type is fixed
   if (isArray(item.fields)) {
-    const nameFields = item.fields.filter(field => field.field_name === FIELD_NAME)
-    const originalNameField = item.fields.find(field => field.field_name === 'original_name')
-    const engField = nameFields.find(name => name.locale === 'en-GB')
-    const deField = nameFields.find(name => name.locale === 'de-DE')
+    const nameFields = item.fields.filter((field) => field.field_name === FIELD_NAME)
+    const originalNameField = item.fields.find((field) => field.field_name === 'original_name')
+    const engField = nameFields.find((name) => name.locale === 'en-GB')
+    const deField = nameFields.find((name) => name.locale === 'de-DE')
 
     return engField
       ? get(engField, 'content')
@@ -250,14 +252,14 @@ export const getFieldName = item => {
 export const getFieldContent = (item, fieldName, language = null) => {
   if (isArray(get(item, 'fields'))) {
     const field = language
-      ? filter(get(item, 'fields'), c => c.field_name === fieldName && c.locale === language)
-      : filter(get(item, 'fields'), c => c.field_name === fieldName)
+      ? filter(get(item, 'fields'), (c) => c.field_name === fieldName && c.locale === language)
+      : filter(get(item, 'fields'), (c) => c.field_name === fieldName)
     if (isEmpty(field)) return undefined
     return get(getFieldBySourcePriority(field), 'content')
     // This check is needed for ROOM TYPE
   } else if (isObject(get(item, 'fields'))) {
     const field = language
-      ? filter(get(item, 'fields')[fieldName], c => c.locale === language)
+      ? filter(get(item, 'fields')[fieldName], (c) => c.locale === language)
       : get(item, 'fields')[fieldName][0]
 
     if (isEmpty(field)) return undefined
@@ -269,7 +271,7 @@ export const getFieldContent = (item, fieldName, language = null) => {
 }
 
 // Fields of item based on language (All locales)
-const getItemLocales = item =>
+const getItemLocales = (item) =>
   locales.reduce(
     (accum, locale) => ({
       ...accum,
@@ -310,6 +312,14 @@ const getDescription = (item, _locale) => {
 
   return getFieldBySourcePriority(descriptions)
 }
+
+export const getSource = (item) => [
+  ...new Set(
+    item.fields
+      .filter(({ field_name }) => [FIELD_DMC_ID, FIELD_EXTERNAL_ID].includes(field_name))
+      .map(({ source }) => source)
+  )
+]
 // HELPERS - END
 
 // PARSE METHODS - START
@@ -345,7 +355,8 @@ export const parseItemByType = (item, language) => {
     ...getItemSpecificFields(item, language),
     description: get(getDescription(item, language), 'content'),
     descriptionInspiration: getItemDescriptionInspiration(item, language),
-    locales: getItemLocales(item)
+    locales: getItemLocales(item),
+    source: getSource(item)
   }
 }
 // PARSING METHODS - END
@@ -402,7 +413,7 @@ const transformValueIntoSupplySource = (value, field) => ({
  * @param {Object} item
  * @returns {Array}
  */
-export const transformToSupplyItem = item => {
+export const transformToSupplyItem = (item) => {
   const fields = [
     ...setItemSameFieldsNoLocale(item),
     ...setItemSameFields(item),

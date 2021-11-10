@@ -24,13 +24,13 @@ describe('Item Page - Area', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-title-input]').type('2')
-    cy.get('[data-test=item-description-editor]')
-      .find('[contenteditable="true"]')
-      .type(' again')
+    cy.get('[data-test=item-description-editor]').find('[contenteditable="true"]').type(' again')
     cy.get('[data-test=save-item-button]').click()
 
     // Check edited item
     cy.get('h2').contains('Some example oof Area2')
     cy.get('[data-test=item-description-wrapper]').contains('Some description again')
+
+    cy.get('[data-test=source]').should('not.exist')
   })
 })

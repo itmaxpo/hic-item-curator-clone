@@ -97,6 +97,7 @@ describe('Homepage', () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq('/item/test-buenos-aires')
     })
+    cy.get('[data-test=source]').should('not.exist')
 
     cy.go('back')
   })
@@ -162,7 +163,31 @@ describe('Homepage', () => {
     })
   })
 
-  it('merging accommodations', () => {
+  it('verify accommodation source', () => {
+    cy.get('[data-test=page]').within(() => {
+      cy.get('[data-test=search-item]')
+        .eq(0)
+        .find('[data-test=source]')
+        .should('exist')
+        .contains('Aot')
+
+      cy.get('[data-test=search-item]')
+        .eq(2)
+        .find('[data-test=source]')
+        .should('exist')
+        .contains('Wetu')
+
+      cy.get('[data-test=search-item]')
+        .eq(10)
+        .find('[data-test=source]')
+        .should('exist')
+        .contains('Egoli, Go North, Google Places, Private Safaris, Wetu')
+    })
+  })
+
+  it(`validate accommodation selection to max 2
+      THEN verify info button exists next to the merge button, and its tooltip
+      THEN merging accommodations`, () => {
     cy.server()
     cy.route(
       'POST',
@@ -190,7 +215,31 @@ describe('Homepage', () => {
         .find('[data-test=checkbox]')
         .find('input')
         .click({ force: true })
+
+      // validate accommodation selection to max 2
+      cy.get('[data-test=search-item]')
+        .eq(2)
+        .find('[data-test=checkbox]')
+        .find('input')
+        .should('be.disabled')
+
+      cy.get('[data-test=search-item]')
+        .eq(4)
+        .find('[data-test=checkbox]')
+        .find('input')
+        .should('be.disabled')
     })
+
+    // verify info button exists next to the merge button, and its tooltip
+    cy.get('@searchResult')
+      .find('#items-sticky-actions')
+      .find('[data-test=mergeInfo]')
+      .should('exist')
+      .trigger('mouseover', { force: true })
+
+    cy.get('[data-test=mergeInfoMessage]')
+      .should('exist')
+      .contains('Only 2 items can be merged at a time.')
 
     // click merge action button
     cy.get('@searchResult').find('#items-sticky-actions').find('[data-test=merge]').click()
@@ -221,6 +270,16 @@ describe('Homepage', () => {
     // and that the resulted item is on top of the list
     cy.get('[data-test=page]').within(() => {
       testItemPage(pageAccomDataAfterMerge)
+    })
+  })
+
+  it('verify source after accommodation merging', () => {
+    cy.get('[data-test=page]').within(() => {
+      cy.get('[data-test=search-item]')
+        .eq(0)
+        .find('[data-test=source]')
+        .should('exist')
+        .contains('Aot, Wetu')
     })
   })
 

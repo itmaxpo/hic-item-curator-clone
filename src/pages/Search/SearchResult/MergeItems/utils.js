@@ -1,7 +1,9 @@
 import { get } from 'lodash'
+import { getSource } from 'pages/Item/itemParser'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 
-export const parseMergedItem = item => {
+export const parseMergedItem = (item) => {
   return {
     id: item.uuid,
     parentId: item.parent_uuid,
@@ -10,7 +12,8 @@ export const parseMergedItem = item => {
     description: getItemFieldValue(item.fields, 'description') || 'No description found.',
     allImages: [],
     isLoading: true,
-    isMerged: true
+    isMerged: true,
+    ...(item.item_type === ACCOMMODATION_ITEM_TYPE ? { source: getSource(item) } : {})
   }
 }
 

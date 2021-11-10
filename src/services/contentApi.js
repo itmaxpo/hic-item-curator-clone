@@ -29,7 +29,9 @@ import {
   FIELD_ACCOMM_CATEGORY,
   FIELD_BLOCKED,
   FIELD_ACCOMM_RANKING,
-  FIELD_VISUALIZATION_DESTINATION
+  FIELD_VISUALIZATION_DESTINATION,
+  FIELD_DMC_ID,
+  FIELD_EXTERNAL_ID
 } from 'pages/Item/itemParser'
 
 const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
@@ -62,7 +64,9 @@ const fieldsToSelect = [
   FIELD_ACCOMM_CATEGORY,
   FIELD_BLOCKED,
   FIELD_ACCOMM_RANKING,
-  FIELD_VISUALIZATION_DESTINATION
+  FIELD_VISUALIZATION_DESTINATION,
+  FIELD_DMC_ID,
+  FIELD_EXTERNAL_ID
 ]
 /**
  * Return item fields

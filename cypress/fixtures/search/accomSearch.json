@@ -531,7 +531,14 @@
       "parent_uuid": "b8bcb788-f0f7-438c-91fd-7da276ff02e3",
       "fields": {
         "primary_item_uuid": null,
-        "external_id": [],
+        "external_id": [
+          { "content": "168304", "source": "wetu", "source_key": "gecko" },
+          {
+            "content": "ChIJ-za85ywugUMRb7J0E-kRtGw",
+            "source": "google_places",
+            "source_key": "gecko"
+          }
+        ],
         "supplier_tag": [],
         "address": [],
         "description": [],
@@ -545,7 +552,15 @@
             "source_key": "gecko"
           }
         ],
-        "dmc_id": [{ "content": "egoli", "source": "egoli", "source_key": "gecko" }],
+        "dmc_id": [
+          { "content": "egoli", "source": "egoli", "source_key": "gecko" },
+          {
+            "content": "72ff9fd3-f735-401e-bd2b-97f246b9f381",
+            "source": "Go North",
+            "source_key": "spider"
+          },
+          { "content": "PrivateSafaris", "source": "PrivateSafaris", "source_key": "gecko" }
+        ],
         "ancestors": [
           {
             "content": [
