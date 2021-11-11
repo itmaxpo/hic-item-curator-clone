@@ -205,13 +205,15 @@ export const SearchResult = withRouter(
 
     const pages = allResults.length
 
+    const onCloseMergeModal = useCallback(() => {
+      setIsMergeOpen(false)
+    }, [])
+
     return (
       <FlexContainer data-test="searchResult" p={0} direction="ttb" id={'search-container'}>
         <MergeItems
           isOpen={isMergeOpen}
-          onClose={() => {
-            setIsMergeOpen(false)
-          }}
+          onClose={onCloseMergeModal}
           onMerge={onMerge}
           items={selectedItems}
           country={country}

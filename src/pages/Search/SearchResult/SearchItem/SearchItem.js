@@ -179,7 +179,7 @@ export const SearchItem = ({
           <BadgeWrapperPhoto data-test="photo">
             <ItemBadge width={'95px'}>
               <P>
-                {localItem.allImages.length} Photo{addSToString(localItem.allImages.length)}
+                {localItem?.allImages?.length} Photo{addSToString(localItem?.allImages?.length)}
               </P>
             </ItemBadge>
           </BadgeWrapperPhoto>

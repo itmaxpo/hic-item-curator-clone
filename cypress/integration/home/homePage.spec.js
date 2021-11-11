@@ -195,6 +195,11 @@ describe('Homepage', () => {
       'fixture:search/merge.json'
     )
     cy.route(
+      'POST',
+      'https://partners-staging.**.com/content/items/merge_validation',
+      'fixture:search/merge_validation.json'
+    )
+    cy.route(
       'GET',
       'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'

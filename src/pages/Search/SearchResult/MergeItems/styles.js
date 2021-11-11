@@ -88,3 +88,10 @@ export const CancelButton = styled(SecondaryButton)`
     color: ${COLORS.RIOJA_RED};
   }
 `
+
+export const MergeWarningsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 15px;
+  margin-bottom: 40px;
+`

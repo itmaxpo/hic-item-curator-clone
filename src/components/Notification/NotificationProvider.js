@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import NotificationContext from './NotificationContext'
 import NotificationHub from './NotificationHub'
 import { notificationManager } from 'utils/NotificationManager'
@@ -6,33 +6,35 @@ import { notificationManager } from 'utils/NotificationManager'
 const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const enqueueNotification = ({
-    key = new Date().getTime() + Math.random(),
-    autoHideDuration = 5000,
-    onClose,
-    ...notification
-  }) => {
-    const timer = setTimeout(() => {
-      removeNotification(key)
-      onClose?.()
-    }, autoHideDuration)
-
-    const closeNotification = (runOnClose = true) => {
-      clearTimeout(timer)
-      removeNotification(key)
-      if (runOnClose) {
+  const enqueueNotification = useCallback(
+    ({
+      key = new Date().getTime() + Math.random(),
+      autoHideDuration = 5000,
+      onClose,
+      ...notification
+    }) => {
+      const timer = setTimeout(() => {
+        removeNotification(key)
         onClose?.()
+      }, autoHideDuration)
+
+      const closeNotification = (runOnClose = true) => {
+        clearTimeout(timer)
+        removeNotification(key)
+        if (runOnClose) {
+          onClose?.()
+        }
       }
-    }
 
-    setNotifications((notifications) => [
-      ...notifications,
-      { key, onClose: closeNotification, ...notification }
-    ])
+      setNotifications((notifications) => [
+        ...notifications,
+        { key, onClose: closeNotification, ...notification }
+      ])
 
-    return closeNotification
-  }
+      return closeNotification
+    },
+    []
+  )
 
   const removeNotification = (key) => {
     setNotifications((notifications) =>
@@ -46,8 +48,10 @@ const NotificationProvider = ({ children }) => {
     notificationManager.setPushNotification(enqueueNotification)
   }, [enqueueNotification])
 
+  const contextValue = useMemo(() => ({ enqueueNotification }), [enqueueNotification])
+
   return (
-    <NotificationContext.Provider value={{ enqueueNotification }}>
+    <NotificationContext.Provider value={contextValue}>
       {children}
       <NotificationHub notifications={notifications} />
     </NotificationContext.Provider>
