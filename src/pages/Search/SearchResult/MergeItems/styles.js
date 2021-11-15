@@ -22,7 +22,7 @@ export const StyledModalBody = styled(ModalBody)`
 `
 
 export const TitleContainer = styled.div`
-  width: 300px;
+  width: 400px;
   margin: auto;
   margin-bottom: 30px;
 `
