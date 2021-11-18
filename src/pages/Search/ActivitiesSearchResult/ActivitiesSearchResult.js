@@ -21,15 +21,8 @@ import { NoResults } from '../Search'
 
 export const ActivitiesSearchResult = withRouter(
   ({ history, locationQuery, onQueryUpdate, setIsLoading, isLoading }) => {
-    const {
-      areaId,
-      countryId,
-      name,
-      supplier,
-      provider,
-      missingGeolocation,
-      blocked
-    } = locationQuery
+    const { areaId, countryId, name, supplier, provider, missingGeolocation, blocked } =
+      locationQuery
     const searchContainer = useRef(null)
     const [currentPage, setCurrentPage] = useState(Number(locationQuery.page) || 1)
     const [activities, setActivities] = useState([])

@@ -58,21 +58,21 @@ export const getGoToDestination = (category, country, area) => {
   }
 }
 // Get correct item name or original_name
-export const getItemName = item => {
+export const getItemName = (item) => {
   const nameFields = get(item, 'fields.name')
-  const engName = nameFields.filter(name => name.locale === 'en-GB')[0]?.content
-  const deName = nameFields.filter(name => name.locale === 'de-DE')[0]?.content
+  const engName = nameFields.filter((name) => name.locale === 'en-GB')[0]?.content
+  const deName = nameFields.filter((name) => name.locale === 'de-DE')[0]?.content
 
   return engName || deName || nameFields[0]?.content || get(item, 'fields.original_name.0.content')
 }
 
 // To support names by locale, revisit filtering.
-export const parseSearchResponse = data => {
-  const getIsActive = val => !!get(val, 'fields.active_destination.0.content')
+export const parseSearchResponse = (data) => {
+  const getIsActive = (val) => !!get(val, 'fields.active_destination.0.content')
   // Sorted by active_destination
   return data
     .sort((v1, v2) => getIsActive(v2) - getIsActive(v1))
-    .map(item => ({
+    .map((item) => ({
       value: item.id,
       label: getItemName(item)
     }))

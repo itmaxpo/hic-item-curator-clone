@@ -6,11 +6,11 @@
 class NotificationManager {
   pushNotification = () => {}
 
-  setPushNotification = pushNotification => {
+  setPushNotification = (pushNotification) => {
     this.pushNotification = pushNotification
   }
 
-  notify = message => {
+  notify = (message) => {
     this.pushNotification(message)
   }
 }

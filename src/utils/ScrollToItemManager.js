@@ -6,7 +6,7 @@
 class ScrollToItemManager {
   itemToScrollTo = null
 
-  setItemToScrollTo = itemId => {
+  setItemToScrollTo = (itemId) => {
     this.itemToScrollTo = itemId
   }
 

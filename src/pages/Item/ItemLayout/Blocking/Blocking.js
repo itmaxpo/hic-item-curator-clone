@@ -30,8 +30,8 @@ const StyledRichTextEditor = lazy(() =>
   import(/* webpackChunkName: "RichTextEditor" */ 'components/RichTextEditor/StyledRichTextEditor')
 )
 
-const statusOptions = ['Allowed', 'Blocked'].map(label => ({ label, value: label }))
-const marketsOptions = MARKETS.map(label => ({ label, value: label, checkbox: true }))
+const statusOptions = ['Allowed', 'Blocked'].map((label) => ({ label, value: label }))
+const marketsOptions = MARKETS.map((label) => ({ label, value: label, checkbox: true }))
 
 function reducer(state, action) {
   switch (action.type) {
@@ -61,7 +61,7 @@ const BlockingBlock = ({ blocked, onBlockedChange }) => {
     dispatch({ type: 'updateField', field, value })
   }, [])
 
-  const onStatusChange = value => {
+  const onStatusChange = (value) => {
     setIsBlocked(value === statusOptions[1].value)
   }
 
@@ -98,7 +98,7 @@ const BlockingBlock = ({ blocked, onBlockedChange }) => {
                   placeholder={'Select market'}
                   shrinkPlaceholder
                   value={state.markets}
-                  onChange={value => {
+                  onChange={(value) => {
                     onChange('markets', value)
                   }}
                   closeMenuOnSelect={false}
@@ -115,7 +115,7 @@ const BlockingBlock = ({ blocked, onBlockedChange }) => {
                         <Radio
                           id={reason}
                           data-test={`Reason-${index}`}
-                          onChange={e => {
+                          onChange={(e) => {
                             onChange('reason', e.target.value)
                           }}
                           value={reason}
@@ -134,7 +134,7 @@ const BlockingBlock = ({ blocked, onBlockedChange }) => {
               <Suspense fallback={<RichTextEditorLoader />}>
                 <StyledRichTextEditor
                   data-test="Notes"
-                  onChange={value => {
+                  onChange={(value) => {
                     onChange('notes', value)
                   }}
                   value={state.notes}

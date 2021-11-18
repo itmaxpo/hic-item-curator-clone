@@ -44,187 +44,187 @@ const StyledSvgIcon = styled(SvgIcon)`
   }
 `
 
-const AlertIcon = props => (
+const AlertIcon = (props) => (
   <StyledSvgIcon alt="alert" {...props}>
     <AlertSvg />
   </StyledSvgIcon>
 )
 
-const LightCloseIcon = props => (
+const LightCloseIcon = (props) => (
   <StyledSvgIcon alt="close" {...props}>
     <LightCloseSvg />
   </StyledSvgIcon>
 )
 
-const CloseIcon = props => (
+const CloseIcon = (props) => (
   <StyledSvgIcon alt="close" {...props}>
     <CloseSvg />
   </StyledSvgIcon>
 )
 
-const AddIcon = props => (
+const AddIcon = (props) => (
   <StyledSvgIcon alt="add" {...props}>
     <PlusSvg />
   </StyledSvgIcon>
 )
 
-const DeleteIcon = props => (
+const DeleteIcon = (props) => (
   <StyledSvgIcon alt="delete" {...props}>
     <DeleteSvg />
   </StyledSvgIcon>
 )
 
-const EditIcon = props => (
+const EditIcon = (props) => (
   <StyledSvgIcon alt="edit" {...props}>
     <EditSvg />
   </StyledSvgIcon>
 )
 
-const CopyIcon = props => (
+const CopyIcon = (props) => (
   <StyledSvgIcon alt="copy" {...props}>
     <CopySvg />
   </StyledSvgIcon>
 )
 
-const LogoutIcon = props => (
+const LogoutIcon = (props) => (
   <StyledSvgIcon alt="logout" {...props}>
     <LogoutSvg />
   </StyledSvgIcon>
 )
 
-const SearchIcon = props => (
+const SearchIcon = (props) => (
   <StyledSvgIcon alt="search" {...props}>
     <SearchSvg />
   </StyledSvgIcon>
 )
 
-const MenuIcon = props => (
+const MenuIcon = (props) => (
   <StyledSvgIcon alt="menu" {...props}>
     <MenuSvg />
   </StyledSvgIcon>
 )
 
-const ChevronRightIcon = props => (
+const ChevronRightIcon = (props) => (
   <StyledSvgIcon alt="chevron-right" {...props}>
     <ChevronRightSvg />
   </StyledSvgIcon>
 )
 
-const ChevronLeftIcon = props => (
+const ChevronLeftIcon = (props) => (
   <StyledSvgIcon alt="chevron-left" {...props}>
     <ChevronLeftSvg />
   </StyledSvgIcon>
 )
 
-const ActionIcon = props => (
+const ActionIcon = (props) => (
   <StyledSvgIcon alt="action" {...props}>
     <ActionSvg />
   </StyledSvgIcon>
 )
 
-const MapPinIcon = props => (
+const MapPinIcon = (props) => (
   <StyledSvgIcon alt="map-pin" {...props}>
     <MapPinSvg />
   </StyledSvgIcon>
 )
 
-const WorldIcon = props => (
+const WorldIcon = (props) => (
   <StyledSvgIcon alt="world" {...props}>
     <WorldSvg />
   </StyledSvgIcon>
 )
 
-const FlagIcon = props => (
+const FlagIcon = (props) => (
   <StyledSvgIcon alt="flag" {...props}>
     <FlagSvg />
   </StyledSvgIcon>
 )
 
-const HomeIcon = props => (
+const HomeIcon = (props) => (
   <StyledSvgIcon alt="home" {...props}>
     <HomeSvg />
   </StyledSvgIcon>
 )
 
-const ChevronDownIcon = props => (
+const ChevronDownIcon = (props) => (
   <StyledSvgIcon alt="chevron-down" {...props}>
     <ChevronDownSvg />
   </StyledSvgIcon>
 )
 
-const MergeIcon = props => (
+const MergeIcon = (props) => (
   <StyledSvgIcon alt="merge" {...props}>
     <MergeSvg />
   </StyledSvgIcon>
 )
 
-const MergeInactiveIcon = props => (
+const MergeInactiveIcon = (props) => (
   <StyledSvgIcon alt="merge-inactive" {...props}>
     <MergeInactiveSvg />
   </StyledSvgIcon>
 )
 
-const GlyphChevronDownIcon = props => (
+const GlyphChevronDownIcon = (props) => (
   <StyledSvgIcon alt="chevron-down" {...props}>
     <GlyphChevronDownSvg />
   </StyledSvgIcon>
 )
 
-const UnhappyIcon = props => (
+const UnhappyIcon = (props) => (
   <StyledSvgIcon alt="unhappy-face" {...props}>
     <UnhappySvg />
   </StyledSvgIcon>
 )
 
-const ArrowRightIcon = props => (
+const ArrowRightIcon = (props) => (
   <StyledSvgIcon alt="arrow-right" {...props}>
     <ArrowRightSvg />
   </StyledSvgIcon>
 )
 
-const PreviewIcon = props => (
+const PreviewIcon = (props) => (
   <StyledSvgIcon alt="preview" {...props}>
     <PreviewSvg />
   </StyledSvgIcon>
 )
 
-const DocumentIcon = props => (
+const DocumentIcon = (props) => (
   <StyledSvgIcon alt="document" {...props}>
     <DocumentSvg />
   </StyledSvgIcon>
 )
 
-const SadFileIcon = props => (
+const SadFileIcon = (props) => (
   <StyledSvgIcon alt="sad-file" {...props}>
     <SadFileSvg />
   </StyledSvgIcon>
 )
 
-const HappyFileIcon = props => (
+const HappyFileIcon = (props) => (
   <StyledSvgIcon alt="happy-file" {...props}>
     <HappyFileSvg />
   </StyledSvgIcon>
 )
 
-const SadFaceIcon = props => (
+const SadFaceIcon = (props) => (
   <StyledSvgIcon alt="sad-face" {...props}>
     <SadFaceSvg />
   </StyledSvgIcon>
 )
 
-const MergeBigIcon = props => (
+const MergeBigIcon = (props) => (
   <StyledSvgIcon alt="merge" {...props}>
     <MergeBigSvg />
   </StyledSvgIcon>
 )
 
-const CheckIcon = props => (
+const CheckIcon = (props) => (
   <StyledSvgIcon alt="check" {...props}>
     <CheckSvg />
   </StyledSvgIcon>
 )
 
-const BeachIcon = props => (
+const BeachIcon = (props) => (
   <SvgIcon size={22} color={COLORS.ELEMENT_GRAY} alt="check" {...props}>
     <TuiBeachIcon />
   </SvgIcon>

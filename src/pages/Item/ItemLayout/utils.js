@@ -2,9 +2,9 @@ import React from 'react'
 import { Base } from '@tourlane/tourlane-ui'
 
 // Receives type and return Array<React.Component> based on it to properly render Breadcrumbs
-export const generateBreadcrumbs = allParents =>
+export const generateBreadcrumbs = (allParents) =>
   allParents.length > 1
-    ? allParents.map(parent => ({
+    ? allParents.map((parent) => ({
         text: parent.name,
         url: `/item/${parent.id}?language=en-GB`
       }))

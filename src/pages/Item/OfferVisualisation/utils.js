@@ -1,8 +1,8 @@
 import * as PhoneNumber from 'awesome-phonenumber'
 import { isUndefined } from 'lodash/fp'
 
-export const parsePolygonCoordinates = coordinates =>
-  coordinates.map(coordinate => ({
+export const parsePolygonCoordinates = (coordinates) =>
+  coordinates.map((coordinate) => ({
     lat: coordinate[1],
     lng: coordinate[0]
   }))

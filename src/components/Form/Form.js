@@ -9,10 +9,10 @@ const fieldMaps = {}
  * @name addPropsToFields
  * @param fields
  */
-const addPropsToFields = fields => {
+const addPropsToFields = (fields) => {
   const fieldsWithProps = []
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     if (field.container && field.fields) {
       const { container, fields, ...props } = field
       fieldsWithProps.push({
@@ -39,7 +39,7 @@ const addPropsToFields = fields => {
  * @name renderFields
  * @param fields
  */
-const renderFields = fields =>
+const renderFields = (fields) =>
   fields.map((field, index) => {
     if (field.Container && field.fields) {
       const { Container, fields, ...props } = field

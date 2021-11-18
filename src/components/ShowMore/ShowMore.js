@@ -27,17 +27,17 @@ const Collapsable = ({ children, lines = 2, height = '60px', size = '18px' }) =>
     setIsDescMoreShown(ref.current.scrollHeight > parseInt(height))
   }, [ref, height])
 
-  const toggleLines = event => {
+  const toggleLines = (event) => {
     event.preventDefault()
 
-    setIsTruncated(v => !v)
+    setIsTruncated((v) => !v)
 
     if (!isCollapsed) {
       setTimeout(() => {
-        setIsCollapsed(v => !v)
+        setIsCollapsed((v) => !v)
       }, 300)
     } else {
-      setIsCollapsed(v => !v)
+      setIsCollapsed((v) => !v)
     }
   }
 

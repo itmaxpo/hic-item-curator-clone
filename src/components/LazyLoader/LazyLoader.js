@@ -30,7 +30,7 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, height, ...
     // define loading functions
     const loadImage = (imageSrc, callback) => {
       const img = new Image()
-      img.onload = e => {
+      img.onload = (e) => {
         getDimensions(e)
         callback(null)
       }
@@ -38,12 +38,12 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, height, ...
       img.onerror = () => callback(new Error('Failed to load an image'))
       img.src = imageSrc
     }
-    const loadImages = src => {
+    const loadImages = (src) => {
       const imagesSrc = typeof src === 'string' ? [src] : src
       imagesSrc.forEach((imageSrc, index) => {
-        loadImage(imageSrc, error => {
+        loadImage(imageSrc, (error) => {
           // Set loading error
-          setErrors(errors =>
+          setErrors((errors) =>
             imagesSrc.reduce((acc, value, i) => {
               acc[i] = i === index ? error : errors[i]
               return acc
@@ -60,7 +60,7 @@ const LazyLoader = ({ onLoad = () => null, src, isLoading, children, height, ...
   useEffect(() => {
     // Define if loading is done
     const imagesSrc = typeof src === 'string' ? [src] : src
-    if (errors.filter(error => error !== undefined).length === imagesSrc.length) {
+    if (errors.filter((error) => error !== undefined).length === imagesSrc.length) {
       setLoaded(true)
     }
 

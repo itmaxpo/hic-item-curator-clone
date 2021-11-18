@@ -64,7 +64,7 @@ const ItemPhoto = ({
         {image.isSelected && (
           <CheckboxWrapper
             defaultChecked={image.isSelected}
-            onChange={e => onItemSelected(index)}
+            onChange={(e) => onItemSelected(index)}
           />
         )}
 

@@ -34,7 +34,7 @@ export const StyledBadge = styled.div`
   letter-spacing: normal;
 `
 
-const galleryItems = isAllShown => css`
+const galleryItems = (isAllShown) => css`
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
@@ -43,7 +43,7 @@ const galleryItems = isAllShown => css`
   padding: 20px 0 20px 0;
 
   ${!isAllShown &&
-    `
+  `
     justify-content: left;
     max-height: 300px;
     overflow: hidden;
@@ -112,11 +112,14 @@ export const CoverImageBlock = styled.div`
   font-size: 18px;
   color: ${COLORS.INACTIVE_GRAY};
   // border: 1.5px dashed ${COLORS.ELEMENT_GRAY};
-  font-family: "Source Sans Pro", sans-serif;
-  text-shadow : 0 0 0 ${COLORS.INACTIVE_GRAY};
+  font-family: 'Source Sans Pro', sans-serif;
+  text-shadow: 0 0 0 ${COLORS.INACTIVE_GRAY};
   padding-top: 4px;
 
-  background: linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%), linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%);
+  background: linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%),
+    linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%),
+    linear-gradient(to right, ${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%),
+    linear-gradient(${COLORS.ELEMENT_GRAY} 50%, rgba(255, 255, 255, 0) 0%);
   background-position: top, right, bottom, left;
   background-repeat: repeat-x, repeat-y;
   background-size: 10px 1px, 1px 10px;

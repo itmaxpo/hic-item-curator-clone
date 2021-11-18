@@ -67,11 +67,11 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     fileInputRef.current.click()
   }
 
-  const onImageUpload = array => {
+  const onImageUpload = (array) => {
     onFilesAdded(array, imageSource)
   }
 
-  const onFilesAddedHandler = evt => {
+  const onFilesAddedHandler = (evt) => {
     if (disabled || isEmpty(imageSource)) return
     const files = evt.target.files
     if (onFilesAdded) {
@@ -80,7 +80,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     }
   }
 
-  const onDragOver = evt => {
+  const onDragOver = (evt) => {
     evt.preventDefault()
     if (disabled || isEmpty(imageSource) || imageSource === SHUTTERSTOCK) return
     setHighlight(true)
@@ -90,7 +90,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     setHighlight(false)
   }
 
-  const onDrop = evt => {
+  const onDrop = (evt) => {
     evt.preventDefault()
 
     if (disabled || isEmpty(imageSource)) return
@@ -104,7 +104,7 @@ const Dropzone = ({ disabled = false, onFilesAdded }) => {
     setHighlight(false)
   }
 
-  const fileListToArray = list => {
+  const fileListToArray = (list) => {
     const array = []
     for (var i = 0; i < list.length; i++) {
       array.push(list.item(i))

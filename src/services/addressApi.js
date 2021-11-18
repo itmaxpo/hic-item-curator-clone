@@ -7,7 +7,7 @@ import request from './request'
  * @param {String} name
  * @returns {Object}
  */
-const searchAddress = async address => {
+const searchAddress = async (address) => {
   let res = await request(
     'GET',
     `${process.env.REACT_APP_OSM_SEARCH_API}/?format=json&limit=5&addressdetails=1&polygon_geojson=1&q=${address}`

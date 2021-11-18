@@ -17,10 +17,10 @@ export const shutterStockImages = (searchQuery, page = 1) => {
     query=${queryStr}&page=${page}&per_page=10`
 
   return fetch(SHUTTERSTOCK_API_ENDPOINT, authParameters)
-    .then(response => {
+    .then((response) => {
       return response.json()
     })
-    .then(json => {
+    .then((json) => {
       return json.data.map(({ id, assets, title, description, models }) => ({
         id,
         mediaUrl: assets.preview.url,
@@ -28,7 +28,7 @@ export const shutterStockImages = (searchQuery, page = 1) => {
         description
       }))
     })
-    .catch(error => {
+    .catch((error) => {
       return error
     })
 }

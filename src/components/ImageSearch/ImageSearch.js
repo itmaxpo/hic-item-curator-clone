@@ -32,52 +32,52 @@ const ImageSearch = ({ onImageUpload = () => {} }) => {
 
   scrollToItemManager.setItemToScrollTo('image-library')
 
-  const changeQuery = e => {
+  const changeQuery = (e) => {
     setQuery(e.target.value)
   }
   // Press Enter starts searching process
-  const onKeyPress = e => {
+  const onKeyPress = (e) => {
     if (e.key === 'Enter' && !isEmpty(searchQuery)) {
       search()
     }
   }
 
   const search = () => {
-    shutterStockImages(searchQuery).then(res => {
+    shutterStockImages(searchQuery).then((res) => {
       setResults(res)
     })
   }
 
   const loadMore = () => {
     searchPage.current = searchPage.current + 1
-    shutterStockImages(searchQuery, searchPage.current).then(res => {
+    shutterStockImages(searchQuery, searchPage.current).then((res) => {
       setResults([...searchResults, ...res])
     })
   }
 
-  const toggleImage = url => {
-    if (selectedItems.some(u => u === url)) {
-      setItems(selectedItems.filter(u => u !== url))
+  const toggleImage = (url) => {
+    if (selectedItems.some((u) => u === url)) {
+      setItems(selectedItems.filter((u) => u !== url))
     } else {
       setItems([...selectedItems, url])
     }
   }
 
   const downloadImages = () => {
-    Promise.all(selectedItems.map(url => downloadImage(url))).then(async images => {
+    Promise.all(selectedItems.map((url) => downloadImage(url))).then(async (images) => {
       await onImageUpload(images)
       setItems([])
       scrollToItemManager.scrollToItem()
     })
   }
 
-  const downloadImage = async url => {
+  const downloadImage = async (url) => {
     return await fetch(url)
-      .then(res => res.blob()) // Gets the response and returns it as a blob
-      .then(blob => new File([blob], 'image', { type: 'image/jpg', lastModified: new Date() }))
+      .then((res) => res.blob()) // Gets the response and returns it as a blob
+      .then((blob) => new File([blob], 'image', { type: 'image/jpg', lastModified: new Date() }))
   }
   // Hiding gradient when first row scrolled down
-  const onScroll = e => {
+  const onScroll = (e) => {
     const elem = document.getElementById('gradient-top')
     if (e.target.scrollTop >= 300) {
       if (elem.style.visibility === 'hidden') {
@@ -119,8 +119,8 @@ const ImageSearch = ({ onImageUpload = () => {} }) => {
                   >
                     <FlexContainer direction={'ttb'} p={0}>
                       <CheckboxWrapper
-                        checked={selectedItems.some(u => u === res.mediaUrl)}
-                        onClick={e => e.preventDefault()}
+                        checked={selectedItems.some((u) => u === res.mediaUrl)}
+                        onClick={(e) => e.preventDefault()}
                       />
                       <ImageWrapper>
                         <StyledImg src={res.mediaUrl} alt={res.mediaUrl} />

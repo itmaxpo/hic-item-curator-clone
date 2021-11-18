@@ -3,9 +3,9 @@ import { MARKETS_FLAGS } from 'utils/constants'
 import { BlockedIndicatorWrapper, StyledIconFlag, StyledChip } from './styles'
 import { Flex } from '@tourlane/tourlane-ui'
 
-const getMarketsFlags = markets => (
+const getMarketsFlags = (markets) => (
   <Flex inline>
-    {markets.map(market => (
+    {markets.map((market) => (
       <StyledIconFlag
         data-test={`Blocked-${MARKETS_FLAGS[market]}`}
         country={MARKETS_FLAGS[market]}

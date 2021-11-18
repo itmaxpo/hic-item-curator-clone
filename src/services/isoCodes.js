@@ -249,7 +249,7 @@ const isoCountries = {
 /**
  * Receives country iso code and returns it's name in EN
  */
-export const getCountryName = countryCode => {
+export const getCountryName = (countryCode) => {
   if (isoCountries.hasOwnProperty(countryCode)) {
     return isoCountries[countryCode]
   } else {
@@ -260,6 +260,6 @@ export const getCountryName = countryCode => {
 /**
  * Receives EN country name and returns it's iso code
  */
-export const getCountryCode = countryName => {
-  return Object.keys(isoCountries).find(code => isoCountries[code] === countryName)
+export const getCountryCode = (countryName) => {
+  return Object.keys(isoCountries).find((code) => isoCountries[code] === countryName)
 }

@@ -96,7 +96,7 @@
     "husky": "^3.0.1",
     "jest-styled-components": "^6.3.3",
     "npx": "^10.2.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.4.1",
     "pretty-quick": "^1.11.1",
     "react-draft-wysiwyg": "^1.13.2",
     "react-html-parser": "^2.0.2",

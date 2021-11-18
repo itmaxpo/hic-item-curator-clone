@@ -43,7 +43,7 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
   const [isExpanded, setIsExpanded] = useState(false)
   const isDescriptionInspirationPresent = !isEmpty(descriptionInspiration)
 
-  const onDescriptionUpdate = newDescription => {
+  const onDescriptionUpdate = (newDescription) => {
     onChange('description', newDescription)
   }
 

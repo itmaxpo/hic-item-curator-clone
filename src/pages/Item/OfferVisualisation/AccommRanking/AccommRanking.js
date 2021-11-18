@@ -30,7 +30,7 @@ const rankingOptions = [
 ]
 
 export const AccommRanking = ({ isEditing, ranking, onChange, disabled }) => {
-  const rankOption = rankingOptions.find(el => el.value === ranking) || rankingOptions[0]
+  const rankOption = rankingOptions.find((el) => el.value === ranking) || rankingOptions[0]
 
   return (
     <div data-test="ranking" data-test-disabled={disabled ? 'true' : 'false'}>

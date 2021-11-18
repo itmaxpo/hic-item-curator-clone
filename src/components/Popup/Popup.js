@@ -10,7 +10,7 @@ import { ChevronDown } from 'components/Icon'
 export const Popup = ({ id, children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
 

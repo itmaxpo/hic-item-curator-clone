@@ -47,7 +47,7 @@ const DraggableGallery = ({
   const [isAllShown, setIsAllShown] = useState(false)
   const [clickedItemIndex, setClickedItemIndex] = useState(0)
 
-  const selectedImages = images.filter(image => image.isSelected)
+  const selectedImages = images.filter((image) => image.isSelected)
 
   const actualOptions = options
     ? options
@@ -91,7 +91,7 @@ const DraggableGallery = ({
     onDelete(images)
   }
 
-  const onItemViewClick = i => {
+  const onItemViewClick = (i) => {
     // Just show gallery
     setClickedItemIndex(i)
     setIsOpen(true)
@@ -132,10 +132,7 @@ const DraggableGallery = ({
 
   return (
     <GalleryWrapper
-      id={title
-        .toLowerCase()
-        .split(' ')
-        .join('-')}
+      id={title.toLowerCase().split(' ').join('-')}
       direction={'ttb'}
       alignItems={'center'}
       isVisible={isVisible}

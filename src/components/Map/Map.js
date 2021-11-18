@@ -10,7 +10,7 @@ const BoundsProvider = ({ children, paths }) => {
     if (!paths) return
     if (map) {
       const bounds = new window.google.maps.LatLngBounds()
-      paths.forEach(path => path.forEach(point => bounds.extend(point)))
+      paths.forEach((path) => path.forEach((point) => bounds.extend(point)))
       // Fit map to bounds calculated from passed down 'paths' prop
       map.fitBounds(bounds)
     }
@@ -35,7 +35,7 @@ const Map = ({ coordinates, polygon, locationInfo, ...rest }) => (
   </TuiMap>
 )
 
-const MapWrapper = props => (
+const MapWrapper = (props) => (
   <BoundsProvider paths={props.polygon}>
     {({ setMap }) => <Map onMapChange={setMap} {...props} />}
   </BoundsProvider>

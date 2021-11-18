@@ -8,17 +8,20 @@ import { getItemFieldsById } from 'services/contentApi'
  *  - will create <Array<Array<Item>> for pagination
  */
 export const paginateResults = (results, itemsPerPage) => {
-  return paginateArray(results.map(r => ({ ...r, isSelected: false })), itemsPerPage)
+  return paginateArray(
+    results.map((r) => ({ ...r, isSelected: false })),
+    itemsPerPage
+  )
 }
 
 // Update every item in paginated array
 export const updateAllPaginatedItems = (items, prop, value) =>
-  items.map(itemArray => itemArray.map(item => ({ ...item, [prop]: value })))
+  items.map((itemArray) => itemArray.map((item) => ({ ...item, [prop]: value })))
 
 // Update every isSelected item in paginated array
 export const updateSelectedPaginatedItems = (items, prop, value) =>
-  items.map(itemArray =>
-    itemArray.map(item => (item.isSelected ? { ...item, [prop]: value } : item))
+  items.map((itemArray) =>
+    itemArray.map((item) => (item.isSelected ? { ...item, [prop]: value } : item))
   )
 
 // Will receive Array<Array<Item>> and find by <page> correct array
@@ -32,38 +35,38 @@ export const updatePaginatedItemByIndex = (page, updatedIndex, updatedItem, item
 
 // Will receive selectedItems in paginated array and return unwrapped Array of selected items
 export const getSelectedItems = (items, selectedIds) =>
-  flatten(items).filter(item => selectedIds.includes(item.id))
+  flatten(items).filter((item) => selectedIds.includes(item.id))
 
 // Calculate offsetTop for searchContainer to scroll to it
-export const scrollToActions = searchContainer => {
+export const scrollToActions = (searchContainer) => {
   const searchContainerOffset = searchContainer.current
     ? searchContainer.current
     : document.querySelector('#search-container').offsetTop
   scroll.scrollTo(searchContainerOffset, { duration: 800, delay: 0, smooth: 'easeOutQuad' })
 }
 
-export const missingId = item => !item.id
+export const missingId = (item) => !item.id
 
 // Returns array of item's parent name and fetched status
-export const getParentNameList = items =>
+export const getParentNameList = (items) =>
   !isEmpty(items)
     ? items
         .filter(({ parentId }) => !!parentId)
         .map(({ parentId }) => ({ id: parentId, name: null, fetched: false }))
     : []
 
-export const getItemsNames = async items => {
+export const getItemsNames = async (items) => {
   const arrayOfPromises = items.map(({ id }) => getItemFieldsById(id))
 
-  return await Promise.all(arrayOfPromises).then(values => {
+  return await Promise.all(arrayOfPromises).then((values) => {
     return values.map(parseNameFieldsResponse)
   })
 }
 
-const parseNameFieldsResponse = response => {
+const parseNameFieldsResponse = (response) => {
   if (!response) return null
 
-  const nameField = filter(response.data.fields, field => field.field_name === 'name')
+  const nameField = filter(response.data.fields, (field) => field.field_name === 'name')
 
   return {
     id: response.data.uuid,
@@ -71,7 +74,7 @@ const parseNameFieldsResponse = response => {
   }
 }
 // Check for EN then DE name
-const getItemName = nameField => {
+const getItemName = (nameField) => {
   const engField = filter(nameField, ({ locale }) => locale === 'en-GB')[0]
   const deField = filter(nameField, ({ locale }) => locale === 'de-DE')[0]
 
@@ -79,7 +82,7 @@ const getItemName = nameField => {
 }
 
 export const updateItemsWithNames = (listToUpdate, listWithNames) =>
-  listToUpdate.map(item => {
+  listToUpdate.map((item) => {
     if (item.name) return item
 
     const name = getItemNameById(listWithNames, item.id)
@@ -88,10 +91,14 @@ export const updateItemsWithNames = (listToUpdate, listWithNames) =>
   })
 
 export const getItemNameById = (list, _id) =>
-  get(list.filter(({ id }) => id === _id), '0.name', null)
+  get(
+    list.filter(({ id }) => id === _id),
+    '0.name',
+    null
+  )
 
 export const updateItemsWithArea = (listToUpdate, listWithAreas) =>
-  listToUpdate.map(item => {
+  listToUpdate.map((item) => {
     if (item.area) return item
 
     const area = getItemNameById(listWithAreas, item.parentId)
@@ -100,10 +107,10 @@ export const updateItemsWithArea = (listToUpdate, listWithAreas) =>
   })
 
 export const removeMergedItems = (list, itemsToRemove) =>
-  list.filter(listItem => !itemsToRemove.some(item => item.id === get(listItem, 'id')))
+  list.filter((listItem) => !itemsToRemove.some((item) => item.id === get(listItem, 'id')))
 
 export const enrichItems = (itemsToEnrich, enrichedItems) =>
-  itemsToEnrich.map(itemToEnrich => ({
+  itemsToEnrich.map((itemToEnrich) => ({
     ...itemToEnrich,
-    ...find(enrichedItems, enrichedItem => enrichedItem.id === get(itemToEnrich, 'id'))
+    ...find(enrichedItems, (enrichedItem) => enrichedItem.id === get(itemToEnrich, 'id'))
   }))

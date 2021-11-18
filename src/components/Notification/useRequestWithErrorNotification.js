@@ -11,7 +11,7 @@ import NotificationContext from './NotificationContext'
 const useRequestWithErrorNotification = () => {
   const { enqueueNotification } = useContext(NotificationContext)
 
-  const handleRequestError = message => {
+  const handleRequestError = (message) => {
     enqueueNotification({
       variant: 'error',
       message

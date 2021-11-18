@@ -31,7 +31,7 @@ const secondaryButtonDisabledStyle = css`
  */
 const SecondaryButton = styled(TuiSecondaryButton)`
   ${sharedButtonStyle}
-  ${props => (props.disabled ? secondaryButtonDisabledStyle : '')}
+  ${(props) => (props.disabled ? secondaryButtonDisabledStyle : '')}
 `
 
 /**

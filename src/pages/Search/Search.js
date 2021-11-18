@@ -42,16 +42,8 @@ export const NoResults = () => (
  */
 const SearchPage = ({ history }) => {
   const parsedQuery = queryString.parse(history.location.search)
-  const {
-    areaId,
-    countryId,
-    name,
-    supplier,
-    provider,
-    page,
-    missingGeolocation,
-    blocked
-  } = parsedQuery
+  const { areaId, countryId, name, supplier, provider, page, missingGeolocation, blocked } =
+    parsedQuery
 
   const prevPayload = useRef(undefined)
   const itemTypeRef = useRef(undefined)
