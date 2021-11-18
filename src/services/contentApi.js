@@ -1,6 +1,4 @@
-import queryString from 'query-string'
 import request, { getJson, postJson } from './request'
-import { mockAttachments, mockItemFields, mockPolygon } from './mocks'
 import {
   FIELD_ISO_CODE,
   FIELD_NAME,
@@ -34,7 +32,6 @@ import {
   FIELD_EXTERNAL_ID
 } from 'pages/Item/itemParser'
 
-const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 // Add field names to receive them from BE
 const fieldsToSelect = [
   FIELD_ISO_CODE,
@@ -76,8 +73,6 @@ const fieldsToSelect = [
  * @returns {Object}
  */
 const getItemFieldsById = async (id) => {
-  if (onLighthouseMode) return mockItemFields
-
   const selectedFields = `?selected_fields=${fieldsToSelect}`
   let res = await request(
     'GET',
@@ -97,7 +92,6 @@ const getItemFieldsById = async (id) => {
  * @returns {Object}
  */
 const getItemPolygonCoordinatesById = async (id) => {
-  if (onLighthouseMode) return mockPolygon
   let res = await request(
     'GET',
     `${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/polygon`
@@ -106,15 +100,12 @@ const getItemPolygonCoordinatesById = async (id) => {
   return res.json()
 }
 
-const getItemAttachmentsById = async (id, offset = 0, itemType) => {
-  if (onLighthouseMode) return mockAttachments
-
-  return getJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/attachments`, {
+const getItemAttachmentsById = async (id, offset = 0, itemType) =>
+  getJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/attachments`, {
     offset,
     limit: 50,
     item_type: itemType
   })
-}
 
 /**
  * Update item attachment by id

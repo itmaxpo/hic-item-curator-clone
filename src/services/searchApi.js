@@ -1,4 +1,3 @@
-import queryString from 'query-string'
 import { isEmpty } from 'lodash'
 import request from './request'
 import {
@@ -6,11 +5,8 @@ import {
   generateSearchQueryArea,
   generateSearchQueryAccom
 } from './utils'
-import { mockItems } from './mocks'
 
 const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
-
-const onLighthouseMode = queryString.parse(window.location.search).lighthouse === 'true'
 
 const nameProperties = ['name', 'original_name']
 /**
@@ -98,8 +94,6 @@ const getAccommodations = async (
   offset = 0,
   limit = 40
 ) => {
-  if (onLighthouseMode) return mockItems
-
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res
@@ -148,8 +142,6 @@ const getActivities = async (
   offset = 0,
   limit = 40
 ) => {
-  if (onLighthouseMode) return mockItems
-
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
   const res = await request(
     'GET',

@@ -1,5 +1,4 @@
 import { Auth0Client, LogoutOptions } from '@auth0/auth0-spa-js'
-import { parse } from 'query-string'
 
 type AuthEvent = 'login_success' | 'login_failed'
 
@@ -82,8 +81,6 @@ let __mock = {
 
 const inTestingMode =
   // @ts-ignore
-  !!window.Cypress ||
-  parse(window.location.search).lighthouse === 'true' ||
-  !!process.env.REACT_APP_CI
+  !!window.Cypress || !!process.env.REACT_APP_CI
 
 export const authManager = inTestingMode ? __mock : new AuthManager()

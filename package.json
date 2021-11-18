@@ -53,9 +53,7 @@
     "start-server:testing": "npm run build:testing && npm run start:testing",
     "serve": "serve -s build -l 3000",
     "cy:run": "cypress run --browser chrome --headless",
-    "test:e2e": "CI=1 npm install cypress; start-server-and-test start-server:testing http://localhost:3000 cy:run",
-    "serve:lhci": "NODE_ENV=production npm run serve",
-    "lighthouse": "lhci autorun"
+    "test:e2e": "CI=1 npm install cypress; start-server-and-test start-server:testing http://localhost:3000 cy:run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -97,7 +95,6 @@
     "enzyme": "^3.10.0",
     "husky": "^3.0.1",
     "jest-styled-components": "^6.3.3",
-    "lighthouse": "^5.5.0",
     "npx": "^10.2.0",
     "prettier": "^2.2.1",
     "pretty-quick": "^1.11.1",

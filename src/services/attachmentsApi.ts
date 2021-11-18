@@ -1,5 +1,4 @@
 import { getJson, postJson } from './request'
-import { mockAttachments, isLighthouseMode } from './mocks'
 
 export type ItemType =
   | 'planet'
@@ -115,8 +114,6 @@ export const getItemAttachments = async ({
   limit?: number
   itemType: ItemType
 }): Promise<IAttachment[]> => {
-  if (isLighthouseMode()) return (mockAttachments as unknown) as IAttachment[]
-
   let { data } = await getJson<{ data: IAttachment[] }>(
     `${process.env.REACT_APP_PARTNERS_API}/content/items/${itemId}/attachments`,
     {
