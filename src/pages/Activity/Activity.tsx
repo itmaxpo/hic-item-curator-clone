@@ -310,7 +310,11 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
             <Flex flexDirection="column" p={32} gap={formSpacing}>
               <Flex gap={formSpacing}>
                 <Flex flexDirection="column" flex={1} gap={formSpacing}>
-                  <HFTextField name="display_name" label="Display Name" />
+                  <HFTextField
+                    name="display_name"
+                    label="Display Name (38 characters max)"
+                    maxLength={38}
+                  />
 
                   <HFDropdown
                     name="themes"
