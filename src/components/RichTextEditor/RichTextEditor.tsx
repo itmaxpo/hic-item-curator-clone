@@ -1,22 +1,24 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { EditorState, Modifier, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
-import { get } from 'lodash'
 import cuid from 'cuid'
+// @ts-ignore
+import { EditorState, Modifier, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
+// @ts-ignore
 import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+// @ts-ignore
 import draftToHtml from 'draftjs-to-html'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import './styles.css'
 import { StyledLabel, Wrapper } from './styles'
 import { getRichTextValue } from 'utils/helpers'
 import { usePrevious } from '@tourlane/tourlane-ui'
 
-const isHTML = (str) => {
+const isHTML = (str: string) => {
   const doc = new DOMParser().parseFromString(str, 'text/html')
   return Array.from(doc.body.childNodes).some((node) => node.nodeType === 1)
 }
 
 // Generate an EditorState object from a provided value
-const getInitialEditorState = (value) => {
+const getInitialEditorState = (value: any) => {
   let editorState = EditorState.createEmpty()
 
   // Initialize editor with provided value
@@ -47,7 +49,15 @@ const getInitialEditorState = (value) => {
  * Takes the external props 'value' and 'onChange'
  * Returns props that need to be passed to the Editor.
  */
-const useEditorState = ({ value, onChange, typingStarted }) => {
+const useEditorState = ({
+  value,
+  onChange,
+  typingStarted
+}: {
+  value: any
+  onChange?: (value: string) => void
+  typingStarted: React.MutableRefObject<boolean>
+}) => {
   const previousValue = usePrevious(value, true)
 
   // Keep track of editor state
@@ -70,7 +80,9 @@ const useEditorState = ({ value, onChange, typingStarted }) => {
       // Send current HTML to callback
       if (onChange) {
         const htmlValue = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-        onChange(htmlValue)
+        const isEmpty = htmlValue === '<p></p>\n'
+
+        onChange(isEmpty ? '' : htmlValue)
       }
     },
     // eslint-disable-next-line
@@ -78,23 +90,6 @@ const useEditorState = ({ value, onChange, typingStarted }) => {
   )
 
   return { editorState, onEditorStateChange }
-}
-
-/**
- * Handle logic related to editor focus.
- * 'handleWrapperClick' should be passed to the Wrapper and 'editorRef' to the Editor.
- */
-const useEditorFocus = () => {
-  const editorRef = useRef(null)
-
-  const handleWrapperClick = useCallback(() => {
-    const focus = get(editorRef.current, 'editor.focus')
-    if (focus) {
-      focus()
-    }
-  }, [])
-
-  return { editorRef, handleWrapperClick }
 }
 
 /**
@@ -150,68 +145,82 @@ const useEditorPaste = () => {
   return { editorKey, handlePastedText }
 }
 
-const RichTextEditor = ({
-  className,
-  placeholder,
-  value,
-  onChange,
-  textWrap = true,
-  resizable = false,
-  label,
-  editorProps = {},
-  ...otherProps
-}) => {
-  // helps to prevent cursor jumping on text changes
-  const typingStarted = useRef(false)
-  const { editorState, onEditorStateChange } = useEditorState({ value, onChange, typingStarted })
-  const { editorRef, handleWrapperClick } = useEditorFocus()
-  const { editorKey, handlePastedText } = useEditorPaste()
-
-  const onBlurAction = () => {
-    typingStarted.current = false
-    // If onBlur function provided, return html
-    if (otherProps.onBlur) {
-      const htmlValue = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-      return otherProps.onBlur(htmlValue)
-    }
-  }
-
-  return (
-    <div className={className}>
-      {label && <StyledLabel>{label}</StyledLabel>}
-      <div>
-        <Wrapper
-          onClick={handleWrapperClick}
-          textWrap={textWrap}
-          resizable={resizable}
-          {...otherProps}
-        >
-          <Editor
-            editorState={editorState}
-            toolbarClassName="draft-editor-toolbar"
-            editorClassName="draft-editor-container"
-            onEditorStateChange={onEditorStateChange}
-            onBlur={onBlurAction}
-            placeholder={placeholder}
-            ref={editorRef}
-            editorKey={editorKey}
-            handlePastedText={handlePastedText}
-            toolbar={{
-              options: ['inline', 'list', 'link'],
-              inline: {
-                options: ['bold', 'italic']
-              },
-              list: {
-                options: ['unordered', 'ordered']
-              }
-            }}
-            readOnly={otherProps.disabled}
-            {...editorProps}
-          />
-        </Wrapper>
-      </div>
-    </div>
-  )
+interface Props {
+  className?: string
+  placeholder?: string
+  value?: string
+  onChange?: () => void
+  onBlur?: (value: string) => void
+  textWrap?: boolean
+  resizable?: boolean
+  label?: string
+  editorProps?: Record<any, any>
+  disabled?: boolean
 }
+
+const RichTextEditor = React.forwardRef<any, Props>(
+  (
+    {
+      className,
+      placeholder,
+      value,
+      onChange,
+      onBlur,
+      textWrap = true,
+      resizable = false,
+      label,
+      editorProps = {},
+      disabled = false,
+      ...otherProps
+    },
+    forwardedRef
+  ) => {
+    // helps to prevent cursor jumping on text changes
+    const typingStarted = useRef(false)
+    const { editorState, onEditorStateChange } = useEditorState({ value, onChange, typingStarted })
+    const { editorKey, handlePastedText } = useEditorPaste()
+
+    const onBlurAction = () => {
+      typingStarted.current = false
+      // If onBlur function provided, return html
+      if (onBlur) {
+        const htmlValue = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        return onBlur(htmlValue)
+      }
+    }
+
+    return (
+      <div className={className}>
+        {label && <StyledLabel>{label}</StyledLabel>}
+        <div>
+          <Wrapper textWrap={textWrap} resizable={resizable} disabled={disabled} {...otherProps}>
+            <Editor
+              editorState={editorState}
+              toolbarClassName="draft-editor-toolbar"
+              editorClassName="draft-editor-container"
+              onEditorStateChange={onEditorStateChange}
+              onBlur={onBlurAction}
+              placeholder={placeholder}
+              editorRef={forwardedRef}
+              editorKey={editorKey}
+              handlePastedText={handlePastedText}
+              toolbar={{
+                options: ['inline', 'list', 'link'],
+                inline: {
+                  options: ['bold', 'italic']
+                },
+                list: {
+                  options: ['unordered', 'ordered']
+                }
+              }}
+              readOnly={disabled}
+              {...editorProps}
+            />
+          </Wrapper>
+        </div>
+      </div>
+    )
+  }
+)
 
 export default RichTextEditor

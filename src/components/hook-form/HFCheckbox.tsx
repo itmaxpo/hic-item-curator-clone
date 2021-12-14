@@ -1,12 +1,13 @@
-import type React from 'react'
+import { ComponentProps } from 'react'
 import { Control, Controller } from 'react-hook-form'
 import { Checkbox, Label } from '@tourlane/tourlane-ui'
 import { useHFContext } from './HookForm'
 
-interface Props extends React.ComponentProps<typeof Checkbox> {
+interface Props extends ComponentProps<typeof Checkbox> {
   name: string
   label: string
   control?: Control
+  defaultValue?: any
 }
 
 export const HFCheckbox = ({ name, label, control, disabled, ...props }: Props) => {
@@ -19,15 +20,15 @@ export const HFCheckbox = ({ name, label, control, disabled, ...props }: Props) 
       control={control ?? formCtx?.form.control}
       name={name}
       defaultValue={false}
-      render={({ value, onChange, ...field }) => {
+      render={({ field: { value, onChange, ...fieldProps } }) => {
         return (
           <Label disabled={disabled}>
             <Checkbox
               disabled={disabled}
-              {...props}
               checked={value}
               onChange={(e: any) => onChange(e.target.checked)}
-              {...field}
+              {...fieldProps}
+              {...props}
             />
             {label}
           </Label>

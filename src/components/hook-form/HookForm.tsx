@@ -1,17 +1,14 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, DetailedHTMLProps, FormHTMLAttributes, ReactNode } from 'react'
+import type { FieldName, UseFormReturn, Path } from 'react-hook-form'
 
-import type { FieldName, UseFormMethods } from 'react-hook-form'
-import type React from 'react'
-
-type HtmlFormProps = React.DetailedHTMLProps<
-  React.FormHTMLAttributes<HTMLFormElement>,
-  HTMLFormElement
->
+type HtmlFormProps = DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
 
 interface IHFContextValue<T = any> {
-  form: UseFormMethods<T>
+  form: UseFormReturn<T>
   disabled?: boolean
 }
+
+export const REQUIRED_ERROR_MESSAGE = 'The field is required'
 
 const Context = createContext<IHFContextValue | undefined>(undefined)
 
@@ -19,18 +16,23 @@ export const useHFContext = () => useContext(Context)
 
 interface Props<T = any> extends Omit<HtmlFormProps, 'onSubmit'>, IHFContextValue<T> {
   onSubmit?: (data: T, helpers: ReturnType<typeof createHelpers>) => void
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export function createHelpers<T>(form: UseFormMethods<T>) {
+export function createHelpers<T>(form: UseFormReturn<T>) {
   return {
     setErrors(errors: Record<FieldName<T>, string>) {
-      Object.entries(errors).forEach(([fieldName, message], i) =>
-        form.setError(fieldName as FieldName<T>, {
-          type: 'manual',
-          message: message as string,
-          shouldFocus: i === 0
-        })
+      Object.entries<string>(errors).forEach(([fieldName, message], i) =>
+        form.setError(
+          fieldName as Path<T>,
+          {
+            type: 'manual',
+            message: message
+          },
+          {
+            shouldFocus: i === 0
+          }
+        )
       )
     }
   }

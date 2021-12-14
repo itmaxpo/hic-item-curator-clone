@@ -17,7 +17,7 @@ export const HFDropdown = ({ control, name, disabled, ...props }: Props) => {
       control={control ?? form?.form.control}
       name={name}
       defaultValue={props.multiple ? [] : null}
-      render={(field) => (
+      render={({ field }) => (
         <Dropdown data-test={name} disabled={disabled ?? form?.disabled} {...props} {...field} />
       )}
     />

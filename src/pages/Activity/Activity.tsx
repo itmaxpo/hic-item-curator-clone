@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import get from 'lodash/get'
+import { Controller, useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
 import type { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
@@ -21,7 +22,8 @@ import {
   Strong,
   Big,
   AlarmButton,
-  IconCircle
+  IconCircle,
+  Error
 } from '@tourlane/tourlane-ui'
 import DeleteIcon from '@tourlane/iconography/Glyphs/Navigation/Delete'
 
@@ -35,6 +37,7 @@ import {
   HFRichTextEditor,
   HFTextField,
   HookForm,
+  REQUIRED_ERROR_MESSAGE,
   useHFContext
 } from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
@@ -48,6 +51,8 @@ import NoLocation from '../Item/OfferVisualisation/NoLocation'
 import { CarouselLoader } from 'components/Carousel'
 import { useNotification } from '../../components/Notification'
 import { updateItemAttachmentsById } from '../../services/contentApi'
+import { ACTIVITY_ITEM_TYPE } from 'utils/constants'
+import useRefValue from 'utils/useRefValue'
 
 const ImageCarousel = lazy(
   () => import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
@@ -75,7 +80,7 @@ const FieldGroup: FC<{ title: string }> = ({ title, children }) => (
 
 const IMAGE_SIZE = 120
 
-const ImageCard: FC<{ onClick?: () => void }> = ({ children, onClick }) => (
+const ImageCard: FC<{ onClick?: (...args: any[]) => void }> = ({ children, onClick }) => (
   <Card onClick={onClick} height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
     {children}
   </Card>
@@ -90,13 +95,17 @@ const Images: FC<{
   const { enqueueNotification } = useNotification()
   const [imagesIdsToDelete, setImagesToDelete] = useState(() => new Set())
 
+  // We don't allow to delete the last image.
+  const numberOfImagesInUI = images.length - imagesIdsToDelete.size
+  const isDeleteEnabled = numberOfImagesInUI > 1
+
   return images.length && !images?.every(({ uuid }) => imagesIdsToDelete.has(uuid)) ? (
     <Flex gap={formSpacing} flexWrap="wrap">
       {images
         .filter(({ uuid }) => !imagesIdsToDelete.has(uuid))
         .map(({ url, filename, uuid }, i) => (
           <div key={uuid} style={{ position: 'relative' }}>
-            {isEditing && (
+            {isEditing && isDeleteEnabled && (
               <IconCircleStyled
                 icon={<DeleteIcon />}
                 sizeVariant="tiny"
@@ -132,7 +141,15 @@ const Images: FC<{
               />
             )}
 
-            <ImageCard key={url} onClick={() => onImageClick(i)}>
+            <ImageCard
+              key={url}
+              onClick={(e: Event) => {
+                // For some reason, react-hook-form tries to submit the form unless I do this.
+                e.preventDefault()
+
+                onImageClick(i)
+              }}
+            >
               <Image src={url} height={IMAGE_SIZE} />
             </ImageCard>
           </div>
@@ -150,41 +167,48 @@ const Images: FC<{
 const AddressSearch = () => {
   let {
     disabled,
-    form: { register, unregister, setValue, watch }
+    form: { register, setValue, formState, control }
   } = useHFContext()!
 
-  const address = watch('address')
-
-  useEffect(() => {
-    register('location')
-    register('address')
-
-    return () => {
-      unregister('location')
-      unregister('address')
-    }
-  }, [register, unregister])
+  // Register the "location" field. It's not a real field, but it's updated every time the
+  // user selects an address.
+  register('location')
 
   return (
-    <SearchBox
-      key={address}
-      disabled={disabled}
-      placeholder="Address"
-      defaultInputValue={address}
-      onChange={(v: any) => {
-        if (v) {
-          setValue('location', { lat: +v.lat, lon: +v.lon })
-          setValue('address', v.display_name)
-        }
+    <Controller
+      control={control}
+      name="address"
+      rules={{ required: REQUIRED_ERROR_MESSAGE }}
+      render={({ field: { value, onChange, ...fieldProps } }) => {
+        return (
+          <SearchBox
+            disabled={disabled}
+            error={get(formState.errors, 'address')?.message}
+            placeholder="Address"
+            value={{ label: value, value }}
+            onChange={(v: any) => {
+              // Update the "address" field.
+              onChange(v?.display_name)
+              // Update the "location" field too.
+              setValue('location', v?.lat ? { lat: +v.lat, lon: +v.lon } : null)
+            }}
+            {...fieldProps}
+          />
+        )
       }}
     />
   )
 }
 
-const RichTextEditorWithEditorProps: FC<{ name: string; label: string }> = ({ name, label }) => (
+const RichTextEditorWithEditorProps: FC<{ name: string; label: string; required?: boolean }> = ({
+  name,
+  label,
+  required
+}) => (
   <HFRichTextEditor
     name={name}
     label={label}
+    required={required}
     resizable
     editorProps={{
       toolbar: {
@@ -200,31 +224,52 @@ const RichTextEditorWithEditorProps: FC<{ name: string; label: string }> = ({ na
   />
 )
 
+const defaultImages: IAttachment[] = []
+
+type FormFields = IActivity & { images: IAttachment[] }
+
 export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params?.id
   const [market] = useMarket()
   const [{ data: activity }] = usePromise(() => getActivityById(id, market), [id, market])
   const { enqueueNotification } = useNotification()
 
-  const form = useForm<IActivity>({})
+  const form = useForm<FormFields>({})
   const { setErrors } = createHelpers(form)
   const { isSubmitting } = form.formState
   const [isEditing, setIsEditing] = useState(false)
   const [isImageCarouselOpen, toggleImageCarousel] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
-  useEffect(() => {
-    form.reset(activity)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activity])
-
-  const [{ data: images = [] }, reFetchImages] = usePromise(async () => {
+  const [{ data: images = defaultImages }, reFetchImages] = usePromise(async () => {
     const images = await getItemAttachments({ itemId: id, itemType: 'activity' })
     return images.filter(({ tags }) => tags?.visible !== false)
   })
 
   let location = form.watch('location')
   const areas = activity?.touristic_areas?.map(({ name }) => name).join(', ')
+
+  const { register, setValue, reset } = form
+
+  // Register the "images" field.
+  register('images', {
+    validate: (images) => images?.length >= 1 || 'There should be at least one image'
+  })
+
+  // Update the form's "images" value every time the images change.
+  useEffect(() => {
+    setValue('images', images, { shouldValidate: true })
+  }, [images, setValue])
+
+  // Reset form values when the activity loads.
+  const previousActivity = useRefValue(activity).previousValue
+  useEffect(() => {
+    if (previousActivity !== activity) {
+      reset({ ...activity, images })
+    }
+  }, [activity, images, previousActivity, reset])
+
+  const imagesRef = useRef<HTMLDivElement>(null)
 
   return (
     // @ts-ignore
@@ -239,7 +284,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                 size="small"
                 onClick={() => {
                   setIsEditing(false)
-                  form.reset(activity)
+                  form.reset({ ...activity, images })
                   form.clearErrors()
                 }}
               >
@@ -249,20 +294,35 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
               <ButtonWithLoader
                 size="small"
                 isLoading={isSubmitting}
-                onClick={form.handleSubmit(async (data) => {
-                  try {
-                    setIsEditing(false)
-                    await updateActivity({ ...data, locale: market, uuid: activity!.uuid })
-                  } catch (e) {
-                    setIsEditing(true)
+                onClick={form.handleSubmit(
+                  async (data) => {
+                    try {
+                      setIsEditing(false)
+                      await updateActivity({ ...data, locale: market, uuid: activity!.uuid })
+                    } catch (e) {
+                      setIsEditing(true)
 
-                    if (e instanceof Error) {
-                      console.error(e)
-                    } else {
-                      setErrors(mapValues(e, (errors) => errors.join(', ')))
+                      if (e instanceof Error) {
+                        console.error(e)
+                      } else {
+                        setErrors(mapValues(e, (errors) => errors.join(', ')))
+                      }
+                    }
+                  },
+                  (errors) => {
+                    // If there are errors in any of the fields, react-hook-form scrolls into
+                    // them, but we can't do that for the images field because it doesn't have a
+                    // focusable input. So we trigger the scroll manually if images is the only
+                    // field with an error message.
+                    const onlyImagesFieldHasError =
+                      Object.keys(errors).length === 1 && Boolean(errors.images)
+                    if (onlyImagesFieldHasError) {
+                      setTimeout(() => {
+                        imagesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                      }, 0)
                     }
                   }
-                })}
+                )}
               >
                 Save
               </ButtonWithLoader>
@@ -305,7 +365,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
           )}
         </div>
 
-        <HookForm data-test="activity-form" form={form} disabled={!isEditing || isSubmitting}>
+        <HookForm data-test="activity-form" form={form} disabled={!isEditing}>
           <Card>
             <Flex flexDirection="column" p={32} gap={formSpacing}>
               <Flex gap={formSpacing}>
@@ -314,8 +374,8 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                     name="display_name"
                     label="Display Name (38 characters max)"
                     maxLength={38}
+                    required
                   />
-
                   <HFDropdown
                     name="themes"
                     label="Theme"
@@ -337,22 +397,33 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                   {location ? (
                     <MapComponent coordinates={{ lat: location.lat, lng: location.lon }} />
                   ) : (
-                    <NoLocation alt="map-placeholder" height="140px" />
+                    <NoLocation
+                      itemType={ACTIVITY_ITEM_TYPE}
+                      alt="map-placeholder"
+                      height="140px"
+                    />
                   )}
                 </Flex>
               </Flex>
 
               <Hr />
 
-              <RichTextEditorWithEditorProps name="description" label="Description" />
+              <RichTextEditorWithEditorProps name="description" label="Description" required />
 
               <Flex flexDirection="column">
-                <H5 withBottomMargin>Images</H5>
+                <H5 withBottomMargin ref={imagesRef} id="images-header">
+                  Images
+                </H5>
 
                 <Flex gap={formSpacing}>
                   {isEditing && (
-                    <Flex flex={1}>
-                      <ItemImagesUpload itemId={id} itemType="activity" onUpload={reFetchImages} />
+                    <Flex flex={1} direction="column">
+                      <ItemImagesUpload
+                        itemId={id}
+                        itemType="activity"
+                        onUpload={reFetchImages}
+                        error={(form.formState.errors?.images as any)?.message}
+                      />
                     </Flex>
                   )}
 
@@ -372,6 +443,9 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                             [{ id: imageId, order: imageOrder }] as any,
                             false
                           )
+
+                          reFetchImages()
+
                           // TODO: upon accommodation image deletion complete - let's move error handling to the service
                           if (deletedImage[0]?.error?.length > 0) {
                             throw Error(deletedImage[0].error.join(', '))

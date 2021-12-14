@@ -1,7 +1,14 @@
 import styled, { css } from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
-export const Wrapper = styled.div`
+interface WrapperProps {
+  isEditing?: boolean
+  resizable?: boolean
+  textWrap?: boolean
+  disabled?: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
   min-height: 116px;
   border-radius: 4px;
   cursor: text;
