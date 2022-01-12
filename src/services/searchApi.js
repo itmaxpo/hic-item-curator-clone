@@ -138,14 +138,14 @@ const getAccommodations = async (
  * @returns {Object}
  */
 const getActivities = async (
-  { name = '', supplier = '', country = '', provider = '' },
+  { name = '', supplier = '', country = '', provider = '', active = true },
   offset = 0,
   limit = 40
 ) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
   const res = await request(
     'GET',
-    `${process.env.REACT_APP_PARTNERS_API}/content/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country_uuid=${country}&name=${nameToSearch}`
+    `${process.env.REACT_APP_PARTNERS_API}/content/activities?limit=${limit}&offset=${offset}&supplier_id=${supplier}&provider=${provider}&country_uuid=${country}&name=${nameToSearch}&active=${active}`
   )
 
   return res.json()

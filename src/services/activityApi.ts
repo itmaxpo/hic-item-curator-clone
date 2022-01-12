@@ -15,6 +15,8 @@ export interface IActivity {
   display_name: string | null
   provider: string
   country: any
+  active?: boolean
+  ignore_attachments_validation?: boolean
   description: string | null
   location: {
     lat: number

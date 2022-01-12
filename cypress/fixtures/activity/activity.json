@@ -8,6 +8,7 @@
     "description": "This is to test the description in English language this is amazing",
     "country": null,
     "location": null,
+    "active": true,
     "display_name": "English Name",
     "inclusions": "Inclusions",
     "exclusions": "Exclusions",

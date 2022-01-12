@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 import { FlexContainer } from '@tourlane/tourlane-ui'
 
-export const LoaderContainer = styled(FlexContainer)`
+interface ILoaderContainer {
+  top?: string | number
+}
+export const LoaderContainer = styled(FlexContainer)<ILoaderContainer>`
   && {
     width: 100%;
     height: 40px;
