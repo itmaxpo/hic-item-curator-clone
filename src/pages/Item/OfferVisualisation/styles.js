@@ -34,22 +34,12 @@ export const SearchItemWrapper = styled(FlexContainer)`
   }
 `
 
-export const LatLonWrapper = styled(FlexContainer)`
-  > div {
-    width: 48%;
-  }
-`
-
 export const PhoneWrapper = styled.div`
   flex-grow: 1;
   margin-left: 4%;
 `
 
 export const PhoneBlock = styled(Flex)`
-  width: 36%;
-`
-
-export const AddressBlock = styled(FlexContainer)`
   width: 36%;
 `
 

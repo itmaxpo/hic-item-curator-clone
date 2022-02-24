@@ -15,22 +15,22 @@ import { parseSearchBoxResponse } from './utils'
  * @returns {Object} SearchBox Component
  */
 
-const addressSearch = debounce((input, callback) => {
-  searchAddress(input).then((response) => callback(parseSearchBoxResponse(response)))
+const addressSearch = debounce((address, callback) => {
+  searchAddress({ address }).then((response) => callback(parseSearchBoxResponse(response)))
 }, 1000)
 
 interface Props {
   placeholder?: string
   disabled?: boolean
   defaultInputValue?: string
-  error: string
+  error?: string
   onChange: (...args: any[]) => void
   value: any
 }
 
 const SearchBox = React.forwardRef<any, DropdownSelectProps & Props>(
   ({ placeholder = 'Type to find', disabled, error, ...props }, forwardedRef) => (
-    <FormItem error={error}>
+    <FormItem error={error} fullWidth={true}>
       <DropdownSelect
         isAsync
         isClearable

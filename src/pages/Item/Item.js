@@ -34,6 +34,12 @@ const reducer = (state, action) => {
         ...state,
         [action.field]: action.value
       }
+    case 'updateFields': {
+      return {
+        ...state,
+        ...action.value
+      }
+    }
     case 'updateAll':
       return action.value
     default:
@@ -140,10 +146,9 @@ const ItemPage = ({ match, history }) => {
     setIsEditing(true)
   }
 
-  const onGeolocationUpdate = (geolocation, address) => {
-    const updatedItem = { ...item, geolocation, address }
-    dispatch({ type: 'updateAll', value: updatedItem })
-  }
+  const onGeolocationUpdate = useCallback((geolocation, address) => {
+    dispatch({ type: 'updateFields', value: { geolocation, address } })
+  }, [])
 
   const onCancel = () => {
     // Reset images to original version

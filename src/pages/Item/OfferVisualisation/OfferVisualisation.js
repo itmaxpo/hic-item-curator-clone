@@ -1,17 +1,14 @@
-import React, { lazy, Suspense, Fragment } from 'react'
+import { lazy, Suspense, Fragment } from 'react'
 import LazyLoad from 'react-lazyload'
-import { isEmpty, flatten, get } from 'lodash'
+import { isEmpty, flatten } from 'lodash'
 import { CountryCodeSelect } from '@tourlane/rooster'
 import PhoneIcon from '@tourlane/iconography/Glyphs/Navigation/Phone'
-import { SearchBox } from 'components/Map'
 import Loader from 'components/Loader'
 import {
   TitleWithContent,
   MapWrapper,
-  LatLonWrapper,
   PhoneWrapper,
   PhoneBlock,
-  AddressBlock,
   NoLocationWrapper,
   CountryCodeWrapper,
   SearchItemWrapper
@@ -50,6 +47,7 @@ import {
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { capitalize } from 'pages/Search/utils'
 import { Source } from './Source/Source'
+import { AccommodationLocation } from './AccommodationLocation'
 
 const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
 
@@ -119,6 +117,7 @@ const OfferVisualisation = ({
   //
   // This map always receives:
   //    - <key> to provide a specific key for every element to render them properly
+
   const componentsRenderingMap = {
     [DESCRIPTION_COMPONENT_NAME]: (key) => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
@@ -257,15 +256,6 @@ const OfferVisualisation = ({
         geoCoords: item[FIELD_GEOLOCATION]
       }
 
-      // Updating address and geolocation with a separate request
-      const onLocationChangeHandler = (address, geolocation) => {
-        if (!address) {
-          onGeolocationUpdate(geolocation, '')
-        } else {
-          onGeolocationUpdate({ lat: +address.lat, lon: +address.lon }, address.label)
-        }
-      }
-
       const searchBoxAddress = {
         label: item[FIELD_ADDRESS] || ''.replace(/(\r\n|\n|\r)/gm, ''),
         value: item[FIELD_ADDRESS]
@@ -278,43 +268,13 @@ const OfferVisualisation = ({
           <TitleWithContent>
             <H4 data-test={'item-location-header'}>Location</H4>
             {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
-              <AddressBlock p={0} pb={1.5} direction="ttb">
-                <div data-test="address">
-                  <SearchBox
-                    placeholder="Address"
-                    defaultValue={searchBoxAddress}
-                    onChange={onLocationChangeHandler}
-                  />
-                </div>
-                <LatLonWrapper p={0} pt={1} justifyContent="between">
-                  <TextField
-                    type="number"
-                    disabled={!!item[FIELD_ADDRESS]}
-                    data-test="latitude"
-                    placeholder="Latitude"
-                    value={get(coordinates, 'lat', '')}
-                    onChange={(e) =>
-                      onLocationChangeHandler(null, {
-                        ...item[FIELD_GEOLOCATION],
-                        lat: e.target.value && Number(e.target.value)
-                      })
-                    }
-                  />
-                  <TextField
-                    type="number"
-                    disabled={!!item[FIELD_ADDRESS]}
-                    data-test="longitude"
-                    placeholder="Longitude"
-                    value={get(coordinates, 'lng', '')}
-                    onChange={(e) =>
-                      onLocationChangeHandler(null, {
-                        ...item[FIELD_GEOLOCATION],
-                        lon: e.target.value && Number(e.target.value)
-                      })
-                    }
-                  />
-                </LatLonWrapper>
-              </AddressBlock>
+              <Flex mb={40}>
+                <AccommodationLocation
+                  address={searchBoxAddress}
+                  geolocation={{ lat: coordinates?.lat, lon: coordinates?.lng }}
+                  onChange={onGeolocationUpdate}
+                />
+              </Flex>
             )}
             <MapWrapper>
               {shouldRenderMap ? (
