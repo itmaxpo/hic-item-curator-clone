@@ -30,7 +30,6 @@ const getAllActions = (selectedItems) => {
 export const Actions = ({
   isAllSelected,
   onAllSelectClick,
-  allResults,
   onActionClick,
   selectedItems,
   itemType,

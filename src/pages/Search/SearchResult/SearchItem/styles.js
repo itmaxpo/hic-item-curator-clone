@@ -18,6 +18,15 @@ export const SearchItemWrapper = styled(FlexContainer)`
     transition: box-shadow 0.5s ease-out;
   }
 
+  &:nth-child(2) {
+    margin-top: 0px;
+  }
+
+  &:last-child {
+    margin-top: 20px !important;
+    margin-bottom: 20px;
+  }
+
   ${({ isMerged }) =>
     isMerged
       ? `

@@ -1,5 +1,9 @@
-const parseNamesIntoAreas = names =>
-  names.map(name => ({ title: name, subtitle: 'Argentina', description: 'No description found.' }))
+const parseNamesIntoAreas = (names) =>
+  names.map((name) => ({
+    title: name,
+    subtitle: 'Argentina',
+    description: 'No description found.'
+  }))
 
 export const firstPageAreaData = [
   {
@@ -169,16 +173,11 @@ export const lastPageAreaData = parseNamesIntoAreas([
   'Pedanía Sacanta'
 ])
 
-export const testItemPage = dataSet => {
+export const testItemPage = (dataSet) => {
   dataSet.forEach((el, index) => {
-    cy.get('[data-test=search-item]')
-      .eq(index)
-      .contains(el.title)
+    cy.get('[data-test=search-item]').eq(index).contains(el.title)
 
-    cy.get('[data-test=search-item]')
-      .eq(index)
-      .find('[data-test=subtitle]')
-      .contains(el.subtitle)
+    cy.get('[data-test=search-item]').eq(index).find('[data-test=subtitle]').contains(el.subtitle)
 
     cy.get('[data-test=search-item]')
       .eq(index)
@@ -265,41 +264,49 @@ export const pageAccomDataAfterMerge = [
   {
     title: 'Broadway Hotel &amp; Suites',
     subtitle: 'Argentina',
-    description: 'Broadway Hotel & Suites is located in the heart of the city'
+    description: 'Broadway Hotel & Suites is located in the heart of the city',
+    photo: '0 Photos'
   },
   {
     title: 'Lagos Del Calafate',
     subtitle: 'Argentina',
-    description: 'Unique Luxury Patagonia is located in the city of El Calafate'
+    description: 'Unique Luxury Patagonia is located in the city of El Calafate',
+    photo: '0 Photos'
   },
   {
     title: 'Pestana Buenos Aires Hotel',
     subtitle: 'Argentina',
-    description: 'Pestana Buenos Aires Hotel is located in the heart of  9 de Julio'
+    description: 'Pestana Buenos Aires Hotel is located in the heart of  9 de Julio',
+    photo: '0 Photos'
   },
   {
     title: 'Tierra del Fuego Hotel',
     subtitle: 'Ushuaia, Argentina',
-    description: 'Tierra del Fuego Hotel is in downtown Ushuaia.'
+    description: 'Tierra del Fuego Hotel is in downtown Ushuaia.',
+    photo: '0 Photos'
   },
   {
     title: 'la casa de belencita 2 ah si la numero dos',
     subtitle: 'Argentina',
-    description: 'No description found.'
+    description: 'No description found.',
+    photo: '0 Photos'
   },
   {
     title: 'la casa de belencita ah si',
     subtitle: 'Argentina',
-    description: 'No description found.'
+    description: 'No description found.',
+    photo: '0 Photos'
   },
   {
     title: 'la casita de la abuelita de belen',
     subtitle: 'Argentina',
-    description: 'No description found.'
+    description: 'No description found.',
+    photo: '0 Photos'
   },
   {
     title: 'new test',
     subtitle: 'Argentina',
-    description: 'No description found.'
+    description: 'No description found.',
+    photo: '0 Photos'
   }
 ]

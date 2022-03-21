@@ -8,8 +8,8 @@ export const parseMergedItem = (item) => {
     id: item.uuid,
     parentId: item.parent_uuid,
     type: item.item_type,
-    title: getItemFieldValue(item.fields, 'name'),
-    description: getItemFieldValue(item.fields, 'description') || 'No description found.',
+    title: getItemFieldValue('name', item.fields),
+    description: getItemFieldValue('description', item.fields) || 'No description found.',
     allImages: [],
     isLoading: true,
     isMerged: true,
@@ -17,7 +17,7 @@ export const parseMergedItem = (item) => {
   }
 }
 
-const getItemFieldValue = (fields, fieldName) => {
+const getItemFieldValue = (fieldName, fields = []) => {
   const field = fields.filter(({ field_name }) => field_name === fieldName)
 
   const engFields = field.filter(({ locale }) => locale === 'en-GB')

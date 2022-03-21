@@ -31,7 +31,7 @@ export const addElementToIndex = (arr, to, elem) => {
 }
 
 // Check for EN then DE value then whatever is there
-const getFieldValue = (field) => {
+const getFieldValue = (field = []) => {
   const engField = field.filter(({ locale }) => locale === 'en-GB')
   const deField = field.filter(({ locale }) => locale === 'de-DE')
 
@@ -82,7 +82,7 @@ export const parseItem = (item, itemType, isLoading = true) => ({
 })
 
 // give shape to the items
-const parseItems = (items, itemType) => items.map((item) => parseItem(item, itemType))
+export const parseItems = (items, itemType) => items.map((item) => parseItem(item, itemType))
 
 // eslint-disable-next-line array-callback-return
 const createArrayOfSize = (size) => Array.apply(null, Array(size)).map(() => {})

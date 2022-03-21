@@ -98,7 +98,7 @@ export const getItemNameById = (list, _id) =>
   )
 
 export const updateItemsWithArea = (listToUpdate, listWithAreas) =>
-  listToUpdate.map((item) => {
+  listToUpdate?.map((item) => {
     if (item.area) return item
 
     const area = getItemNameById(listWithAreas, item.parentId)

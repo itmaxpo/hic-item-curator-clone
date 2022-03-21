@@ -13,7 +13,6 @@ import {
   ItemTitle,
   ItemSubtitle,
   ItemDescription,
-  // BadgeWrapper,
   BadgeWrapperPhoto,
   SearchItemPhotosWrapper,
   StyledResizedImage,
@@ -39,154 +38,156 @@ import { beautifyString } from 'utils/helpers'
  * @param {Function} onItemClick
  * @param {Boolean} selectable
  */
-export const SearchItem = ({
-  item,
-  itemType,
-  index,
-  onItemSelect,
-  onItemClick,
-  updateItemRef,
-  selectedItems,
-  areaName,
-  country,
-  selectable
-}) => {
-  const [localItem, setLocalItem] = useState(item)
-  // Subtitle needs to be a separated state because for accommodations we have to
-  // fetch the item's parent fields to get the area name.
-  const [subtitle, setSubtitle] = useState(country)
+export const SearchItem = React.forwardRef(
+  (
+    {
+      item,
+      itemType,
+      index,
+      onItemSelect,
+      onItemClick,
+      updateItemRef,
+      selectedItems,
+      areaName,
+      country,
+      selectable
+    },
+    ref
+  ) => {
+    const [localItem, setLocalItem] = useState(item)
+    // Subtitle needs to be a separated state because for accommodations we have to
+    // fetch the item's parent fields to get the area name.
+    const [subtitle, setSubtitle] = useState(country)
 
-  const [isLoading, setIsLoading] = useState(item.isLoading)
+    const [isLoading, setIsLoading] = useState(item.isLoading)
 
-  const onCheckboxChange = () => {
-    const selectedItem = { ...localItem, isSelected: !localItem.isSelected }
-    onItemSelect(selectedItem, index)
-  }
+    const onCheckboxChange = () => {
+      const selectedItem = { ...localItem, isSelected: !localItem.isSelected }
+      onItemSelect(selectedItem, index)
+    }
 
-  useEffect(() => {
-    setLocalItem(item)
-  }, [item])
+    useEffect(() => {
+      setLocalItem(item)
+    }, [item])
 
-  useEffect(() => {
-    let newSubtitle
+    useEffect(() => {
+      let newSubtitle
 
-    if (country) newSubtitle = country
-    if (areaName) newSubtitle = areaName
-    if (country && areaName) newSubtitle = `${areaName}, ${country}`
+      if (country) newSubtitle = country
+      if (areaName) newSubtitle = areaName
+      if (country && areaName) newSubtitle = `${areaName}, ${country}`
 
-    if (newSubtitle) setSubtitle(newSubtitle)
-  }, [areaName, country, setSubtitle])
+      if (newSubtitle) setSubtitle(newSubtitle)
+    }, [areaName, country, setSubtitle])
 
-  useEffect(() => {
-    // Enrich item and update it's ref in parent
-    // so we don't enrich the same item twice.
-    async function getEnrichedItem() {
-      if (isLoading) {
-        setIsLoading(false)
-        const enrichedItem = await enrichItem(localItem)
-        updateItemRef(enrichedItem, localItem.isMerged)
-        setLocalItem(enrichedItem)
+    useEffect(() => {
+      // Enrich item and update it's ref in parent
+      // so we don't enrich the same item twice.
+      async function getEnrichedItem() {
+        if (isLoading) {
+          setIsLoading(false)
+          const enrichedItem = await enrichItem(localItem)
+          updateItemRef(enrichedItem, localItem.isMerged)
+          setLocalItem(enrichedItem)
+        }
       }
-    }
 
-    getEnrichedItem()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localItem, updateItemRef])
+      getEnrichedItem()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localItem, updateItemRef])
 
-  const Image = useCallback(() => {
-    const noPictures = isLoading === false && isEmpty(localItem.allImages)
+    const Image = useCallback(() => {
+      const noPictures = isLoading === false && isEmpty(localItem.allImages)
 
-    if (isLoading) return <Preloader />
+      if (isLoading) return <Preloader />
 
-    if (noPictures) {
-      return <StyledUnhappyIcon />
-    } else {
-      const coverImage = getCoverImage(localItem.allImages)
+      if (noPictures) {
+        return <StyledUnhappyIcon />
+      } else {
+        const coverImage = getCoverImage(localItem.allImages)
 
-      return (
-        <StyledResizedImage
-          src={coverImage.s3_key}
-          alt={coverImage.s3_key}
-          height="170"
-          width="280"
-        />
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localItem.allImages])
+        return (
+          <StyledResizedImage
+            src={coverImage.s3_key}
+            alt={coverImage.s3_key}
+            height="170"
+            width="280"
+          />
+        )
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localItem.allImages])
 
-  return (
-    <SearchItemWrapper
-      id={localItem.id}
-      data-test="search-item"
-      p={3 / 4}
-      direction={'ltr'}
-      isMerged={localItem.isMerged}
-    >
-      <FlexContainer p={0} alignItems={'start'} data-test="checkbox">
-        <SearchItemCheckbox
-          name="isItemSelected"
-          checked={map(selectedItems, 'id').includes(localItem.id)}
-          onChange={onCheckboxChange}
-          disabled={!selectable}
-        />
-      </FlexContainer>
+    return (
+      <SearchItemWrapper
+        id={localItem.id}
+        data-test="search-item"
+        p={3 / 4}
+        direction={'ltr'}
+        isMerged={localItem.isMerged}
+        ref={ref}
+      >
+        <FlexContainer p={0} alignItems={'start'} data-test="checkbox">
+          <SearchItemCheckbox
+            name="isItemSelected"
+            checked={map(selectedItems, 'id').includes(localItem.id)}
+            onChange={onCheckboxChange}
+            disabled={!selectable}
+          />
+        </FlexContainer>
 
-      <SearchItemContentContainer onClick={(e) => onItemClick(e, localItem)}>
-        <SearchItemInfoWrapper p={0} direction="ttb">
-          {/* TODO: Uncomment when status should be rendered */}
-          {/* <BadgeWrapper>
-              <ItemBadge width={'139px'}>
-                <StatusIndicator status={localItem.status} />
-              </ItemBadge>
-            </BadgeWrapper> */}
-          <ItemTitleWrapper justify="between">
-            <UnstyledLink
-              onClick={(e) => {
-                // stopping propagation to avoid JS clicking in parent which will open the link in current tab
-                e.stopPropagation()
-                scrollToItemManager.setItemToScrollTo(localItem.id)
-              }}
-              to={`/item/${localItem.id}?language=en-GB`}
-            >
-              <ItemTitle data-test="title">
-                <span>{localItem.title}</span>
-              </ItemTitle>
-            </UnstyledLink>
-            {item?.blocked?.markets && (
-              <BlockedMarketsChip alignItems="center" markets={item.blocked.markets} />
-            )}
-          </ItemTitleWrapper>
-          <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
-          {itemType === ACCOMMODATION_ITEM_TYPE && (
-            <Flex direction={'ltr'} align={'center'} data-test="source">
-              <Flex>
-                <Small>
-                  <Strong>Source:</Strong>
-                  {` ${beautifyString(item.source.sort((a, b) => a.localeCompare(b)).join(', '))}`}
-                </Small>
+        <SearchItemContentContainer onClick={(e) => onItemClick(e, localItem)}>
+          <SearchItemInfoWrapper p={0} direction="ttb">
+            <ItemTitleWrapper justify="between">
+              <UnstyledLink
+                onClick={(e) => {
+                  // stopping propagation to avoid JS clicking in parent which will open the link in current tab
+                  e.stopPropagation()
+                  scrollToItemManager.setItemToScrollTo(localItem.id)
+                }}
+                to={`/item/${localItem.id}?language=en-GB`}
+              >
+                <ItemTitle data-test="title">
+                  <span>{localItem.title}</span>
+                </ItemTitle>
+              </UnstyledLink>
+              {item?.blocked?.markets && (
+                <BlockedMarketsChip alignItems="center" markets={item.blocked.markets} />
+              )}
+            </ItemTitleWrapper>
+            <ItemSubtitle data-test="subtitle">{subtitle}</ItemSubtitle>
+            {itemType === ACCOMMODATION_ITEM_TYPE && (
+              <Flex direction={'ltr'} align={'center'} data-test="source">
+                <Flex>
+                  <Small>
+                    <Strong>Source:</Strong>
+                    {` ${beautifyString(
+                      item.source?.sort((a, b) => a.localeCompare(b)).join(', ')
+                    )}`}
+                  </Small>
+                </Flex>
               </Flex>
-            </Flex>
-          )}
-          <ItemDescription data-test="description">
-            <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-              {ReactHtmlParser(localItem.description)}
-            </ShowMore>
-          </ItemDescription>
-        </SearchItemInfoWrapper>
-        <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
-          <Image />
-          <BadgeWrapperPhoto data-test="photo">
-            <ItemBadge width={'95px'}>
-              <P>
-                {localItem?.allImages?.length} Photo{addSToString(localItem?.allImages?.length)}
-              </P>
-            </ItemBadge>
-          </BadgeWrapperPhoto>
-        </SearchItemPhotosWrapper>
-      </SearchItemContentContainer>
-    </SearchItemWrapper>
-  )
-}
+            )}
+            <ItemDescription data-test="description">
+              <ShowMore collapsed={true} height={'60px'} size={'18px'}>
+                {ReactHtmlParser(localItem.description)}
+              </ShowMore>
+            </ItemDescription>
+          </SearchItemInfoWrapper>
+          <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
+            <Image />
+            <BadgeWrapperPhoto data-test="photo">
+              <ItemBadge width={'95px'}>
+                <P>
+                  {localItem?.allImages?.length} Photo{addSToString(localItem?.allImages?.length)}
+                </P>
+              </ItemBadge>
+            </BadgeWrapperPhoto>
+          </SearchItemPhotosWrapper>
+        </SearchItemContentContainer>
+      </SearchItemWrapper>
+    )
+  }
+)
 
 export default SearchItem

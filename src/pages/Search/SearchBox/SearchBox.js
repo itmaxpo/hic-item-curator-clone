@@ -148,7 +148,8 @@ const SearchBox = ({
               blocked
             },
             0,
-            true
+            true,
+            0
           )
           break
         default:

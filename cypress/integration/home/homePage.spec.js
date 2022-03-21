@@ -1,13 +1,5 @@
 /* global cy before */
-import {
-  firstPageAreaData,
-  secondPageAreaData,
-  fifthPageAreaData,
-  lastPageAreaData,
-  testItemPage,
-  pageAccomData,
-  pageAccomDataAfterMerge
-} from '../../utils/utils'
+import { testItemPage, pageAccomData, pageAccomDataAfterMerge } from '../../utils/utils'
 
 describe('Homepage', () => {
   before(() => {
@@ -204,7 +196,6 @@ describe('Homepage', () => {
       'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
-
     cy.get('[data-test=searchResult]').as('searchResult')
 
     // select items for merging
@@ -245,7 +236,6 @@ describe('Homepage', () => {
     cy.get('[data-test=mergeInfoMessage]')
       .should('exist')
       .contains('Only 2 items can be merged at a time.')
-
     // click merge action button
     cy.get('@searchResult').find('#items-sticky-actions').find('[data-test=merge]').click()
 
@@ -263,8 +253,14 @@ describe('Homepage', () => {
           .contains(pageAccomData[3].subtitle)
       })
 
+    cy.route(
+      'POST',
+      'https://partners-staging.**.com/search/v1/items?test-accommodation',
+      'fixture:search/after_merge.json'
+    ).as('afterMerge')
     // merge!
-    cy.get('@mergeItems').find('[data-test=merge]').click().wait(1500)
+    cy.get('@mergeItems').find('[data-test=merge]').click()
+    cy.wait('@afterMerge')
 
     // assertions after merge
 

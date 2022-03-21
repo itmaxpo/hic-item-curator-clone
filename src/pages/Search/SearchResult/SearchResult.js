@@ -1,32 +1,21 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { isEmpty, map, flatten, uniqBy } from 'lodash'
+import { isEmpty, map, uniqBy } from 'lodash'
 import { withRouter } from 'react-router-dom'
-import { FlexContainer, ExtraSmall } from '@tourlane/tourlane-ui'
-import Pagination from 'components/Pagination'
+import { FlexContainer, H4, Big, Container } from '@tourlane/tourlane-ui'
 import Actions from './Actions'
 import {
-  paginateResults,
-  scrollToActions,
-  missingId,
   getParentNameList,
   getItemsNames,
   updateItemsWithNames,
   getItemNameById,
-  updateItemsWithArea,
-  removeMergedItems,
-  enrichItems
+  updateItemsWithArea
 } from './utils'
-import { calculateIndex } from '../utils'
 import SearchItem from './SearchItem'
-import {
-  SearchResultContainer,
-  PaginationCenteredWrapper,
-  BottomWrapper,
-  TotalItemsWrapper
-} from './styles'
+import { SearchResultContainer } from './styles'
 import MergeItems from './MergeItems'
-import { ACCOMMODATION_ITEM_TYPE, ITEMS_PER_PAGE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
+import { useNotification } from 'components/Notification'
 
 /**
  * This is component, that is responsible for rendering all search results
@@ -51,26 +40,20 @@ import { scrollToItemManager } from 'utils/ScrollToItemManager'
 export const SearchResult = withRouter(
   ({
     history,
-    results,
-    setResults,
+    results: {
+      data,
+      meta: { total_count }
+    },
     fetchMoreItems,
     isLoading,
-    locationQuery,
-    onQueryUpdate,
     itemType,
-    country,
-    page
+    country
   }) => {
-    const searchContainer = useRef(null)
     const [isAllSelected, setIsAllSelected] = useState(false)
-    const [currentPage, setCurrentPage] = useState(page || 1)
     const [selectedItems, setSelectedItems] = useState([])
     const [isMergeOpen, setIsMergeOpen] = useState(false)
-
-    const [allResults, setAllResults] = useState(paginateResults(results, ITEMS_PER_PAGE))
-    const [parentNameList, setParentNameList] = useState(
-      uniqBy(getParentNameList(allResults[currentPage - 1]), 'id')
-    )
+    const { enqueueNotification } = useNotification()
+    const [parentNameList, setParentNameList] = useState(uniqBy(getParentNameList(data, 'id')))
 
     const enrichedItemsRef = useRef([])
 
@@ -79,27 +62,14 @@ export const SearchResult = withRouter(
       else enrichedItemsRef.current.push(updatedItem)
     }, [])
 
-    /* this method returns the search results
-     * with an enriched version of the items.
-     * It is meant to be called when changing pages
-     * or after merging items so it doesn't affect performance,
-     * given that these two actions already causes a re render of the items.
-     */
-    const updateCurrentPageEnrichedItems = () => {
-      if (isEmpty(enrichedItemsRef.current)) return results
-      const enrichedResults = enrichItems(results, enrichedItemsRef.current)
-
-      enrichedItemsRef.current = []
-      return enrichedResults
-    }
     // If isSelected then add all current items to selectedItems
     const onAllSelectClick = (isSelected) => {
-      const selected = isSelected ? allResults[currentPage - 1] : []
+      const selected = isSelected ? data : []
       setSelectedItems(selected)
       setIsAllSelected(isSelected)
     }
 
-    const onActionClick = (action, items) => {
+    const onActionClick = (action) => {
       switch (action) {
         case 'merge':
           // update selected items with the area name when opening merge items modal
@@ -114,31 +84,20 @@ export const SearchResult = withRouter(
       }
     }
 
-    const onPageChange = async (page) => {
+    const onPageChange = useCallback(async () => {
       // If page changed diselect selected allItems
       setSelectedItems([])
       setIsAllSelected(false)
 
-      onQueryUpdate({ ...locationQuery, page })
-
-      setResults(updateCurrentPageEnrichedItems())
-
-      // Calculate offsetTop for searchContainer to scroll to it
-      scrollToActions(searchContainer)
-
-      // check if page is empty
-      if (allResults[page - 1].some(missingId)) {
-        try {
-          // fetch more items, then we set the current page.
-          await fetchMoreItems(null, page - 1)
-          setCurrentPage(page)
-        } catch (e) {
-          console.warn(e)
-        }
-      } else {
-        setCurrentPage(page)
+      try {
+        // fetch more items, then we set the current page.
+        await fetchMoreItems()
+      } catch (e) {
+        enqueueNotification({ variant: 'error', message: e || 'We could not fetch more' })
       }
-    }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     // Updates selectedItems array
     const onItemSelect = (updatedItem) => {
       const allIds = map(selectedItems, 'id').includes(updatedItem.id)
@@ -158,28 +117,18 @@ export const SearchResult = withRouter(
       }
     }
 
-    const onMerge = (mergedItem, itemsMerged) => {
+    const onMerge = async () => {
       setSelectedItems([])
-
-      const index = calculateIndex(currentPage - 1, ITEMS_PER_PAGE)
-
-      const newResults = removeMergedItems(updateCurrentPageEnrichedItems(), itemsMerged)
-
-      newResults.splice(index, 0, mergedItem)
-
-      setResults(newResults)
+      await fetchMoreItems(null, null, null, 0)
       window.scrollTo(0, 0)
     }
-
-    useEffect(() => {
-      setAllResults(paginateResults(results, ITEMS_PER_PAGE))
-    }, [results])
 
     // on page changes, feed the parentNameList with the new parent ids with fetched names
     useEffect(() => {
       async function getParentNames() {
         let newParentNameList = uniqBy(
-          [...parentNameList, ...getParentNameList(allResults[currentPage - 1])],
+          [...parentNameList, ...getParentNameList(data)],
+
           'id'
         )
 
@@ -194,7 +143,7 @@ export const SearchResult = withRouter(
 
       if (itemType === ACCOMMODATION_ITEM_TYPE) getParentNames()
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage])
+    }, [data])
 
     // effect to run after the user comes back from the item page
     useEffect(() => {
@@ -203,11 +152,84 @@ export const SearchResult = withRouter(
       }, 500)
     }, [])
 
-    const pages = allResults.length
-
     const onCloseMergeModal = useCallback(() => {
       setIsMergeOpen(false)
     }, [])
+
+    /**Gives us access to the DOM elements */
+    const observer = useRef(null)
+
+    /** Used to monitor when the last card comes into view */
+    const monitorNode = useCallback(
+      (node) => {
+        /**
+       *  disable the entire IntersectionObserver
+        (disconnect from Previous node that still has the observer)
+       * */
+        if (observer.current) {
+          observer.current.disconnect()
+        }
+
+        /**
+         * creating a new instance of the observer
+         * and the callback is called when the element comes into view
+         */
+        observer.current = new IntersectionObserver(async ([entry]) => {
+          if (entry.isIntersecting && data.length < total_count) {
+            await onPageChange()
+          }
+        })
+
+        if (node) {
+          observer.current.observe(node)
+        }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [onPageChange, observer, data, total_count]
+    )
+
+    const renderResults = () => {
+      if (data.length === 0 && !isLoading) {
+        return (
+          <FlexContainer justifyContent="center" fullHeight>
+            <H4>No results</H4>
+          </FlexContainer>
+        )
+      }
+
+      return (
+        <SearchResultContainer data-test="page">
+          {!isLoading && (
+            <Container p={0} pt={1} pb={1 / 2}>
+              <Big bold>{total_count} Results found</Big>
+            </Container>
+          )}
+
+          {data.map((item, index) => {
+            return (
+              <SearchItem
+                ref={data.length === index + 1 ? monitorNode : null}
+                key={item.id}
+                item={item}
+                itemType={itemType}
+                country={country}
+                areaName={getItemNameById(parentNameList, item.parentId)}
+                selectedItems={selectedItems}
+                index={index}
+                onItemSelect={onItemSelect}
+                onItemClick={onItemClick}
+                updateItemRef={updateItemRef}
+                selectable={
+                  itemType !== ACCOMMODATION_ITEM_TYPE ||
+                  selectedItems.length < 2 ||
+                  selectedItems.map(({ id }) => id).includes(item.id)
+                } /** restrict more than two items to select in the case of the accommodation */
+              />
+            )
+          })}
+        </SearchResultContainer>
+      )
+    }
 
     return (
       <FlexContainer data-test="searchResult" p={0} direction="ttb" id={'search-container'}>
@@ -218,66 +240,18 @@ export const SearchResult = withRouter(
           items={selectedItems}
           country={country}
         />
-        <Actions
-          isAllSelected={isAllSelected}
-          onAllSelectClick={onAllSelectClick}
-          allResults={allResults}
-          onActionClick={onActionClick}
-          selectedItems={selectedItems}
-          itemType={itemType}
-          selectAllRequired={itemType !== ACCOMMODATION_ITEM_TYPE}
-        />
-        {allResults.length === 0 ? (
-          <FlexContainer>No results</FlexContainer>
-        ) : (
-          <SearchResultContainer data-test="page">
-            {allResults[currentPage - 1].map((item, i) => (
-              <SearchItem
-                key={item.id}
-                item={item}
-                itemType={itemType}
-                country={country}
-                areaName={getItemNameById(parentNameList, item.parentId)}
-                selectedItems={selectedItems}
-                index={i}
-                onItemSelect={onItemSelect}
-                onItemClick={onItemClick}
-                updateItemRef={updateItemRef}
-                selectable={
-                  itemType !== ACCOMMODATION_ITEM_TYPE ||
-                  selectedItems.length < 2 ||
-                  selectedItems.map(({ id }) => id).includes(item.id)
-                } /** restrict more than two items to select in the case of the accommodation */
-              />
-            ))}
-            {/* Rendering part after all results has been shown */}
-            <BottomWrapper p={3 / 4} alignItems={'center'}>
-              {allResults.length > 1 ? (
-                <PaginationCenteredWrapper>
-                  <Pagination
-                    total={pages * ITEMS_PER_PAGE}
-                    limit={ITEMS_PER_PAGE}
-                    currentPage={currentPage}
-                    onPageChange={onPageChange}
-                  />
-
-                  <TotalItemsWrapper p={0} alignItems={'center'} direction={'ltr'}>
-                    <ExtraSmall>
-                      <span>Total pages: </span>
-                      {allResults.length}
-                    </ExtraSmall>
-                    <ExtraSmall>
-                      <span>Total items: </span>
-                      {flatten(allResults).length}
-                    </ExtraSmall>
-                  </TotalItemsWrapper>
-                </PaginationCenteredWrapper>
-              ) : (
-                <PaginationCenteredWrapper />
-              )}
-            </BottomWrapper>
-          </SearchResultContainer>
+        {selectedItems.length > 1 && (
+          <Actions
+            isAllSelected={isAllSelected}
+            onAllSelectClick={onAllSelectClick}
+            onActionClick={onActionClick}
+            selectedItems={selectedItems}
+            itemType={itemType}
+            selectAllRequired={itemType !== ACCOMMODATION_ITEM_TYPE}
+          />
         )}
+
+        {renderResults()}
       </FlexContainer>
     )
   }

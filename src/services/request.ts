@@ -89,7 +89,7 @@ export const requestJson = async <Response, Payload = any>(
     throw json?.errors ?? json?.error ?? json
   }
 
-  return response.json()
+  return response?.json()
 }
 
 export const getJson = <Response>(path: string, params?: Record<string, any>) =>

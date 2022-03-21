@@ -1,12 +1,11 @@
-import { lazy, Suspense, useState, useRef, useMemo, useEffect } from 'react'
-import { flatten, isEmpty } from 'lodash'
+import { lazy, Suspense, useState, useRef, useEffect } from 'react'
+import { isEmpty } from 'lodash'
 import queryString from 'query-string'
-
 import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
-import { calculateIndex, insertPage } from './utils'
+import { calculateIndex, parseItems } from './utils'
 import { getAreasInCountry, getAccommodations } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
@@ -18,6 +17,7 @@ import {
 import { getQueryValue } from './SearchBox/utils'
 import { SadFaceIcon } from 'components/Icon'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
+import { useNotification } from 'components/Notification'
 
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
 const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
@@ -32,6 +32,14 @@ export const NoResults = () => (
   </FlexContainer>
 )
 
+const defaultAccommodationSearchState = {
+  data: [],
+  meta: {
+    count: 0,
+    total_count: 0
+  }
+}
+
 /**
  * This is the Search Page component
  * Also it is a Home page for the app and server as '/' route
@@ -40,6 +48,7 @@ export const NoResults = () => (
  * @param {Object} history from react-router
  * @returns {Function} Search Page
  */
+
 const SearchPage = ({ history }) => {
   const parsedQuery = queryString.parse(history.location.search)
   const { areaId, countryId, name, supplier, provider, page, missingGeolocation, blocked } =
@@ -51,6 +60,9 @@ const SearchPage = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [country, setCountry] = useState(undefined)
   const [category, setCategory] = useState(parsedQuery.type)
+  const { enqueueNotification } = useNotification()
+
+  const accommodationPageOffset = useRef(0)
 
   // this feature will be killed very soon 💀...
   const onFilterByMissingGeolocation = (filterValue) => {
@@ -79,46 +91,71 @@ const SearchPage = ({ history }) => {
     onQueryUpdate({ ...query, page: undefined })
   }
 
-  const search = async (payload, page = 0, isNewSearch = false) => {
-    const index = calculateIndex(page, ITEMS_PER_PAGE)
-
-    // if its a brand new search (not fetching more items)
-    // we clear the results and set page query to first page
-    if (isNewSearch) {
-      setResults(null)
-      onQueryUpdate({ ...parsedQuery, page: 1 })
-    }
-
-    prevPayload.current = payload || prevPayload.current
-
-    // set search results
-    switch (itemTypeRef.current) {
-      case AREA_ITEM_TYPE: {
-        setIsLoading(true)
-        const { data, meta } = await getAreasInCountry(prevPayload.current, index)
-        setResults((prevResults) =>
-          insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
-        )
-        break
+  /**
+   * The offset parameter can be removed once the response for
+   * mergeItems request has been fixed on the backend.
+   */
+  const search = async (payload = null, page = 0, isNewSearch = false, offset) => {
+    try {
+      const updateSearchState = (data, meta) => {
+        const parsedItems = parseItems(data, itemTypeRef.current)
+        setResults((currentState) => {
+          const d = currentState?.data ?? []
+          return {
+            data: offset === 0 ? parsedItems : [...d, ...parsedItems],
+            meta
+          }
+        })
       }
-      case ACCOMMODATION_ITEM_TYPE: {
-        setIsLoading(true)
-        const { data, meta } = await getAccommodations(prevPayload.current, index)
-        setResults((prevResults) =>
-          insertPage(prevResults, index, data, meta.total_count, itemTypeRef.current)
-        )
-        break
+
+      const index = calculateIndex(page, ITEMS_PER_PAGE)
+
+      // if its a brand new search (not fetching more items)
+      // we clear the results and set page query to first page
+      if (isNewSearch) {
+        setResults(defaultAccommodationSearchState)
+        onQueryUpdate({ ...parsedQuery, page: 1 })
       }
-      default:
-        return
+
+      prevPayload.current = payload || prevPayload.current
+
+      // set search results
+      switch (itemTypeRef.current) {
+        case AREA_ITEM_TYPE: {
+          setIsLoading(true)
+          const { data, meta } = await getAreasInCountry(prevPayload.current, index)
+          updateSearchState(data, meta)
+          break
+        }
+        case ACCOMMODATION_ITEM_TYPE: {
+          setIsLoading(true)
+          const { data, meta } = await getAccommodations(
+            prevPayload.current,
+            offset ?? accommodationPageOffset.current + 1
+          )
+          /**
+           * if there is an offset and its zero reset
+           * accommodationPageOffset to zero. This is not the best
+           * implementation but it will do for now until we fix mergeItems response
+           * on the beckend.
+           */
+          accommodationPageOffset.current =
+            offset === 0 ? data.length : accommodationPageOffset.current + data.length
+          updateSearchState(data, meta)
+          break
+        }
+        default:
+          return
+      }
+    } catch (error) {
+      enqueueNotification({
+        variant: 'error',
+        message: error.message || 'Items could not be fetched'
+      })
     }
 
     setIsLoading(false)
   }
-
-  const flattenedResults = useMemo(() => {
-    return flatten(results)
-  }, [results])
 
   // effect to update local values with query values
   useEffect(() => {
@@ -150,6 +187,7 @@ const SearchPage = ({ history }) => {
      * - user comes back from 'go to Area'
      * - user is on accommodation tab but haven't selected country nor supplier
      */
+
     if (
       !itemTypeRef.current ||
       itemTypeRef.current === COUNTRY_ITEM_TYPE ||
@@ -158,7 +196,6 @@ const SearchPage = ({ history }) => {
       (itemTypeRef.current === ACCOMMODATION_ITEM_TYPE && !(countryId || supplier))
     )
       return
-
     search(
       {
         country: countryId,
@@ -193,34 +230,29 @@ const SearchPage = ({ history }) => {
 
         {isLoading && <StyledLoader />}
 
-        <Suspense fallback={<StyledLoader />}>
-          {category === ACTIVITY_ITEM_TYPE ? (
-            <ActivitiesSearchResult
+        {category === ACTIVITY_ITEM_TYPE ? (
+          <ActivitiesSearchResult
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            locationQuery={parsedQuery}
+            onQueryUpdate={onQueryUpdate}
+          />
+        ) : (
+          !isEmpty(results) && (
+            <SearchResult
+              results={results}
+              fetchMoreItems={search}
               isLoading={isLoading}
-              setIsLoading={setIsLoading}
               locationQuery={parsedQuery}
               onQueryUpdate={onQueryUpdate}
+              itemType={itemTypeRef.current}
+              country={country}
+              page={Number(parsedQuery.page)}
             />
-          ) : (
-            !isEmpty(flattenedResults) && (
-              <SearchResult
-                results={flattenedResults}
-                setResults={(newResults) => {
-                  setResults(newResults)
-                }}
-                fetchMoreItems={search}
-                isLoading={isLoading}
-                locationQuery={parsedQuery}
-                onQueryUpdate={onQueryUpdate}
-                itemType={itemTypeRef.current}
-                country={country}
-                page={Number(parsedQuery.page)}
-              />
-            )
-          )}
-        </Suspense>
+          )
+        )}
 
-        {results && isEmpty(flattenedResults) && !isLoading && <NoResults />}
+        {results && isEmpty(results) && !isLoading && <NoResults />}
       </Wrapper>
     </Layout>
   )
