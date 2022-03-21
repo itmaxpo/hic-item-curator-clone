@@ -122,7 +122,7 @@ const replaceDots = (str) => trim(str, '.').replaceAll('.', ' ')
  */
 export const generateSearchQueryAccom = (
   country,
-  area,
+  area = undefined,
   supplier,
   _name,
   filterByMissingGeolocation,

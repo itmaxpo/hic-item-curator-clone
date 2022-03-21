@@ -1,15 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, FormEvent, FC } from 'react'
 import { Collapse } from '@material-ui/core'
 import TruncateMarkup from 'react-truncate-markup'
 import { Wrapper, ButtonWrapper, BlockTextWrapper } from './styles'
 
+interface ICollapsable {
+  lines?: number
+  height?: string
+  size?: string
+  collapsed?: boolean
+}
 /**
  * Component serves as a wrapper for the text components, that need to have
  * show more/less text functionality
  *
  * @param height (optional) Provide height of collapsed block
  */
-const Collapsable = ({ children, lines = 2, height = '60px', size = '18px' }) => {
+const Collapsable: FC<ICollapsable> = ({ children, lines = 2, height = '60px', size = '18px' }) => {
   // We use 2 states to make sure the collapse transition happens before the
   // text is truncated.
   const [isCollapsed, setIsCollapsed] = useState(true)
@@ -17,17 +23,19 @@ const Collapsable = ({ children, lines = 2, height = '60px', size = '18px' }) =>
   // To switch between:
   //   - showing all content
   //   - showing show/more button with Collapsable logic
-  const [isDescMoreShown, setIsDescMoreShown] = useState(0)
+  const [isDescMoreShown, setIsDescMoreShown] = useState<boolean>(false)
 
-  const ref = useRef()
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // We are showing just {chidlren} if scrollHeght of parent
     // is smaller then height provided
-    setIsDescMoreShown(ref.current.scrollHeight > parseInt(height))
+    if (ref.current) {
+      setIsDescMoreShown(ref.current.scrollHeight > parseInt(height))
+    }
   }, [ref, height])
 
-  const toggleLines = (event) => {
+  const toggleLines = (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
     setIsTruncated((v) => !v)

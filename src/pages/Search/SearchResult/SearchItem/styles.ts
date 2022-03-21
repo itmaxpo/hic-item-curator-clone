@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom'
 import { UnhappyIcon } from 'components/Icon'
 import ResizedImage from 'components/ResizedImage'
 
-export const SearchItemWrapper = styled(FlexContainer)`
+interface ISearchItemWrapper {
+  isMerged: boolean
+}
+export const SearchItemWrapper = styled(FlexContainer)<ISearchItemWrapper>`
   margin-bottom: 20px;
   border-radius: 4px;
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
@@ -86,7 +89,10 @@ export const BadgeWrapper = styled.div`
   font-weight: 600;
 `
 
-export const SearchItemPhotosWrapper = styled(FlexContainer)`
+interface ISearchItemPhotosWrapper {
+  isEmpty: boolean
+}
+export const SearchItemPhotosWrapper = styled(FlexContainer)<ISearchItemPhotosWrapper>`
   width: 280px;
   height: 170px;
   position: relative;

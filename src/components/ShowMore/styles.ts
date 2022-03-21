@@ -1,7 +1,12 @@
 import styled, { css } from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
+import { ForwardedRef } from 'react'
+interface IWrapper {
+  isCollapsed: boolean
+  ref: ForwardedRef<HTMLDivElement>
+}
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<IWrapper>`
   div.MuiCollapse-wrapperInner {
     ${({ isCollapsed }) =>
       !isCollapsed &&
@@ -11,14 +16,20 @@ export const Wrapper = styled.div`
   }
 `
 
-export const BlockTextWrapper = styled.div`
+interface IBlockTextWrapper {
+  size: string
+}
+
+export const BlockTextWrapper = styled.div<IBlockTextWrapper>`
   font-family: 'Source Sans Pro', sans-serif;
   ${({ size }) => `font-size: ${size}`};
   line-height: 1.4;
   height: 100%;
 `
-
-export const ButtonWrapper = styled.span`
+interface IButtonWrapper {
+  isCollapsed?: boolean
+}
+export const ButtonWrapper = styled.span<IButtonWrapper>`
   font-weight: 600;
   font-size: 18px;
 

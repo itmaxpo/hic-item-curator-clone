@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { isEmpty, map, uniqBy } from 'lodash'
-import { withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { FlexContainer, H4, Big, Container } from '@tourlane/tourlane-ui'
 import Actions from './Actions'
 import {
@@ -16,27 +16,27 @@ import MergeItems from './MergeItems'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import { useNotification } from 'components/Notification'
+import { IParsedResults, IParseItem } from '../Search'
+import { ISearchQueryAccom } from 'services/searchApi'
 
-/**
- * This is component, that is responsible for rendering all search results
- * Will receive Array<SearchResult> and transform it to Array<Array<SearchResult>>
- * for pagination feature
- * Wrapped in withRouter HOC to have access to <history>
- *
- *
- * @name SearchResult
- * @param {Object} history from react-router
- * @param {Array} results (results from search)
- * @param {Function} setResults - callback to update results from search - used to enrich items
- * @param {Function} fetchMoreItems - fetch missing items, as we only fetch chunks of 40 items
- * @param {Boolean} isLoading - search is in progress
- * @param {Object} locationQuery - query url
- * @param {Function} onQueryUpdate - callback to update query url
- * @param {String} itemType - type of items searched and displayed
- * @param {String} country - country of items searched and displayed
- * @param {Object} history from react-router
- * @returns {Function} Search Result component
- */
+export type ISelectedItems = { id: string }[]
+export type ItemClickEvent = MouseEvent & {
+  target: HTMLDivElement
+}
+interface SearchResultpProps extends RouteComponentProps {
+  results: IParsedResults
+  fetchMoreItems: (
+    payload?: ISearchQueryAccom,
+    page?: number,
+    isNewSearch?: boolean,
+    offset?: number
+  ) => Promise<void>
+  isLoading: boolean
+  itemType: string | undefined
+  country: string | undefined
+  page: number
+}
+
 export const SearchResult = withRouter(
   ({
     history,
@@ -48,28 +48,29 @@ export const SearchResult = withRouter(
     isLoading,
     itemType,
     country
-  }) => {
+  }: SearchResultpProps) => {
     const [isAllSelected, setIsAllSelected] = useState(false)
-    const [selectedItems, setSelectedItems] = useState([])
+    const [selectedItems, setSelectedItems] = useState<ISelectedItems>([])
     const [isMergeOpen, setIsMergeOpen] = useState(false)
     const { enqueueNotification } = useNotification()
-    const [parentNameList, setParentNameList] = useState(uniqBy(getParentNameList(data, 'id')))
+    //@ts-ignore
+    const [parentNameList, setParentNameList] = useState(uniqBy(getParentNameList(data)))
 
-    const enrichedItemsRef = useRef([])
+    const enrichedItemsRef = useRef<IParseItem[]>([])
 
-    const updateItemRef = useCallback((updatedItem, isMerged) => {
+    const updateItemRef = useCallback((updatedItem: IParseItem, isMerged) => {
       if (isMerged) enrichedItemsRef.current = [updatedItem, ...enrichedItemsRef.current]
       else enrichedItemsRef.current.push(updatedItem)
     }, [])
 
     // If isSelected then add all current items to selectedItems
-    const onAllSelectClick = (isSelected) => {
+    const onAllSelectClick = (isSelected: boolean) => {
       const selected = isSelected ? data : []
       setSelectedItems(selected)
       setIsAllSelected(isSelected)
     }
 
-    const onActionClick = (action) => {
+    const onActionClick = (action: string) => {
       switch (action) {
         case 'merge':
           // update selected items with the area name when opening merge items modal
@@ -92,14 +93,14 @@ export const SearchResult = withRouter(
       try {
         // fetch more items, then we set the current page.
         await fetchMoreItems()
-      } catch (e) {
+      } catch (e: any) {
         enqueueNotification({ variant: 'error', message: e || 'We could not fetch more' })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Updates selectedItems array
-    const onItemSelect = (updatedItem) => {
+    const onItemSelect = (updatedItem: { id: string }) => {
       const allIds = map(selectedItems, 'id').includes(updatedItem.id)
         ? selectedItems.filter(({ id }) => id !== updatedItem.id)
         : [...selectedItems, updatedItem]
@@ -107,7 +108,7 @@ export const SearchResult = withRouter(
       setSelectedItems(allIds)
     }
 
-    const onItemClick = (e, item) => {
+    const onItemClick = (e: ItemClickEvent, item: IParseItem) => {
       // Prevent clicking event before item loaded || 'show more' clicked
       if (item.isLoading || e.target.nodeName === 'BUTTON') {
         e.preventDefault()
@@ -119,7 +120,7 @@ export const SearchResult = withRouter(
 
     const onMerge = async () => {
       setSelectedItems([])
-      await fetchMoreItems(null, null, null, 0)
+      await fetchMoreItems(undefined, undefined, undefined, 0)
       window.scrollTo(0, 0)
     }
 
@@ -157,7 +158,7 @@ export const SearchResult = withRouter(
     }, [])
 
     /**Gives us access to the DOM elements */
-    const observer = useRef(null)
+    const observer = useRef<IntersectionObserver | null>(null)
 
     /** Used to monitor when the last card comes into view */
     const monitorNode = useCallback(
@@ -205,7 +206,7 @@ export const SearchResult = withRouter(
             </Container>
           )}
 
-          {data.map((item, index) => {
+          {data.map((item, index: number) => {
             return (
               <SearchItem
                 ref={data.length === index + 1 ? monitorNode : null}
@@ -215,11 +216,10 @@ export const SearchResult = withRouter(
                 country={country}
                 areaName={getItemNameById(parentNameList, item.parentId)}
                 selectedItems={selectedItems}
-                index={index}
                 onItemSelect={onItemSelect}
                 onItemClick={onItemClick}
                 updateItemRef={updateItemRef}
-                selectable={
+                isSelectable={
                   itemType !== ACCOMMODATION_ITEM_TYPE ||
                   selectedItems.length < 2 ||
                   selectedItems.map(({ id }) => id).includes(item.id)

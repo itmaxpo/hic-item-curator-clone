@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, ForwardedRef } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import { isEmpty, map } from 'lodash'
 import ShowMore from 'components/ShowMore'
@@ -26,33 +26,35 @@ import BlockedMarketsChip from 'pages/Item/ItemLayout/Blocking/BlockedMarketsChi
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { beautifyString } from 'utils/helpers'
+import { IParseItem } from 'pages/Search/Search'
+import { ItemClickEvent } from '../SearchResult'
 
-/**
- * This component is rendering item with ability to select/deselect
- * and showing more description or not
- *
- * @param {Object} item
- * @param {Number} index
- * @param {Function} onSelect
- * @param {Array<String>} selectedItems
- * @param {Function} onItemClick
- * @param {Boolean} selectable
- */
+interface ISearchItem {
+  item: IParseItem
+  selectedItems: { id: string }[]
+  onItemClick: (e: ItemClickEvent, item: IParseItem) => void
+  isSelectable: boolean
+  itemType: string | undefined
+  updateItemRef: (enrichedItem: any, isMerged: boolean) => void
+  areaName: string
+  country: string | undefined
+  onItemSelect: (updatedItem: { id: string }) => void
+}
+
 export const SearchItem = React.forwardRef(
   (
     {
       item,
       itemType,
-      index,
       onItemSelect,
       onItemClick,
       updateItemRef,
       selectedItems,
       areaName,
       country,
-      selectable
-    },
-    ref
+      isSelectable
+    }: ISearchItem,
+    ref: ForwardedRef<HTMLDivElement>
   ) => {
     const [localItem, setLocalItem] = useState(item)
     // Subtitle needs to be a separated state because for accommodations we have to
@@ -63,7 +65,7 @@ export const SearchItem = React.forwardRef(
 
     const onCheckboxChange = () => {
       const selectedItem = { ...localItem, isSelected: !localItem.isSelected }
-      onItemSelect(selectedItem, index)
+      onItemSelect(selectedItem)
     }
 
     useEffect(() => {
@@ -96,9 +98,8 @@ export const SearchItem = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localItem, updateItemRef])
 
+    const noPictures = isLoading === false && isEmpty(localItem.allImages)
     const Image = useCallback(() => {
-      const noPictures = isLoading === false && isEmpty(localItem.allImages)
-
       if (isLoading) return <Preloader />
 
       if (noPictures) {
@@ -132,11 +133,13 @@ export const SearchItem = React.forwardRef(
             name="isItemSelected"
             checked={map(selectedItems, 'id').includes(localItem.id)}
             onChange={onCheckboxChange}
-            disabled={!selectable}
+            disabled={!isSelectable}
           />
         </FlexContainer>
 
-        <SearchItemContentContainer onClick={(e) => onItemClick(e, localItem)}>
+        <SearchItemContentContainer
+          onClick={(e) => onItemClick(e as unknown as ItemClickEvent, localItem)}
+        >
           <SearchItemInfoWrapper p={0} direction="ttb">
             <ItemTitleWrapper justify="between">
               <UnstyledLink
@@ -174,10 +177,10 @@ export const SearchItem = React.forwardRef(
               </ShowMore>
             </ItemDescription>
           </SearchItemInfoWrapper>
-          <SearchItemPhotosWrapper p={0} isEmpty={isEmpty}>
+          <SearchItemPhotosWrapper p={0} isEmpty={noPictures}>
             <Image />
             <BadgeWrapperPhoto data-test="photo">
-              <ItemBadge width={'95px'}>
+              <ItemBadge width="95px">
                 <P>
                   {localItem?.allImages?.length} Photo{addSToString(localItem?.allImages?.length)}
                 </P>

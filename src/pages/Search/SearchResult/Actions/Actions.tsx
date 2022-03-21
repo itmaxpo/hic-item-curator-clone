@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Checkbox, Flex, Tooltip, ExtraSmall, IconButton, COLORS } from '@tourlane/tourlane-ui'
 import InfoIcon from '@tourlane/iconography/Glyphs/Notifications/Info'
 import { ActionsWrapper, ActionIcons, ActionButton, MergeInfoWrapper } from './styles'
 import { MergeIcon } from 'components/Icon'
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { ISelectedItems } from '../SearchResult'
 
-const getAllActions = (selectedItems) => {
+const getAllActions = (selectedItems: ISelectedItems) => {
   return [
     {
       icon: () => <MergeIcon />,
@@ -16,6 +17,15 @@ const getAllActions = (selectedItems) => {
   ]
 }
 
+interface IActions {
+  isAllSelected: boolean
+  onAllSelectClick: Function
+  onActionClick: Function
+  selectedItems: ISelectedItems
+
+  itemType: string | undefined
+  selectAllRequired: boolean
+}
 /**
  * This component renders a toolbar with actions for items, like merge
  *
@@ -27,7 +37,7 @@ const getAllActions = (selectedItems) => {
  * @param {Boolean} selectAllRequired         (it will decide either to show select all checkbox or not)
  * @param {string} itemType                   (item type from utils/constants)
  */
-export const Actions = ({
+export const Actions: FC<IActions> = ({
   isAllSelected,
   onAllSelectClick,
   onActionClick,
@@ -37,7 +47,7 @@ export const Actions = ({
 }) => {
   const availableActions = getAllActions(selectedItems)
 
-  const onClick = ({ action }) => {
+  const onClick = ({ action }: { action: string }) => {
     onActionClick(action, selectedItems)
   }
 
@@ -47,7 +57,6 @@ export const Actions = ({
     <ActionsWrapper p={3 / 4} alignItems={'center'} id={'items-sticky-actions'}>
       {selectAllRequired && (
         <Checkbox
-          value={isAllSelected}
           name="isAllItemsSelected"
           checked={isAllSelected}
           onChange={() => onAllSelectClick(!isAllSelected)}

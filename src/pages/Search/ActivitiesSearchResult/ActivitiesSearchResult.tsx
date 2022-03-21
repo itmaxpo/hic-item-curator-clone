@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import flatten from 'lodash/flatten'
 
 import { ExtraSmall, FlexContainer, H4 } from '@tourlane/tourlane-ui'
@@ -18,11 +18,17 @@ import { missingId, paginateResults, scrollToActions } from './utils'
 import { calculateIndex, insertPage } from '../utils'
 import { getActivities } from 'services/searchApi'
 import { NoResults } from '../Search'
+import { ParsedQuery } from 'query-string'
 
+interface IActivitiesSearchResult extends RouteComponentProps {
+  locationQuery: ParsedQuery<string>
+  onQueryUpdate: Function
+  setIsLoading: Function
+  isLoading: boolean
+}
 export const ActivitiesSearchResult = withRouter(
-  ({ history, locationQuery, onQueryUpdate, setIsLoading, isLoading }) => {
-    const { areaId, countryId, name, supplier, provider, missingGeolocation, blocked } =
-      locationQuery
+  ({ history, locationQuery, onQueryUpdate, setIsLoading, isLoading }: IActivitiesSearchResult) => {
+    const { countryId, name, supplier, provider } = locationQuery
     const searchContainer = useRef(null)
     const [currentPage, setCurrentPage] = useState(Number(locationQuery.page) || 1)
     const [activities, setActivities] = useState([])
@@ -30,19 +36,16 @@ export const ActivitiesSearchResult = withRouter(
     // Find diff between activities & results
     const paginatedResults = paginateResults(activities, ITEMS_PER_PAGE)
 
-    const searchActivities = async (page) => {
+    const searchActivities = async (page?: number) => {
       setIsLoading(true)
       const index = calculateIndex(page ? page - 1 : currentPage - 1, ITEMS_PER_PAGE)
 
       const { data, meta } = await getActivities(
         {
-          country: countryId,
-          area: areaId,
-          name,
-          supplier,
-          provider,
-          missingGeolocation: missingGeolocation === 'true',
-          blocked: blocked === 'true'
+          country: countryId as string,
+          name: name as string,
+          supplier: supplier as string,
+          provider: provider as string
         },
         index
       )
@@ -51,7 +54,7 @@ export const ActivitiesSearchResult = withRouter(
       setIsLoading(false)
     }
 
-    const onPageChange = async (page) => {
+    const onPageChange = async (page: number) => {
       onQueryUpdate({ ...locationQuery, page })
       // Calculate offsetTop for searchContainer to scroll to it
       scrollToActions(searchContainer)
@@ -67,7 +70,12 @@ export const ActivitiesSearchResult = withRouter(
       }
     }
 
-    const onItemClick = (e, activity) => {
+    const onItemClick = (
+      e: Event & {
+        target: HTMLButtonElement
+      },
+      activity: { uuid: string; isLoading: boolean }
+    ) => {
       // Prevent clicking event before item loaded || 'show more' clicked
       if (activity.isLoading || e.target.nodeName === 'BUTTON') {
         e.preventDefault()
@@ -107,6 +115,7 @@ export const ActivitiesSearchResult = withRouter(
             <BottomWrapper p={3 / 4} alignItems={'center'}>
               {paginatedResults.length > 1 ? (
                 <PaginationCenteredWrapper>
+                  {/* @ts-ignore */}
                   <Pagination
                     total={paginatedResults.length * ITEMS_PER_PAGE}
                     limit={ITEMS_PER_PAGE}

@@ -8,6 +8,27 @@ import {
 
 const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
 
+export interface IData {
+  id: string
+  parent_uuid: string
+  item_type: string
+  fields: {
+    name: string
+    description: string
+    blocked: string
+    dmc_id: string
+    external_id: string
+  }
+  isMerged: boolean
+}
+export type meta = {
+  total_count: number
+  count: number
+}
+interface ApiResults {
+  data: IData[]
+  meta: meta
+}
 const nameProperties = ['name', 'original_name']
 /**
  * Returns countries filtered by name
@@ -16,11 +37,12 @@ const nameProperties = ['name', 'original_name']
  * @param {String} name
  * @returns {Object}
  */
-const getCountries = async (name) => {
+const getCountries = async (name: string) => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res
   // add a condition to modify request if it is e2e test environment
+  // @ts-ignore
   if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${SEARCH_API_URL}?test-country`, {})
   } else {
@@ -49,11 +71,16 @@ const getCountries = async (name) => {
  * @param {Number} limit
  * @returns {Object}
  */
-const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
+const getAreasInCountry = async (
+  { name = '', country = '' }: { name: string; country: string },
+  offset = 0,
+  limit = 40
+): Promise<{ data: any; meta: meta }> => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
   let res
   // add a condition to modify request if it is e2e test environment
+  // @ts-ignore
   if (window.Cypress || process.env.REACT_APP_CI) {
     res = await request('POST', `${SEARCH_API_URL}?test-area`, {})
   } else {
@@ -79,23 +106,38 @@ const getAreasInCountry = async ({ name, country }, offset = 0, limit = 40) => {
 
   return res.json()
 }
+export type SearchQuery = string | string[] | null
 
-/**
- * Returns accommodations
- *
- * @name getAccommodations
- * @param {Object} payload { country, area, name, supplier }
- * @param {Number} offset
- * @param {Number} limit
- * @returns {Object}
- */
+export interface ISearchQueryAccom {
+  country: string
+  area: string | undefined
+  name: string
+  supplier: string
+  provider?: SearchQuery
+  missingGeolocation?: boolean
+  blocked?: boolean
+}
+
+declare global {
+  interface Window {
+    Cypress: object
+  }
+}
+
 const getAccommodations = async (
-  { country, area, name = '', supplier = '', missingGeolocation = false, blocked = false },
-  offset = 0,
-  limit = 40
-) => {
+  {
+    country,
+    area,
+    name = '',
+    supplier = '',
+    missingGeolocation = false,
+    blocked = false
+  }: ISearchQueryAccom,
+  offset: number = 0,
+  limit: number = 40
+): Promise<ApiResults> => {
   const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
-
+  area = !!area ? area : undefined
   let res
   // add a condition to modify request if it is e2e test environment
   if (window.Cypress || process.env.REACT_APP_CI) {
@@ -124,7 +166,6 @@ const getAccommodations = async (
       }
     })
   }
-
   return res.json()
 }
 

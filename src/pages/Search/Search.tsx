@@ -1,12 +1,19 @@
-import { lazy, Suspense, useState, useRef, useEffect } from 'react'
+import { lazy, Suspense, useState, useRef, useEffect, FC } from 'react'
 import { isEmpty } from 'lodash'
-import queryString from 'query-string'
+import queryString, { ParsedQuery } from 'query-string'
 import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
+import { RouteComponentProps } from 'react-router-dom'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, parseItems } from './utils'
-import { getAreasInCountry, getAccommodations } from 'services/searchApi'
+import {
+  getAreasInCountry,
+  getAccommodations,
+  IData,
+  meta,
+  ISearchQueryAccom
+} from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
@@ -19,10 +26,11 @@ import { SadFaceIcon } from 'components/Icon'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import { useNotification } from 'components/Notification'
 
+// @ts-ignore
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
 const SearchResult = lazy(() => import(/* webpackChunkName: "SearchResult" */ './SearchResult'))
-const ActivitiesSearchResult = lazy(() =>
-  import(/* webpackChunkName: "ActivitiesSearchResult" */ './ActivitiesSearchResult')
+const ActivitiesSearchResult = lazy(
+  () => import(/* webpackChunkName: "ActivitiesSearchResult" */ './ActivitiesSearchResult')
 )
 
 export const NoResults = () => (
@@ -32,6 +40,24 @@ export const NoResults = () => (
   </FlexContainer>
 )
 
+export interface IParseItem {
+  id: string
+  parentId: string
+  type: string
+  title: string
+  description: string
+  allImages: string[]
+  isLoading: boolean
+  isMerged: boolean
+  blocked?: { markets: string }
+  source: string[]
+  isSelected: boolean
+}
+
+export interface IParsedResults {
+  data: IParseItem[]
+  meta: meta
+}
 const defaultAccommodationSearchState = {
   data: [],
   meta: {
@@ -40,23 +66,14 @@ const defaultAccommodationSearchState = {
   }
 }
 
-/**
- * This is the Search Page component
- * Also it is a Home page for the app and server as '/' route
- *
- * @name SearchPage
- * @param {Object} history from react-router
- * @returns {Function} Search Page
- */
-
-const SearchPage = ({ history }) => {
+const SearchPage: FC<RouteComponentProps> = ({ history }) => {
   const parsedQuery = queryString.parse(history.location.search)
   const { areaId, countryId, name, supplier, provider, page, missingGeolocation, blocked } =
     parsedQuery
 
-  const prevPayload = useRef(undefined)
-  const itemTypeRef = useRef(undefined)
-  const [results, setResults] = useState(null)
+  const prevPayload = useRef<any>(undefined)
+  const itemTypeRef = useRef<any>(undefined)
+  const [results, setResults] = useState<IParsedResults | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [country, setCountry] = useState(undefined)
   const [category, setCategory] = useState(parsedQuery.type)
@@ -65,14 +82,14 @@ const SearchPage = ({ history }) => {
   const accommodationPageOffset = useRef(0)
 
   // this feature will be killed very soon 💀...
-  const onFilterByMissingGeolocation = (filterValue) => {
+  const onFilterByMissingGeolocation = (filterValue: string) => {
     onQueryUpdate({
       ...parsedQuery,
       missingGeolocation: filterValue
     })
     setResults(null)
   }
-  const onFilterByBlocklist = (isBlocked) => {
+  const onFilterByBlocklist = (isBlocked: 'true' | 'false') => {
     onQueryUpdate({
       ...parsedQuery,
       blocked: isBlocked
@@ -81,23 +98,29 @@ const SearchPage = ({ history }) => {
   }
 
   // changes query in URL
-  const onQueryUpdate = (query) => {
+  const onQueryUpdate = (query: ParsedQuery<string>) => {
     history.push(`?${queryString.stringify(query)}`)
     scrollToItemManager.setItemToScrollTo(null)
   }
 
   // changes query for SearchBox - so it clears "page" query
-  const searchBoxQueryUpdate = (query) => {
-    onQueryUpdate({ ...query, page: undefined })
+  const searchBoxQueryUpdate = (query: ParsedQuery<string>) => {
+    onQueryUpdate({ ...query, page: null })
   }
 
   /**
    * The offset parameter can be removed once the response for
    * mergeItems request has been fixed on the backend.
    */
-  const search = async (payload = null, page = 0, isNewSearch = false, offset) => {
+
+  const search = async (
+    payload?: ISearchQueryAccom,
+    page?: number,
+    isNewSearch?: boolean,
+    offset?: number
+  ): Promise<void> => {
     try {
-      const updateSearchState = (data, meta) => {
+      const updateSearchState = (data: IData[], meta: meta) => {
         const parsedItems = parseItems(data, itemTypeRef.current)
         setResults((currentState) => {
           const d = currentState?.data ?? []
@@ -108,13 +131,13 @@ const SearchPage = ({ history }) => {
         })
       }
 
-      const index = calculateIndex(page, ITEMS_PER_PAGE)
+      const index = calculateIndex(page ?? 0, ITEMS_PER_PAGE)
 
       // if its a brand new search (not fetching more items)
       // we clear the results and set page query to first page
       if (isNewSearch) {
         setResults(defaultAccommodationSearchState)
-        onQueryUpdate({ ...parsedQuery, page: 1 })
+        onQueryUpdate({ ...parsedQuery, page: String(1) })
       }
 
       prevPayload.current = payload || prevPayload.current
@@ -123,7 +146,7 @@ const SearchPage = ({ history }) => {
       switch (itemTypeRef.current) {
         case AREA_ITEM_TYPE: {
           setIsLoading(true)
-          const { data, meta } = await getAreasInCountry(prevPayload.current, index)
+          const { data, meta } = await getAreasInCountry(prevPayload?.current, index)
           updateSearchState(data, meta)
           break
         }
@@ -131,7 +154,7 @@ const SearchPage = ({ history }) => {
           setIsLoading(true)
           const { data, meta } = await getAccommodations(
             prevPayload.current,
-            offset ?? accommodationPageOffset.current + 1
+            offset ?? accommodationPageOffset.current
           )
           /**
            * if there is an offset and its zero reset
@@ -147,7 +170,7 @@ const SearchPage = ({ history }) => {
         default:
           return
       }
-    } catch (error) {
+    } catch (error: any) {
       enqueueNotification({
         variant: 'error',
         message: error.message || 'Items could not be fetched'
@@ -164,9 +187,9 @@ const SearchPage = ({ history }) => {
     // set country
     if (
       parsedQuery.countryId &&
-      country !== getQueryValue(parsedQuery, 'countryName', 'countryId').label
+      country !== getQueryValue(parsedQuery, 'countryName', 'countryId')?.label
     ) {
-      setCountry(getQueryValue(parsedQuery, 'countryName', 'countryId').label)
+      setCountry(getQueryValue(parsedQuery, 'countryName', 'countryId')?.label)
     }
 
     if (!parsedQuery.countryId) {
@@ -198,15 +221,17 @@ const SearchPage = ({ history }) => {
       return
     search(
       {
-        country: countryId,
-        area: areaId,
-        name,
-        supplier,
+        country: countryId as string,
+        area: areaId as string,
+        name: name as string,
+        supplier: supplier as string,
         provider,
         missingGeolocation: missingGeolocation === 'true',
         blocked: blocked === 'true'
       },
-      page - 1 || 0
+      page ? Number(page) - 1 : 0,
+      true,
+      0
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -238,13 +263,11 @@ const SearchPage = ({ history }) => {
             onQueryUpdate={onQueryUpdate}
           />
         ) : (
-          !isEmpty(results) && (
+          !!results && (
             <SearchResult
               results={results}
               fetchMoreItems={search}
               isLoading={isLoading}
-              locationQuery={parsedQuery}
-              onQueryUpdate={onQueryUpdate}
               itemType={itemTypeRef.current}
               country={country}
               page={Number(parsedQuery.page)}

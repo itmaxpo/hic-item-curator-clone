@@ -1,7 +1,12 @@
 import styled from 'styled-components'
 import { COLORS } from '@tourlane/tourlane-ui'
 
-export const BadgeWrapper = styled.div`
+interface IBadgeWrapper {
+  width: string
+  background?: string
+  color?: string
+}
+export const BadgeWrapper = styled.div<IBadgeWrapper>`
   width: ${({ width }) => width};
   box-sizing: border-box;
   padding: 6px 16px;
