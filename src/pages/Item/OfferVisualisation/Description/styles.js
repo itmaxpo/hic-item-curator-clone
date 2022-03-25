@@ -20,7 +20,6 @@ export const TitleContainer = styled(FlexContainer)`
 
 export const StyledTitleWithContent = styled(TitleWithContent)`
   overflow: hidden;
-  padding-bottom: 20px;
 `
 
 export const RichTextEditorLoader = () => <Skeleton height="235px" />

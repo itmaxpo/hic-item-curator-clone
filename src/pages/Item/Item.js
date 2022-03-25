@@ -120,7 +120,10 @@ const ItemPage = ({ match, history }) => {
 
     try {
       await Promise.all([updateAttachments(), updateItemFields(item.id, fields, item.type)]).then(
-        async () => {
+        ([attachment, fields]) => {
+          const error = attachment?.error ?? fields?.error
+          if (error) throw new Error(error)
+
           // Set original item to current item
           originalItem.current = { ...item, locales: currentLocales }
           // Update originals for Images
@@ -136,7 +139,7 @@ const ItemPage = ({ match, history }) => {
     } catch (e) {
       enqueueNotification({
         variant: 'error',
-        message: 'Failed to edit item, try again or refresh the page'
+        message: `Failed to edit item ` + e.message
       })
       console.error(e)
     }
@@ -161,8 +164,7 @@ const ItemPage = ({ match, history }) => {
     let fetchedImages = [],
       offset = 0
 
-    const language = get(queryString.parse(window.location.search), 'language') || 'en-GB'
-
+    const language = queryString.parse(window.location.search)?.language ?? 'en-GB'
     const fetchAdditionalInformation = async (item) => {
       switch (item.type) {
         case AREA_ITEM_TYPE:
@@ -289,7 +291,6 @@ const ItemPage = ({ match, history }) => {
     // initially all we have is the item ID but no locale
     if (!item.locales) return
     const { language } = queryString.parse(history.location.search)
-
     const localeUpdatedItem = changeItemLocale(item, language)
     dispatch({ type: 'updateAll', value: localeUpdatedItem })
     // originalItem has to reflect the item original structure based on a specific language

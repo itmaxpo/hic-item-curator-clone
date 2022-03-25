@@ -12,13 +12,6 @@ const DraggableGallery = lazy(() =>
   import(/* webpackChunkName: "DraggableGallery" */ 'components/DraggableGallery')
 )
 
-/**
- * This is a component to upload images and add them to library
- *
- * @name ImageUploader
- * @param {Function} onUploadDrop
- * @param {Boolean} isEditing
- */
 const ImageUploader = ({
   id,
   allImages,

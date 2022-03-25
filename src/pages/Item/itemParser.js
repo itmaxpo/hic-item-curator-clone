@@ -42,9 +42,10 @@ export const FIELD_ACCOMM_RANKING = 'ranking'
 export const FIELD_VISUALIZATION_DESTINATION = 'visualization_destination'
 export const FIELD_DMC_ID = 'dmc_id'
 export const FIELD_EXTERNAL_ID = 'external_id'
+export const FIELD_OFFER_PREVIEW = 'offer_preview'
 
 // ITEM SAME FOR ALL TYPES FIELDS (+PHOTOS)
-export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION]
+export const itemSameFields = [FIELD_NAME, FIELD_DESCRIPTION, FIELD_OFFER_PREVIEW]
 // ITEM SAME FIELDS WITHOUT LOCALE
 export const itemSameFieldsNoLocale = []
 // ITEM TYPE SPECIFIC FIELDS WITHOUT LOCALE
@@ -326,17 +327,17 @@ export const getSource = (item) => [
 /**
  * Receive item and returns parsed by item
  *
- * @param {Object} item
+ * @param {Object} items
  */
-export const parseItemByType = (item, language) => {
-  const geolocation = getFieldContent(item, FIELD_GEOLOCATION)
-  const originalName = getFieldContent(item, FIELD_ORIGINAL_NAME)
+export const parseItemByType = (items, language = 'en-GB') => {
+  const geolocation = getFieldContent(items, FIELD_GEOLOCATION)
+  const originalName = getFieldContent(items, FIELD_ORIGINAL_NAME)
 
   // First fields similar for all types then specific fields for each type
   return {
-    id: item.uuid,
-    parentId: item.parent_uuid,
-    type: item.item_type,
+    id: items.uuid,
+    parentId: items.parent_uuid,
+    type: items.item_type,
     original_name: originalName,
     language,
     rooms: [],
@@ -349,14 +350,17 @@ export const parseItemByType = (item, language) => {
           lng: +geolocation.lon
         }
       : null,
-    ...getItemSameFieldsNoLocale(item),
-    ...getItemSameFields(item, language),
-    ...getItemSpecificFieldsNoLocale(item),
-    ...getItemSpecificFields(item, language),
-    description: get(getDescription(item, language), 'content'),
-    descriptionInspiration: getItemDescriptionInspiration(item, language),
-    locales: getItemLocales(item),
-    source: getSource(item)
+    ...getItemSameFieldsNoLocale(items),
+    ...getItemSameFields(items, language),
+    ...getItemSpecificFieldsNoLocale(items),
+    ...getItemSpecificFields(items, language),
+    description: get(getDescription(items, language), 'content'),
+    descriptionInspiration: getItemDescriptionInspiration(items, language),
+    locales: getItemLocales(items),
+    source: getSource(items),
+    offer_preview: items.fields.find(
+      ({ locale, field_name }) => field_name === FIELD_OFFER_PREVIEW && locale === language
+    )?.content
   }
 }
 // PARSING METHODS - END

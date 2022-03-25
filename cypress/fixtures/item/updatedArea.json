@@ -1,0 +1,49 @@
+{
+  "data": {
+    "uuid": "b9997a9f-bd1f-43c1-8669-321464cc2f83",
+    "parent_uuid": null,
+    "item_type": "admin_area",
+    "fields": [
+      {
+        "field_name": "admin_level",
+        "content_type": "integer",
+        "content": 2,
+        "locale": null,
+        "source": "osm",
+        "source_key": null,
+        "dimensions": {}
+      },
+      {
+        "field_name": "name",
+        "content_type": "string",
+        "content": "Some example oof Area",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "description",
+        "content_type": "string",
+        "content": "Some description again",
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator",
+        "dimensions": {}
+      },
+      {
+        "field_name": "offer_preview",
+        "content": {
+          "title": "hello",
+          "heading": "we are",
+          "lead": "here",
+          "introduction": "introduction goes here"
+        },
+        "locale": "en-GB",
+        "source": "item_curator",
+        "source_key": "item_curator"
+      }
+    ],
+    "primary_item_uuid": null
+  }
+}

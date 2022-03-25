@@ -85,6 +85,7 @@
     "@types/lodash": "^4.14.167",
     "@types/react": "^17.0.0",
     "@types/react-html-parser": "^2.0.2",
+    "@types/react-lazyload": "^3.2.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.7",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",

@@ -1,19 +1,14 @@
-import { lazy, Suspense, Fragment } from 'react'
-import LazyLoad from 'react-lazyload'
-import { isEmpty, flatten } from 'lodash'
+import { lazy, Fragment } from 'react'
 import { CountryCodeSelect } from '@tourlane/rooster'
 import PhoneIcon from '@tourlane/iconography/Glyphs/Navigation/Phone'
-import Loader from 'components/Loader'
 import {
   TitleWithContent,
-  MapWrapper,
   PhoneWrapper,
   PhoneBlock,
-  NoLocationWrapper,
   CountryCodeWrapper,
   SearchItemWrapper
 } from './styles'
-import { RichTextEditorLoader } from './Description/styles'
+
 import {
   DESCRIPTION_COMPONENT_NAME,
   IMAGES_COMPONENT_NAME,
@@ -21,83 +16,28 @@ import {
   LOCATION_COMPONENT_NAME,
   PHONE_COMPONENT_NAME,
   CATEGORY_AND_RANKING_COMPONENT_NAME,
-  SOURCE
+  SOURCE,
+  COUNTRY_PAGE,
+  AREA_PAGE
 } from '../utils'
-import { parsePolygonCoordinates } from './utils'
-import {
-  H4,
-  AccordionGroup,
-  Skeleton,
-  BlurInTransition,
-  Accordion,
-  TextField,
-  FlexContainer,
-  Flex,
-  Base
-} from '@tourlane/tourlane-ui'
-import ReactHtmlParser from 'react-html-parser'
-import {
-  itemSpecificFields,
-  FIELD_ADDRESS,
-  FIELD_NAME,
-  FIELD_GEOLOCATION,
-  FIELD_ORIGINAL_NAME,
-  FIELD_FRONT_DESK_PHONE
-} from '../itemParser'
-import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
-import { capitalize } from 'pages/Search/utils'
-import { Source } from './Source/Source'
-import { AccommodationLocation } from './AccommodationLocation'
 
-const NoLocation = lazy(() => import(/* webpackChunkName: "NoLocation" */ './NoLocation'))
+import { H4, TextField, FlexContainer, Flex, Base } from '@tourlane/tourlane-ui'
+import Information from './Information'
+import Images from './Images'
+
+import { FIELD_FRONT_DESK_PHONE } from '../itemParser'
+import { Source } from './Source/Source'
 
 const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
+const CountryPage = lazy(() => import(/* webpackChunkName: "CountryPage" */ './CountryPage'))
+const AreaPage = lazy(() => import(/* webpackChunkName: "AreaPage" */ './AreaPage'))
 
 const CategoryAndRanking = lazy(() =>
   import(/* webpackChunkName: "CategoryAndRanking" */ './CategoryAndRanking')
 )
 
-const ImageUploader = lazy(() =>
-  import(/* webpackChunkName: "ImageUploader" */ 'components/ImageUploader')
-)
+const Location = lazy(() => import(/* webpackChunkName: "Map" */ './Location'))
 
-const StyledRichTextEditor = lazy(() =>
-  import(
-    /* webpackChunkName: "StyledRichTextEditor" */ 'components/RichTextEditor/StyledRichTextEditor'
-  )
-)
-
-const Map = lazy(() => import(/* webpackChunkName: "Map" */ 'components/Map'))
-
-// Fake data to test components
-const descriptions = (item) => {
-  // active_destination ==> 'Active destination'
-  const parseCountryFieldName = (fieldName) => capitalize(fieldName.split('_').join(' '))
-
-  return itemSpecificFields[item.type]
-    .filter((f) => f !== 'active_destination')
-    .sort()
-    .map((field) => ({
-      label: parseCountryFieldName(field),
-      field: field,
-      value: !isEmpty(item[field]) && item[field]
-    }))
-}
-// END of fake data
-
-/**
- * This is the OfferVisualisation Tab component
- * Use it to render OfferVisualisation tab
- *
- * @name OfferVisualisation
- * @param {Object} item
- * @param {Object} phone
- * @param {Boolean} isEditing (isEditing mode flag)
- * @param {Function} onChange
- * @param {Function} onGeolocationUpdate
- * @param {Array<String>} components (order of components as a STRING to render)
- * @returns {Object} GlobalInformation Tab Component
- */
 const OfferVisualisation = ({
   item,
   phone,
@@ -119,6 +59,20 @@ const OfferVisualisation = ({
   //    - <key> to provide a specific key for every element to render them properly
 
   const componentsRenderingMap = {
+    [COUNTRY_PAGE]: (key) => (
+      <CountryPage
+        key={key}
+        onChange={onChange}
+        isEditing={isEditing}
+        onImagesAdd={onImagesAdd}
+        isLoadingAdditionalInfo={isLoadingAdditionalInfo}
+        onGeolocationUpdate={onGeolocationUpdate}
+        {...item}
+      />
+    ),
+    [AREA_PAGE]: (key) => (
+      <AreaPage key={key} onChange={onChange} isEditing={isEditing} {...item} />
+    ),
     [DESCRIPTION_COMPONENT_NAME]: (key) => (
       <Description key={key} onChange={onChange} isEditing={isEditing} {...item} />
     ),
@@ -126,60 +80,25 @@ const OfferVisualisation = ({
       <CategoryAndRanking key={key} isEditing={isEditing} item={item} onChange={onChange} />
     ),
 
-    [IMAGES_COMPONENT_NAME]: (key) => {
-      return (
-        <Fragment key={key}>
-          <TitleWithContent>
-            <H4 data-test={'item-images-header'}>Images</H4>
-            <Suspense fallback={<Skeleton height="294px" />}>
-              <ImageUploader
-                id={item.id}
-                isEditing={isEditing}
-                onImagesUpdate={onChange}
-                onImagesAdd={onImagesAdd}
-                allImages={item.allImages}
-                visibleImages={item.visibleImages}
-              />
-            </Suspense>
-          </TitleWithContent>
-        </Fragment>
-      )
-    },
-    [INFORMATION_COMPONENT_NAME]: (key) => {
-      const parsedDescriptions = descriptions(item)
+    [IMAGES_COMPONENT_NAME]: (key) => (
+      <Images
+        key={key}
+        isEditing={isEditing}
+        item={item}
+        onChange={onChange}
+        onImagesAdd={onImagesAdd}
+      />
+    ),
 
-      return (
-        <Fragment key={key}>
-          <TitleWithContent>
-            <H4 data-test={'item-information-header'}>Information</H4>
-          </TitleWithContent>
-
-          <AccordionGroup>
-            {parsedDescriptions.map((d, i) => (
-              <Accordion
-                data-test={`item-information-${d.field}`}
-                key={i}
-                name={d.field}
-                title={d.label}
-              >
-                {isEditing ? (
-                  <Suspense fallback={<RichTextEditorLoader />}>
-                    <StyledRichTextEditor
-                      data-test={`item-information-${d.field}-editor`}
-                      placeholder={`Please write something about the ${d.label.toLowerCase()}`}
-                      value={d.value}
-                      onChange={(val) => onChange(d.field, val)}
-                    />
-                  </Suspense>
-                ) : (
-                  ReactHtmlParser(d.value || 'No information found')
-                )}
-              </Accordion>
-            ))}
-          </AccordionGroup>
-        </Fragment>
-      )
-    },
+    [INFORMATION_COMPONENT_NAME]: (key) => (
+      <Information
+        key={key}
+        onChange={onChange}
+        item={item}
+        isEditing={isEditing}
+        type={item.type}
+      />
+    ),
     [PHONE_COMPONENT_NAME]: (key) => {
       let phoneText
       if (phone.dialCode && phone.phoneNumber && phone.isValid) {
@@ -237,75 +156,15 @@ const OfferVisualisation = ({
         </Fragment>
       )
     },
-    [LOCATION_COMPONENT_NAME]: (key) => {
-      const isMultipolygon = item.polygon.length > 1
-
-      const polygon = item.polygon.length
-        ? isMultipolygon
-          ? item.polygon.map((multipolygon) => parsePolygonCoordinates(multipolygon))
-          : [parsePolygonCoordinates(flatten(item.polygon))]
-        : null
-
-      // Define coordinates for accommodations
-      const coordinates = item[FIELD_GEOLOCATION]
-        ? { lat: item[FIELD_GEOLOCATION].lat, lng: item[FIELD_GEOLOCATION].lon }
-        : undefined
-
-      const locationInfo = {
-        address: item[FIELD_ADDRESS] || item[FIELD_NAME] || item[FIELD_ORIGINAL_NAME],
-        geoCoords: item[FIELD_GEOLOCATION]
-      }
-
-      const searchBoxAddress = {
-        label: item[FIELD_ADDRESS] || ''.replace(/(\r\n|\n|\r)/gm, ''),
-        value: item[FIELD_ADDRESS]
-      }
-
-      const shouldRenderMap = (coordinates && coordinates.lat && coordinates.lng) || polygon
-
-      return (
-        <Fragment key={key}>
-          <TitleWithContent>
-            <H4 data-test={'item-location-header'}>Location</H4>
-            {isEditing && item.type === ACCOMMODATION_ITEM_TYPE && (
-              <Flex mb={40}>
-                <AccommodationLocation
-                  address={searchBoxAddress}
-                  geolocation={{ lat: coordinates?.lat, lon: coordinates?.lng }}
-                  onChange={onGeolocationUpdate}
-                />
-              </Flex>
-            )}
-            <MapWrapper>
-              {shouldRenderMap ? (
-                <LazyLoad height="500px" once>
-                  <Suspense fallback={<Skeleton height="500px" />}>
-                    <BlurInTransition>
-                      <Map
-                        coordinates={coordinates}
-                        polygon={polygon}
-                        locationInfo={locationInfo}
-                      />
-                    </BlurInTransition>
-                  </Suspense>
-                </LazyLoad>
-              ) : (
-                <LazyLoad height="500px" once>
-                  <NoLocationWrapper p={0} pt={1} justify="center">
-                    <Suspense fallback={<Loader top={'45%'} />}>
-                      <BlurInTransition style={{ width: 'auto', height: 'auto' }}>
-                        <NoLocation alt="map-placeholder" height="70%" width="70%" />
-                      </BlurInTransition>
-                    </Suspense>
-                  </NoLocationWrapper>
-                </LazyLoad>
-              )}
-              {isLoadingAdditionalInfo && <Loader top={'45%'} />}
-            </MapWrapper>
-          </TitleWithContent>
-        </Fragment>
-      )
-    },
+    [LOCATION_COMPONENT_NAME]: (key) => (
+      <Location
+        key={key}
+        item={item}
+        isEditing={isEditing}
+        isLoadingAdditionalInfo={isLoadingAdditionalInfo}
+        onGeolocationUpdate={onGeolocationUpdate}
+      />
+    ),
     [SOURCE]: (key) => {
       return (
         <SearchItemWrapper key={key} direction={'ttb'}>

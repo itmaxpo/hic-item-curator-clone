@@ -75,6 +75,13 @@ Cypress.Commands.add('itemPageAreaStub', (type = 'accom') => {
     'https://partners-staging.**.com/content/items?item_type=accommodation_category&offset=0',
     'fixture:item/accommodation-category.json'
   )
+
+  cy.route(
+    'PATCH',
+    'https://partners-staging.**.com/content/items/**',
+    'fixture:item/updatedArea.json'
+  )
+
   cy.route(
     'GET',
     'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0',
@@ -113,6 +120,7 @@ Cypress.Commands.add('itemPageAreaStub', (type = 'accom') => {
  */
 Cypress.Commands.add('itemPageAreaLoad', () => {
   cy.itemPageAreaStub()
+
   cy.visit('/item/f09e3867-e082-4eb0-a6ff-fc96d63e977a?language=en-GB')
 })
 

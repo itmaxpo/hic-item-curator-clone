@@ -6,16 +6,26 @@ import { EditorState, Modifier, ContentState, convertFromHTML, convertToRaw } fr
 import { Editor } from 'react-draft-wysiwyg'
 // @ts-ignore
 import draftToHtml from 'draftjs-to-html'
+import styled from 'styled-components'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import './styles.css'
 import { StyledLabel, Wrapper } from './styles'
 import { getRichTextValue } from 'utils/helpers'
-import { usePrevious } from '@tourlane/tourlane-ui'
+import { usePrevious, Base, COLORS, Box } from '@tourlane/tourlane-ui'
 
 const isHTML = (str: string) => {
   const doc = new DOMParser().parseFromString(str, 'text/html')
   return Array.from(doc.body.childNodes).some((node) => node.nodeType === 1)
 }
+
+const LimitWrapper = styled.div`
+  position: relative;
+`
+const LimitText = styled(Base)`
+  position: absolute;
+  top: 9px;
+  right: 12px;
+`
 
 // Generate an EditorState object from a provided value
 const getInitialEditorState = (value: any) => {
@@ -96,7 +106,7 @@ const useEditorState = ({
  * Handle logic related to editor pasting rich text.
  * Returns props that need to be passed to the Editor.
  */
-const useEditorPaste = () => {
+const useEditorPaste = (maxLength: number | undefined) => {
   // Generate a unique editorKey that should be unique per-editor
   const editorKey = useRef(cuid()).current
 
@@ -104,42 +114,57 @@ const useEditorPaste = () => {
   // This is needed to handle extra blank lines generated in Windows.
   const handlePastedText = useCallback(
     (text, html, editorState, onChange) => {
-      if (html) {
-        // If the editorKey is present in the pasted HTML, it should be safe to
-        // assume this is an internal paste.
-        // If so, it's better to return false to fallback to the default behavior. This allows to
-        // better preserve styling.
-        const hasEditorKey = html.indexOf(editorKey) !== -1
-        if (hasEditorKey) {
-          return false
-        }
-
-        // Remove 'new line' characters.
-        // These are generated in Windows when copying. On paste they add unwanted blank space.
-        html = html.replace(/(\r\n|\n|\r)/gm, '')
-
-        // Insert the post-processed html
-        const blocksFromHTML = convertFromHTML(html)
-        const state = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        )
-        const blockMap = state.getBlockMap()
-        const newState = Modifier.replaceWithFragment(
-          editorState.getCurrentContent(),
-          editorState.getSelection(),
-          blockMap
-        )
-        onChange(EditorState.push(editorState, newState, 'insert-fragment'))
-
-        // return true to prevent default behavior.
-        return true
+      if (!html) {
+        // if this is not a rich text paste, we also fallback to default behavior.
+        return false
+      }
+      // If the editorKey is present in the pasted HTML, it should be safe to
+      // assume this is an internal paste.
+      // If so, it's better to return false to fallback to the default behavior. This allows to
+      // better preserve styling.
+      const hasEditorKey = html.indexOf(editorKey) !== -1
+      if (hasEditorKey) {
+        return false
       }
 
-      // if this is not a rich text paste, we also fallback to default behavior.
-      return false
+      // handle maxLength insert case
+      if (maxLength !== undefined) {
+        const contentLength = editorState.getCurrentContent().getPlainText().length
+        let remainingLength = maxLength - contentLength
+        if (html.length + contentLength >= maxLength) {
+          const newContent = Modifier.insertText(
+            editorState.getCurrentContent(),
+            editorState.getSelection(),
+            html.slice(0, remainingLength)
+          )
+
+          onChange(EditorState.push(editorState, newContent, 'insert-characters'))
+          return true
+        }
+      }
+
+      // Remove 'new line' characters.
+      // These are generated in Windows when copying. On paste they add unwanted blank space.
+      html = html.replace(/(\r\n|\n|\r)/gm, '')
+
+      // Insert the post-processed html
+      const blocksFromHTML = convertFromHTML(html)
+      const state = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+      )
+      const blockMap = state.getBlockMap()
+      const newState = Modifier.replaceWithFragment(
+        editorState.getCurrentContent(),
+        editorState.getSelection(),
+        blockMap
+      )
+      onChange(EditorState.push(editorState, newState, 'insert-fragment'))
+
+      // return true to prevent default behavior.
+      return true
     },
-    [editorKey]
+    [editorKey, maxLength]
   )
 
   return { editorKey, handlePastedText }
@@ -149,13 +174,14 @@ interface Props {
   className?: string
   placeholder?: string
   value?: string
-  onChange?: () => void
+  onChange?: (data: string) => void
   onBlur?: (value: string) => void
   textWrap?: boolean
   resizable?: boolean
   label?: string
   editorProps?: Record<any, any>
   disabled?: boolean
+  maxLength?: number
 }
 
 const RichTextEditor = React.forwardRef<any, Props>(
@@ -171,6 +197,7 @@ const RichTextEditor = React.forwardRef<any, Props>(
       label,
       editorProps = {},
       disabled = false,
+      maxLength,
       ...otherProps
     },
     forwardedRef
@@ -178,7 +205,7 @@ const RichTextEditor = React.forwardRef<any, Props>(
     // helps to prevent cursor jumping on text changes
     const typingStarted = useRef(false)
     const { editorState, onEditorStateChange } = useEditorState({ value, onChange, typingStarted })
-    const { editorKey, handlePastedText } = useEditorPaste()
+    const { editorKey, handlePastedText } = useEditorPaste(maxLength)
 
     const onBlurAction = () => {
       typingStarted.current = false
@@ -190,10 +217,17 @@ const RichTextEditor = React.forwardRef<any, Props>(
     }
 
     return (
-      <div className={className}>
+      <Box className={className} mb={5}>
         {label && <StyledLabel>{label}</StyledLabel>}
         <div>
           <Wrapper textWrap={textWrap} resizable={resizable} disabled={disabled} {...otherProps}>
+            {maxLength && (
+              <LimitWrapper>
+                <LimitText color={COLORS.INACTIVE_GRAY}>
+                  {editorState.getCurrentContent().getPlainText().length}/{maxLength}
+                </LimitText>
+              </LimitWrapper>
+            )}
             <Editor
               editorState={editorState}
               toolbarClassName="draft-editor-toolbar"
@@ -204,6 +238,14 @@ const RichTextEditor = React.forwardRef<any, Props>(
               editorRef={forwardedRef}
               editorKey={editorKey}
               handlePastedText={handlePastedText}
+              handleBeforeInput={(input: string) => {
+                if (!maxLength) return
+
+                const contentLength = editorState.getCurrentContent().getPlainText().length
+                if (input && contentLength >= maxLength) {
+                  return 'handled'
+                }
+              }}
               toolbar={{
                 options: ['inline', 'list', 'link'],
                 inline: {
@@ -218,7 +260,7 @@ const RichTextEditor = React.forwardRef<any, Props>(
             />
           </Wrapper>
         </div>
-      </div>
+      </Box>
     )
   }
 )
