@@ -26,7 +26,7 @@ Cypress.Commands.add('activityStub', (type = 'accom') => {
 
 /**
  * Custom command 'ActivityLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('activityLoad', () => {
   cy.activityStub()

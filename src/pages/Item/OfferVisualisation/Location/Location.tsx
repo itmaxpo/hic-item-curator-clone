@@ -63,7 +63,7 @@ const Location = ({ item, isEditing, isLoadingAdditionalInfo, onGeolocationUpdat
       )}
       <MapWrapper>
         {shouldRenderMap ? (
-          <LazyLoad height="500px" once>
+          <LazyLoad height="500px" once style={{ height: '100%', width: '100%' }}>
             <Suspense fallback={<Skeleton height="500px" />}>
               <BlurInTransition>
                 <Map coordinates={coordinates} polygon={polygon} locationInfo={locationInfo} />

@@ -11,7 +11,7 @@ export const Indicator = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: ${colorsBasedOnStatus[status]}
+    background-color: ${colorsBasedOnStatus[status]};
     float: left;
   `}
 `

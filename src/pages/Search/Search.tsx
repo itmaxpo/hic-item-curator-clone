@@ -225,7 +225,7 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
         area: areaId as string,
         name: name as string,
         supplier: supplier as string,
-        provider,
+        provider: provider as string,
         missingGeolocation: missingGeolocation === 'true',
         blocked: blocked === 'true'
       },

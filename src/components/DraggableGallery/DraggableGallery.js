@@ -112,7 +112,7 @@ const DraggableGallery = ({
       libraryToggle.style.zIndex = 2
     } else {
       libraryToggle.style.position = 'relative'
-      document.getElementById('maximum-size').scrollIntoView({ behavior: 'smooth' })
+      document.getElementById('maximum-size')?.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -154,7 +154,7 @@ const DraggableGallery = ({
           </GalleryList>
 
           {images.length > 10 && (
-            <ToggleWrapper onClick={onShowAllClick}>
+            <ToggleWrapper onClick={onShowAllClick} id="image-library-toggle">
               <ToggleAll isAllShown={isAllShown}>
                 {`${isAllShown ? 'Hide' : 'Show'}`} all ({images.length})
                 <GlyphChevronDownIcon />

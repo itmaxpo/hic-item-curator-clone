@@ -265,7 +265,7 @@ describe('Homepage', () => {
     // assertions after merge
 
     // notification is pushed
-    cy.get('[data-test=merge-notification]').contains('🥳  Successfully merged')
+    cy.get('[data-test=merge-notification]').contains('🥳 Successfully merged')
 
     // assert that merged items are not in the search result
     // and that the resulted item is on top of the list

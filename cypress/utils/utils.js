@@ -220,7 +220,7 @@ export const pageAccomData = [
   {
     title: 'Pestana Buenos Aires Hotel',
     subtitle: 'Argentina',
-    description: 'Pestana Buenos Aires Hotel is located in the heart of  9 de Julio'
+    description: 'Pestana Buenos Aires Hotel is located in the heart of 9 de Julio'
   },
   {
     title: 'Tierra del Fuego Hotel',
@@ -276,7 +276,7 @@ export const pageAccomDataAfterMerge = [
   {
     title: 'Pestana Buenos Aires Hotel',
     subtitle: 'Argentina',
-    description: 'Pestana Buenos Aires Hotel is located in the heart of  9 de Julio',
+    description: 'Pestana Buenos Aires Hotel is located in the heart of 9 de Julio',
     photo: '0 Photos'
   },
   {

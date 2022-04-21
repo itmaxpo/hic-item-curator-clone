@@ -15,7 +15,6 @@
 
 /* global Cypress cy */
 
-import './hooks'
 import 'cypress-file-upload'
 import './commands'
 import './upload'

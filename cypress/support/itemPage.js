@@ -53,7 +53,7 @@ Cypress.Commands.add('itemPageAccommodationStub', (type = 'accom') => {
 
 /**
  * Custom command 'itemPageAccoommodationLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('itemPageAccommodationLoad', () => {
   cy.itemPageAccommodationStub()
@@ -116,7 +116,7 @@ Cypress.Commands.add('itemPageAreaStub', (type = 'accom') => {
 
 /**
  * Custom command 'itemPageAreaLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('itemPageAreaLoad', () => {
   cy.itemPageAreaStub()
@@ -182,7 +182,7 @@ Cypress.Commands.add('itemPageCountryStub', (type = 'accom') => {
 
 /**
  * Custom command 'itemPageCountryLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('itemPageCountryLoad', () => {
   cy.itemPageCountryStub()

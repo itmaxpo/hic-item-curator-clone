@@ -38,7 +38,7 @@ const galleryItems = (isAllShown) => css`
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  justify-content: 'left';
+  justify-content: left;
   width: 98%;
   padding: 20px 0 20px 0;
 

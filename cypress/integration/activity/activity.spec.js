@@ -29,7 +29,7 @@ describe('GIVEN an Activity page', () => {
     cy.getByName('exclusions').invoke('text').should('eq', 'Exclusions')
     cy.getByName('what_to_bring').invoke('text').should('eq', 'What to bring')
 
-    cy.getByName('restrictions.height.restricted').should('be', 'checked')
+    cy.getByName('restrictions.height.restricted').should('be.checked')
     cy.getByName('restrictions.height.min').should('have.value', '1.5')
     cy.getByName('restrictions.height.max').should('have.value', '3')
   })

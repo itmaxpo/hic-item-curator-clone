@@ -15,7 +15,7 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=item-language-switcher]').should('have.length', 1)
     // Check description
     cy.get('[data-test=item-description-header]').contains('Description')
-    cy.get('[data-test=item-description-wrapper]').contains('No description')
+    cy.get('[data-test=item-description-wrapper]').contains('No Description')
 
     // Check category
     cy.get('[data-test=category]').find('p').contains('Eco-Budget')
@@ -145,7 +145,7 @@ describe('Item page - Accommodation', () => {
     cy.get('[data-test=cancel-item-button]').click()
     // Should have basic information
     cy.get('h2').contains('131 on Herbert Baker Boutique Hotel')
-    cy.get('[data-test=item-description-wrapper]').contains('No description')
+    cy.get('[data-test=item-description-wrapper]').contains('No Description')
   })
 
   it('verify accommodation source', () => {

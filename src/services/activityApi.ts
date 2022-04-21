@@ -110,6 +110,9 @@ export const updateActivity = async ({ uuid, ...activity }: IActivity & { locale
       throw e
     }
 
-    throw mapKeys(e, (_, key) => updatePropsMapping[key as keyof IActivityPayload] ?? key)
+    throw mapKeys(
+      e as Record<string, unknown>,
+      (_, key) => updatePropsMapping[key as keyof IActivityPayload] ?? key
+    )
   }
 }

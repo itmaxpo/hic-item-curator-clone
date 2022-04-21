@@ -33,12 +33,14 @@ export const useMergeWarnings = (items: IItem[], onClose: () => {}) => {
         const { warnings } = await mergeItemsValidate(itemIds)
         setMergeWarnings(warnings)
       } catch (e) {
-        enqueueNotification({
-          variant: 'error',
-          message: e || 'Validation of item merging failed'
-        })
-        onClose()
-        return
+        if (e instanceof Error) {
+          enqueueNotification({
+            variant: 'error',
+            message: e || 'Validation of item merging failed'
+          })
+          onClose()
+          return
+        }
       }
     }
 

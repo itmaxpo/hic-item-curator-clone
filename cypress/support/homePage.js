@@ -32,7 +32,7 @@ Cypress.Commands.add('homePageStub', () => {
 
 /**
  * Custom command 'homePageLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('homePageLoad', () => {
   cy.homePageStub()

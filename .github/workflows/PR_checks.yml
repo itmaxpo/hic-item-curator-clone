@@ -5,22 +5,15 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
+          cache: 'npm'
 
-      - uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: v1-cache-${{ hashFiles('**/package-lock.json') }}
-
-      - name: npm ci
+      - name: Installing node modules
         run: |
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
           npm ci
@@ -29,7 +22,7 @@ jobs:
         run: npm run build --if-present
 
       - name: Keep build artefacts for later jobs
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: build/
@@ -43,20 +36,18 @@ jobs:
   unit_tests:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
+          cache: 'npm'
 
-      - uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: v1-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Installing node modules
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          npm ci
 
       - name: unit tests
         run: npm run test:ci
@@ -64,26 +55,19 @@ jobs:
   e2e_tests:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
+          cache: 'npm'
 
-      - name: Download build artefacts
-        uses: actions/download-artifact@v1
-        with:
-          name: build
-
-      - uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: v1-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Installing node modules
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          npm ci
 
       - name: cypress
         run: npm run test:e2e

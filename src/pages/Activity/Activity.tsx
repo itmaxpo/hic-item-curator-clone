@@ -21,8 +21,7 @@ import {
   Strong,
   Big,
   AlarmButton,
-  IconCircle,
-  Error
+  IconCircle
 } from '@tourlane/tourlane-ui'
 import DeleteIcon from '@tourlane/iconography/Glyphs/Navigation/Delete'
 
@@ -302,7 +301,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
       if (e instanceof Error) {
         console.error(e)
       } else {
-        setErrors(mapValues(e, (errors) => errors.join(', ')))
+        setErrors(mapValues(e as Record<string, unknown[]>, (errors) => errors.join(', ')))
       }
     }
   }
@@ -521,11 +520,13 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                               throw Error(deletedImage[0].error.join(', '))
                             }
                           } catch (e) {
-                            enqueueNotification({
-                              variant: 'error',
-                              message: `Failed to update image. ${e?.message}`
-                            })
-                            console.error(e)
+                            if (e instanceof Error) {
+                              enqueueNotification({
+                                variant: 'error',
+                                message: `Failed to update image. ${e?.message}`
+                              })
+                              console.error(e)
+                            }
                           }
                         }}
                       />

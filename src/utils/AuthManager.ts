@@ -1,4 +1,4 @@
-import { Auth0Client, LogoutOptions } from '@auth0/auth0-spa-js'
+import { Auth0Client, LogoutOptions, GenericError } from '@auth0/auth0-spa-js'
 
 type AuthEvent = 'login_success' | 'login_failed'
 
@@ -36,11 +36,13 @@ class AuthManager {
     try {
       return await this.client.getTokenSilently()
     } catch (e) {
-      if (e.error === 'login_required') {
-        return this.getTokenWithPopup()
-      }
+      if (e instanceof GenericError) {
+        if (e.error === 'login_required') {
+          return this.getTokenWithPopup()
+        }
 
-      throw e
+        throw e
+      }
     }
   }
 

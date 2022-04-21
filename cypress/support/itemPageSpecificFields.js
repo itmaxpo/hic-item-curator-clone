@@ -56,7 +56,7 @@ Cypress.Commands.add('itemPageAreaCountryStub', (type = 'accom') => {
 
 /**
  * Custom command 'itemPageCountrySpecificLoad'.
- * Loads Home page, polyfills 'fetch', and stubs the relevant APIs.
+ * Loads Home page, and stubs the relevant APIs.
  */
 Cypress.Commands.add('itemPageCountrySpecificLoad', () => {
   cy.itemPageAreaCountryStub()
