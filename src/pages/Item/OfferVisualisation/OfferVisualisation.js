@@ -119,13 +119,15 @@ const OfferVisualisation = ({
                     <CountryCodeSelect
                       initialCountryCode={phone.countryCode}
                       value={phone.countryCode}
-                      onChange={(str) =>
-                        onChange(
-                          FIELD_FRONT_DESK_PHONE,
-                          str.dialCode + phone.phoneNumber,
-                          item[FIELD_FRONT_DESK_PHONE]
-                        )
-                      }
+                      onChange={(str) => {
+                        if (phone.phoneNumber) {
+                          onChange(
+                            FIELD_FRONT_DESK_PHONE,
+                            str.dialCode + phone.phoneNumber,
+                            item[FIELD_FRONT_DESK_PHONE]
+                          )
+                        }
+                      }}
                     />
                   </CountryCodeWrapper>
                   <PhoneWrapper>
