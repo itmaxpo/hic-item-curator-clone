@@ -1,4 +1,4 @@
-import { getJson, patchJson } from './request'
+import { getJson, patchJson, postJson } from './request'
 import { mapKeys, mapValues, get } from 'lodash'
 
 interface MinMaxRestriction {
@@ -105,6 +105,25 @@ export const updateActivity = async ({ uuid, ...activity }: IActivity & { locale
     )
 
     return data
+  } catch (e) {
+    if (e instanceof Error) {
+      throw e
+    }
+
+    throw mapKeys(
+      e as Record<string, unknown>,
+      (_, key) => updatePropsMapping[key as keyof IActivityPayload] ?? key
+    )
+  }
+}
+
+export const deleteActivity = async (uuid: string) => {
+  try {
+    await postJson<string>(
+      `${process.env.REACT_APP_PARTNERS_API}/content/activities/${uuid}/deactivate`,
+      {},
+      'application/json'
+    )
   } catch (e) {
     if (e instanceof Error) {
       throw e

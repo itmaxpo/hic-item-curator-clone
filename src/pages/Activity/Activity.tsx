@@ -40,7 +40,7 @@ import {
 } from 'components/hook-form'
 import { UnhappyIcon } from '../../components/Icon'
 import { ItemImagesUpload } from '../../components/ItemImagesUpload'
-import { getActivityById, IActivity, updateActivity } from 'services/activityApi'
+import { deleteActivity, getActivityById, IActivity, updateActivity } from 'services/activityApi'
 import { getItemAttachments, IAttachment } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
 import { Market, useMarket } from './Market'
@@ -284,25 +284,41 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
     setOpenDeleteModal((currentState) => !currentState)
   }
 
-  const handleUpdateActivity = async (data: IActivity & { locale: string }, isDelete?: boolean) => {
+  const handleError = (message: string, error: any) => {
+    enqueueNotification({
+      variant: 'error',
+      message: `${message}`
+    })
+    if (error instanceof Error) {
+      console.error(error)
+    } else {
+      setErrors(mapValues(error as Record<string, unknown[]>, (errors) => errors.join(', ')))
+    }
+  }
+
+  const handleUpdateActivity = async (data: IActivity & { locale: string }) => {
     try {
       setIsEditing(false)
       await updateActivity({ ...data })
       enqueueNotification({
-        message: `Activity ${!isDelete ? 'updated' : 'deleted'} successfully`
+        message: 'Activity updated successfully'
       })
-      isDelete && history.push('/?type=activity')
-    } catch (e) {
-      !isDelete && setIsEditing(true)
+    } catch (error) {
+      setIsEditing(true)
+      handleError('failed to update', error)
+    }
+  }
+
+  const handleDeleteActivity = async (uuid: string) => {
+    try {
+      await deleteActivity(uuid)
+      toggleDeleteModal()
       enqueueNotification({
-        variant: 'error',
-        message: `fialed to ${!isDelete ? 'update' : 'delete'}`
+        message: 'Activity deleted successfully'
       })
-      if (e instanceof Error) {
-        console.error(e)
-      } else {
-        setErrors(mapValues(e as Record<string, unknown[]>, (errors) => errors.join(', ')))
-      }
+      history.push('/?type=activity')
+    } catch (error) {
+      handleError('failed to delete', error)
     }
   }
 
@@ -384,16 +400,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                     isLoading={isSubmitting}
                     data-test="confirm-delete"
                     onClick={() => {
-                      handleUpdateActivity(
-                        {
-                          ...form.getValues(),
-                          locale: market,
-                          active: false,
-                          ignore_attachments_validation: true
-                        },
-                        true
-                      )
-                      toggleDeleteModal()
+                      handleDeleteActivity(id)
                     }}
                   >
                     confirm

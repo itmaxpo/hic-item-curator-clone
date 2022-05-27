@@ -88,8 +88,7 @@ export const requestJson = async <Response, Payload = any>(
 
     throw json?.errors ?? json?.error ?? json
   }
-
-  return response?.json()
+  return response?.headers.get('content-type') === 'text/html' ? response?.text() : response?.json()
 }
 
 export const getJson = <Response>(path: string, params?: Record<string, any>) =>
