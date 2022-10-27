@@ -1,6 +1,10 @@
 import { lazy, Fragment } from 'react'
 import { CountryCodeSelect } from '@tourlane/rooster'
+import styled from 'styled-components'
+
 import PhoneIcon from '@tourlane/iconography/Glyphs/Navigation/Phone'
+import WarningIcon from '@tourlane/iconography/Glyphs/Notifications/Warning'
+
 import {
   TitleWithContent,
   PhoneWrapper,
@@ -21,7 +25,7 @@ import {
   AREA_PAGE
 } from '../utils'
 
-import { H4, TextField, FlexContainer, Flex, Base } from '@tourlane/tourlane-ui'
+import { H4, TextField, FlexContainer, Flex, Base, COLORS, SvgIcon, Box } from '@tourlane/tourlane-ui'
 import Information from './Information'
 import Images from './Images'
 
@@ -35,6 +39,11 @@ const AreaPage = lazy(() => import(/* webpackChunkName: "AreaPage" */ './AreaPag
 const CategoryAndRanking = lazy(() =>
   import(/* webpackChunkName: "CategoryAndRanking" */ './CategoryAndRanking')
 )
+
+const PositionedWarningIcon = styled(WarningIcon)`
+  position: relative;
+  top: 7px;
+`
 
 const Location = lazy(() => import(/* webpackChunkName: "Map" */ './Location'))
 
@@ -100,13 +109,8 @@ const OfferVisualisation = ({
       />
     ),
     [PHONE_COMPONENT_NAME]: (key) => {
-      let phoneText
-      if (phone.dialCode && phone.phoneNumber && phone.isValid) {
-        phoneText = `${phone.dialCode} ${phone.phoneNumber}`
-      } else {
-        phoneText = 'No number added'
-      }
-
+      console.log(phone)
+      const phoneText = phone.dialCode && phone.phoneNumber ? `${phone.dialCode} ${phone.phoneNumber}`: 'No number added'
       return (
         <Fragment key={key}>
           <TitleWithContent>
@@ -150,9 +154,16 @@ const OfferVisualisation = ({
                 </FlexContainer>
               </PhoneBlock>
             ) : (
-              <Flex>
-                <Base>{phoneText}</Base>
-              </Flex>
+              <Box>
+                <Base color={!phone.isValid && COLORS.CHEERFUL_ORANGE}>{phoneText}</Base>
+                {!phone.isValid && <Flex alignItems="baseline" gap={14} mt={8}>
+                  <SvgIcon size={20} color={COLORS.CHEERFUL_ORANGE} colorActive={COLORS.RIOJA_RED}>
+                    <PositionedWarningIcon />
+                  </SvgIcon>
+
+                  <Base color={COLORS.CHEERFUL_ORANGE}>The phone number is not valid, please specify a correct one</Base>
+                </Flex>}
+              </Box>
             )}
           </TitleWithContent>
         </Fragment>

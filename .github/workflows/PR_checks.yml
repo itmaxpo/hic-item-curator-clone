@@ -10,13 +10,13 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 16.13.1
           cache: 'npm'
 
       - name: Installing node modules
         run: |
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          npm ci
+          npm i
 
       - name: build
         run: npm run build --if-present
@@ -41,13 +41,13 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 16.13.1
           cache: 'npm'
 
       - name: Installing node modules
         run: |
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          npm ci
+          npm i
 
       - name: unit tests
         run: npm run test:ci
@@ -61,13 +61,13 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 16.13.1
           cache: 'npm'
 
       - name: Installing node modules
         run: |
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          npm ci
+          npm i
 
       - name: cypress
         run: npm run test:e2e

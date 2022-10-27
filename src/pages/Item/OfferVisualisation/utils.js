@@ -8,13 +8,16 @@ export const parsePolygonCoordinates = (coordinates) =>
   }))
 
 export const parsePhoneNumber = (phoneNumber, accommodationCountryCode) => {
-  const oldNumber = isUndefined(phoneNumber) ? '' : phoneNumber
-  const phone = new PhoneNumber(phoneNumber || '')
+  // giata returns some phone numbers without '+' sign
+  const isNonStandardPhoneNum = !phoneNumber?.includes('+') && !phoneNumber?.startsWith('0');
+  const standardNumber = isNonStandardPhoneNum ? `+${phoneNumber}`: phoneNumber
+
+  const oldNumber = isUndefined(standardNumber) ? '' : standardNumber
+  const phone = new PhoneNumber(standardNumber || '')
   const countryCode = phone.getRegionCode() || accommodationCountryCode
   const tel = phone.getNumber('significant') || ''
   const dialCode = phone.getCountryCode() ? `+${phone.getCountryCode()}` : accommodationCountryCode
   const isValid = phone.isValid()
-
   return {
     countryCode,
     phoneNumber: tel,
