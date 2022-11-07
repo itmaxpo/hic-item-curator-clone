@@ -1,9 +1,11 @@
 import React, { lazy, Suspense, useState, useEffect, useRef, useReducer, useCallback } from 'react'
-import { Prompt } from 'react-router-dom'
 import queryString from 'query-string'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { flatten, get } from 'lodash'
+import { useNotification } from '@tourlane/tourlane-ui'
+
 import { ItemLayoutLoader, TabContentLoader } from './styles'
 import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeBy } from './utils'
-import { flatten, get } from 'lodash'
 import {
   getItemFieldsById,
   updateItemFields,
@@ -17,9 +19,9 @@ import { parseItemByType, transformToSupplyItem, FIELD_FRONT_DESK_PHONE } from '
 import { onPageClosing } from 'utils/helpers'
 import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
-import { useNotification } from 'components/Notification'
 import { useFieldsRef } from './useFieldsRef'
 import { parsePhoneNumber } from './OfferVisualisation/utils'
+import { usePrompt } from 'components/RouterPrompt'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
 const OfferVisualisation = lazy(() =>
@@ -56,18 +58,18 @@ const reducer = (state, action) => {
  *    - Breadcrumbs, Title, Suppliers, Language
  *
  * @name ItemPage
- * @param {Object} match (access to query params to retreive item: id)
- * @param {Object} history from react-router
  * @returns {Object} Item Page
  */
-const ItemPage = ({ match, history }) => {
+const ItemPage = () => {
   const { enqueueNotification } = useNotification()
-
   const allImagesOriginal = useRef([])
   const visibleImagesOriginal = useRef([])
+  const { id } = useParams()
+  const [urlParams] = useSearchParams()
+  const language = urlParams.get('language')
 
   // Receive here id of item from route and send request to BE to get the item
-  const [{ ...item }, dispatch] = useReducer(reducer, { id: match.params.id })
+  const [{ ...item }, dispatch] = useReducer(reducer, { id })
   const originalItem = useRef(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -76,6 +78,7 @@ const ItemPage = ({ match, history }) => {
   const [countryCode, setCountryCode] = useState('DE')
   const [phoneTouched, setPhoneTouched] = useState(false)
   const phone = parsePhoneNumber(item[FIELD_FRONT_DESK_PHONE], countryCode)
+  usePrompt('If you continue, all changes will be lost', isEditing)
 
   const updateAttachments = async () => {
     try {
@@ -168,13 +171,13 @@ const ItemPage = ({ match, history }) => {
     const fetchAdditionalInformation = async (item) => {
       switch (item.type) {
         case AREA_ITEM_TYPE:
-          const polygon = await getItemPolygonCoordinatesById(match.params.id)
+          const polygon = await getItemPolygonCoordinatesById(id)
           const parsedPolygon = flatten(polygon['data'].coordinates)
           onChange('polygon', parsedPolygon)
           originalItem.current = { ...originalItem.current, polygon: parsedPolygon }
           break
         case ACCOMMODATION_ITEM_TYPE:
-          const accomRooms = await getRoomsForAccommodation(match.params.id)
+          const accomRooms = await getRoomsForAccommodation(id)
 
           const rooms = accomRooms['data'].map((room) => {
             return {
@@ -195,7 +198,7 @@ const ItemPage = ({ match, history }) => {
 
     async function fetchItem() {
       try {
-        const { data } = await getItemFieldsById(match.params.id)
+        const { data } = await getItemFieldsById(id)
         const results = parseItemByType(data, language)
         // Record the initial ranking on item load to avoid updating existing falsy ranking to null again
         updateFieldRef(results)
@@ -207,7 +210,7 @@ const ItemPage = ({ match, history }) => {
 
     async function fetchAttachments() {
       const fetchImagesRecursively = async () => {
-        const attachments = await getItemAttachmentsById(match.params.id, offset)
+        const attachments = await getItemAttachmentsById(id, offset)
         fetchedImages.push(...attachments.data)
         offset += attachments.data.length
 
@@ -267,7 +270,7 @@ const ItemPage = ({ match, history }) => {
     }
 
     fetchAllItemAttributes()
-  }, [match.params.id, onChange, updateFieldRef])
+  }, [id, onChange, updateFieldRef])
 
   const handlePageClose = useCallback(
     (e) => {
@@ -290,22 +293,19 @@ const ItemPage = ({ match, history }) => {
     // failsafe for when the item hasn't loaded yet.
     // initially all we have is the item ID but no locale
     if (!item.locales) return
-    const { language } = queryString.parse(history.location.search)
     const localeUpdatedItem = changeItemLocale(item, language)
     dispatch({ type: 'updateAll', value: localeUpdatedItem })
     // originalItem has to reflect the item original structure based on a specific language
     originalItem.current = localeUpdatedItem
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.search])
+  }, [language])
 
   return (
     <div data-test={'item-page'}>
       {/* Prevent any route changes in EditingMode */}
-      <Prompt when={isEditing} message={() => `If you continue, all changes will be lost`} />
       {!isLoading ? (
         <Suspense fallback={<ItemLayoutLoader />}>
           <ItemLayout
-            history={history}
             item={item}
             isEditing={isEditing}
             onEdit={onEdit}

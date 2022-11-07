@@ -1,12 +1,13 @@
-import { useHistory } from 'react-router-dom'
-import { parse, stringify } from 'query-string'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { stringify } from 'query-string'
 import { SelectMarket } from '@tourlane/rooster'
 
 export const useMarket = (): [string, (v: string) => void] => {
-  let history = useHistory()
-  let { language = 'en-GB' } = parse(history.location.search)
+  const [urlParams] = useSearchParams()
+  const language = urlParams.get('language') ?? 'en-GB'
+  const navigate = useNavigate()
 
-  return [language as string, (language: string) => history.push(`?${stringify({ language })}`)]
+  return [language as string, (language: string) => navigate(`?${stringify({ language })}`)]
 }
 
 export const Market = ({ disabled }: { disabled: boolean }) => {

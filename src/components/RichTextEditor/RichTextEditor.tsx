@@ -82,7 +82,7 @@ const useEditorState = ({
 
   // Handle editor state change
   const onEditorStateChange = useCallback(
-    (editorState) => {
+    (editorState: { getCurrentContent: () => any }) => {
       typingStarted.current = true
       // Update editor state
       setEditorState(editorState)
@@ -113,7 +113,7 @@ const useEditorPaste = (maxLength: number | undefined) => {
   // Optionally handle pasted text, instead of using the default Draft.js behavior.
   // This is needed to handle extra blank lines generated in Windows.
   const handlePastedText = useCallback(
-    (text, html, editorState, onChange) => {
+    (text: string, html: string | undefined, editorState: any, onChange: (state: any) => void) => {
       if (!html) {
         // if this is not a rich text paste, we also fallback to default behavior.
         return false

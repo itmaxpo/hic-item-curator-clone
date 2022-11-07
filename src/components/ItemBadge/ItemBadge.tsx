@@ -5,6 +5,7 @@ interface IItemBadge {
   width: string
   color?: string
   background?: string
+  children: React.ReactNode;
 }
 
 const ItemBadge: FC<IItemBadge> = ({ width, color, background, children }) => {

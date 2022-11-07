@@ -4,7 +4,7 @@ import { StyledRichTextEditor } from 'components/RichTextEditor'
 import { REQUIRED_ERROR_MESSAGE, useHFContext } from './HookForm'
 
 import type React from 'react'
-import { FormItem } from '@tourlane/tourlane-ui'
+import {ErrorType, FormItem} from '@tourlane/tourlane-ui'
 
 interface Props extends React.ComponentProps<any> {
   name: string
@@ -32,7 +32,7 @@ export const HFRichTextEditor = ({
           <FormItem
             name={name}
             label={label}
-            error={get(formCtx?.form.formState.errors, name)?.message}
+            error={get(formCtx?.form.formState.errors, name)?.message as ErrorType}
           >
             <StyledRichTextEditor
               disabled={disabled ?? formCtx?.disabled}

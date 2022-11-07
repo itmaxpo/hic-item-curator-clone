@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { BackgroundSingleCard } from 'components/Background'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
@@ -6,7 +6,7 @@ import { authManager } from 'utils/AuthManager'
 import { StyledP, StyledButton } from './styles'
 
 const Login = () => {
-  let history = useHistory()
+  let navigate = useNavigate()
 
   return (
     <BackgroundSingleCard>
@@ -15,7 +15,7 @@ const Login = () => {
       <StyledButton
         onClick={async () => {
           await authManager.loginWithPopup()
-          history.push('/')
+          navigate('/')
         }}
       >
         Login with Google

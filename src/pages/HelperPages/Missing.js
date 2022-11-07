@@ -1,6 +1,7 @@
-import React from 'react'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
 import { P, Button } from '@tourlane/tourlane-ui'
+import { useNavigate } from 'react-router-dom'
+
 import { authManager } from 'utils/AuthManager'
 import { usePromise } from 'utils/usePromise'
 import { StyledP, StyledLink } from './styles'
@@ -14,7 +15,8 @@ import { BackgroundSingleCard } from 'components/Background'
  * @returns {Object} Missing Page
  */
 
-const MissingPage = ({ history }) => {
+const MissingPage = () => {
+  const navigate = useNavigate()
   const [{ data: user }] = usePromise(() => authManager.getUser(), [])
 
   return (
@@ -26,7 +28,7 @@ const MissingPage = ({ history }) => {
         </StyledP>
       )}
       <P>In this case just click the magic button to go to Search page</P>
-      <Button onClick={() => history.push('/')}>
+      <Button onClick={() => navigate('/')}>
         <StyledLink to={'/'}>Sweet home, Alabama!</StyledLink>
       </Button>
     </BackgroundSingleCard>

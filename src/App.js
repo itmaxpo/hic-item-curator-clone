@@ -1,9 +1,9 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Route, BrowserRouter, Switch, useHistory } from 'react-router-dom'
-import { COLORS } from '@tourlane/tourlane-ui'
-import { NotificationProvider, useNotification } from 'components/Notification'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { COLORS, NotificationProvider, useNotification } from '@tourlane/tourlane-ui'
 import queryString from 'query-string'
+
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import LoadingPage from 'pages/Loading'
 import { authManager } from './utils/AuthManager'
@@ -17,8 +17,8 @@ const AppWrapper = styled.div`
   min-height: 100vh;
   width: 100%;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
 `
 
 const SearchPage = lazy(() => import(/* webpackChunkName: "SearchPage" */ 'pages/Search'))
@@ -34,19 +34,18 @@ const SafariPage = lazy(() =>
 
 let AuthListener = ({ children }) => {
   let { enqueueNotification } = useNotification()
-  let history = useHistory()
 
   useEffect(
     () =>
       authManager.subscribe((e) => {
         if (e === 'login_failed') {
           enqueueNotification({ variant: 'error', message: 'Login failed' })
-          history.push('/login')
+          window.location.href = '/login'
         } else if (e === 'login_success') {
           enqueueNotification({ message: 'Login success' })
         }
       }),
-    [enqueueNotification, history]
+    [enqueueNotification]
   )
 
   return <>{children}</>
@@ -105,9 +104,7 @@ function App() {
     if (showAllImageLibrary) {
       const windowHeight = window.innerHeight || document.documentElement.clientHeight
       const rect = showAllImageLibrary.getBoundingClientRect()
-      const vertInView = rect.top <= windowHeight && rect.top + rect.height >= 0
-
-      return vertInView
+      return rect.top <= windowHeight && rect.top + rect.height >= 0
     }
   }
 
@@ -129,13 +126,13 @@ function App() {
         <BrowserRouter>
           <AuthListener>
             <Suspense fallback={<LoadingPage />}>
-              <Switch>
-                <Route exact path="/" component={SearchPage} />
-                <Route path="/login" component={LoginPage} />
-                <Route path="/item/:id" component={ItemPage} />
-                <Route path="/activity/:id" component={ActivityPage} />
-                <Route path="*" component={MissingPage} />
-              </Switch>
+              <Routes>
+                <Route exact path="/" element={<SearchPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/item/:id" element={<ItemPage />} />
+                <Route path="/activity/:id" element={<ActivityPage />} />
+                <Route path="*" element={<MissingPage />} />
+              </Routes>
             </Suspense>
           </AuthListener>
         </BrowserRouter>

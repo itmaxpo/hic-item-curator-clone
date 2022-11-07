@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { H5, AccordionGroup, Accordion, Box, Big } from '@tourlane/tourlane-ui'
 import { isEmpty } from 'lodash'
-import ReactHtmlParser from 'react-html-parser'
+import parse from 'html-react-parser'
 
 import StyledRichTextEditor from 'components/RichTextEditor'
 import { RichTextEditorLoader } from '../Description/styles'
@@ -64,7 +64,7 @@ const Information = ({ item, isEditing, onChange, type }: Props) => {
                 />
               </Suspense>
             ) : (
-              <Big>{ReactHtmlParser(d.value || 'No information found')}</Big>
+              <Big>{parse(d.value || 'No information found')}</Big>
             )}
           </Accordion>
         ))}

@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
+import { createRoot } from 'react-dom/client';
+
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { init } from '@sentry/browser'
+import './index.css'
 
 // Extend navigator object with functionality to detect browser and version
 navigator.browserSpecs = (function () {
@@ -28,7 +28,8 @@ if (process.env.REACT_APP_DEPLOYED_TO === 'production') {
   init({ dsn: process.env.REACT_APP_SENTRY_DSN })
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root'))
+root.render(<App />);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GlyphChevronDownIcon } from 'components/Icon'
 import { Flex } from '@tourlane/tourlane-ui'
 import { Wrapper, StyledHeader, StyledCollapse, StyledBody, BadgeContainer } from './styles'
-import ReactHtmlParser from 'react-html-parser'
+import parse from 'html-react-parser'
 
 const Badge = ({ color, children }) => (
   <BadgeContainer color={color}>
@@ -89,7 +89,7 @@ const ExpansionPanelWrapper = ({ descriptions = [], spacing = 'M', children }) =
               spacing={spacing}
               collapsed={description.collapsed}
             >
-              {ReactHtmlParser(description.value || 'No information found')}
+              {parse(description.value || 'No information found')}
             </Collapsible>
           ))
         : children}

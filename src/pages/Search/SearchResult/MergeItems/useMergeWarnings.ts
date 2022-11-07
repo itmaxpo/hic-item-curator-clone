@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useNotification } from '@tourlane/tourlane-ui'
+
 import { mergeItemsValidate } from 'services/contentApiTs'
-import { useNotification } from 'components/Notification'
 
 interface IItem {
   id: string
@@ -36,7 +37,7 @@ export const useMergeWarnings = (items: IItem[], onClose: () => {}) => {
         if (e instanceof Error) {
           enqueueNotification({
             variant: 'error',
-            message: e || 'Validation of item merging failed'
+            message: e.message ?? 'Validation of item merging failed'
           })
           onClose()
           return

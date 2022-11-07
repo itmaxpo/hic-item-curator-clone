@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useCallback, useEffect, lazy, Suspense } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+import parse from 'html-react-parser'
 import {
   Flex,
   FlexContainer,
@@ -153,7 +153,7 @@ const BlockedIndicator = ({ blocked }) => (
     {!!blocked ? (
       <Flex justify="between">
         <StyledBase data-test="Reason" color={COLORS.INACTIVE_GRAY}>
-          {ReactHtmlParser(blocked?.notes)}
+          {parse(blocked?.notes)}
         </StyledBase>
         <BlockedMarketsChip markets={blocked?.markets} />
       </Flex>

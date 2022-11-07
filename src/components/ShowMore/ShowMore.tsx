@@ -8,6 +8,7 @@ interface ICollapsable {
   height?: string
   size?: string
   collapsed?: boolean
+  children: React.ReactNode
 }
 /**
  * Component serves as a wrapper for the text components, that need to have

@@ -25,7 +25,16 @@ import {
   AREA_PAGE
 } from '../utils'
 
-import { H4, TextField, FlexContainer, Flex, Base, COLORS, SvgIcon, Box } from '@tourlane/tourlane-ui'
+import {
+  H4,
+  TextField,
+  FlexContainer,
+  Flex,
+  Base,
+  COLORS,
+  SvgIcon,
+  Box
+} from '@tourlane/tourlane-ui'
 import Information from './Information'
 import Images from './Images'
 
@@ -109,8 +118,10 @@ const OfferVisualisation = ({
       />
     ),
     [PHONE_COMPONENT_NAME]: (key) => {
-      console.log(phone)
-      const phoneText = phone.dialCode && phone.phoneNumber ? `${phone.dialCode} ${phone.phoneNumber}`: 'No number added'
+      const phoneText =
+        phone.dialCode && phone.phoneNumber
+          ? `${phone.dialCode} ${phone.phoneNumber}`
+          : 'No number added'
       return (
         <Fragment key={key}>
           <TitleWithContent>
@@ -156,13 +167,21 @@ const OfferVisualisation = ({
             ) : (
               <Box>
                 <Base color={!phone.isValid && COLORS.CHEERFUL_ORANGE}>{phoneText}</Base>
-                {!phone.isValid && <Flex alignItems="baseline" gap={14} mt={8}>
-                  <SvgIcon size={20} color={COLORS.CHEERFUL_ORANGE} colorActive={COLORS.RIOJA_RED}>
-                    <PositionedWarningIcon />
-                  </SvgIcon>
+                {!phone.isValid && (
+                  <Flex alignItems="baseline" gap={14} mt={8}>
+                    <SvgIcon
+                      size={20}
+                      color={COLORS.CHEERFUL_ORANGE}
+                      colorActive={COLORS.RIOJA_RED}
+                    >
+                      <PositionedWarningIcon />
+                    </SvgIcon>
 
-                  <Base color={COLORS.CHEERFUL_ORANGE}>The phone number is not valid, please specify a correct one</Base>
-                </Flex>}
+                    <Base color={COLORS.CHEERFUL_ORANGE}>
+                      The phone number is not valid, please specify a correct one
+                    </Base>
+                  </Flex>
+                )}
               </Box>
             )}
           </TitleWithContent>

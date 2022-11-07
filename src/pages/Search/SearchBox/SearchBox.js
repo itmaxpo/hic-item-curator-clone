@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { get, debounce } from 'lodash'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Flex,
@@ -41,11 +42,9 @@ import { getCountries, getAreasInCountry } from 'services/searchApi'
  * here the user specifies the item search criteria
  *
  * @name SearchBox
- * @param {Object} history
  * @returns {Object} Search Box
  */
 const SearchBox = ({
-  history,
   search,
   locationQuery,
   onQueryUpdate,
@@ -63,6 +62,7 @@ const SearchBox = ({
   const provider = get(locationQuery, 'provider')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
   const blocked = get(locationQuery, 'blocked') === 'true'
+  const navigate = useNavigate()
 
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [{ data: suppliers = [] }] = usePromise(
@@ -158,7 +158,7 @@ const SearchBox = ({
     } else {
       // go to item page
       const itemId = get(area, 'value') || get(country, 'value')
-      history.push(`/item/${itemId}?language=en-GB`)
+      navigate(`/item/${itemId}?language=en-GB`)
     }
   }
 

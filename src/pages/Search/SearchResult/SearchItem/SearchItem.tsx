@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, ForwardedRef } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+import parse from 'html-react-parser'
 import { isEmpty, map } from 'lodash'
 import ShowMore from 'components/ShowMore'
 import ItemBadge from 'components/ItemBadge'
@@ -54,7 +54,7 @@ export const SearchItem = React.forwardRef(
       country,
       isSelectable
     }: ISearchItem,
-    ref: ForwardedRef<HTMLDivElement>
+    ref?: ForwardedRef<HTMLDivElement>
   ) => {
     const [localItem, setLocalItem] = useState(item)
     // Subtitle needs to be a separated state because for accommodations we have to
@@ -173,7 +173,7 @@ export const SearchItem = React.forwardRef(
             )}
             <ItemDescription data-test="description">
               <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-                {ReactHtmlParser(localItem.description)}
+                {parse(localItem.description ?? '')}
               </ShowMore>
             </ItemDescription>
           </SearchItemInfoWrapper>

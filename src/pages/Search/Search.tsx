@@ -1,8 +1,8 @@
-import { lazy, Suspense, useState, useRef, useEffect, FC } from 'react'
+import { lazy, Suspense, useState, useRef, useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import queryString, { ParsedQuery } from 'query-string'
-import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
-import { RouteComponentProps } from 'react-router-dom'
+import { FlexContainer, Subline, useNotification } from '@tourlane/tourlane-ui'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
@@ -24,7 +24,6 @@ import {
 import { getQueryValue } from './SearchBox/utils'
 import { SadFaceIcon } from 'components/Icon'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
-import { useNotification } from 'components/Notification'
 
 // @ts-ignore
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
@@ -66,32 +65,34 @@ const defaultAccommodationSearchState = {
   }
 }
 
-const SearchPage: FC<RouteComponentProps> = ({ history }) => {
-  const parsedQuery = queryString.parse(history.location.search)
+const SearchPage = () => {
+  let [urlParams] = useSearchParams()
+  const queryParams = Object.fromEntries(urlParams)
   const { areaId, countryId, name, supplier, provider, page, missingGeolocation, blocked } =
-    parsedQuery
+    queryParams
 
   const prevPayload = useRef<any>(undefined)
   const itemTypeRef = useRef<any>(undefined)
   const [results, setResults] = useState<IParsedResults | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [country, setCountry] = useState(undefined)
-  const [category, setCategory] = useState(parsedQuery.type)
+  const [category, setCategory] = useState(queryParams?.type)
   const { enqueueNotification } = useNotification()
+  const navigate = useNavigate()
 
   const accommodationPageOffset = useRef(0)
 
   // this feature will be killed very soon 💀...
   const onFilterByMissingGeolocation = (filterValue: string) => {
     onQueryUpdate({
-      ...parsedQuery,
+      ...queryParams,
       missingGeolocation: filterValue
     })
     setResults(null)
   }
   const onFilterByBlocklist = (isBlocked: 'true' | 'false') => {
     onQueryUpdate({
-      ...parsedQuery,
+      ...queryParams,
       blocked: isBlocked
     })
     setResults(null)
@@ -99,7 +100,7 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
 
   // changes query in URL
   const onQueryUpdate = (query: ParsedQuery<string>) => {
-    history.push(`?${queryString.stringify(query)}`)
+    navigate(`?${queryString.stringify(query)}`)
     scrollToItemManager.setItemToScrollTo(null)
   }
 
@@ -137,7 +138,7 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
       // we clear the results and set page query to first page
       if (isNewSearch) {
         setResults(defaultAccommodationSearchState)
-        onQueryUpdate({ ...parsedQuery, page: String(1) })
+        onQueryUpdate({ ...queryParams, page: String(1) })
       }
 
       prevPayload.current = payload || prevPayload.current
@@ -182,23 +183,23 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
 
   // effect to update local values with query values
   useEffect(() => {
-    itemTypeRef.current = parsedQuery.type
+    itemTypeRef.current = queryParams.type
 
     // set country
     if (
-      parsedQuery.countryId &&
-      country !== getQueryValue(parsedQuery, 'countryName', 'countryId')?.label
+      queryParams.countryId &&
+      country !== getQueryValue(queryParams, 'countryName', 'countryId')?.label
     ) {
-      setCountry(getQueryValue(parsedQuery, 'countryName', 'countryId')?.label)
+      setCountry(getQueryValue(queryParams, 'countryName', 'countryId')?.label)
     }
 
-    if (!parsedQuery.countryId) {
+    if (!queryParams.countryId) {
       setCountry(undefined)
     }
 
     setResults(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parsedQuery.countryId, parsedQuery.type])
+  }, [queryParams.countryId, queryParams.type])
 
   // effect to fire a search when pressing back button or url with sufficient data is provided
   useEffect(() => {
@@ -240,11 +241,10 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
   return (
     <Layout>
       <Wrapper>
-        <Suspense fallback={<SearchBoxLoader category={parsedQuery.type} />}>
+        <Suspense fallback={<SearchBoxLoader category={queryParams.type} />}>
           <SearchBox
             search={search}
-            history={history}
-            locationQuery={parsedQuery}
+            locationQuery={queryParams}
             onQueryUpdate={searchBoxQueryUpdate}
             onFilterByMissingGeolocation={onFilterByMissingGeolocation}
             onFilterByBlocklist={onFilterByBlocklist}
@@ -259,7 +259,7 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
           <ActivitiesSearchResult
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            locationQuery={parsedQuery}
+            locationQuery={queryParams}
             onQueryUpdate={onQueryUpdate}
           />
         ) : (
@@ -270,7 +270,7 @@ const SearchPage: FC<RouteComponentProps> = ({ history }) => {
               isLoading={isLoading}
               itemType={itemTypeRef.current}
               country={country}
-              page={Number(parsedQuery.page)}
+              page={Number(queryParams.page)}
             />
           )
         )}

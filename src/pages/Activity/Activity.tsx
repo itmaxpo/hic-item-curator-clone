@@ -1,8 +1,8 @@
-import { lazy, Suspense, useEffect, useState, FC, useRef } from 'react'
+import React, { lazy, Suspense, useEffect, useState, FC, useRef } from 'react'
 import get from 'lodash/get'
 import { Controller, useForm } from 'react-hook-form'
 import mapValues from 'lodash/mapValues'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import {
@@ -21,7 +21,8 @@ import {
   Strong,
   Big,
   AlarmButton,
-  IconCircle
+  IconCircle,
+  useNotification
 } from '@tourlane/tourlane-ui'
 import DeleteIcon from '@tourlane/iconography/Glyphs/Navigation/Delete'
 
@@ -47,7 +48,6 @@ import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
 import NoLocation from '../Item/OfferVisualisation/NoLocation'
 import { CarouselLoader } from 'components/Carousel'
-import { useNotification } from '../../components/Notification'
 import { updateItemAttachmentsById } from '../../services/contentApi'
 import { ACTIVITY_ITEM_TYPE } from 'utils/constants'
 import useRefValue from 'utils/useRefValue'
@@ -68,7 +68,7 @@ const IconCircleStyled = styled(IconCircle)`
 
 const formSpacing = [12, 12, 15, 18, 24]
 
-const FieldGroup: FC<{ title: string }> = ({ title, children }) => (
+const FieldGroup: FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <>
     <H5 withBottomMargin>{title}</H5>
 
@@ -80,7 +80,10 @@ const FieldGroup: FC<{ title: string }> = ({ title, children }) => (
 
 const IMAGE_SIZE = 120
 
-const ImageCard: FC<{ onClick?: (...args: any[]) => void }> = ({ children, onClick }) => (
+const ImageCard: FC<{ onClick?: (...args: any[]) => void; children: React.ReactNode }> = ({
+  children,
+  onClick
+}) => (
   <Card onClick={onClick} height={IMAGE_SIZE} width={IMAGE_SIZE} withOverflowHidden withHover>
     {children}
   </Card>
@@ -183,7 +186,7 @@ const AddressSearch = () => {
         return (
           <SearchBox
             disabled={disabled}
-            error={get(formState.errors, 'address')?.message}
+            error={get(formState.errors, 'address')?.message as string}
             placeholder="Address"
             value={{ label: value, value }}
             onChange={(v: any) => {
@@ -228,11 +231,11 @@ const defaultImages: IAttachment[] = []
 
 type FormFields = IActivity & { images: IAttachment[] }
 
-export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
-  const id = match.params?.id
+export const Activity = () => {
+  const { id } = useParams<{ id: string }>()
   const [market] = useMarket()
   const [{ data: activity, isLoading }] = usePromise(
-    () => getActivityById(id, market),
+    () => getActivityById(id as string | number, market),
     [id, market]
   )
   const { enqueueNotification } = useNotification()
@@ -246,7 +249,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const [{ data: images = defaultImages }, reFetchImages] = usePromise(async () => {
-    const images = await getItemAttachments({ itemId: id, itemType: 'activity' })
+    const images = await getItemAttachments({ itemId: id as string, itemType: 'activity' })
     return images.filter(({ tags }) => tags?.visible !== false)
   })
 
@@ -254,7 +257,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
   const areas = activity?.touristic_areas?.map(({ name }) => name).join(', ')
 
   const { register, setValue, reset } = form
-  const history = useHistory()
+  const navigate = useNavigate()
 
   // Register the "images" field.
   register('images', {
@@ -263,9 +266,9 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
 
   useEffect(() => {
     if (activity?.active === false) {
-      history.push('/?type=activity')
+      navigate('/?type=activity')
     }
-  }, [activity, history])
+  }, [activity, navigate])
 
   // Update the form's "images" value every time the images change.
   useEffect(() => {
@@ -316,7 +319,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
       enqueueNotification({
         message: 'Activity deleted successfully'
       })
-      history.push('/?type=activity')
+      navigate('/?type=activity')
     } catch (error) {
       handleError('failed to delete', error)
     }
@@ -400,7 +403,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                     isLoading={isSubmitting}
                     data-test="confirm-delete"
                     onClick={() => {
-                      handleDeleteActivity(id)
+                      handleDeleteActivity(id as string)
                     }}
                   >
                     confirm
@@ -495,7 +498,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                     {isEditing && (
                       <Flex flex={1} direction="column">
                         <ItemImagesUpload
-                          itemId={id}
+                          itemId={id as string}
                           itemType="activity"
                           onUpload={reFetchImages}
                           error={(form.formState.errors?.images as any)?.message}
@@ -514,7 +517,7 @@ export const Activity: FC<RouteComponentProps<{ id: string }>> = ({ match }) => 
                         onDelete={async (imageId, imageOrder) => {
                           try {
                             const deletedImage: any = await updateItemAttachmentsById(
-                              id,
+                              id as string,
                               'activity',
                               [{ id: imageId, order: imageOrder }] as any,
                               false

@@ -1,9 +1,9 @@
-import ReactHtmlParser from 'react-html-parser'
 import LazyLoad from 'react-lazyload'
+import parse from 'html-react-parser'
+
 import { Chip, P, Flex } from '@tourlane/tourlane-ui'
 
 import ShowMore from 'components/ShowMore'
-
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import ItemBadge from '../../../../components/ItemBadge'
 import { Preloader } from '../../../../components/LazyLoader'
@@ -89,7 +89,7 @@ export const SearchItem = ({ item, onClick }) => (
 
         <ItemDescription data-test="description">
           <ShowMore collapsed={true} height={'60px'} size={'18px'}>
-            {ReactHtmlParser(item.description)}
+            {parse(item.description ?? '')}
           </ShowMore>
         </ItemDescription>
       </SearchItemInfoWrapper>

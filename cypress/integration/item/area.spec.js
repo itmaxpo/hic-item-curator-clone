@@ -24,8 +24,12 @@ describe('Item Page - Area', () => {
     // Check editing item page
     cy.get('[data-test=edit-item-button]').click()
     cy.get('[data-test=item-title-input]').type('2')
-    cy.get('[data-test=item-description-editor]').find('[contenteditable="true"]').type(' again')
-
+    cy.get('[data-test=item-description-editor]')
+      .as('descriptionEditor')
+      .contains('Some description')
+      .click()
+      .clear()
+    cy.get('@descriptionEditor').type('Some description again')
     cy.get('[data-test=item-title-editor]').type('hello')
     cy.get('[data-test=item-heading-editor]').type('we are')
     cy.get('[data-test=item-lead-editor]').type('here')

@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState, useCallback } from 'react'
 import queryString from 'query-string'
 import { get } from 'lodash'
+import { useNavigate } from 'react-router-dom'
 import Layout from 'components/Layout'
 import { Button, SecondaryButton, AlarmButton } from 'components/Button'
 import {
@@ -68,7 +69,6 @@ const Breadcrumbs = lazy(() =>
  *  - Language
  *
  * @name ItemLayout
- * @param {Object} history from react-router
  * @param {Array<String>} tabs
  * @param {Array<React.Component>} tabContents
  * @param {Object} item
@@ -78,7 +78,6 @@ const Breadcrumbs = lazy(() =>
  * @returns ItemLayout component
  */
 const ItemLayout = ({
-  history,
   tabs,
   tabContents,
   item,
@@ -96,6 +95,7 @@ const ItemLayout = ({
     item[FIELD_ORIGINAL_NAME]
   const [breadcrumbs, setBreadcrumbs] = useState([])
   const [isFetchingBreadcrumbs, setIsFetchingBreadcrumbs] = useState(false)
+  const navigate = useNavigate()
 
   const onTitleChange = (e) => {
     onChange(FIELD_NAME, e.target.value)
@@ -103,7 +103,7 @@ const ItemLayout = ({
 
   const onLanguageChange = (e, locale) => {
     e.preventDefault()
-    history.push(`?${queryString.stringify({ language: locale })}`)
+    navigate(`?${queryString.stringify({ language: locale })}`)
   }
 
   const onActiveDestinationChange = (e) => {

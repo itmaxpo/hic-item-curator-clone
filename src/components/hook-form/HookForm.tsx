@@ -1,9 +1,9 @@
 import { createContext, useContext, DetailedHTMLProps, FormHTMLAttributes, ReactNode } from 'react'
-import type { FieldName, UseFormReturn, Path } from 'react-hook-form'
+import type {FieldName, UseFormReturn, Path, FieldValues} from 'react-hook-form'
 
 type HtmlFormProps = DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
 
-interface IHFContextValue<T = any> {
+interface IHFContextValue<T extends FieldValues = any> {
   form: UseFormReturn<T>
   disabled?: boolean
 }
@@ -14,12 +14,12 @@ const Context = createContext<IHFContextValue | undefined>(undefined)
 
 export const useHFContext = () => useContext(Context)
 
-interface Props<T = any> extends Omit<HtmlFormProps, 'onSubmit'>, IHFContextValue<T> {
+interface Props<T extends FieldValues = any> extends Omit<HtmlFormProps, 'onSubmit'>, IHFContextValue<T> {
   onSubmit?: (data: T, helpers: ReturnType<typeof createHelpers>) => void
   children: ReactNode
 }
 
-export function createHelpers<T>(form: UseFormReturn<T>) {
+export function createHelpers<T extends FieldValues>(form: UseFormReturn<T>) {
   return {
     setErrors(errors: Record<FieldName<T>, string>) {
       Object.entries<string>(errors).forEach(([fieldName, message], i) =>

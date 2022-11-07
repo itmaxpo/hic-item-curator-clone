@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useState, useEffect, Fragment } from 'react'
 import { isEmpty } from 'lodash'
-import ReactHtmlParser from 'react-html-parser'
+import parse from 'html-react-parser'
 import { Slide } from '@material-ui/core'
 import { H5, FlexContainer, Card, Accordion, AccordionGroup } from '@tourlane/tourlane-ui'
 import ShowMore from 'components/ShowMore'
@@ -26,7 +26,7 @@ const ContentInspiration = ({ description, inspirations }) => (
           badge={d.badge}
           badgeVariant={'alarm'}
         >
-          {ReactHtmlParser(d.value)}
+          {parse(d.value ?? '')}
         </Accordion>
       ))}
     </AccordionGroup>
@@ -91,7 +91,7 @@ const Description = ({ type, description, descriptionInspiration, onChange, isEd
               size={'20px'}
               lines={12}
             >
-              {!isEmpty(_description) ? ReactHtmlParser(_description) : 'No Description'}
+              {!isEmpty(_description) ? parse(_description ?? '') : 'No Description'}
             </ShowMore>
           )}
         </Column>
