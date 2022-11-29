@@ -1,34 +1,27 @@
-import { getAccommCategoriesApi } from 'services/accommCategoriesApi'
+import { getAccommodationCategoriesApi } from 'services/accommCategoriesApi'
 import { ACCOMM_CATEGORY_COMPONENT_NAME } from 'pages/Item/utils'
 import { usePromise } from '../../utils/usePromise'
 
 const DEFAULT_LABEL = 'No Category'
-
-export let useAccommodationCategories = () => {
+// new format category: category?.uuid, old format category: kiwi://Elephant/Item/${category?.uuid}
+export let useAccommodationCategories = (isNewFormat) => {
   let [{ data: categories = [] }] = usePromise(
-    async () => sortCategories(transformCategories(await getAccommCategoriesApi())),
+    async () => sortCategories(mapCategories(await getAccommodationCategoriesApi(), isNewFormat)),
     []
   )
 
-  return categories
+  return [{ value: null, label: DEFAULT_LABEL }, ...categories]
 }
 
-function transformCategories(res) {
-  const noCategory = {
-    fields: [
-      {
-        content: DEFAULT_LABEL
-      }
-    ],
-    uuid: null
-  }
-  const categories = [...res?.data, noCategory]
-  return categories.map((category) => {
-    const label = category?.fields[0]?.content
-    const value = category?.uuid ? `kiwi://Elephant/Item/${category?.uuid}` : null
-    return { value, label }
-  })
-}
+const mapCategories = (res, isNewFormat) => [
+  ...res?.data
+    .filter(({ uuid }) => uuid)
+    .map((category) => {
+      const label = category?.fields[0]?.content
+      const value = isNewFormat ? category?.uuid : `kiwi://Elephant/Item/${category?.uuid}`
+      return { value, label }
+    })
+]
 
 const orderedCategories = ['No Category', 'Eco-Budget', 'Budget', 'Standard', 'Luxury', 'High-End']
 

@@ -324,7 +324,7 @@ export const getSource = (item) => [
 // HELPERS - END
 
 // PARSE METHODS - START
-/**
+/*
  * Receive item and returns parsed by item
  *
  * @param {Object} items

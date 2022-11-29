@@ -1,14 +1,15 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Big, Flex, H4 } from '@tourlane/tourlane-ui'
 import { beautifyString } from 'utils/helpers'
 
 interface Props {
-  source: [string]
+  source: string[]
+  label?: ReactNode | string
 }
-export const Source: FC<Props> = ({ source }) => {
+export const Source: FC<Props> = ({ source, label }) => {
   return (
     <Flex direction={'ttb'}>
-      <H4>Source</H4>
+      {label ?? <H4>Source</H4>}
       <Flex pt={24}>
         <Flex>
           <Big data-test="source">

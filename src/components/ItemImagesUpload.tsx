@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Upload, COLORS, useNotification } from '@tourlane/tourlane-ui'
+import { Upload, COLORS } from '@tourlane/tourlane-ui'
 import { allSettled } from '../utils/promise'
 import { addAttachmentToItem, ItemType } from '../services/attachmentsApi'
+
+import { useNotification } from 'components/Notification'
 
 export const StyledUpload = styled(Upload)`
   ${({ error }) => error && `border: 1px solid ${COLORS.RIOJA_RED};`}

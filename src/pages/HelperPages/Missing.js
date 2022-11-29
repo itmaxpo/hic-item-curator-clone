@@ -7,7 +7,7 @@ import { usePromise } from 'utils/usePromise'
 import { StyledP, StyledLink } from './styles'
 import { BackgroundSingleCard } from 'components/Background'
 
-/**
+/*
  * This is the 404/Missing Page component
  * Every time the route is missing will be redirected to this page
  *

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNotification } from '@tourlane/tourlane-ui'
+import { useNotification } from 'components/Notification'
 
 import { mergeItemsValidate } from 'services/contentApiTs'
 

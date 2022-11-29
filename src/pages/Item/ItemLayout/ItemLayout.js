@@ -216,6 +216,7 @@ const ItemLayout = ({
             </Suspense>
           )}
         </BreadcrumbsWrapper>
+
         <TitleWrapper data-test={'item-title-wrapper'} isEditing={isEditing}>
           <TitleLangWrapper p={0} alignItems={'center'} justifyContent={'space-between'}>
             {!isEditing ? (

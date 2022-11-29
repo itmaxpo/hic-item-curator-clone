@@ -1,15 +1,6 @@
 import React from 'react'
 import { MergeBigIcon, CheckIcon } from 'components/Icon'
-import {
-  H3,
-  Flex,
-  Box,
-  FlexBox,
-  SvgIcon,
-  COLORS,
-  ExtraSmall,
-  useNotification
-} from '@tourlane/tourlane-ui'
+import { H3, Flex, Box, FlexBox, SvgIcon, COLORS, ExtraSmall } from '@tourlane/tourlane-ui'
 import WarningIcon from '@tourlane/iconography/Glyphs/Notifications/Warning'
 import {
   StyledModal,
@@ -30,6 +21,7 @@ import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { parseMergedItem } from './utils'
 import { useMergeWarnings } from './useMergeWarnings'
 import { MergeWarnings } from './MergeWarnings'
+import { useNotification } from 'components/Notification'
 
 const ItemCard = ({ title, area, country }) => {
   const subtitle = area ? `${area}, ${country}` : country

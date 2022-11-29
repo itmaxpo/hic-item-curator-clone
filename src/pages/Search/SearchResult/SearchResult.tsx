@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { isEmpty, map, uniqBy } from 'lodash'
 import { useNavigate } from 'react-router-dom'
-import { FlexContainer, H4, Big, Container, useNotification } from '@tourlane/tourlane-ui'
+import { FlexContainer, H4, Big, Container } from '@tourlane/tourlane-ui'
 import Actions from './Actions'
 import {
   getParentNameList,
@@ -17,6 +17,7 @@ import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
 import { IParsedResults, IParseItem } from '../Search'
 import { ISearchQueryAccom } from 'services/searchApi'
+import { useNotification } from 'components/Notification'
 
 export type ISelectedItems = { id: string }[]
 export type ItemClickEvent = MouseEvent & {

@@ -9,8 +9,9 @@ export const parsePolygonCoordinates = (coordinates) =>
 
 export const parsePhoneNumber = (phoneNumber, accommodationCountryCode) => {
   // giata returns some phone numbers without '+' sign
-  const isNonStandardPhoneNum = !phoneNumber?.includes('+') && !phoneNumber?.startsWith('0');
-  const standardNumber = isNonStandardPhoneNum ? `+${phoneNumber}`: phoneNumber
+  const isNonStandardPhoneNum =
+    phoneNumber && !phoneNumber?.includes('+') && !phoneNumber?.startsWith('0')
+  const standardNumber = isNonStandardPhoneNum ? `+${phoneNumber}` : phoneNumber
 
   const oldNumber = isUndefined(standardNumber) ? '' : standardNumber
   const phone = new PhoneNumber(standardNumber || '')

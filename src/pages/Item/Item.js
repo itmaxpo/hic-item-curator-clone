@@ -2,14 +2,12 @@ import React, { lazy, Suspense, useState, useEffect, useRef, useReducer, useCall
 import queryString from 'query-string'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { flatten, get } from 'lodash'
-import { useNotification } from '@tourlane/tourlane-ui'
 
 import { ItemLayoutLoader, TabContentLoader } from './styles'
 import { componentsBasedOnType, changeItemLocale, updateItemLocales, capitalizeBy } from './utils'
 import {
   getItemFieldsById,
   updateItemFields,
-  getRoomsForAccommodation,
   getItemPolygonCoordinatesById,
   getItemAttachmentsById,
   updateItemAttachmentsById
@@ -17,11 +15,11 @@ import {
 import Loader from 'components/Loader'
 import { parseItemByType, transformToSupplyItem, FIELD_FRONT_DESK_PHONE } from './itemParser'
 import { onPageClosing } from 'utils/helpers'
-import { AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
-import { getFieldBySourcePriority } from 'utils/helpers'
+import { AREA_ITEM_TYPE } from 'utils/constants'
 import { useFieldsRef } from './useFieldsRef'
 import { parsePhoneNumber } from './OfferVisualisation/utils'
 import { usePrompt } from 'components/RouterPrompt'
+import { useNotification } from 'components/Notification'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
 const OfferVisualisation = lazy(() =>
@@ -49,7 +47,7 @@ const reducer = (state, action) => {
   }
 }
 
-/**
+/*
  * This is the Item Page component
  * Use it to render item and handle CRUD actions on Item.
  * Renders standard Layout of the page:
@@ -176,21 +174,6 @@ const ItemPage = () => {
           onChange('polygon', parsedPolygon)
           originalItem.current = { ...originalItem.current, polygon: parsedPolygon }
           break
-        case ACCOMMODATION_ITEM_TYPE:
-          const accomRooms = await getRoomsForAccommodation(id)
-
-          const rooms = accomRooms['data'].map((room) => {
-            return {
-              label:
-                get(getFieldBySourcePriority(get(room, 'fields.category')), 'content') || 'No name',
-              value: get(room, 'fields.description.0.content') || 'No description',
-              badge: get(room, 'fields.meal_basis.0.content')
-            }
-          })
-
-          onChange('rooms', rooms)
-          originalItem.current = { ...originalItem.current, rooms }
-          break
         default:
           break
       }
@@ -261,11 +244,11 @@ const ItemPage = () => {
         dispatch({ type: 'updateAll', value: itemWithAttachments })
         setIsLoading(false)
 
-        // if item is area || accom -> fetch additional info (polygon, rooms)
-        if (itemWithAttachments.type !== COUNTRY_ITEM_TYPE) {
+        if (itemWithAttachments.type === AREA_ITEM_TYPE) {
           await fetchAdditionalInformation(itemWithAttachments)
-          setIsLoadingAdditionalInfo(false)
         }
+
+        setIsLoadingAdditionalInfo(false)
       })
     }
 
@@ -302,7 +285,6 @@ const ItemPage = () => {
 
   return (
     <div data-test={'item-page'}>
-      {/* Prevent any route changes in EditingMode */}
       {!isLoading ? (
         <Suspense fallback={<ItemLayoutLoader />}>
           <ItemLayout

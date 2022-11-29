@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, ChangeEvent } from 'react'
 import { Flex, ExtraSmall, Label, Radio, COLORS, TextField } from '@tourlane/tourlane-ui'
 import SearchIcon from '@tourlane/iconography/Glyphs/Navigation/Search'
 import { SearchBox } from 'components/Map'
@@ -7,7 +7,7 @@ import { debounce } from 'lodash'
 
 type LocationType = 'address' | 'geolocation'
 
-type Geolocation = { lat: number; lon: number }
+export type Geolocation = { lat: number; lon: number }
 
 interface AccommodationLocationProps {
   address: { label: string; value: string }
@@ -26,7 +26,7 @@ export const AccommodationLocation: FC<AccommodationLocationProps> = ({
 
   useEffect(() => setNewGeolocation(geolocation), [geolocation])
 
-  const locationTypeChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
+  const locationTypeChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
     setLocationType(value as LocationType)
 
   const searchAddressByGeolocation = async (nextGeolocation: Geolocation) => {
@@ -46,7 +46,7 @@ export const AccommodationLocation: FC<AccommodationLocationProps> = ({
   }
 
   const onGeolocationChange = debounce(
-    ({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) => {
+    ({ target: { value, name } }: ChangeEvent<HTMLInputElement>) => {
       const nextGeolocation =
         name === 'lat'
           ? { lat: +value, lon: newGeolocation?.lon }

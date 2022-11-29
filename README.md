@@ -42,9 +42,7 @@ The entry point of the whole app is an [src/index.js](https://github.com/tourlan
 ├── public [Static files]
 ├── pull_request_template.md [Template to generate message on PR]
 ├── src
-│   ├── App.css
-│   ├── App.js
-│   ├── App.test.js
+│   ├── App.tsx
 │   ├── components [Folder with all existing shared components]
 │   │   ├── Component
 │   │   │   ├── <Custom>Component.js

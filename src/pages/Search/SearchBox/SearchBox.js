@@ -67,9 +67,7 @@ const SearchBox = ({
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [{ data: suppliers = [] }] = usePromise(
     async () =>
-      (await getSuppliers())
-        .filter(({ supplier_id }) => supplier_id)
-        .map(({ name, supplier_id }) => ({ value: supplier_id, label: name })),
+      (await getSuppliers()).map(({ name, supplier_id }) => ({ value: supplier_id, label: name })),
     []
   )
 

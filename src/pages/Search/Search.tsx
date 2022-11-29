@@ -1,8 +1,10 @@
 import { lazy, Suspense, useState, useRef, useEffect } from 'react'
 import { isEmpty } from 'lodash'
 import queryString, { ParsedQuery } from 'query-string'
-import { FlexContainer, Subline, useNotification } from '@tourlane/tourlane-ui'
+import { FlexContainer, Subline } from '@tourlane/tourlane-ui'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+
+import { useNotification } from 'components/Notification'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'

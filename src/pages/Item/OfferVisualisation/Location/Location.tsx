@@ -11,7 +11,7 @@ import { MapWrapper, NoLocationWrapper, TitleWithContent } from '../styles'
 import { AccommodationLocation } from '../AccommodationLocation'
 import Loader from 'components/Loader'
 import Map from 'components/Map'
-import NoLocation from '../NoLocation'
+import NoLocation from 'components/NoLocation'
 import { PageProps } from 'types/PageProps'
 
 interface Props {
@@ -46,7 +46,6 @@ const Location = ({ item, isEditing, isLoadingAdditionalInfo, onGeolocationUpdat
   }
 
   const shouldRenderMap = (coordinates && coordinates.lat && coordinates.lng) || polygon
-
   return (
     <TitleWithContent>
       <H5 withBottomPadding data-test={'item-location-header'}>

@@ -39,7 +39,7 @@ import Information from './Information'
 import Images from './Images'
 
 import { FIELD_FRONT_DESK_PHONE } from '../itemParser'
-import { Source } from './Source/Source'
+import { Source } from 'components/Source/Source'
 
 const Description = lazy(() => import(/* webpackChunkName: "Description" */ './Description'))
 const CountryPage = lazy(() => import(/* webpackChunkName: "CountryPage" */ './CountryPage'))
@@ -166,8 +166,10 @@ const OfferVisualisation = ({
               </PhoneBlock>
             ) : (
               <Box>
-                <Base color={!phone.isValid && COLORS.CHEERFUL_ORANGE}>{phoneText}</Base>
-                {!phone.isValid && (
+                <Base color={phone.phoneNumber && !phone.isValid && COLORS.CHEERFUL_ORANGE}>
+                  {phoneText}
+                </Base>
+                {phone.phoneNumber && !phone.isValid && (
                   <Flex alignItems="baseline" gap={14} mt={8}>
                     <SvgIcon
                       size={20}

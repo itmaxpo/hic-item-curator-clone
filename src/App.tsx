@@ -1,17 +1,13 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, ReactNode } from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { COLORS, NotificationProvider, useNotification } from '@tourlane/tourlane-ui'
+import { COLORS } from '@tourlane/tourlane-ui'
 import queryString from 'query-string'
 
 import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import LoadingPage from 'pages/Loading'
 import { authManager } from './utils/AuthManager'
-
-const isSafari11 = () =>
-  navigator.browserSpecs &&
-  navigator.browserSpecs.name === 'Safari' &&
-  Number(navigator.browserSpecs.version) >= 11
+import { NotificationProvider, useNotification } from 'components/Notification'
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -25,15 +21,15 @@ const SearchPage = lazy(() => import(/* webpackChunkName: "SearchPage" */ 'pages
 const LoginPage = lazy(() => import(/* webpackChunkName: "LoginPage" */ 'pages/Login'))
 const ItemPage = lazy(() => import(/* webpackChunkName: "ItemPage" */ 'pages/Item'))
 const ActivityPage = lazy(() => import(/* webpackChunkName: "ActivityPage" */ 'pages/Activity'))
-const MissingPage = lazy(() =>
-  import(/* webpackChunkName: "MissingPage" */ 'pages/HelperPages/Missing')
+const AccommodationPage = lazy(
+  () => import(/* webpackChunkName: "AccommodationPage" */ 'pages/Accommodation')
 )
-const SafariPage = lazy(() =>
-  import(/* webpackChunkName: "SafariPage" */ 'pages/HelperPages/Safari')
+const MissingPage = lazy(
+  () => import(/* webpackChunkName: "MissingPage" */ 'pages/HelperPages/Missing')
 )
 
-let AuthListener = ({ children }) => {
-  let { enqueueNotification } = useNotification()
+const AuthListener = ({ children }: { children: ReactNode }) => {
+  const { enqueueNotification } = useNotification()
 
   useEffect(
     () =>
@@ -51,25 +47,15 @@ let AuthListener = ({ children }) => {
   return <>{children}</>
 }
 
-/**
- * This is entry for the whole app
- * Will check if user isAuthenticated, if not - go to Login page
- * Also handle onScroll handler for the whole app
- *
- * @name App
- * @returns App
- */
-function App() {
-  const [showSafariPage, setShowSafariPage] = useState(isSafari11())
-
+export const App = () => {
   // Used to handle animation of changes between sticky header and search actions
   // In all other cases header always sticky
   const handleScroll = () => {
-    const header = document.getElementById('sticky-header')
-    const stickyElement = document.getElementById('items-sticky-actions')
-    const showAllImageLibrary = document.getElementById('visible-images')
+    const header = document.getElementById('sticky-header') as HTMLElement
+    const stickyElement = document.getElementById('items-sticky-actions') as HTMLElement
+    const showAllImageLibrary = document.getElementById('visible-images') as HTMLElement
 
-    const generateConditions = (firstOffset, secondOffset) => {
+    const generateConditions = (firstOffset: number, secondOffset: number) => {
       if (header.offsetTop >= firstOffset) {
         header.style.visibility = 'hidden'
         stickyElement.style.top = '0'
@@ -109,16 +95,10 @@ function App() {
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-  }, [])
+    window?.addEventListener('scroll', handleScroll)
 
-  if (showSafariPage) {
-    return (
-      <Suspense fallback={<LoadingPage />}>
-        <SafariPage onContinue={() => setShowSafariPage(false)} />
-      </Suspense>
-    )
-  }
+    return () => window?.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <AppWrapper>
@@ -127,10 +107,11 @@ function App() {
           <AuthListener>
             <Suspense fallback={<LoadingPage />}>
               <Routes>
-                <Route exact path="/" element={<SearchPage />} />
+                <Route path="/" element={<SearchPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/item/:id" element={<ItemPage />} />
                 <Route path="/activity/:id" element={<ActivityPage />} />
+                <Route path="/accommodation/:id" element={<AccommodationPage />} />
                 <Route path="*" element={<MissingPage />} />
               </Routes>
             </Suspense>
@@ -140,5 +121,3 @@ function App() {
     </AppWrapper>
   )
 }
-
-export default App

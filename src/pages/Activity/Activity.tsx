@@ -21,10 +21,10 @@ import {
   Strong,
   Big,
   AlarmButton,
-  IconCircle,
-  useNotification
+  IconCircle
 } from '@tourlane/tourlane-ui'
 import DeleteIcon from '@tourlane/iconography/Glyphs/Navigation/Delete'
+import { useNotification } from 'components/Notification'
 
 import Breadcrumbs from 'components/Breadcrumbs'
 import MapComponent, { SearchBox } from 'components/Map'
@@ -33,7 +33,7 @@ import {
   createHelpers,
   HFCheckbox,
   HFDropdown,
-  HFRichTextEditor,
+  HFRichTextEditorConfigured,
   HFTextField,
   HookForm,
   REQUIRED_ERROR_MESSAGE,
@@ -46,7 +46,7 @@ import { getItemAttachments, IAttachment } from '../../services/attachmentsApi'
 import { usePromise } from '../../utils/usePromise'
 import { Market, useMarket } from './Market'
 import { getActivityBreadcrumbs, getThemes } from './utils'
-import NoLocation from '../Item/OfferVisualisation/NoLocation'
+import NoLocation from 'components/NoLocation'
 import { CarouselLoader } from 'components/Carousel'
 import { updateItemAttachmentsById } from '../../services/contentApi'
 import { ACTIVITY_ITEM_TYPE } from 'utils/constants'
@@ -89,7 +89,7 @@ const ImageCard: FC<{ onClick?: (...args: any[]) => void; children: React.ReactN
   </Card>
 )
 
-const Images: FC<{
+export const Images: FC<{
   images: IAttachment[]
   onImageClick: (i: number) => void
   isEditing: boolean
@@ -202,30 +202,6 @@ const AddressSearch = () => {
     />
   )
 }
-
-const RichTextEditorWithEditorProps: FC<{ name: string; label: string; required?: boolean }> = ({
-  name,
-  label,
-  required
-}) => (
-  <HFRichTextEditor
-    name={name}
-    label={label}
-    required={required}
-    resizable
-    editorProps={{
-      toolbar: {
-        options: ['inline', 'list'],
-        inline: {
-          options: ['bold']
-        },
-        list: {
-          options: ['unordered']
-        }
-      }
-    }}
-  />
-)
 
 const defaultImages: IAttachment[] = []
 
@@ -487,7 +463,7 @@ export const Activity = () => {
 
                 <Hr />
 
-                <RichTextEditorWithEditorProps name="description" label="Description" required />
+                <HFRichTextEditorConfigured name="description" label="Description" required />
 
                 <Flex flexDirection="column">
                   <H5 withBottomMargin ref={imagesRef} id="images-header">
@@ -529,7 +505,7 @@ export const Activity = () => {
                             if (deletedImage[0]?.error?.length > 0) {
                               throw Error(deletedImage[0].error.join(', '))
                             }
-                          } catch (e) {
+                          } catch (e: any) {
                             if (e instanceof Error) {
                               enqueueNotification({
                                 variant: 'error',
@@ -558,8 +534,8 @@ export const Activity = () => {
 
                 <Flex gap={formSpacing}>
                   <Flex direction="ttb" flex={1} gap={formSpacing}>
-                    <RichTextEditorWithEditorProps name="inclusions" label="Inclusions" />
-                    <RichTextEditorWithEditorProps name="what_to_bring" label="What to bring" />
+                    <HFRichTextEditorConfigured name="inclusions" label="Inclusions" />
+                    <HFRichTextEditorConfigured name="what_to_bring" label="What to bring" />
 
                     <FieldGroup title="Additional PAX information">
                       <HFCheckbox
@@ -585,7 +561,7 @@ export const Activity = () => {
                   </Flex>
 
                   <Flex flexDirection="column" gap={formSpacing} flex={1}>
-                    <RichTextEditorWithEditorProps name="exclusions" label="Exclusions" />
+                    <HFRichTextEditorConfigured name="exclusions" label="Exclusions" />
 
                     <FieldGroup title="Activity Restrictions">
                       <HFCheckbox

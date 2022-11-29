@@ -1,10 +1,12 @@
 import { lazy, Suspense } from 'react'
 import LazyLoad from 'react-lazyload'
 import cuid from 'cuid'
-import { Skeleton, useNotification } from '@tourlane/tourlane-ui'
+import { Skeleton } from '@tourlane/tourlane-ui'
 import { capitalizeBy } from 'pages/Item/utils'
 import { addAttachmentToItem } from '../../services/attachmentsApi'
 import { allSettled } from '../../utils/promise'
+import { useNotification } from 'components/Notification'
+
 const UploadImageBlock = lazy(() => import(/* webpackChunkName: "UploadImageBlock" */ './styles'))
 
 const DraggableGallery = lazy(() =>

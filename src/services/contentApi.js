@@ -65,7 +65,7 @@ const fieldsToSelect = [
   FIELD_DMC_ID,
   FIELD_EXTERNAL_ID
 ]
-/**
+/*
  * Return item fields
  *
  * @name getItemFieldsById
@@ -112,7 +112,6 @@ const getItemAttachmentsById = async (id, offset = 0, itemType) =>
  *
  * @name updateItemAttachmentsById
  * @param {String} id
- * @param {String} attachments
  * @returns {Object}
  */
 const updateItemAttachmentsById = async (id, type, attachments, isVisible) => {
@@ -153,37 +152,6 @@ const updateItemFields = async (id, fields) => {
   return res.json()
 }
 
-const getRoomsForAccommodation = async (id) => {
-  let res
-  // add a condition to modify request if it is e2e test environment
-  if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request(
-      'POST',
-      `${process.env.REACT_APP_PARTNERS_API}/search/v1/items?test-room`,
-      {}
-    )
-  } else {
-    res = await request('POST', `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`, {
-      body: {
-        item_types: ['room'],
-        query: {
-          bool: {
-            should: [
-              {
-                match: {
-                  parent_uuid: id
-                }
-              }
-            ]
-          }
-        }
-      }
-    })
-  }
-
-  return res.json()
-}
-
 /**
  * Merge items
  *
@@ -191,21 +159,17 @@ const getRoomsForAccommodation = async (id) => {
  * @param {Array<String>} ids
  * @returns {Object} merged item
  */
-const mergeItems = async (ids) => {
-  let res = await postJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/merge`, {
+const mergeItems = async (ids) =>
+  postJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/merge`, {
     item_uuids: ids,
     selected_fields: '*'
   })
-
-  return res
-}
 
 export {
   getItemFieldsById,
   getItemAttachmentsById,
   updateItemAttachmentsById,
   updateItemFields,
-  getRoomsForAccommodation,
   mergeItems,
   getItemPolygonCoordinatesById
 }
