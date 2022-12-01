@@ -66,9 +66,9 @@ describe('Homepage', () => {
       'fixture:search/emptyAreaName.json'
     )
     cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/items/**/attachments**',
-      'fixture:search/attachments.json'
+      'POST',
+      'https://partners-staging.**.com/content/areas/search**',
+      'fixture:search/areas.json'
     )
 
     cy.get('[data-test=searchBox]').as('searchBox')

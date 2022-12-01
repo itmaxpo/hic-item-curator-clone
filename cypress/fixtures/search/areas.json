@@ -1,0 +1,148 @@
+{
+  "data": [
+    {
+      "uuid": "de5516cc-a9d9-48b2-9474-e6bd0ad46812",
+      "name": null,
+      "iso_code": null,
+      "area_type": "admin",
+      "description": null,
+      "wetu_id": null,
+      "offer_preview": null,
+      "active_destination": null,
+      "original_name": "Tierra del Fuego",
+      "visualization_destination": null,
+      "safety": null,
+      "currency": null,
+      "cuisine": null,
+      "climate": null,
+      "dress": null,
+      "health": null,
+      "electricity": null,
+      "entry_requirements": null,
+      "additional_info": null,
+      "transport": null,
+      "ancestors": [
+        {
+          "uuid": "c3213008-b9ce-4c08-b47a-b9f0a5822ab0",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "centroid": null
+    },
+    {
+      "uuid": "316c1b1f-ad72-49b8-84bb-69c4b82674ab",
+      "name": null,
+      "iso_code": null,
+      "area_type": "admin",
+      "description": null,
+      "wetu_id": null,
+      "offer_preview": null,
+      "active_destination": null,
+      "original_name": "Buenos Aires",
+      "visualization_destination": null,
+      "safety": null,
+      "currency": null,
+      "cuisine": null,
+      "climate": null,
+      "dress": null,
+      "health": null,
+      "electricity": null,
+      "entry_requirements": null,
+      "additional_info": null,
+      "transport": null,
+      "ancestors": [
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "centroid": null
+    },
+    {
+      "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+      "name": "Autonomous City of Buenos Aires",
+      "iso_code": null,
+      "area_type": "admin",
+      "description": null,
+      "wetu_id": null,
+      "offer_preview": null,
+      "active_destination": false,
+      "original_name": "Ciudad Autónoma de Buenos Aires",
+      "visualization_destination": null,
+      "safety": null,
+      "currency": null,
+      "cuisine": null,
+      "climate": null,
+      "dress": null,
+      "health": null,
+      "electricity": null,
+      "entry_requirements": null,
+      "additional_info": null,
+      "transport": null,
+      "ancestors": [
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "centroid": null
+    },
+    {
+      "uuid": "c0e6a47a-0375-4bac-872a-9569b49c1993",
+      "name": null,
+      "iso_code": null,
+      "area_type": "admin",
+      "description": null,
+      "wetu_id": null,
+      "offer_preview": null,
+      "active_destination": null,
+      "original_name": "Córdoba",
+      "visualization_destination": null,
+      "safety": null,
+      "currency": null,
+      "cuisine": null,
+      "climate": null,
+      "dress": null,
+      "health": null,
+      "electricity": null,
+      "entry_requirements": null,
+      "additional_info": null,
+      "transport": null,
+      "ancestors": [
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "centroid": null
+    }
+  ],
+  "meta": {
+    "count": 4,
+    "total_count": 4
+  }
+}

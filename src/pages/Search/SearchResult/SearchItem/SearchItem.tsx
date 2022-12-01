@@ -89,7 +89,7 @@ export const SearchItem = React.forwardRef(
         if (isLoading) {
           setIsLoading(false)
           const enrichedItem = await enrichItem(localItem)
-          updateItemRef(enrichedItem, localItem.isMerged)
+          updateItemRef(enrichedItem, Boolean(localItem?.isMerged))
           setLocalItem(enrichedItem)
         }
       }
@@ -125,7 +125,7 @@ export const SearchItem = React.forwardRef(
         data-test="search-item"
         p={3 / 4}
         direction={'ltr'}
-        isMerged={localItem.isMerged}
+        isMerged={Boolean(localItem?.isMerged)}
         ref={ref}
       >
         <FlexContainer p={0} alignItems={'start'} data-test="checkbox">
@@ -165,7 +165,7 @@ export const SearchItem = React.forwardRef(
                   <Small>
                     <Strong>Source:</Strong>
                     {` ${beautifyString(
-                      item.source?.sort((a, b) => a.localeCompare(b)).join(', ')
+                      (item.source as string[])?.sort((a, b) => a.localeCompare(b)).join(', ')
                     )}`}
                   </Small>
                 </Flex>

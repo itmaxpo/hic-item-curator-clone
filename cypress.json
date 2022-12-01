@@ -4,5 +4,6 @@
   "viewportHeight": 747,
   "video": false,
   "experimentalFetchPolyfill": true,
-  "retries": 1
+  "retries": 1,
+  "pageLoadTimeout": 10000
 }

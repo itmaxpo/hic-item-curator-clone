@@ -1,10 +1,6 @@
 import { isEmpty } from 'lodash'
-import request from './request'
-import {
-  generateSearchQueryCountry,
-  generateSearchQueryArea,
-  generateSearchQueryAccom
-} from './utils'
+import request, { postJson } from './request'
+import { generateSearchQueryCountry, generateSearchQueryAccom } from './utils'
 
 const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
 
@@ -57,55 +53,32 @@ const getCountries = async (name: string) => {
   return res.json()
 }
 
-/**
- * Returns areas of a country filtered by name
- * This is a request to Elastic search (https://www.elastic.co/blog/lost-in-translation-boolean-operations-and-filters-in-the-bool-query)
- * query: bool: must works similarly to logical AND
- *        second bool works similarly to logical OR
- * We should search for the name and original_name
- * Bec asue sometimes there is no name || original_name
- *
- * @name getAreasInCountry
- * @param {Object} payload { name, country }
- * @param {Number} offset
- * @param {Number} limit
- * @returns {Object}
- */
-const getAreasInCountry = async (
-  { name = '', country = '' }: { name: string; country: string },
+interface SearchArea {
+  uuid: string
+  name: string
+  ancestors: { uuid: string; type: string }[]
+  area_type: string
+  original_name: string
+  description: string
+}
+
+export const searchAreas = async (
+  { name = '', country: country_uuid = '' }: { name: string; country: string },
   offset = 0,
   limit = 40
-): Promise<{ data: any; meta: meta }> => {
-  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
+): Promise<{
+  data: SearchArea[]
+  meta: meta
+}> =>
+  postJson(`${process.env.REACT_APP_PARTNERS_API}/content/areas/search`, {
+    area_type: 'admin',
+    locale: 'en-GB',
+    name,
+    country_uuid,
+    limit,
+    offset
+  })
 
-  let res
-  // add a condition to modify request if it is e2e test environment
-  // @ts-ignore
-  if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${SEARCH_API_URL}?test-area`, {})
-  } else {
-    res = await request('POST', SEARCH_API_URL, {
-      body: {
-        item_types: ['admin_area'],
-        offset,
-        limit,
-        sort: {
-          'name.content.raw': {
-            nested_path: 'name',
-            order: 'asc'
-          },
-          'original_name.content.raw': {
-            nested_path: 'original_name',
-            order: 'asc'
-          }
-        },
-        query: generateSearchQueryArea(country, nameProperties, nameToSearch)
-      }
-    })
-  }
-
-  return res.json()
-}
 export type SearchQuery = string | string[] | null
 
 export interface ISearchQueryAccom {
@@ -192,4 +165,4 @@ const getActivities = async (
   return res.json()
 }
 
-export { getCountries, getAreasInCountry, getAccommodations, getActivities }
+export { getCountries, getAccommodations, getActivities }

@@ -9,13 +9,7 @@ import { useNotification } from 'components/Notification'
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
 import { calculateIndex, parseItems } from './utils'
-import {
-  getAreasInCountry,
-  getAccommodations,
-  IData,
-  meta,
-  ISearchQueryAccom
-} from 'services/searchApi'
+import { getAccommodations, IData, meta, ISearchQueryAccom, searchAreas } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
@@ -43,16 +37,16 @@ export const NoResults = () => (
 
 export interface IParseItem {
   id: string
-  parentId: string
+  parentId: string | null
   type: string
   title: string
   description: string
   allImages: string[]
   isLoading: boolean
-  isMerged: boolean
+  isMerged?: boolean
   blocked?: { markets: string }
-  source: string[]
-  isSelected: boolean
+  source?: string[]
+  isSelected?: boolean
 }
 
 export interface IParsedResults {
@@ -149,8 +143,27 @@ const SearchPage = () => {
       switch (itemTypeRef.current) {
         case AREA_ITEM_TYPE: {
           setIsLoading(true)
-          const { data, meta } = await getAreasInCountry(prevPayload?.current, index)
-          updateSearchState(data, meta)
+          const { data, meta } = await searchAreas(prevPayload?.current, index)
+
+          const mappedAreaList = data.map(
+            ({ uuid, ancestors, area_type, name, original_name, description }) => ({
+              id: uuid,
+              type: area_type,
+              parentId: ancestors[0]?.uuid ?? null,
+              title: name ?? original_name,
+              description: description ?? 'No description found.',
+              allImages: [],
+              isLoading: true
+            })
+          )
+
+          setResults((prevState) => {
+            return {
+              data: offset === 0 ? mappedAreaList : [...(prevState?.data ?? []), ...mappedAreaList],
+              meta
+            }
+          })
+
           break
         }
         case ACCOMMODATION_ITEM_TYPE: {

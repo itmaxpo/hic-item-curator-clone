@@ -35,7 +35,7 @@ import {
   ACCOMMODATION_ITEM_TYPE,
   ACTIVITY_ITEM_TYPE
 } from 'utils/constants'
-import { getCountries, getAreasInCountry } from 'services/searchApi'
+import { getCountries, searchAreas } from 'services/searchApi'
 
 /**
  * This is the Search Box component,
@@ -166,8 +166,10 @@ const SearchBox = ({
   )
   const areaSearch = useCallback(
     (value) =>
-      getAreasInCountry({ name: value.toLowerCase(), country: country.value }).then(({ data }) =>
-        parseSearchResponse(data)
+      searchAreas({ name: value.toLowerCase(), country: country.value }).then(({ data }) =>
+        data
+          .map(({ uuid, name }) => ({ label: name, value: uuid }))
+          .sort((a, b) => a.label.localeCompare(b.label))
       ),
     [country]
   )
