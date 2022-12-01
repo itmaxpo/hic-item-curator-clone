@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Upload, COLORS } from '@tourlane/tourlane-ui'
+import { Upload, COLORS, Link } from '@tourlane/tourlane-ui'
 import { allSettled } from '../utils/promise'
+import { imageAcceptedFormat } from '../utils/imageFormat'
 import { addAttachmentToItem, ItemType } from '../services/attachmentsApi'
-
 import { useNotification } from 'components/Notification'
 
 export const StyledUpload = styled(Upload)`
+  p {
+    margin: 3px 0;
+  }
   ${({ error }) => error && `border: 1px solid ${COLORS.RIOJA_RED};`}
 `
 
@@ -31,8 +34,23 @@ export const ItemImagesUpload = ({ itemType, itemId, onUpload, ...props }: Props
     <StyledUpload
       files={[]}
       multiple
-      accept="image/*"
+      accept={imageAcceptedFormat}
       error={error}
+      subTitle={
+        <>
+          <p>
+            Drag and drop file here or <Link>browse</Link>
+          </p>
+          <p>
+            <strong>Supported format:</strong>{' '}
+            <em>{imageAcceptedFormat.map((item) => item.split('/')[1]).join(', ')}</em>
+          </p>
+        </>
+      }
+      onDropRejected={(files) => {
+        const errors = files.map((item) => `${item.file.name} - ${item.file.type} is not supported`)
+        setError(errors.join(','))
+      }}
       disabled={isUploading}
       onSubmitFiles={async (files) => {
         setIsUploading(true)
@@ -50,7 +68,7 @@ export const ItemImagesUpload = ({ itemType, itemId, onUpload, ...props }: Props
 
         setIsUploading(false)
 
-        if (uploaded.length === files.length) {
+        if (uploaded.length === files.length && files.length !== 0) {
           enqueueNotification({
             variant: 'default',
             message: 'All images successfully uploaded'

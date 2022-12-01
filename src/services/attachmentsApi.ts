@@ -77,10 +77,6 @@ export const addAttachmentToItem = async ({
   source_key?: string
   file: File
 }) => {
-  if (!file.type.includes('image')) {
-    throw new Error('Only images are supported')
-  }
-
   if (file.size > SIZE_LIMIT) {
     throw new Error(`File size exceeds ${SIZE_LIMIT / 1024 / 1024}MB`)
   }
@@ -88,7 +84,6 @@ export const addAttachmentToItem = async ({
   let { data: preSignedPost } = await createPreSignedPost({ itemId, itemType, filename: file.name })
 
   await uploadPreSignedFile(preSignedPost, file)
-
   let { data: uploadedFile } = await postJson<{ data: IAttachment }>(
     `${process.env.REACT_APP_PARTNERS_API}/content/items/${itemId}/attachments`,
     {
