@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash'
 import request, { postJson } from './request'
-import { generateSearchQueryCountry, generateSearchQueryAccom } from './utils'
+import { generateSearchQueryAccom } from './utils'
 
 const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
 
@@ -25,32 +25,22 @@ interface ApiResults {
   data: IData[]
   meta: meta
 }
-const nameProperties = ['name', 'original_name']
-/**
- * Returns countries filtered by name
- *
- * @name getCountries
- * @param {String} name
- * @returns {Object}
- */
-const getCountries = async (name: string) => {
-  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
 
-  let res
-  // add a condition to modify request if it is e2e test environment
-  // @ts-ignore
-  if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${SEARCH_API_URL}?test-country`, {})
-  } else {
-    res = await request('POST', SEARCH_API_URL, {
-      body: {
-        item_types: ['country'],
-        query: generateSearchQueryCountry(nameProperties, nameToSearch)
-      }
-    })
-  }
+interface ICountry {
+  uuid: string
+  name: string
+  iso_code: string
+}
 
-  return res.json()
+const getCountries = async (params: { name: string; geo_point?: { lat: number; lon: number } }) => {
+  const { data } = await postJson<Promise<{ data: ICountry[] }>>(
+    `${process.env.REACT_APP_PARTNERS_API}/content/countries/search`,
+    {
+      ...params
+    }
+  )
+
+  return data
 }
 
 interface SearchArea {

@@ -161,15 +161,15 @@ const SearchBox = ({
   }
 
   const countrySearch = useCallback(
-    (value) => getCountries(value.toLowerCase()).then(({ data }) => parseSearchResponse(data)),
+    (value) =>
+      getCountries({ name: value.toLowerCase() }).then((data) => parseSearchResponse(data)),
     []
   )
+
   const areaSearch = useCallback(
     (value) =>
       searchAreas({ name: value.toLowerCase(), country: country.value }).then(({ data }) =>
-        data
-          .map(({ uuid, name }) => ({ label: name, value: uuid }))
-          .sort((a, b) => a.label.localeCompare(b.label))
+        parseSearchResponse(data)
       ),
     [country]
   )
@@ -195,6 +195,7 @@ const SearchBox = ({
   useEffect(() => {
     setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
   }, [category, country, area])
+
   return (
     <SearchBoxWrapper data-test="searchBox">
       <SearchBoxTitle>What item are you looking for?</SearchBoxTitle>

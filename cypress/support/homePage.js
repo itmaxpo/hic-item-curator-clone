@@ -28,6 +28,11 @@ Cypress.Commands.add('homePageStub', () => {
     'https://partners-staging.**.com/content/**/attachments',
     'fixture:item/attachments.json'
   )
+  cy.route(
+      'GET',
+      'https://partners-staging.**.com/configurations/v2/suppliers.json',
+      'fixture:suppliers.json'
+  )
 })
 
 /**

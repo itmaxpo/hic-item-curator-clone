@@ -1,63 +1,12 @@
 {
-  "meta": { "count": 1, "total_count": 1 },
   "data": [
     {
-      "item_type": "country",
-      "id": "test-argentina",
-      "parent_uuid": null,
-      "fields": {
-        "primary_item_uuid": null,
-        "additional_info": [],
-        "transport": [],
-        "climate": [],
-        "cuisine": [],
-        "description": [],
-        "entry_requirements": [],
-        "currency": [],
-        "electricity": [],
-        "safety": [],
-        "health": [],
-        "external_id": [{ "content": "relation/286393", "source": "osm", "source_key": null }],
-        "iso_code": [{ "content": "AR", "source": "osm", "source_key": null }],
-        "original_name": [],
-        "dress": [],
-        "dmc_count": [
-          {
-            "content": { "room": 0, "activity": 0, "accommodation": 5 },
-            "source": "supply",
-            "source_key": null
-          }
-        ],
-        "duplicates_count": [
-          {
-            "content": { "room": 0, "activity": 0, "accommodation": 0 },
-            "source": "supply",
-            "source_key": null
-          }
-        ],
-        "items_count": [
-          {
-            "content": { "room": 0, "activity": 0, "admin_area": 6362, "accommodation": 11 },
-            "source": "supply",
-            "source_key": null
-          }
-        ],
-        "duplicate_sources_count": [
-          {
-            "content": { "room": {}, "activity": {}, "accommodation": {} },
-            "source": "supply",
-            "source_key": null
-          }
-        ],
-        "active_destination": [{ "content": true, "source": "supply", "source_key": null }],
-        "crm_segmentation_code": [{ "content": "argentina", "source": "crm", "source_key": null }],
-        "name": [
-          { "content": "Argentina", "source": "osm", "source_key": null, "locale": "en-GB" },
-          { "content": "Argentinien", "source": "osm", "source_key": null, "locale": "de-DE" },
-          { "content": "Argentine", "source": "osm", "source_key": null, "locale": "fr-FR" },
-          { "content": "Argentinië", "source": "osm", "source_key": null, "locale": "nl-NL" }
-        ]
-      }
+      "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+      "name": "Argentina",
+      "iso_code": "AR"
     }
-  ]
+  ],
+  "meta": {
+    "count": 1
+  }
 }

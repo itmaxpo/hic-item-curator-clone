@@ -6,18 +6,13 @@ describe('Homepage', () => {
     cy.homePageLoad()
   })
 
-  it('it loads', () => {
-    cy.get('h3').contains('What item are you looking for?')
-  })
-
   it('go to country', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-country',
+      'https://partners-staging.tlservers.com/content/countries/search',
       'fixture:search/goToCountry.json'
     )
-
     cy.route(
       'GET',
       'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
@@ -28,7 +23,6 @@ describe('Homepage', () => {
       'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
-
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select country tab
@@ -40,10 +34,9 @@ describe('Homepage', () => {
     // go to country
     cy.get('@searchBox').find('[data-test=search]').click()
 
-    // assert that user is redirected to item page
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq('/item/test-argentina')
-    })
+    cy.location().should((location) =>
+      expect(location.pathname).to.eq('/item/087e8ead-fd75-4c11-9dce-ad8a2c649c17')
+    )
 
     cy.go('back')
   })
@@ -52,23 +45,18 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-country',
+      'https://partners-staging.tlservers.com/content/countries/search',
       'fixture:search/goToCountry.json'
     )
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-area',
+      'https://partners-staging.tlservers.com/content/areas/search',
       'fixture:search/goToArea.json'
     )
     cy.route(
       'GET',
-      'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      'https://partners-staging.**.com/content/items/316c1b1f-ad72-49b8-84bb-69c4b82674ab?**',
       'fixture:search/emptyAreaName.json'
-    )
-    cy.route(
-      'POST',
-      'https://partners-staging.**.com/content/areas/search**',
-      'fixture:search/areas.json'
     )
 
     cy.get('[data-test=searchBox]').as('searchBox')
@@ -87,7 +75,7 @@ describe('Homepage', () => {
 
     // assert that user is redirected to item page
     cy.location().should((location) => {
-      expect(location.pathname).to.eq('/item/test-buenos-aires')
+      expect(location.pathname).to.eq('/item/316c1b1f-ad72-49b8-84bb-69c4b82674ab')
     })
     cy.get('[data-test=source]').should('not.exist')
 
@@ -112,7 +100,7 @@ describe('Homepage', () => {
     cy.server()
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-country',
+      'https://partners-staging.tlservers.com/content/countries/search',
       'fixture:search/goToCountry.json'
     )
     cy.route(
@@ -309,7 +297,7 @@ describe('Homepage', () => {
     )
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-country',
+      'https://partners-staging.tlservers.com/content/countries/search',
       'fixture:search/goToCountry.json'
     )
 

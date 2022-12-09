@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { COUNTRY_ITEM_TYPE, AREA_ITEM_TYPE, ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE, AREA_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 
 /**
  * Defines if search button should be disabled.
@@ -14,17 +14,9 @@ export const shouldDisableSearchButton = (category, country, area) => {
   switch (category) {
     case COUNTRY_ITEM_TYPE:
     case AREA_ITEM_TYPE:
-      if (country) {
-        return false
-      } else {
-        return true
-      }
+      return !country
     case ACCOMMODATION_ITEM_TYPE:
-      if (area && country) {
-        return false
-      } else {
-        return true
-      }
+      return !(area && country)
     default:
       return true
   }
@@ -57,26 +49,11 @@ export const getGoToDestination = (category, country, area) => {
       return undefined
   }
 }
-// Get correct item name or original_name
-export const getItemName = (item) => {
-  const nameFields = get(item, 'fields.name')
-  const engName = nameFields.filter((name) => name.locale === 'en-GB')[0]?.content
-  const deName = nameFields.filter((name) => name.locale === 'de-DE')[0]?.content
 
-  return engName || deName || nameFields[0]?.content || get(item, 'fields.original_name.0.content')
-}
-
-// To support names by locale, revisit filtering.
-export const parseSearchResponse = (data) => {
-  const getIsActive = (val) => !!get(val, 'fields.active_destination.0.content')
-  // Sorted by active_destination
-  return data
-    .sort((v1, v2) => getIsActive(v2) - getIsActive(v1))
-    .map((item) => ({
-      value: item.id,
-      label: getItemName(item)
-    }))
-}
+export const parseSearchResponse = (data) =>
+  data
+    .map(({ uuid, name, original_name }) => ({ label: original_name ?? name, value: uuid }))
+    .sort((a, b) => a?.label?.localeCompare(b?.label))
 
 export const getQueryValue = (query, propLabel, propValue) => {
   // if there is no label and value should return null to show placeholder

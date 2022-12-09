@@ -34,12 +34,12 @@ Cypress.Commands.add('itemPageAreaCountryStub', (type = 'accom') => {
   )
   cy.route(
     'POST',
-    'https://partners-staging.**.com/search/v1/items?test-country',
+    'https://partners-staging.tlservers.com/content/countries/search',
     'fixture:item/textCountry.json'
   )
   cy.route(
     'POST',
-    'https://partners-staging.**.com/search/v1/items?test-area',
+    'https://partners-staging.**.com/content/areas/search',
     'fixture:item/testArea.json'
   )
   cy.route(
