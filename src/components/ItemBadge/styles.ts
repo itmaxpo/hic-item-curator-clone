@@ -5,15 +5,18 @@ interface IBadgeWrapper {
   width: string
   background?: string
   color?: string
+  height?: string
+  padding?: string
 }
 export const BadgeWrapper = styled.div<IBadgeWrapper>`
   width: ${({ width }) => width};
   box-sizing: border-box;
-  padding: 6px 16px;
   border-radius: 21px;
   letter-spacing: normal;
   text-align: center;
   vertical-align: center;
+  ${({ height }) => `height: ${height ? height : 'auto'}`};
+  ${({ padding }) => `padding: ${padding ? padding : '6px 16px'}`};
   ${({ color }) => `color: ${color ? color : COLORS.NIGHTINGALE_BLACK}`};
   ${({ background }) => `background-color: ${background ? background : COLORS.LINE_GRAY}`};
 

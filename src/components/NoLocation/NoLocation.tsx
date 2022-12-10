@@ -1,18 +1,19 @@
 import React from 'react'
 import { Flex, FlexContainer, H3, Base } from '@tourlane/tourlane-ui'
 import NoLocationPlaceholder from 'icons/no-location.svg'
-import { ACCOMMODATION_ITEM_TYPE, ACTIVITY_ITEM_TYPE } from 'utils/constants'
+import { ACCOMMODATION_ITEM_TYPE, ACTIVITY_ITEM_TYPE, AREA_ITEM_TYPE } from 'utils/constants'
 
 const displayNames = {
   [ACCOMMODATION_ITEM_TYPE]: 'accommodation',
-  [ACTIVITY_ITEM_TYPE]: 'activity'
+  [ACTIVITY_ITEM_TYPE]: 'activity',
+  [AREA_ITEM_TYPE]: 'area'
 }
 
 interface Props {
   alt?: string
   width?: string
   height?: string
-  itemType?: typeof ACCOMMODATION_ITEM_TYPE | typeof ACTIVITY_ITEM_TYPE
+  itemType?: typeof ACCOMMODATION_ITEM_TYPE | typeof ACTIVITY_ITEM_TYPE | typeof AREA_ITEM_TYPE
 }
 
 const NoLocation = ({

@@ -12,6 +12,7 @@ export interface Blocked {
 export interface AccommodationType {
   uuid: string
   name: string
+  original_name: string
   description: string
   accommodation_type_id: number
   accommodation_category_id: string | null

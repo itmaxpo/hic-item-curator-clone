@@ -62,7 +62,7 @@ describe('Homepage', () => {
     cy.get('[data-test=searchBox]').as('searchBox')
 
     // select country tab
-    cy.get('@searchBox').find('[data-test=Area]').click()
+    cy.get('@searchBox').find('[data-test=Area]').click({force: true})
 
     // select country: Argentina
     cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)

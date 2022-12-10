@@ -24,10 +24,10 @@ import { CountryCodeSelect } from '@tourlane/rooster'
 import PhoneIcon from '@tourlane/iconography/Glyphs/Navigation/Phone'
 import WarningIcon from '@tourlane/iconography/Glyphs/Notifications/Warning'
 
-import { getAccommodationById, getCountry, getAreasById } from './accommodationApi'
+import { getAccommodationById } from './accommodationApi'
 import { getItemAttachments, IAttachment } from 'services/attachmentsApi'
 import { mapSources, validatePhoneNumber } from './utils'
-import { Market } from '../Activity/Market'
+import { Market } from 'components/Market'
 import Blocking from '../Item/ItemLayout/Blocking'
 import { useAccommodationCategories } from 'contexts/AccommCategories/AccommCategories'
 import LoadingPage from '../Loading/Loading'
@@ -45,14 +45,14 @@ import NoLocation from 'components/NoLocation'
 import ShowMore from 'components/ShowMore/ShowMore'
 import Layout from 'components/Layout'
 import { CarouselLoader } from 'components/Carousel'
-import Breadcrumbs from 'components/Breadcrumbs'
+import Breadcrumbs from 'components/PageBreadcrumbs'
 import type { ILocale } from 'types/ILocale'
 import type { AccommodationType, Blocked } from 'types/Accommodation'
 import { AccommodationLocation } from '../Item/OfferVisualisation/AccommodationLocation'
 import { Geolocation } from '../Item/OfferVisualisation/AccommodationLocation'
-import { Images } from '../Activity/Activity'
-import { generateBreadcrumbs } from '../Item/ItemLayout/utils'
+import { Images } from 'components/Image'
 import useRefValue from 'utils/useRefValue'
+import { formSpacing } from 'utils/constants'
 
 const ImageCarousel = lazy(
   () => import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
@@ -72,7 +72,6 @@ type AccommodationFormType = AccommodationType & {
   areaCode: string
   phoneNumber: string
 }
-const formSpacing = [12, 12, 15, 18, 24]
 
 export const Accommodation = () => {
   const { id } = useParams()
@@ -84,7 +83,6 @@ export const Accommodation = () => {
   const [isImageCarouselOpen, toggleImageCarousel] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [sources, setSources] = useState<string[]>([])
-  const [breadcrumbs, setBreadcrumbs] = useState<{ name: string; id: string }[]>([])
   const [isFetchingData, setIsFetchingData] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -148,37 +146,6 @@ export const Accommodation = () => {
         .then(async ([accommodationData, suppliersData]) => {
           setSources(mapSources(suppliersData, accommodationData))
           setAccommodation(accommodationData)
-
-          const { data: country } = await getCountry(
-            accommodationData.ancestors.find((item) => item.item_type === 'Country')?.uuid as string
-          )
-
-          const { data: areas } = await getAreasById({
-            area_uuids: accommodationData.ancestors
-              ?.filter((item) => item.item_type === 'Area')
-              .map((item) => item.uuid),
-            locale
-          })
-
-          setBreadcrumbs(
-            [
-              country,
-              ...areas,
-              {
-                id: '',
-                uuid: '',
-                original_name: '',
-                name: accommodationData.name,
-                area_type: null
-              }
-            ]
-              .filter(
-                (item) =>
-                  (item?.original_name || item?.name) &&
-                  (!item?.area_type || item?.area_type === 'admin')
-              )
-              .map((item) => ({ name: item?.name ?? item?.original_name, id: item?.uuid }))
-          )
         })
         .catch((e: any) => {
           enqueueNotification({
@@ -272,7 +239,14 @@ export const Accommodation = () => {
       ) : (
         <>
           <Box mx={90} my={30}>
-            <Breadcrumbs breadcrumbs={generateBreadcrumbs(breadcrumbs)} className="" />
+            {accommodation && (
+              <Breadcrumbs
+                ancestors={accommodation?.ancestors}
+                className=""
+                name={accommodation?.name}
+                originalName={accommodation.original_name}
+              />
+            )}
 
             <HookForm form={form}>
               <Flex justifyContent="between" mt={20}>

@@ -5,12 +5,20 @@ interface IItemBadge {
   width: string
   color?: string
   background?: string
-  children: React.ReactNode;
+  height?: string
+  padding?: string
+  children: React.ReactNode
 }
 
-const ItemBadge: FC<IItemBadge> = ({ width, color, background, children }) => {
+const ItemBadge: FC<IItemBadge> = ({ width, height, padding, color, background, children }) => {
   return (
-    <BadgeWrapper width={width} color={color} background={background}>
+    <BadgeWrapper
+      width={width}
+      height={height}
+      padding={padding}
+      color={color}
+      background={background}
+    >
       {children}
     </BadgeWrapper>
   )

@@ -21,6 +21,7 @@ const SearchPage = lazy(() => import(/* webpackChunkName: "SearchPage" */ 'pages
 const LoginPage = lazy(() => import(/* webpackChunkName: "LoginPage" */ 'pages/Login'))
 const ItemPage = lazy(() => import(/* webpackChunkName: "ItemPage" */ 'pages/Item'))
 const ActivityPage = lazy(() => import(/* webpackChunkName: "ActivityPage" */ 'pages/Activity'))
+const AreaPage = lazy(() => import(/* webpackChunkName: "ActivityPage" */ 'pages/Area'))
 const AccommodationPage = lazy(
   () => import(/* webpackChunkName: "AccommodationPage" */ 'pages/Accommodation')
 )
@@ -112,6 +113,7 @@ export const App = () => {
                 <Route path="/item/:id" element={<ItemPage />} />
                 <Route path="/activity/:id" element={<ActivityPage />} />
                 <Route path="/accommodation/:id" element={<AccommodationPage />} />
+                <Route path="/area/:id" element={<AreaPage />} />
                 <Route path="*" element={<MissingPage />} />
               </Routes>
             </Suspense>

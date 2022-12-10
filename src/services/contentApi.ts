@@ -72,7 +72,15 @@ const fieldsToSelect = [
  * @param {String} id
  * @returns {Object}
  */
-const getItemFieldsById = async (id) => {
+
+type Polygon = {
+  data: {
+    centroid: string | null
+    coordinates: []
+    type: string
+  }
+}
+const getItemFieldsById = async (id: string) => {
   const selectedFields = `?selected_fields=${fieldsToSelect}`
   let res = await request(
     'GET',
@@ -91,16 +99,14 @@ const getItemFieldsById = async (id) => {
  * @param {String} id
  * @returns {Object}
  */
-const getItemPolygonCoordinatesById = async (id) => {
-  let res = await request(
-    'GET',
+const getItemPolygonCoordinatesById = async (id: string) => {
+  let data = await getJson<Polygon>(
     `${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/polygon`
   )
-
-  return res.json()
+  return data
 }
 
-const getItemAttachmentsById = async (id, offset = 0, itemType) =>
+const getItemAttachmentsById = async (id: string, offset: number = 0, itemType: string) =>
   getJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/attachments`, {
     offset,
     limit: 50,
@@ -114,8 +120,13 @@ const getItemAttachmentsById = async (id, offset = 0, itemType) =>
  * @param {String} id
  * @returns {Object}
  */
-const updateItemAttachmentsById = async (id, type, attachments, isVisible) => {
-  let req = (att) =>
+const updateItemAttachmentsById = async (
+  id: string,
+  type: string,
+  attachments: any[],
+  isVisible: boolean
+) => {
+  let req = (att: any) =>
     request(
       'PATCH',
       `${process.env.REACT_APP_PARTNERS_API}/content/items/${id}/attachments/${att.id}`,
@@ -138,7 +149,7 @@ const updateItemAttachmentsById = async (id, type, attachments, isVisible) => {
   return promises
 }
 
-const updateItemFields = async (id, fields) => {
+const updateItemFields = async (id: string, fields: any[]) => {
   let res = await request(
     'PATCH',
     `${process.env.REACT_APP_PARTNERS_API}/content/items/${id}?ignore_dupes=true`,
@@ -159,7 +170,7 @@ const updateItemFields = async (id, fields) => {
  * @param {Array<String>} ids
  * @returns {Object} merged item
  */
-const mergeItems = async (ids) =>
+const mergeItems = async (ids: [string]) =>
   postJson(`${process.env.REACT_APP_PARTNERS_API}/content/items/merge`, {
     item_uuids: ids,
     selected_fields: '*'

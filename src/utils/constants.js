@@ -40,3 +40,5 @@ export const BLOCKED_REASONS = [
   'We do not want to sell this accommodation',
   'Temporarily not possible to sell this accommodation'
 ]
+
+export const formSpacing = [12, 12, 15, 18, 24]
