@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import Location from './components/areaLocation'
+import styled from 'styled-components'
 import { flatten } from 'lodash'
 import * as Sentry from '@sentry/browser'
-
-import { getAreaById, AreaType } from './areaApi'
-import type { ILocale } from 'types/ILocale'
-
-import useRefValue from 'utils/useRefValue'
-import { formSpacing } from 'utils/constants'
-import { getItemPolygonCoordinatesById } from 'services/contentApi'
+import parse from 'html-react-parser'
 
 import {
   Base,
@@ -23,6 +17,14 @@ import {
   H5,
   COLORS
 } from '@tourlane/tourlane-ui'
+
+import Location from './components/areaLocation'
+import { getAreaById, AreaType, updateAreas } from './areaApi'
+import { getChangedFields } from './util'
+import type { ILocale } from 'types/ILocale'
+import useRefValue from 'utils/useRefValue'
+import { formSpacing } from 'utils/constants'
+import { getItemPolygonCoordinatesById } from 'services/contentApi'
 import { Intro } from './components/intro'
 import { AreaImages } from './components/areaImages'
 import { IAttachment } from 'services/attachmentsApi'
@@ -31,12 +33,15 @@ import Layout from 'components/Layout'
 import Breadcrumbs from 'components/PageBreadcrumbs'
 import LoadingPage from '../Loading/Loading'
 import { FullWidthHr } from 'components/FullWidthHr'
-import parse from 'html-react-parser'
 import ShowMore from 'components/ShowMore/ShowMore'
 import Information from './components/Information'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { HFRichTextEditorConfigured, HFTextField, HookForm } from 'components/hook-form'
+import { usePrompt } from 'components/RouterPrompt'
+import { HFRichTextEditorConfigured, HookForm, HFTextArea } from 'components/hook-form'
 
+const WrapperBase = styled(Base)`
+  white-space: pre-wrap;
+`
 export const Area = () => {
   const { id } = useParams()
   const [urlParams] = useSearchParams()
@@ -54,7 +59,7 @@ export const Area = () => {
     }
   >({})
 
-  const { formState, handleSubmit, reset, watch, clearErrors } = form
+  const { formState, handleSubmit, reset, watch, clearErrors, getValues } = form
   const [
     uuid,
     name,
@@ -106,10 +111,33 @@ export const Area = () => {
     }
   }, [area, previousArea, reset])
 
-  const updateArea = async (data: AreaType & { locale: ILocale; uuid: string }) => {
-    // TODO: replace it with server request
-    console.log('saved to the server data', data)
+  const handleError = (message: string, error: any) => {
+    enqueueNotification({
+      variant: 'error',
+      message: `${message}`
+    })
+    if (error instanceof Error) {
+      console.error(error)
+    }
   }
+
+  const updateArea = async (data: AreaType, locale: ILocale, uuid: string, dirtyFields: any) => {
+    setIsEditing(false)
+    let payload = getChangedFields(dirtyFields, data)
+    await updateAreas(uuid, locale, payload)
+      .then(async () => {
+        enqueueNotification({
+          message: `Area updated  successfully`
+        })
+        reset(getValues())
+      })
+      .catch((error: any) => {
+        handleError(error[0], error)
+        Sentry.captureException(error[0])
+      })
+  }
+  const { dirtyFields, isDirty } = form.formState
+  usePrompt('If you continue, all changes will be lost', isDirty)
   return (
     <Layout
       headerContent={
@@ -135,11 +163,7 @@ export const Area = () => {
                 size="small"
                 isLoading={formState?.isSubmitting}
                 onClick={handleSubmit(async (data) => {
-                  updateArea({
-                    ...data,
-                    locale,
-                    uuid: uuid as string
-                  }).then()
+                  updateArea(data, locale, uuid, dirtyFields).then()
                   setIsEditing(false)
                 })}
               >
@@ -184,6 +208,7 @@ export const Area = () => {
               <Intro
                 isEditing={isEditing}
                 name={name}
+                locale={locale}
                 active_destination={active_destination}
                 visualization_destination={visualization_destination}
               />
@@ -194,61 +219,79 @@ export const Area = () => {
                       <H5 withBottomMargin>Offer title</H5>
 
                       {isEditing ? (
-                        <HFTextField
+                        <HFTextArea
                           name="offer_preview.title"
-                          placeholder="Please add an offer title"
-                          multiline
+                          placeholder="Please add a offer title"
+                          field={offer_preview?.title ?? ''}
+                          isEditing={isEditing}
+                          rows={2}
+                          maxLength={60}
                         />
                       ) : (
-                        <Base>
+                        <WrapperBase>
                           {offer_preview?.title ? parse(offer_preview?.title) : 'No Offer title'}
-                        </Base>
+                        </WrapperBase>
                       )}
                     </Box>
                     <Box as={FullWidthHr} space={40} py={20} />
                     <Box mt={40}>
                       <H5 withBottomMargin>TRIP INTRODUCTION</H5>
                       {isEditing ? (
-                        <HFTextField
-                          name="offer_preview.heading"
-                          placeholder="Please add a headline"
-                          multiline
-                          label={'Headline'}
-                          withBottomMargin
-                        />
+                        <Box marginBottom="24px">
+                          <HFTextArea
+                            field={offer_preview?.heading ?? ''}
+                            maxLength={55}
+                            rows={2}
+                            name="offer_preview.heading"
+                            placeholder="Please add a headline"
+                            label={'Headline'}
+                          />
+                        </Box>
                       ) : (
-                        <Base>
+                        <WrapperBase>
                           {offer_preview?.heading
                             ? parse(offer_preview?.heading)
                             : 'No headline title'}
-                        </Base>
+                        </WrapperBase>
                       )}
                       {isEditing ? (
-                        <HFTextField
-                          name="offer_preview.lead"
-                          placeholder="Please add a subheading"
-                          multiline
-                          label={'Subheading'}
-                          withBottomMargin
-                        />
+                        <Box marginBottom="24px">
+                          <HFTextArea
+                            field={offer_preview?.lead ?? ''}
+                            maxLength={235}
+                            rows={2}
+                            name="offer_preview.lead"
+                            placeholder="Please add a subheading"
+                            label={'Subheading'}
+                            withBottomMargin
+                          />
+                        </Box>
                       ) : (
-                        <Base>
-                          {offer_preview?.lead ? parse(offer_preview?.lead) : 'No Subheading title'}
-                        </Base>
+                        <Box mt={40}>
+                          <WrapperBase>
+                            {offer_preview?.lead
+                              ? parse(offer_preview?.lead)
+                              : 'No Subheading title'}
+                          </WrapperBase>
+                        </Box>
                       )}
                       {isEditing ? (
-                        <HFTextField
+                        <HFTextArea
+                          field={offer_preview?.introduction ?? ''}
+                          maxLength={310}
+                          rows={2}
                           name="offer_preview.introduction"
                           placeholder="Please add a body copy"
-                          multiline
                           label={'Body Copy'}
                         />
                       ) : (
-                        <Base>
-                          {offer_preview?.introduction
-                            ? parse(offer_preview?.introduction)
-                            : 'No body copy title'}
-                        </Base>
+                        <Box mt={40}>
+                          <WrapperBase>
+                            {offer_preview?.introduction
+                              ? parse(offer_preview?.introduction)
+                              : 'No body copy title'}
+                          </WrapperBase>
+                        </Box>
                       )}
                     </Box>
                     <Box as={FullWidthHr} space={40} py={20} />
@@ -264,7 +307,7 @@ export const Area = () => {
                           size={'20px'}
                           lines={12}
                         >
-                          {description ? parse(description) : 'No Description'}
+                          <Base>{description ? parse(description) : 'No Description'}</Base>
                         </ShowMore>
                       )}
                     </Box>

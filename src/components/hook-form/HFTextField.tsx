@@ -1,6 +1,6 @@
 import { Control, Controller } from 'react-hook-form'
 import get from 'lodash/get'
-import {ErrorType, TextField} from '@tourlane/tourlane-ui'
+import { ErrorType, TextField } from '@tourlane/tourlane-ui'
 import { REQUIRED_ERROR_MESSAGE, useHFContext } from './HookForm'
 
 import type React from 'react'
@@ -13,7 +13,6 @@ interface Props extends React.ComponentProps<typeof TextField> {
 
 export const HFTextField = ({ control, name, disabled, required = false, ...props }: Props) => {
   let formCtx = useHFContext()
-
   return (
     <Controller
       control={control ?? formCtx?.form.control}

@@ -1,16 +1,26 @@
-import { Base, Flex, H2, COLORS, Box, H4 } from '@tourlane/tourlane-ui'
-import { HFCheckbox } from 'components/hook-form'
+import { useMemo } from 'react'
 import styled from 'styled-components'
+
+import { Base, Flex, H2, COLORS, Box, H4, SvgIcon } from '@tourlane/tourlane-ui'
+import DeIcon from '@tourlane/iconography/Flags/Rectangle/De'
+import UsIcon from '@tourlane/iconography/Flags/Rectangle/Us'
+import FrIcon from '@tourlane/iconography/Flags/Rectangle/Fr'
+import GbIcon from '@tourlane/iconography/Flags/Rectangle/Gb'
+import NlIcon from '@tourlane/iconography/Flags/Rectangle/Nl'
+
+import { HFCheckbox } from 'components/hook-form'
 import ItemBadge from 'components/ItemBadge'
 import { HFTextField } from 'components/hook-form'
 import { Market } from 'components/Market'
 import { formSpacing } from 'utils/constants'
+import type { ILocale } from 'types/ILocale'
 
 interface Props {
   isEditing: boolean
   name: string | null
   active_destination: boolean
   visualization_destination: boolean
+  locale: string
 }
 
 export const ActiveWrapperTitle = styled(H4)`
@@ -21,15 +31,34 @@ export const ActiveWrapperTitle = styled(H4)`
 export const Intro = ({
   isEditing,
   name,
+  locale,
   active_destination,
   visualization_destination
 }: Props) => {
+  const getCountryFlag = useMemo(
+    () => ({
+      'de-DE': <DeIcon />,
+      'en-GB': <GbIcon />,
+      'en-US': <UsIcon />,
+      'fr-FR': <FrIcon />,
+      'nl-NL': <NlIcon />
+    }),
+    []
+  )
   return (
     <Flex justifyContent="between" mt={20}>
       <Box width="50%">
         {!isEditing ? (
           <>
-            <H2>{name ? name : 'No item name found for'}</H2>
+            <H2>
+              {name ||
+                (locale && (
+                  <Flex alignItems="center" gap={10}>
+                    <span> No item name found for</span>
+                    <SvgIcon size={30}>{getCountryFlag[locale as ILocale]}</SvgIcon>
+                  </Flex>
+                ))}
+            </H2>
             <Flex mt={10}>
               {active_destination && (
                 <ItemBadge
@@ -60,7 +89,7 @@ export const Intro = ({
         ) : (
           <>
             <HFTextField name="name" maxLength={38} required />
-            <Flex mt={10}>
+            <Flex mt={15}>
               <Flex p={0} direction={'ltr'} mr="12px">
                 <HFCheckbox name="active_destination" label="Is active destination" />
               </Flex>

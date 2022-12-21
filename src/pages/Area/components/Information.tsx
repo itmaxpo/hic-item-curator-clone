@@ -41,7 +41,7 @@ const Information = ({ item, isEditing, type }: Props) => {
             {isEditing ? (
               <HFRichTextEditorConfigured
                 data-test={`item-information-${d.field}-editor`}
-                name={d.label}
+                name={d.field}
               />
             ) : (
               <Base>{parse(d.value || 'No information found')}</Base>
