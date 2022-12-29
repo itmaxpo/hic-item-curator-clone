@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Flex, H5, Base, COLORS } from '@tourlane/tourlane-ui'
+import { H5, Base, COLORS } from '@tourlane/tourlane-ui'
 
 import { StyledLabel, Wrapper } from './styles'
 
@@ -50,7 +50,7 @@ export const TextAreaWithHeader = ({
   emptyItemText,
   ...restProps
 }: Props) => (
-  <Flex px={60} direction="column" gap={20}>
+  <>
     {title && <H5>{title}</H5>}
 
     {isEditing ? (
@@ -86,5 +86,5 @@ export const TextAreaWithHeader = ({
         )}
       </Base>
     )}
-  </Flex>
+  </>
 )

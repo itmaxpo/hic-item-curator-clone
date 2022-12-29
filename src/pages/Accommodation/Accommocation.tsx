@@ -53,6 +53,7 @@ import { Geolocation } from '../Item/OfferVisualisation/AccommodationLocation'
 import { Images } from 'components/Image'
 import useRefValue from 'utils/useRefValue'
 import { formSpacing } from 'utils/constants'
+import { FlexChildContainer } from 'components/FlexChildContainer'
 
 const ImageCarousel = lazy(
   () => import(/* webpackChunkName: "ImageCarousel" */ 'components/Carousel')
@@ -61,10 +62,6 @@ const ImageCarousel = lazy(
 const PositionedWarningIcon = styled(WarningIcon)`
   position: relative;
   top: 7px;
-`
-
-const FlexChildContainer = styled(Box)<{ width: string }>`
-  flex: ${({ width }) => `0 0 ${width}`};
 `
 
 type AccommodationFormType = AccommodationType & {

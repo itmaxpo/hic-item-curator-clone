@@ -8,7 +8,6 @@ interface Props {
   name: string
   control?: Control
   required?: boolean
-  field: string
   isEditing?: boolean
   maxLength?: number
   rows?: number
@@ -47,7 +46,6 @@ const TextArea = styled.textarea<any>`
   padding: 30px 20px 20px;
   color: ${COLORS.NIGHTINGALE_BLACK};
   border-radius: 4px;
-  border: 1px solid ${COLORS.ELEMENT_GRAY};
   box-shadow: 0 1px 4px 0 rgba(63, 65, 68, 0.3);
   border: none;
   outline: none;
@@ -55,7 +53,6 @@ const TextArea = styled.textarea<any>`
     resizable ? ' resize: vertical; overflow: auto; min-height: 60px;' : 'resize: none'};
 `
 export const HFTextArea = ({
-  field,
   maxLength,
   dataTest,
   control,
@@ -79,7 +76,7 @@ export const HFTextArea = ({
             {maxLength && (
               <Box position={'relative'}>
                 <LimitText color={COLORS.INACTIVE_GRAY}>
-                  {field.length}/{maxLength}
+                  {value.length}/{maxLength}
                 </LimitText>
               </Box>
             )}

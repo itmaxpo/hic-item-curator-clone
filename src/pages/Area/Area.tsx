@@ -38,6 +38,7 @@ import Information from './components/Information'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { usePrompt } from 'components/RouterPrompt'
 import { HFRichTextEditorConfigured, HookForm, HFTextArea } from 'components/hook-form'
+import { Information as InformationType } from 'types/Country'
 
 const WrapperBase = styled(Base)`
   white-space: pre-wrap;
@@ -222,7 +223,6 @@ export const Area = () => {
                         <HFTextArea
                           name="offer_preview.title"
                           placeholder="Please add a offer title"
-                          field={offer_preview?.title ?? ''}
                           isEditing={isEditing}
                           rows={2}
                           maxLength={60}
@@ -239,7 +239,6 @@ export const Area = () => {
                       {isEditing ? (
                         <Box marginBottom="24px">
                           <HFTextArea
-                            field={offer_preview?.heading ?? ''}
                             maxLength={55}
                             rows={2}
                             name="offer_preview.heading"
@@ -257,7 +256,6 @@ export const Area = () => {
                       {isEditing ? (
                         <Box marginBottom="24px">
                           <HFTextArea
-                            field={offer_preview?.lead ?? ''}
                             maxLength={235}
                             rows={2}
                             name="offer_preview.lead"
@@ -277,7 +275,6 @@ export const Area = () => {
                       )}
                       {isEditing ? (
                         <HFTextArea
-                          field={offer_preview?.introduction ?? ''}
                           maxLength={310}
                           rows={2}
                           name="offer_preview.introduction"
@@ -327,7 +324,13 @@ export const Area = () => {
                     )}
                     <Box as={FullWidthHr} space={40} py={20} />
                   </Box>
-                  {area && <Information item={area} isEditing={isEditing} type="admin_area" />}
+                  {area && (
+                    <Information
+                      item={area as InformationType}
+                      isEditing={isEditing}
+                      type="admin_area"
+                    />
+                  )}
                 </Card>
               </Box>
             </HookForm>

@@ -4,7 +4,8 @@ import {
   SUPPLY,
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
-  ACCOMMODATION_ITEM_TYPE
+  ACCOMMODATION_ITEM_TYPE,
+  COUNTRY_UPDATED_ITEM_TYPE
 } from 'utils/constants'
 import { getFieldBySourcePriority } from 'utils/helpers'
 
@@ -26,6 +27,7 @@ export const FIELD_TRANSPORT = 'transport'
 export const FIELD_CUISINE = 'cuisine'
 export const FIELD_CLIMATE = 'climate'
 export const FIELD_DRESS = 'dress'
+export const FIELD_DRESS_ITEM_CURATOR = 'dress_item_curator'
 export const FIELD_ADDITIONAL = 'additional_info'
 export const FIELD_HEALTH = 'health'
 export const FIELD_ELECTRICITY = 'electricity'
@@ -71,6 +73,18 @@ export const itemSpecificFields = {
     FIELD_CUISINE,
     FIELD_CLIMATE,
     FIELD_DRESS,
+    FIELD_ADDITIONAL,
+    FIELD_HEALTH,
+    FIELD_ELECTRICITY,
+    FIELD_ENTRY_REQUIREMENTS
+  ],
+  [COUNTRY_UPDATED_ITEM_TYPE]: [
+    FIELD_SAFETY,
+    FIELD_CURRENCY,
+    FIELD_TRANSPORT,
+    FIELD_CUISINE,
+    FIELD_CLIMATE,
+    FIELD_DRESS_ITEM_CURATOR,
     FIELD_ADDITIONAL,
     FIELD_HEALTH,
     FIELD_ELECTRICITY,
