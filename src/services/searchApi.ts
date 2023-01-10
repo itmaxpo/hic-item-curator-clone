@@ -1,8 +1,6 @@
 import { isEmpty } from 'lodash'
 import request, { postJson } from './request'
-import { generateSearchQueryAccom } from './utils'
-
-const SEARCH_API_URL = `${process.env.REACT_APP_PARTNERS_API}/search/v1/items`
+import { AccommodationType } from 'types/Accommodation'
 
 export interface IData {
   id: string
@@ -17,13 +15,13 @@ export interface IData {
   }
   isMerged: boolean
 }
-export type meta = {
+export type Meta = {
   total_count: number
   count: number
 }
 interface ApiResults {
-  data: IData[]
-  meta: meta
+  data: AccommodationType[] //IData[]
+  meta: Meta
 }
 
 interface ICountry {
@@ -58,7 +56,7 @@ export const searchAreas = async (
   limit = 40
 ): Promise<{
   data: SearchArea[]
-  meta: meta
+  meta: Meta
 }> =>
   postJson(`${process.env.REACT_APP_PARTNERS_API}/content/areas/search`, {
     area_type: 'admin',
@@ -87,50 +85,32 @@ declare global {
   }
 }
 
-const getAccommodations = async (
+export const searchAccommodations = async (
   {
-    country,
-    area,
     name = '',
-    supplier = '',
-    missingGeolocation = false,
-    blocked = false
-  }: ISearchQueryAccom,
-  offset: number = 0,
-  limit: number = 40
-): Promise<ApiResults> => {
-  const nameToSearch = isEmpty(name) ? '' : name.toLowerCase()
-  area = !!area ? area : undefined
-  let res
-  // add a condition to modify request if it is e2e test environment
-  if (window.Cypress || process.env.REACT_APP_CI) {
-    res = await request('POST', `${SEARCH_API_URL}?test-accommodation`, {})
-  } else {
-    res = await request('POST', SEARCH_API_URL, {
-      body: {
-        item_types: ['accommodation'],
-        offset,
-        limit,
-        sort: {
-          'name.content.raw': {
-            nested_path: 'name',
-            order: 'asc'
-          }
-        },
-        // We are asking only for 'name' property because accommodations don't have original_name
-        query: generateSearchQueryAccom(
-          country,
-          area,
-          supplier,
-          nameToSearch,
-          missingGeolocation,
-          blocked
-        )
-      }
-    })
-  }
-  return res.json()
-}
+    country: country_uuid = '',
+    supplier: supplier_uuid,
+    blocked,
+    missingGeolocation: geolocation_present
+  }: {
+    name: string
+    country: string
+    supplier: string
+    blocked: boolean
+    missingGeolocation: boolean
+  },
+  offset = 0
+) =>
+  postJson<Promise<ApiResults>>(
+    `${process.env.REACT_APP_PARTNERS_API}/content/accommodations/search`,
+    {
+      locale: 'en-GB',
+      name,
+      country_uuid,
+      limit: 40,
+      offset
+    }
+  )
 
 /**
  * Returns activities
@@ -155,4 +135,4 @@ const getActivities = async (
   return res.json()
 }
 
-export { getCountries, getAccommodations, getActivities }
+export { getCountries, getActivities }

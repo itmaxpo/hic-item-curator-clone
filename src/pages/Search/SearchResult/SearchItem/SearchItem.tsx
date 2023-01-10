@@ -163,10 +163,10 @@ export const SearchItem = React.forwardRef(
               <Flex direction={'ltr'} align={'center'} data-test="source">
                 <Flex>
                   <Small>
-                    <Strong>Source:</Strong>
-                    {` ${beautifyString(
+                    <Strong>Source: </Strong>
+                    {beautifyString(
                       (item.source as string[])?.sort((a, b) => a.localeCompare(b)).join(', ')
-                    )}`}
+                    )}
                   </Small>
                 </Flex>
               </Flex>

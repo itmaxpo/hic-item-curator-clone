@@ -8,8 +8,8 @@ import { useNotification } from 'components/Notification'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
-import { calculateIndex, parseItems } from './utils'
-import { getAccommodations, IData, meta, ISearchQueryAccom, searchAreas } from 'services/searchApi'
+import { calculateIndex } from './utils'
+import { Meta, ISearchQueryAccom, searchAreas, searchAccommodations } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
@@ -20,6 +20,9 @@ import {
 import { getQueryValue } from './SearchBox/utils'
 import { SadFaceIcon } from 'components/Icon'
 import { scrollToItemManager } from 'utils/ScrollToItemManager'
+import { getSuppliers } from '../../services/configurationsApi'
+import { mapSources } from '../Accommodation/utils'
+import { Blocked } from 'types/Accommodation'
 
 // @ts-ignore
 const SearchBox = lazy(() => import(/* webpackChunkName: "SearchBox" */ './SearchBox'))
@@ -44,14 +47,14 @@ export interface IParseItem {
   allImages: string[]
   isLoading: boolean
   isMerged?: boolean
-  blocked?: { markets: string }
+  blocked?: Blocked | null
   source?: string[]
   isSelected?: boolean
 }
 
 export interface IParsedResults {
   data: IParseItem[]
-  meta: meta
+  meta: Meta
 }
 const defaultAccommodationSearchState = {
   data: [],
@@ -117,17 +120,6 @@ const SearchPage = () => {
     offset?: number
   ): Promise<void> => {
     try {
-      const updateSearchState = (data: IData[], meta: meta) => {
-        const parsedItems = parseItems(data, itemTypeRef.current)
-        setResults((currentState) => {
-          const d = currentState?.data ?? []
-          return {
-            data: offset === 0 ? parsedItems : [...d, ...parsedItems],
-            meta
-          }
-        })
-      }
-
       const index = calculateIndex(page ?? 0, ITEMS_PER_PAGE)
 
       // if its a brand new search (not fetching more items)
@@ -168,19 +160,34 @@ const SearchPage = () => {
         }
         case ACCOMMODATION_ITEM_TYPE: {
           setIsLoading(true)
-          const { data, meta } = await getAccommodations(
+          const suppliers = await getSuppliers()
+          const { data, meta } = await searchAccommodations(
             prevPayload.current,
             offset ?? accommodationPageOffset.current
           )
-          /**
-           * if there is an offset and its zero reset
-           * accommodationPageOffset to zero. This is not the best
-           * implementation but it will do for now until we fix mergeItems response
-           * on the beckend.
-           */
-          accommodationPageOffset.current =
-            offset === 0 ? data.length : accommodationPageOffset.current + data.length
-          updateSearchState(data, meta)
+
+          const mappedAreaList = data.map((item) => {
+            const { uuid, ancestors, name, original_name, description, blocked } = item
+
+            return {
+              type: 'accommodation',
+              id: uuid,
+              parentId: ancestors[0]?.uuid ?? null,
+              title: name ?? original_name,
+              description: description ?? 'No description found.',
+              allImages: [],
+              source: mapSources(suppliers, item),
+              blocked,
+              isLoading: true
+            }
+          })
+
+          setResults((prevState) => {
+            return {
+              data: offset === 0 ? mappedAreaList : [...(prevState?.data ?? []), ...mappedAreaList],
+              meta
+            }
+          })
           break
         }
         default:
@@ -248,7 +255,7 @@ const SearchPage = () => {
       page ? Number(page) - 1 : 0,
       true,
       0
-    )
+    ).then()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -267,8 +274,6 @@ const SearchPage = () => {
             isLoading={isLoading}
           />
         </Suspense>
-
-        {isLoading && <StyledLoader />}
 
         {category === ACTIVITY_ITEM_TYPE ? (
           <ActivitiesSearchResult
@@ -289,6 +294,7 @@ const SearchPage = () => {
             />
           )
         )}
+        {isLoading && <StyledLoader />}
 
         {results && isEmpty(results) && !isLoading && <NoResults />}
       </Wrapper>

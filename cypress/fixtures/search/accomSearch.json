@@ -1,578 +1,1776 @@
 {
-  "meta": { "count": 11, "total_count": 11 },
   "data": [
     {
-      "item_type": "accommodation",
-      "id": "0f00c3fd-4340-4be0-a86c-7b5d60c0c4a0",
-      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [],
-        "supplier_tag": [],
-        "address": [],
-        "description": [],
-        "name": [
-          {
-            "content": "Ah si el nombre",
-            "source": "aot",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.5875522, "lon": -58.3972196 },
-            "source": "aot",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [{ "content": "aot", "source": "aot", "source_key": "gecko" }],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "5b6d49e2-e32f-4f4e-893a-046728343969",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJq6fQJefquJURHyqDDjKkAV0",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP153760"
+      },
+      "alt_names": [
+        "562 Nogaro"
+      ],
+      "front_desk_phone": "54-11-43310091",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "562 Nogaro",
+      "location": {
+        "lat": -34.6098548,
+        "lon": -58.3741184
+      },
+      "description": null,
+      "giata_id": "76295"
     },
     {
-      "item_type": "accommodation",
-      "id": "d708ed24-895b-4acb-b534-cec3a5d7e58a",
-      "parent_uuid": "cfebd276-8a7e-43d2-96db-3d93ce1aa65a",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "66902", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "San Lorenzo \r\nCiudad de Mendoza\r\n660 5500\r\nMendoza\r\nArgentina ",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [],
-        "name": [
-          {
-            "content": "Amérian Executive Mendoza Hotel",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -32.892484, "lon": -68.848794 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/89f13b4a-6a3b-4b45-a0fe-aeb87ac45948",
-              "kiwi://Elephant/Item/40581815-48c4-4dd9-90ee-46454e83b15f",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "80096a0d-c0b7-4f09-96fa-e98fe043115a",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJIc--Vc7KvJURSTLFdJwevqA",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP153659"
+      },
+      "alt_names": [
+        "725 Continental Hotel"
+      ],
+      "front_desk_phone": "54-11-4131-8000",
+      "rating": 4.5,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "725 Continental Hotel",
+      "location": {
+        "lat": -34.6061582,
+        "lon": -58.3766106
+      },
+      "description": null,
+      "giata_id": "70046"
     },
     {
-      "item_type": "accommodation",
-      "id": "a934193f-95e1-4167-a71b-06d9da299d4e",
-      "parent_uuid": "2d2bc240-836d-4b9d-87f5-4f8ee0abfb30",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "126260", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "Av. Corrientes 1173\r\nBuenos Aires, Argentina",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [
-          {
-            "content": "\u003cp\u003eIn unmittelbarer Nähe des berühmten Obelisken erwartet Sie das Broadway Hotel \u0026amp; Suites in Buenos Aires. Auf der Panorama-Dachterrasse des Hauses befindet sich der Pool mit Sonnendeck. Darüber hinaus steht den Gästen ein Fitnessbereich und eine Sauna zur Verfügung. Ihr Zimmer ist im Art-Deco-Stil eingerichtet. Parkettfußböden, Kronleuchter und große Fenster sorgen für ein elegantes Ambiente. Am Morgen serviert Ihnen das Restaurant ein reichhaltiges Frühstück, am Abend werden Sie mit regionalen und internationalen Speisen verwöhnt. Das Opernhaus erreichen Sie nach einem Fußweg von 350 Metern. Nach gut einem Kilometer erreichen Sie das bekannte Viertel Puerto Madero Waterfront.\u003c/p\u003e",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "\u003cp\u003eBroadway Hotel \u0026amp; Suites is located in the heart of the city",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "name": [
-          {
-            "content": "Broadway Hotel \u0026amp; Suites",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "Broadway Hotel \u0026amp; Suites",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.603748643891734, "lon": -58.38321263372961 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/05c8cf19-408d-4185-9049-bb2ae700a6be",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "29cf7238-63b1-4e91-98d6-c5d549ce02ad",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJMXLK7IzKvJUR6JX5bmrbU5g",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP818399"
+      },
+      "alt_names": [
+        "Abasto Hotel Buenos Aires"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Abasto Hotel Buenos Aires",
+      "location": {
+        "lat": -34.604036,
+        "lon": -58.41016
+      },
+      "description":"Located on the shore of the coastal Puerto Madryn",
+      "giata_id": "254574"
     },
     {
-      "item_type": "accommodation",
-      "id": "20453591-43d1-4e98-8d50-030507caa0ea",
-      "parent_uuid": "daa4528d-7215-4ee6-8c4f-a68ca2a98008",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "47531", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "Boulevard Almirante Brown 637, Puerto Madryn, Chubut, Argentina",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [
-          {
-            "content": "\u003cp\u003eDas Dazzler Puerto Madryn Hotel befindet sich reizvoll in der Küstenstadt Puerto Madrin im Norden Patagoniens gelegen. Die weitläufigen Zimmer sind schön eingerichtet, bieten bequeme Betten und eine wunderbare Sicht auf den Golfo Nuevo. Außerdem sind sie mit Klimaanlagen und modernen Flachbildschirm-Geräten ausgestattet. Im gesamten Hotel steht Ihnen ein freier WiFi-Zugang zur Verfügung. Darüber hinaus können Sie einen Spa-Bereich samt Sauna und Solarium sowie ein Fitness-Center für sich nutzen. Das hoteleigene Restaurant hält eine Speisekarte mit köstlichen patagonischen Gerichten für Sie bereit. Vom Dazzler Puerto Madryn Hotel aus können Sie die faszinierende Küste erkunden oder auch Bootstouren zur Wal-Beobachtung unternehmen.\u003c/p\u003e",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "\u003cp\u003eThe Dazzler Puerto Madryn is located on the shore of the coastal Puerto Madryn.",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "name": [
-          {
-            "content": "Dazzler Puerto Madryn",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "Dazzler Puerto Madryn",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -42.76989, "lon": -65.03039999999999 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/869babbb-d6b5-456b-a20c-0744b3e33d57",
-              "kiwi://Elephant/Item/38ec1f6d-ed9e-4fdb-902f-115ce080d511",
-              "kiwi://Elephant/Item/8cbd3859-325d-4487-8837-ee76542b34ee",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "5b2226d0-1a79-404d-906b-de67d6eef5ae",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJyy83EtPKvJUR4l94Wy1HdEU",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP075861"
+      },
+      "alt_names": [
+        "Aeroparque Inn \u0026 Suites"
+      ],
+      "front_desk_phone": "54 11 48036002",
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Aeroparque Inn \u0026 Suites",
+      "location": {
+        "lat": -34.5697305,
+        "lon": -58.3961134
+      },
+      "description": null,
+      "giata_id": "109045"
     },
     {
-      "item_type": "accommodation",
-      "id": "72a3acf4-b61e-4c9b-8277-93f380e62a2e",
-      "parent_uuid": "1fc45168-e540-4630-84a5-fa58c6d9bab2",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "129677", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "Calle 998 N°59\r\nEl Calafate\r\nSanta Cruz\r\nArgentina",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [
-          {
-            "content": "\u003cp\u003eDas Lagos Del Calafate Hotel liegt im Herzen der Stadt El Calafate und bietet Zimmer und Suiten in unterschiedlichen Größen an. Überall im Hotel besteht freier WiFi-Zugang. Der Blick aus den Fensterfronten auf den Cerro Calafate und den Lago Argentino ist atemberaubend. Außerdem finden Sie im Lagos Del Calafate Hotel einen Spa-Bereich, wo Sie einen beheizten Pool, eine Sauna oder diverse Anwendungen für sich in Anspruch nehmen können. Das Restaurant wartet mit patagonischen und internationale Speisen auf, während die Bar zu leckeren Cocktails einlädt. Punta Bandera, von wo aus Sie Bootstouren zum Upsala-Gletscher unternehmen können, befindet sich 50 Meilen entfernt.\u003c/p\u003e",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "\u003cp\u003eUnique Luxury Patagonia is located in the city of El Calafate",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "name": [
-          {
-            "content": "Lagos Del Calafate",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "Lagos Del Calafate",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -50.3438926, "lon": -72.24867979999999 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/e652a3c0-80ac-4bd0-8c98-bfd2af3b046b",
-              "kiwi://Elephant/Item/44d3950c-c6c6-466a-8603-e28449b1d5e7",
-              "kiwi://Elephant/Item/b08e87ad-f94c-4dca-a896-cb0fc4e89023",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "58591f47-c9cf-4e54-917b-73c9e7bb6846",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJS7BjBPXKvJURukpAnYceNT0",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP834164"
+      },
+      "alt_names": [
+        "Aires Express"
+      ],
+      "front_desk_phone": null,
+      "rating": null,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Aires Express",
+      "location": {
+        "lat": -34.609468,
+        "lon": -58.414788
+      },
+      "description": null,
+      "giata_id": null
     },
     {
-      "item_type": "accommodation",
-      "id": "8199ecde-89c4-42fb-ac51-b195431eec0b",
-      "parent_uuid": "2d2bc240-836d-4b9d-87f5-4f8ee0abfb30",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "26027", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "Carlos Pellegrini, 877 , \r\nC1009ABQ , \r\nBuenos Aires\r\nArgentina",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [
-          {
-            "content": "\u003cp\u003eDas exquisite Pestana Buenos Aires Hotel befindet sich in bester Lage in der Avenida 9 de Julio, unweit des Teatro Colón und dem berühmten Obelisken. Die elegant eingerichteten Zimmer sind weitläufig gestaltet und mit bequemen Betten und angenehmen Holzböden ausgestattet. Überall stehen kostenloses WLAN sowie ein LCD-Fernseher mit Sat-Anschluss bereit. Sämtliche Zimmer sind zudem mit Klimaanlage und einem eigenen Safe bestückt. Während Ihres Aufenthaltes können Sie den Spa-Bereich mit Innenpool, Jacuzzi, Fitnessraum und Sauna für sich nutzen. Im hoteleigenen Restaurant Il Moro wird feinste argentinische Kochkunst angeboten. Die Bar des Pestana Buenos Aires Hotel schließlich lockt mit diversen köstlichen Cocktails.\u003c/p\u003e",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "\u003cp\u003ePestana Buenos Aires Hotel is located in the heart of 9 de Julio",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "name": [
-          {
-            "content": "Pestana Buenos Aires Hotel",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "Pestana Buenos Aires Hotel",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.59815726416018, "lon": -58.38100517026938 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/95166614-7371-477a-be8f-7ebc1140fa45",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "6f3e4fac-6806-4afa-834a-0ac141eb2c3b",
+      "accommodation_type_id": 3,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJaYhi0s7KvJURmQbGY5VWCKM",
+      "blocked": null,
+      "dmcs": {
+        "0cf49da1-39f2-4ffa-900a-f9c7b3c715a2": "b26d6c15-4a36-4d00-b06c-3ef5daf1de60",
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP148761"
+      },
+      "alt_names": [
+        "ALMA DE BUENOS AIRES"
+      ],
+      "front_desk_phone": "54-11-52735010",
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "ALMA DE BUENOS AIRES",
+      "location": {
+        "lat": -34.602015,
+        "lon": -58.379638
+      },
+      "description": null,
+      "giata_id": "235456"
     },
     {
-      "item_type": "accommodation",
-      "id": "f459602f-5241-4632-a905-0f896de7db57",
-      "parent_uuid": "af406cf9-8f9e-4d92-9c1f-1baa14c9d454",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [{ "content": "47560", "source": "wetu", "source_key": "gecko" }],
-        "supplier_tag": [],
-        "address": [
-          {
-            "content": "Governor Deloqui No. 198 (Rivadavia esq.) \r\n(9410) Ushuaia \r\nTierra del Fuego Province ",
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "description": [
-          {
-            "content": "\u003cp\u003eIm Hotel Tierra del Fuego sind Sie in angenehm eingerichteten Zimmern oder Suiten untergebracht. Überall ist ein moderner Flachbildschirm-Fernseher vorhanden. Die großen Fensterfronten bieten eine einzigartige Aussicht auf den Martial-Gletscher sowie auf die Ushuaia-Bucht. Jedes Zimmer verfügt über ein Badezimmer, über freien WLAN-Zugang und einen Safe, die Suiten zusätzlich über einen eigenen Whirlpool. Das Personal des Hotels Tierra del Fuego ist äußerst hilfsbereit. Restaurants und Läden finden Sie im Stadtzentrum von Ushuaia, das in unmittelbarer Nähe liegt. Vom Hotel aus sind Sie sofort am Hafen, von wo aus Sie etwa eine Tour auf dem Beagle-Kanal unternehmen und Pinguine beobachten können.\u003c/p\u003e",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "\u003cp\u003eTierra del Fuego Hotel is in downtown Ushuaia.",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "name": [
-          {
-            "content": "Tierra del Fuego Hotel",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "de-DE"
-          },
-          {
-            "content": "Tierra del Fuego Hotel",
-            "source": "wetu",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -54.80470408137177, "lon": -68.30141333002473 },
-            "source": "wetu",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/de5516cc-a9d9-48b2-9474-e6bd0ad46812",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "1379f5fc-936c-44c9-b645-18d6e56b0c7e",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "e361d7fe-d190-4179-9a7c-095439902181",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJVdVQDL5wGpYRZU0ryesgpy4",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP152011"
+      },
+      "alt_names": [
+        "Alma del Lago Suites \u0026 SPA"
+      ],
+      "front_desk_phone": "54 294 452 15 00",
+      "rating": 5.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Alma del Lago Suites \u0026 SPA",
+      "location": {
+        "lat": -41.1317106,
+        "lon": -71.3230719
+      },
+      "description": null,
+      "giata_id": "235158"
     },
     {
-      "item_type": "accommodation",
-      "id": "9f0d2a50-733b-4e13-86b0-f6801b5ff5a8",
-      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [],
-        "supplier_tag": [],
-        "address": [],
-        "description": [],
-        "name": [
-          {
-            "content": "la casa de belencita 2 ah si la numero dos",
-            "source": "illusions",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.5875522, "lon": -58.3972196 },
-            "source": "illusions",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [{ "content": "illusions", "source": "illusions", "source_key": "gecko" }],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "21119211-ad65-48a8-b51e-654ea9515e87",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ8wndP9jKvJURj9pY3W3pnZU",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP148582"
+      },
+      "alt_names": [
+        "Alma del Plata Hotel \u0026 Apart"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Alma del Plata Hotel \u0026 Apart",
+      "location": {
+        "lat": -34.617094,
+        "lon": -58.384477
+      },
+      "description": null,
+      "giata_id": "233047"
     },
     {
-      "item_type": "accommodation",
-      "id": "2b1e5a2a-0411-49a5-88cc-10183a1e14d7",
-      "parent_uuid": "74129b0c-5ca4-45d5-8a23-9bc849bf9002",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [],
-        "supplier_tag": [],
-        "address": [],
-        "description": [],
-        "name": [
-          {
-            "content": "la casa de belencita ah si",
-            "source": "jonview",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.5875522, "lon": -58.3972196 },
-            "source": "jonview",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [{ "content": "jonview", "source": "jonview", "source_key": "gecko" }],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/c11cd1df-d31f-4ec2-9257-2e442783514b",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "b59ad7af-22ca-4869-a398-b412cad463ed",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJU80ANLbKvJURsEhnXKQtZJs",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP727299"
+      },
+      "alt_names": [
+        "Alvear Art Hotel"
+      ],
+      "front_desk_phone": "54-11-41143400",
+      "rating": 5.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Alvear Art Hotel",
+      "location": {
+        "lat": -34.5958426,
+        "lon": -58.3801175
+      },
+      "description": null,
+      "giata_id": "363703"
     },
     {
-      "item_type": "accommodation",
-      "id": "7fe38296-a8d1-4f81-ae1c-2ca01d119032",
-      "parent_uuid": "b8bcb788-f0f7-438c-91fd-7da276ff02e3",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [],
-        "supplier_tag": [],
-        "address": [],
-        "description": [],
-        "name": [
-          {
-            "content": "la casita de la abuelita de belen",
-            "source": "PrivateSafaris",
-            "source_key": "gecko",
-            "locale": "en-GB"
-          }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.5851659, "lon": -58.4158912 },
-            "source": "PrivateSafaris",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [
-          { "content": "PrivateSafaris", "source": "PrivateSafaris", "source_key": "gecko" }
-        ],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/eb8ea965-aa62-43c0-b80f-e9f5f9053cf2",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "7c799328-a260-432f-9181-c2e9d015afd3",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJeYwnPyg1o5URqXUxELQPJCs",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP02690Z"
+      },
+      "alt_names": [
+        "Alvear Icon Hotel"
+      ],
+      "front_desk_phone": null,
+      "rating": 5.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Alvear Icon Hotel",
+      "location": {
+        "lat": -34.610707,
+        "lon": -58.362009
+      },
+      "description": null,
+      "giata_id": "675436"
     },
     {
-      "item_type": "accommodation",
-      "id": "1da592ae-a003-416c-9efa-d98692a17db6",
-      "parent_uuid": "b8bcb788-f0f7-438c-91fd-7da276ff02e3",
-      "fields": {
-        "primary_item_uuid": null,
-        "external_id": [
-          { "content": "168304", "source": "wetu", "source_key": "gecko" },
-          {
-            "content": "ChIJ-za85ywugUMRb7J0E-kRtGw",
-            "source": "google_places",
-            "source_key": "gecko"
-          }
-        ],
-        "supplier_tag": [],
-        "address": [],
-        "description": [],
-        "name": [
-          { "content": "new test", "source": "egoli", "source_key": "gecko", "locale": "en-GB" }
-        ],
-        "geolocation": [
-          {
-            "content": { "lat": -34.5851659, "lon": -58.4158912 },
-            "source": "egoli",
-            "source_key": "gecko"
-          }
-        ],
-        "dmc_id": [
-          { "content": "egoli", "source": "egoli", "source_key": "gecko" },
-          {
-            "content": "72ff9fd3-f735-401e-bd2b-97f246b9f381",
-            "source": "Go North",
-            "source_key": "spider"
-          },
-          { "content": "PrivateSafaris", "source": "PrivateSafaris", "source_key": "gecko" }
-        ],
-        "ancestors": [
-          {
-            "content": [
-              "kiwi://Elephant/Item/eb8ea965-aa62-43c0-b80f-e9f5f9053cf2",
-              "kiwi://Elephant/Item/b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
-              "kiwi://Elephant/Item/087e8ead-fd75-4c11-9dce-ad8a2c649c17"
-            ],
-            "source": "osm",
-            "source_key": null
-          }
-        ]
-      }
+      "uuid": "acba104e-ddd6-4644-9462-a840eb56e56c",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJrVCUfKPKvJURAcHULil-35w",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP133128"
+      },
+      "alt_names": [
+        "Alvear Palace Hotel"
+      ],
+      "front_desk_phone": "54-11-48082100",
+      "rating": 5.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Alvear Palace Hotel",
+      "location": {
+        "lat": -34.587805,
+        "lon": -58.388887
+      },
+      "description": null,
+      "giata_id": "38115"
+    },
+    {
+      "uuid": "cbc3505c-94a4-4ca3-b991-17a4bdcb6f48",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJtawfWcvKvJUR9946DLnYp84",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP263203"
+      },
+      "alt_names": [
+        "Amerian Buenos Aires Park Hotel"
+      ],
+      "front_desk_phone": "54-11-517 16 500",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Amerian Buenos Aires Park Hotel",
+      "location": {
+        "lat": -34.59973,
+        "lon": -58.3726242
+      },
+      "description": null,
+      "giata_id": "27239"
+    },
+    {
+      "uuid": "24be1747-5527-4c31-b4ab-907a04aa5bfe",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "c0e6a47a-0375-4bac-872a-9569b49c1993",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJieOYJISiMpQRFMjibBhkdsA",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP181296"
+      },
+      "alt_names": [
+        "Amérian Córdoba Park Hotel"
+      ],
+      "front_desk_phone": "54-35-14207000",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Amérian Córdoba Park Hotel",
+      "location": {
+        "lat": -31.420507,
+        "lon": -64.187896
+      },
+      "description": null,
+      "giata_id": "84076"
+    },
+    {
+      "uuid": "d708ed24-895b-4acb-b534-cec3a5d7e58a",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "3ac466e9-ca8d-4853-85db-e620156db6ec",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "66902",
+      "merged_uuids": [],
+      "google_place_id": "ChIJC6C6bgUJfpYR4HKAW4pzJ88",
+      "blocked": null,
+      "dmcs": {
+        "0cf49da1-39f2-4ffa-900a-f9c7b3c715a2": "e6660735-c971-4567-b837-5eeb94ea9ddf"
+      },
+      "alt_names": [
+        "Amérian Executive Mendoza Hotel"
+      ],
+      "front_desk_phone": "+54 11 5171-6565",
+      "rating": 4.0,
+      "ranking": null,
+      "address": "San Lorenzo \r\nCiudad de Mendoza\r\n660 5500\r\nMendoza\r\nArgentina ",
+      "additional_info": null,
+      "name": "Amérian Executive Mendoza Hotel",
+      "location": {
+        "lat": -32.892417,
+        "lon": -68.84897
+      },
+      "description": "\u003cp\u003eNew description here done\u003c/p\u003e\n",
+      "giata_id": "129889"
+    },
+    {
+      "uuid": "ca4beb4a-9815-4583-9cad-2bec3965d698",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJAyVsjZrKvJURM_T87pALf4Y",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP01246C"
+      },
+      "alt_names": [
+        "Arc Arenales Studios \u0026 Suites"
+      ],
+      "front_desk_phone": null,
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Arc Arenales Studios \u0026 Suites",
+      "location": {
+        "lat": -34.5927217,
+        "lon": -58.4037137
+      },
+      "description": null,
+      "giata_id": "612573"
+    },
+    {
+      "uuid": "ec572629-1fc7-4a5d-9aef-69a650895259",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ8bOdJpjKvJURIurfJkF8NiE",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP784993"
+      },
+      "alt_names": [
+        "ARC Recoleta Boutique Hotel \u0026 Spa"
+      ],
+      "front_desk_phone": null,
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "ARC Recoleta Boutique Hotel \u0026 Spa",
+      "location": {
+        "lat": -34.5914615,
+        "lon": -58.3964123
+      },
+      "description": null,
+      "giata_id": "495144"
+    },
+    {
+      "uuid": "260dd36c-5244-4c68-b7eb-35cdd3c4f3e0",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJp06l3LbKvJURlmXMesmx79s",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP142631"
+      },
+      "alt_names": [
+        "Argenta Tower"
+      ],
+      "front_desk_phone": "54-11-43254100",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Argenta Tower",
+      "location": {
+        "lat": -34.593025,
+        "lon": -58.379444
+      },
+      "description": null,
+      "giata_id": "51501"
+    },
+    {
+      "uuid": "4a44da3e-b682-4bd5-ad97-a080bda9c9bb",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "3ac466e9-ca8d-4853-85db-e620156db6ec",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "73237",
+      "merged_uuids": [],
+      "google_place_id": "ChIJH6_GaBsJfpYRoNLpBkI7drw",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "Argentino Hotel"
+      ],
+      "front_desk_phone": null,
+      "rating": null,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Argentino Hotel",
+      "location": {
+        "lat": -32.88827196266106,
+        "lon": -68.84494483068846
+      },
+      "description": "\u003cp\u003eLocated in the city of Mendoza´s heart, the Hotel Argentino raises his face to the Plaza Independencia, the main square of the city. Legendary and traditional, the Argentino Hotel retains the reasons why it became the small hotel chosen by all visitors to Mendoza. Its primary mission, passenger service, turns your stay in comfort and optimizes your available time. A few steps away is the prestigious Independencia Theater, and by the area you can find the most recommended restaurants, famous cafes and major shopping stores. A few minute walk brings you to the General San Martin Park. It is 20 minutes from Francisco Gabrielli Airport and only 10 of the bus terminal. Your stay there will be an experience beyond its category and a smart choice.\u003c/p\u003e",
+      "giata_id": null
+    },
+    {
+      "uuid": "3094cd9a-a787-40b0-bc5d-04d1bac6edcd",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJsSDC_MXKvJURaaAKifXkuNY",
+      "blocked": null,
+      "dmcs": {
+        "0cf49da1-39f2-4ffa-900a-f9c7b3c715a2": "adee2b7f-a93c-4208-95d8-42ef26568ce8",
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP153786"
+      },
+      "alt_names": [
+        "Art Deco Hotel And Suites"
+      ],
+      "front_desk_phone": "54 115 239 54 90",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Art Deco Hotel And Suites",
+      "location": {
+        "lat": -34.6033279,
+        "lon": -58.3838324
+      },
+      "description": null,
+      "giata_id": "77951"
+    },
+    {
+      "uuid": "ca06aa4b-ef82-415d-b1ef-7ef52396b73d",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "c786efd4-6b83-4d00-bae1-d741c645441c",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "b466205b-5257-46bd-86c5-be18b51b55a4",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "66581",
+      "merged_uuids": [],
+      "google_place_id": "ChIJl2DGLxUxH5QRM9cWLSg1RNE",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "Asturias Hotel Cafayate"
+      ],
+      "front_desk_phone": "+54 3868 42-1328",
+      "rating": null,
+      "ranking": null,
+      "address": "Av. Gral. Güemes Sur 154, 4427 Cafayate, Salta, Argentina",
+      "additional_info": null,
+      "name": "Asturias Hotel Cafayate",
+      "location": {
+        "lat": -26.07455,
+        "lon": -65.975414
+      },
+      "description": "\u003cp\u003eThe Asturias Hotel, categorized as 3 star, is located in Cafayate, Department of the Province of Salta. It has a privileged location, just 50 meters from the main square, near the Cathedral and the Wine Museum. From the terrace you have a magnificent view of hills and vineyards caracterÃsticos area calchaquíes valleys. Asturias Hotel rooms have views of downtown Cafayate, the garden and pool, overlooking the mountains or inner courtyards. Some rooms according to their location have balconies. Facilities include a restaurant, pool, spa and gym.\u003c/p\u003e",
+      "giata_id": null
+    },
+    {
+      "uuid": "c267392a-3640-468e-ac30-ff04945b9053",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJWfos-nm1vJURMWPNRJqMayk",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP372880"
+      },
+      "alt_names": [
+        "Awwa Suites \u0026 Spa"
+      ],
+      "front_desk_phone": "54-11-39660000",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Awwa Suites \u0026 Spa",
+      "location": {
+        "lat": -34.576815,
+        "lon": -58.412093
+      },
+      "description": null,
+      "giata_id": "230203"
+    },
+    {
+      "uuid": "3ec4a58c-6c9f-4cfb-8a4e-c0ab173d7ca2",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJzy6ZYnq1vJURrNLsBoj7n6M",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP011074"
+      },
+      "alt_names": [
+        "Ayres de Recoleta"
+      ],
+      "front_desk_phone": "54 114 8010505",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Ayres de Recoleta",
+      "location": {
+        "lat": -34.588751,
+        "lon": -58.394553
+      },
+      "description": null,
+      "giata_id": "88416"
+    },
+    {
+      "uuid": "123f7abd-4726-4dec-9efb-b0688ab89597",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ2TbxZ421vJURgt-mByaH3Nw",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP735201"
+      },
+      "alt_names": [
+        "Babel Palermo"
+      ],
+      "front_desk_phone": "54-11-66984173",
+      "rating": 3.5,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Babel Palermo",
+      "location": {
+        "lat": -34.5845978,
+        "lon": -58.4385081
+      },
+      "description": null,
+      "giata_id": "138566"
+    },
+    {
+      "uuid": "29c40632-41e5-4974-a82c-a220b109f9a0",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ5QAzZMPKvJUR0iCyQepMNpM",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP221014"
+      },
+      "alt_names": [
+        "Babel Plaza"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Babel Plaza",
+      "location": {
+        "lat": -34.608069,
+        "lon": -58.38926
+      },
+      "description": null,
+      "giata_id": "187389"
+    },
+    {
+      "uuid": "05ca8edd-1525-4ef9-a5ee-e72e2af1e61d",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ2ffbY77KvJURnnF38jkLqVk",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP416512"
+      },
+      "alt_names": [
+        "Babel Recoleta"
+      ],
+      "front_desk_phone": null,
+      "rating": null,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Babel Recoleta",
+      "location": {
+        "lat": -34.596531,
+        "lon": -58.391851
+      },
+      "description": null,
+      "giata_id": null
+    },
+    {
+      "uuid": "beb72683-9a1f-4994-bd83-9abb9e21540c",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJv0kJg9XKvJURHe7u6WuGLbA",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP246370"
+      },
+      "alt_names": [
+        "Babel Studios"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Babel Studios",
+      "location": {
+        "lat": -34.615041,
+        "lon": -58.374758
+      },
+      "description": null,
+      "giata_id": "499678"
+    },
+    {
+      "uuid": "1231008a-0597-416e-8b0a-d8fcc28099b5",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ894T6sHKvJURv3-NsbC7DUg",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP319459"
+      },
+      "alt_names": [
+        "Bauen Suite Hotel"
+      ],
+      "front_desk_phone": "54 11 43700400",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Bauen Suite Hotel",
+      "location": {
+        "lat": -34.604472983248,
+        "lon": -58.393015265465
+      },
+      "description": null,
+      "giata_id": "103382"
+    },
+    {
+      "uuid": "6e35c405-71a5-44f2-8cf9-f4afd8d9b162",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJySUBWrnKvJUR4-qWRswZEnY",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP737507"
+      },
+      "alt_names": [
+        "Bel Air Hotel"
+      ],
+      "front_desk_phone": "54 11 402 140 00",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Bel Air Hotel",
+      "location": {
+        "lat": -34.5947104,
+        "lon": -58.3879783
+      },
+      "description": null,
+      "giata_id": "92265"
+    },
+    {
+      "uuid": "9b46b921-797c-42dc-8e13-ecb326455a92",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJ-_WUq-XKvJURWncZFTBhWi8",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP852394"
+      },
+      "alt_names": [
+        "Bet Hotel Buenos Aires"
+      ],
+      "front_desk_phone": null,
+      "rating": 2.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Bet Hotel Buenos Aires",
+      "location": {
+        "lat": -34.615746088498,
+        "lon": -58.402738969009
+      },
+      "description": null,
+      "giata_id": "431048"
+    },
+    {
+      "uuid": "e279c84a-47fa-4108-992d-4312f8c2e1e8",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJfb-SCbjKvJURuUt9ocZg2yo",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP170999"
+      },
+      "alt_names": [
+        "Bisonte Libertad"
+      ],
+      "front_desk_phone": null,
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Bisonte Libertad",
+      "location": {
+        "lat": -34.597992,
+        "lon": -58.3842111
+      },
+      "description": null,
+      "giata_id": "38730"
+    },
+    {
+      "uuid": "6b325d2a-6fef-4ed7-8933-abea4af034b5",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJm66zLbbKvJURg97OkrjQ04A",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP969376"
+      },
+      "alt_names": [
+        "Bisonte Palace Hotel"
+      ],
+      "front_desk_phone": "54-11-43284751",
+      "rating": 3.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Bisonte Palace Hotel",
+      "location": {
+        "lat": -34.596593,
+        "lon": -58.379961
+      },
+      "description": null,
+      "giata_id": "54592"
+    },
+    {
+      "uuid": "beb39126-ed46-409b-9762-2bc9a0693b3e",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "48375",
+      "merged_uuids": [],
+      "google_place_id": "ChIJ5WG9nc_KvJURPF7S4sgIpdg",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP011138"
+      },
+      "alt_names": [
+        "Bristol Hotel de Buenos Aires",
+        "Hotel Bristol"
+      ],
+      "front_desk_phone": "43825400",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Hotel Bristol",
+      "location": {
+        "lat": -34.605131,
+        "lon": -58.38228
+      },
+      "description": "\u003cp\u003eThis hotel is located in a privileged area of the city of Buenos Aires, a few metres from the Avenida 9 de Julio and Avenida Corrientes, the main gastronomic and entertainment street. This elegant and comfortable hotel opened its doors to the public in 1949 on the most important avenue of the city, opposite the greatest landmark in Buenos Aires, the Obelisk, with its unique architectural style and decoration.\u003c/p\u003e",
+      "giata_id": "9294"
+    },
+    {
+      "uuid": "e95a1281-15af-49ad-88fd-2e98fc801b84",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "dca1bdbf-602c-4f13-8bf3-2d4b5195bbd1",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "b466205b-5257-46bd-86c5-be18b51b55a4",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "176869",
+      "merged_uuids": [],
+      "google_place_id": "ChIJcxoYQ7rDG5QReWLmftOpBXA",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "Brizo Salta Hotel"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.5,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Brizo Salta Hotel",
+      "location": {
+        "lat": -24.78664633200722,
+        "lon": -65.41474233128281
+      },
+      "description": null,
+      "giata_id": null
+    },
+    {
+      "uuid": "f0bd5aac-2820-418e-a319-e2aa699d0def",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJsyD09sXKvJUR40xN7jK9dDg",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP050333"
+      },
+      "alt_names": [
+        "Broadway Hotel \u0026 Suites"
+      ],
+      "front_desk_phone": "54-11-43789300",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Broadway Hotel \u0026 Suites",
+      "location": {
+        "lat": -34.6036862,
+        "lon": -58.3832931
+      },
+      "description": null,
+      "giata_id": "91318"
+    },
+    {
+      "uuid": "be8d0400-e01e-4c0f-be99-2a8ccdcf621c",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": null,
+      "merged_uuids": [],
+      "google_place_id": "ChIJsy_G6m_IvJURRF8sf5fEL0g",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP646997"
+      },
+      "alt_names": [
+        "Buenos Aires Marriott"
+      ],
+      "front_desk_phone": "54-11-43485000",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Buenos Aires Marriott",
+      "location": {
+        "lat": -34.6019076,
+        "lon": -58.3809921
+      },
+      "description": null,
+      "giata_id": "87818"
+    },
+    {
+      "uuid": "cc1a7054-b7e9-4532-8975-1d5926e66d20",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "e361d7fe-d190-4179-9a7c-095439902181",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "47359",
+      "merged_uuids": [],
+      "google_place_id": "ChIJMWXLyA57GpYRfyIgW0tU87w",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP154571"
+      },
+      "alt_names": [
+        "Cacique Inacayal Hotel \u0026 Spa",
+        "Cacique Inacayal Lake \u0026 Spa Hotel "
+      ],
+      "front_desk_phone": "+54 294 443-3888",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "Cacique Inacayal Hotel \u0026 Spa",
+      "location": {
+        "lat": -41.1323423,
+        "lon": -71.3177246
+      },
+      "description": "\u003cp\u003eCacique Incayal Lake Hotel \u0026amp; Spa sits on the shores of Lake Nahuel Huapi in the center of the city of San Carlos de Bariloche. Its prime location offers guests magnificent views of the lake. \u003c/p\u003e\u003cp\u003eThe hotel has elegant guest rooms featuring designer furniture, WIFI, a mini bar, TV, digital safe and modern bathroom. There are a range of room types to accommodate the various needs of travellers.  \u003c/p\u003e\u003cp\u003eGuests at Cacique Incayal can dine at Utrac – a restaurant serving Patagonian international and regional cuisine. It has a wine cellar with a wide range of wines from popular wineries in Argentina. Tecka Bar is another great option where you can take a tour of different international cuisines, mainly eastern tastings. Lobby Bar is an alternative to relax and enjoy excellent drinks at the fireplace overlooking the lake.\u003c/p\u003e\u003cp\u003eThe spa and fitness area features a heated pool, gym, whirlpool, dry sauna, Finnish and Scottish shower bathrooms, and a terrace with chairs. Spa programs include massages, body treatments and facials.\u003c/p\u003e",
+      "giata_id": "91322"
+    },
+    {
+      "uuid": "f9e9b2ab-7307-424d-a80e-e90c622763e1",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "108540",
+      "merged_uuids": [],
+      "google_place_id": "ChIJ7eUjvrbKvJURt5Uv0-0i0-k",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "CARLES Hotel Buenos Aires"
+      ],
+      "front_desk_phone": "+54 11 4313-5072",
+      "rating": 4.0,
+      "ranking": null,
+      "address": null,
+      "additional_info": null,
+      "name": "CARLES Hotel Buenos Aires",
+      "location": {
+        "lat": -34.5928881,
+        "lon": -58.37850449999996
+      },
+      "description": null,
+      "giata_id": null
+    },
+    {
+      "uuid": "e4d42e57-4e24-49db-9180-b9c1715885ac",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "48443",
+      "merged_uuids": [],
+      "google_place_id": "ChIJzRn6MbbKvJURKovMozxloic",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "Casa Calma"
+      ],
+      "front_desk_phone": "+54 11 4312-5000",
+      "rating": 4.0,
+      "ranking": null,
+      "address": "Suipacha 1015, Buenos Aires, Argentina",
+      "additional_info": null,
+      "name": "Casa Calma",
+      "location": {
+        "lat": -34.595946,
+        "lon": -58.37978099999998
+      },
+      "description": null,
+      "giata_id": null
+    },
+    {
+      "uuid": "fdf6f444-b881-430f-935c-dd8c74d77fb2",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "3ac466e9-ca8d-4853-85db-e620156db6ec",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "101837",
+      "merged_uuids": [],
+      "google_place_id": "ChIJx9EWgQEJfpYRJlKjNj_MTOc",
+      "blocked": null,
+      "dmcs": {},
+      "alt_names": [
+        "Casa Lila"
+      ],
+      "front_desk_phone": null,
+      "rating": 3.0,
+      "ranking": null,
+      "address": "Nicolás Avellaneda 262. \r\n5ta Sección \r\nMendoza. \r\nArgentina. ",
+      "additional_info": null,
+      "name": "Casa Lila",
+      "location": {
+        "lat": -32.88602601173957,
+        "lon": -68.85293810185237
+      },
+      "description": null,
+      "giata_id": null
+    },
+    {
+      "uuid": "b389239f-b4f5-4e4f-bd19-d1be842a5a30",
+      "accommodation_type_id": null,
+      "accommodation_category_id": null,
+      "ancestors": [
+        {
+          "uuid": "b3635f17-f3cc-47c4-81bd-8e1d5d5bbf2e",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "57c5a6e9-10a8-4556-ad4f-fa9f90ea7443",
+          "item_type": "Area"
+        },
+        {
+          "uuid": "087e8ead-fd75-4c11-9dce-ad8a2c649c17",
+          "item_type": "Country"
+        },
+        {
+          "uuid": "a889b319-cd8c-45ba-b764-07793abc5bed",
+          "item_type": "Continent"
+        }
+      ],
+      "wetu_id": "80539",
+      "merged_uuids": [],
+      "google_place_id": "ChIJRWC5a3m1vJURN8lo4KhJ4kE",
+      "blocked": null,
+      "dmcs": {
+        "b5c0b225-81d5-442b-881b-ec9a89b31c20": "JP102606"
+      },
+      "alt_names": [
+        "CasaSur Bellini Hotel"
+      ],
+      "front_desk_phone": "+54 11 4807-4848",
+      "rating": 4.0,
+      "ranking": null,
+      "address": "Cabello 3780, Buenos Aires, Argentina.",
+      "additional_info": null,
+      "name": "CasaSur Bellini Hotel",
+      "location": {
+        "lat": -34.580155,
+        "lon": -58.4129179
+      },
+      "description": "\u003cp\u003eCasaSur Bellini Hotel is located in the heart of Palermo, one of the most distinguished areas of Buenos Aires. Neighbor of upscale art galleries, renowned shopping centers, parks and tours. It is an area that sets the trend for the bars and restaurants surrounding it, without losing the atmosphere of warmth and relaxation that will make you feel at home.\u003c/p\u003e\u003cp\u003eAll 80 individually decorated rooms feature free Wi-Fi and pillow top beds. Guests can enjoy jetted tubs, and other standard amenities include kitchenettes with refrigerators and dishwashers. Along with a full-service spa, this smoke-free hotel has a restaurant and an outdoor pool. Free buffet breakfast and free Wi-Fi in public areas are also provided. Additionally, a health club, a fitness center, and spa services are onsite.\u003c/p\u003e",
+      "giata_id": "405899"
     }
-  ]
+  ],
+  "meta": {
+    "total_count": 257,
+    "count": 40
+  }
 }

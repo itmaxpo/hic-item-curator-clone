@@ -105,7 +105,7 @@ describe('Homepage', () => {
     )
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-accommodation',
+      'https://partners-staging.tlservers.com/content/accommodations/search',
       'fixture:search/accomSearch.json'
     )
     cy.route(
@@ -149,19 +149,19 @@ describe('Homepage', () => {
         .eq(0)
         .find('[data-test=source]')
         .should('exist')
-        .contains('Aot')
+        .contains('Giata, Google Places')
+
+      cy.get('[data-test=search-item]')
+        .eq(1)
+        .find('[data-test=source]')
+        .should('exist')
+        .contains('Giata, Google Places')
 
       cy.get('[data-test=search-item]')
         .eq(2)
         .find('[data-test=source]')
         .should('exist')
-        .contains('Wetu')
-
-      cy.get('[data-test=search-item]')
-        .eq(10)
-        .find('[data-test=source]')
-        .should('exist')
-        .contains('Egoli, Go North, Google Places, Private Safaris, Wetu')
+        .contains('Giata, Google Places')
     })
   })
 
@@ -184,6 +184,7 @@ describe('Homepage', () => {
       'https://partners-staging.**.com/content/items/**/attachments**',
       'fixture:search/attachments.json'
     )
+
     cy.get('[data-test=searchResult]').as('searchResult')
 
     // select items for merging
@@ -243,7 +244,7 @@ describe('Homepage', () => {
 
     cy.route(
       'POST',
-      'https://partners-staging.**.com/search/v1/items?test-accommodation',
+      'https://partners-staging.tlservers.com/content/accommodations/search',
       'fixture:search/after_merge.json'
     ).as('afterMerge')
     // merge!
@@ -268,7 +269,7 @@ describe('Homepage', () => {
         .eq(0)
         .find('[data-test=source]')
         .should('exist')
-        .contains('Aot, Wetu')
+        .contains('Giata, Google Places')
     })
   })
 
