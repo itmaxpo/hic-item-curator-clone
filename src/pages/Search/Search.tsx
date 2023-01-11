@@ -161,10 +161,7 @@ const SearchPage = () => {
           const suppliers = await getSuppliers()
 
           const { data, meta } = await searchAccommodations(
-            {
-              ...prevPayload.current,
-              supplier_uuid: supplier ? suppliers.find(({ name }) => name === supplier)?.uuid : ''
-            },
+            prevPayload.current,
             offset ?? pageOffset.current
           )
 

@@ -89,14 +89,14 @@ export const searchAccommodations = async (
   {
     name,
     country: country_uuid,
-    supplier_uuid,
+    supplier: supplier_uuid,
     blocked,
-    missingGeolocation: geolocation_present,
+    missingGeolocation,
     area: area_uuid
   }: {
     name: string
     country: string
-    supplier_uuid: string
+    supplier: string
     blocked: boolean
     missingGeolocation: boolean
     area: string
@@ -109,7 +109,7 @@ export const searchAccommodations = async (
       offset,
       limit: 40,
       locale: 'en-GB',
-      ...(geolocation_present ? { geolocation_present } : {}),
+      ...(missingGeolocation ? { geolocation_present: false } : {}),
       ...(blocked ? { blocked } : {}),
       ...(area_uuid ? { area_uuid } : {}),
       ...(country_uuid ? { country_uuid } : {}),

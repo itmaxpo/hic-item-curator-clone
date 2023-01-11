@@ -57,7 +57,6 @@ const SearchBox = ({
   const category = get(locationQuery, 'type')
   const country = getQueryValue(locationQuery, 'countryName', 'countryId')
   const area = getQueryValue(locationQuery, 'areaName', 'areaId')
-  const supplier = getQueryValue(locationQuery, 'supplier', 'supplier')
   const name = get(locationQuery, 'name')
   const provider = get(locationQuery, 'provider')
   const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
@@ -66,8 +65,7 @@ const SearchBox = ({
 
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [{ data: suppliers = [] }] = usePromise(
-    async () =>
-      (await getSuppliers()).map(({ name, supplier_id }) => ({ value: supplier_id, label: name })),
+    async () => (await getSuppliers()).map(({ name, uuid }) => ({ value: uuid, label: name })),
     []
   )
 
@@ -173,6 +171,12 @@ const SearchBox = ({
       ),
     [country]
   )
+  const supplier = locationQuery?.supplier
+    ? {
+        label: suppliers.find(({ value }) => value === locationQuery?.supplier)?.label ?? '',
+        value: locationQuery?.supplier ?? ''
+      }
+    : undefined
 
   const AreaDropdown = ({ hidden }) => (
     <Dropdown
