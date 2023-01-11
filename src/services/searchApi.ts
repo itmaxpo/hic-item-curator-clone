@@ -32,7 +32,7 @@ interface ICountry {
 
 const getCountries = async (params: { name: string; geo_point?: { lat: number; lon: number } }) => {
   const { data } = await postJson<Promise<{ data: ICountry[] }>>(
-    `${process.env.REACT_APP_PARTNERS_API}/content/countries/search`,
+    `${process.env.REACT_APP_PARTNERS_API}/content/countries//search`,
     {
       ...params
     }
@@ -87,28 +87,34 @@ declare global {
 
 export const searchAccommodations = async (
   {
-    name = '',
-    country: country_uuid = '',
-    supplier: supplier_uuid,
+    name,
+    country: country_uuid,
+    supplier_uuid,
     blocked,
-    missingGeolocation: geolocation_present
+    missingGeolocation: geolocation_present,
+    area: area_uuid
   }: {
     name: string
     country: string
-    supplier: string
+    supplier_uuid: string
     blocked: boolean
     missingGeolocation: boolean
+    area: string
   },
   offset = 0
 ) =>
   postJson<Promise<ApiResults>>(
     `${process.env.REACT_APP_PARTNERS_API}/content/accommodations/search`,
     {
-      locale: 'en-GB',
-      name,
-      country_uuid,
+      offset,
       limit: 40,
-      offset
+      locale: 'en-GB',
+      ...(geolocation_present ? { geolocation_present } : {}),
+      ...(blocked ? { blocked } : {}),
+      ...(area_uuid ? { area_uuid } : {}),
+      ...(country_uuid ? { country_uuid } : {}),
+      ...(supplier_uuid ? { supplier_uuid } : {}),
+      ...(name ? { name } : {})
     }
   )
 

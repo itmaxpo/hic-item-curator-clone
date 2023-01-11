@@ -8,14 +8,12 @@ import { useNotification } from 'components/Notification'
 
 import Layout from 'components/Layout'
 import { Wrapper, StyledLoader, SearchBoxLoader } from './styles'
-import { calculateIndex } from './utils'
 import { Meta, ISearchQueryAccom, searchAreas, searchAccommodations } from 'services/searchApi'
 import {
   COUNTRY_ITEM_TYPE,
   AREA_ITEM_TYPE,
   ACCOMMODATION_ITEM_TYPE,
-  ACTIVITY_ITEM_TYPE,
-  ITEMS_PER_PAGE
+  ACTIVITY_ITEM_TYPE
 } from 'utils/constants'
 import { getQueryValue } from './SearchBox/utils'
 import { SadFaceIcon } from 'components/Icon'
@@ -79,7 +77,7 @@ const SearchPage = () => {
   const { enqueueNotification } = useNotification()
   const navigate = useNavigate()
 
-  const accommodationPageOffset = useRef(0)
+  const pageOffset = useRef(0)
 
   // this feature will be killed very soon 💀...
   const onFilterByMissingGeolocation = (filterValue: string) => {
@@ -120,10 +118,6 @@ const SearchPage = () => {
     offset?: number
   ): Promise<void> => {
     try {
-      const index = calculateIndex(page ?? 0, ITEMS_PER_PAGE)
-
-      // if its a brand new search (not fetching more items)
-      // we clear the results and set page query to first page
       if (isNewSearch) {
         setResults(defaultAccommodationSearchState)
         onQueryUpdate({ ...queryParams, page: String(1) })
@@ -135,7 +129,11 @@ const SearchPage = () => {
       switch (itemTypeRef.current) {
         case AREA_ITEM_TYPE: {
           setIsLoading(true)
-          const { data, meta } = await searchAreas(prevPayload?.current, index)
+
+          const { data, meta } = await searchAreas(
+            prevPayload?.current,
+            offset ?? pageOffset.current
+          )
 
           const mappedAreaList = data.map(
             ({ uuid, ancestors, area_type, name, original_name, description }) => ({
@@ -155,15 +153,19 @@ const SearchPage = () => {
               meta
             }
           })
-
+          pageOffset.current = offset === 0 ? data.length : pageOffset.current + data.length
           break
         }
         case ACCOMMODATION_ITEM_TYPE: {
           setIsLoading(true)
           const suppliers = await getSuppliers()
+
           const { data, meta } = await searchAccommodations(
-            prevPayload.current,
-            offset ?? accommodationPageOffset.current
+            {
+              ...prevPayload.current,
+              supplier_uuid: supplier ? suppliers.find(({ name }) => name === supplier)?.uuid : ''
+            },
+            offset ?? pageOffset.current
           )
 
           const mappedAreaList = data.map((item) => {
@@ -188,6 +190,9 @@ const SearchPage = () => {
               meta
             }
           })
+
+          pageOffset.current = offset === 0 ? data.length : pageOffset.current + data.length
+
           break
         }
         default:
