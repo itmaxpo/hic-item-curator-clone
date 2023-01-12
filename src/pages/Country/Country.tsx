@@ -16,7 +16,7 @@ import {
   SecondaryButton
 } from '@tourlane/tourlane-ui'
 
-import { AreaImages } from '../Area/components/areaImages'
+import { Image } from 'components/Image/Images'
 import { IAttachment } from 'services/attachmentsApi'
 import { useNotification } from 'components/Notification'
 import Layout from 'components/Layout'
@@ -36,7 +36,7 @@ import { getCountryById } from './coutryApi'
 import type { CountryType, Information as InformationType } from 'types/Country'
 import { Market } from 'components/Market'
 import { FlexChildContainer } from 'components/FlexChildContainer'
-import { ActiveWrapperTitle } from '../Area/components/intro'
+import { ActiveBadge } from 'components/ItemBadge/styles'
 import ItemBadge from 'components/ItemBadge'
 import { usePrompt } from 'components/RouterPrompt'
 import type { ILocale } from 'types/ILocale'
@@ -231,7 +231,7 @@ export const Country = () => {
                         background={COLORS.ADVENTURE_GREEN}
                         color={COLORS.SENSATION_WHITE}
                       >
-                        <ActiveWrapperTitle>Active</ActiveWrapperTitle>
+                        <ActiveBadge>Active</ActiveBadge>
                       </ItemBadge>
                     )}
                   </>
@@ -311,7 +311,7 @@ export const Country = () => {
                     </Box>
 
                     <Box as={FullWidthHr} space={40} />
-                    <AreaImages
+                    <Image
                       isEditing={isEditing}
                       errorMessage={(formState.errors?.images as any)?.message}
                     />

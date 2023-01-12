@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
-import styled from 'styled-components'
 
-import { Base, Flex, H2, COLORS, Box, H4, SvgIcon } from '@tourlane/tourlane-ui'
+import { Base, Flex, H2, COLORS, Box, SvgIcon } from '@tourlane/tourlane-ui'
 import DeIcon from '@tourlane/iconography/Flags/Rectangle/De'
 import UsIcon from '@tourlane/iconography/Flags/Rectangle/Us'
 import FrIcon from '@tourlane/iconography/Flags/Rectangle/Fr'
@@ -10,6 +9,7 @@ import NlIcon from '@tourlane/iconography/Flags/Rectangle/Nl'
 
 import { HFCheckbox } from 'components/hook-form'
 import ItemBadge from 'components/ItemBadge'
+import { ActiveBadge } from 'components/ItemBadge/styles'
 import { HFTextField } from 'components/hook-form'
 import { Market } from 'components/Market'
 import { formSpacing } from 'utils/constants'
@@ -22,11 +22,6 @@ interface Props {
   visualization_destination: boolean
   locale: string
 }
-
-export const ActiveWrapperTitle = styled(H4)`
-  color: ${COLORS.SENSATION_WHITE};
-  font-size: 10px;
-`
 
 export const Intro = ({
   isEditing,
@@ -68,7 +63,7 @@ export const Intro = ({
                   background={COLORS.ADVENTURE_GREEN}
                   color={COLORS.SENSATION_WHITE}
                 >
-                  <ActiveWrapperTitle>Active</ActiveWrapperTitle>
+                  <ActiveBadge>Active</ActiveBadge>
                 </ItemBadge>
               )}
               <Flex ml={10}>
@@ -80,7 +75,7 @@ export const Intro = ({
                     background={COLORS.ADVENTURE_GREEN}
                     color={COLORS.SENSATION_WHITE}
                   >
-                    <ActiveWrapperTitle>Visualization destination</ActiveWrapperTitle>
+                    <ActiveBadge>Visualization destination</ActiveBadge>
                   </ItemBadge>
                 )}
               </Flex>
@@ -88,13 +83,21 @@ export const Intro = ({
           </>
         ) : (
           <>
-            <HFTextField name="name" maxLength={38} required />
+            <HFTextField name="name" maxLength={38} required data-testid="area_name" />
             <Flex mt={15}>
-              <Flex p={0} direction={'ltr'} mr="12px">
-                <HFCheckbox name="active_destination" label="Is active destination" />
+              <Flex p={0} mr="12px">
+                <HFCheckbox
+                  name="active_destination"
+                  label="Is active destination"
+                  data-testid="active_destination"
+                />
               </Flex>
-              <Flex p={0} direction={'ltr'} mr="12px">
-                <HFCheckbox name="visualization_destination" label="Is visualization destination" />
+              <Flex p={0} mr="12px">
+                <HFCheckbox
+                  name="visualization_destination"
+                  label="Is visualization destination"
+                  data-testid="visualization_destination"
+                />
               </Flex>
             </Flex>
           </>

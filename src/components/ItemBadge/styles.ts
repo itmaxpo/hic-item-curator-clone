@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { COLORS } from '@tourlane/tourlane-ui'
+import { COLORS, H4 } from '@tourlane/tourlane-ui'
 
 interface IBadgeWrapper {
   width: string
@@ -26,4 +26,9 @@ export const BadgeWrapper = styled.div<IBadgeWrapper>`
     font-size: 14px;
     margin: 0;
   }
+`
+
+export const ActiveBadge = styled(H4)`
+  color: ${COLORS.SENSATION_WHITE};
+  font-size: 10px;
 `

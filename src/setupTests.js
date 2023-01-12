@@ -1,4 +1,3 @@
-import 'jest-styled-components'
 import '@testing-library/jest-dom'
 
 // Increase timeout from 5 to 30 seconds to handle some slow tests.
@@ -23,22 +22,28 @@ console.error = (...args) => {
   }
 }
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+window.matchMedia = (query) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: jest.fn(), // Deprecated
+  removeListener: jest.fn(), // Deprecated
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  dispatchEvent: jest.fn()
 })
 
 Object.defineProperty(window, 'confirm', {
   writable: true,
-  value: jest.fn().mockReturnValue(true),
+  value: jest.fn().mockReturnValue(true)
+})
+// Mock of innerText that is missing in js-dom
+// Simplified version of https://github.com/jsdom/jsdom/issues/1245#issuecomment-470192636
+Object.defineProperty(global.Element.prototype, 'innerText', {
+  get() {
+    return this.textContent
+  },
+  configurable: true // make it so that it doesn't blow chunks on re-running tests with things like --watch
 })
 
+window.crypto = { subtle: {} }

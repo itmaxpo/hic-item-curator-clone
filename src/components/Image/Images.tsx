@@ -18,7 +18,7 @@ interface Props {
   errorMessage: string
 }
 
-export const AreaImages = ({ isEditing, errorMessage }: Props) => {
+export const Image = ({ isEditing, errorMessage }: Props) => {
   const { id } = useParams()
   const { enqueueNotification } = useNotification()
   const [isImageCarouselOpen, toggleImageCarousel] = useState(false)
