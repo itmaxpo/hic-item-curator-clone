@@ -4,7 +4,8 @@ import { useNotification } from 'components/Notification'
 import { flatten } from 'lodash'
 import { getAreaById, AreaType, updateAreas } from './areaApi'
 import { getItemPolygonCoordinatesById } from 'services/contentApi'
-import { getChangedFields } from './util'
+import { getChangedFields } from 'utils/getChangedFields'
+import { mapProperties } from './util'
 
 const useAreaApi = (id: any, locale: any) => {
   const { enqueueNotification } = useNotification()
@@ -36,7 +37,7 @@ const useAreaApi = (id: any, locale: any) => {
   }, [enqueueNotification, id, locale])
 
   const updateArea = async (data: AreaType, uuid: string, dirtyFields: any) => {
-    let payload = getChangedFields(dirtyFields, data)
+    let payload = getChangedFields(dirtyFields, data, mapProperties)
     await updateAreas(uuid, locale, payload)
       .then(async () => {
         enqueueNotification({

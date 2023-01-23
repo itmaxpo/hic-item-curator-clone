@@ -76,7 +76,7 @@ export const HFTextArea = ({
             {maxLength && (
               <Box position={'relative'}>
                 <LimitText color={COLORS.INACTIVE_GRAY}>
-                  {value.length}/{maxLength}
+                  {value?.length ?? 0}/{maxLength}
                 </LimitText>
               </Box>
             )}

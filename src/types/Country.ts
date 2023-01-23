@@ -1,8 +1,3 @@
-export interface Ancestors {
-  uuid: string
-  item_type: string
-}
-
 export interface Blocked {
   notes: string
   reason: string
@@ -14,7 +9,6 @@ export interface Information {
   climate: string
   cuisine: string
   currency: string
-  dress: string
   electricity: string
   entry_requirements: string
   health: string
@@ -26,7 +20,7 @@ export interface CountryType extends Information {
   uuid: string
   name: string
   iso_code: string
-  id: string
+  id: number
 
   original_name: string
   description: string
@@ -37,7 +31,7 @@ export interface CountryType extends Information {
     heading: string
     introduction: string
   }
-  eu: string
+  eu?: boolean
   marketing_active_markets: ['tourlane.de']
   health: string
   safety: string
@@ -45,4 +39,7 @@ export interface CountryType extends Information {
   currency: string
   entry_requirements: string
   active_destination: boolean
+  iso_code_3: string
+  supply_active_markets: []
+  dress: string
 }

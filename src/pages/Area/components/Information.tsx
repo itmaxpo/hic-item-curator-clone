@@ -5,13 +5,13 @@ import { H5, AccordionGroup, Accordion, Box, Base } from '@tourlane/tourlane-ui'
 import { HFRichTextEditor } from 'components/hook-form'
 import { itemSpecificFields } from '../../Item/itemParser'
 import { capitalize } from 'pages/Search/utils'
-import { AREA_ITEM_TYPE, COUNTRY_ITEM_TYPE, COUNTRY_UPDATED_ITEM_TYPE } from 'utils/constants'
+import { AREA_ITEM_TYPE, COUNTRY_ITEM_TYPE } from 'utils/constants'
 import { Information as InformationType } from 'types/Country'
 
 interface Props {
   item: InformationType
   isEditing: boolean
-  type: typeof AREA_ITEM_TYPE | typeof COUNTRY_ITEM_TYPE | typeof COUNTRY_UPDATED_ITEM_TYPE
+  type: typeof AREA_ITEM_TYPE | typeof COUNTRY_ITEM_TYPE
 }
 
 const Information = ({ item, isEditing, type }: Props) => {
@@ -22,7 +22,6 @@ const Information = ({ item, isEditing, type }: Props) => {
     value: !isEmpty(item[field]) && item[field]
   }))
   const preExpanded = itemSpecificFields[type].sort().map((field) => field)
-
   return (
     <>
       <Box px={60} mb={40}>
@@ -41,7 +40,9 @@ const Information = ({ item, isEditing, type }: Props) => {
             {isEditing ? (
               <HFRichTextEditor data-test={d.field} name={d.field} />
             ) : (
-              <Base>{parse(d.value || 'No information found')}</Base>
+              <div data-testid={d.field}>
+                <Base>{parse(d.value || 'No information found')}</Base>
+              </div>
             )}
           </Accordion>
         ))}

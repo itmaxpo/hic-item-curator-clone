@@ -5,8 +5,9 @@ export const HFRichTextEditorConfigured: FC<{
   name: string
   label?: string
   required?: boolean
-}> = ({ name, label, required }) => (
+}> = ({ name, label, required, ...props }) => (
   <HFRichTextEditor
+    {...props}
     name={name}
     label={label}
     required={required}

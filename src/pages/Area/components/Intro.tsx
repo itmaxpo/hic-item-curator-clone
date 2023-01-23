@@ -21,6 +21,7 @@ interface Props {
   active_destination: boolean
   visualization_destination: boolean
   locale: string
+  nameTestId?: string
 }
 
 export const Intro = ({
@@ -28,7 +29,8 @@ export const Intro = ({
   name,
   locale,
   active_destination,
-  visualization_destination
+  visualization_destination,
+  nameTestId
 }: Props) => {
   const getCountryFlag = useMemo(
     () => ({
@@ -83,7 +85,7 @@ export const Intro = ({
           </>
         ) : (
           <>
-            <HFTextField name="name" maxLength={38} required data-testid="area_name" />
+            <HFTextField name="name" maxLength={38} required data-testid={nameTestId ?? ''} />
             <Flex mt={15}>
               <Flex p={0} mr="12px">
                 <HFCheckbox

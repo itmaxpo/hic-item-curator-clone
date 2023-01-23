@@ -35,7 +35,6 @@ const WrapperBase = styled(Base)`
 
 interface Props {
   area: AreaType | null
-  loading: boolean
   polygon: string[]
   isEditing: boolean
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
@@ -45,7 +44,6 @@ interface Props {
 
 export const AreaLayout = ({
   area,
-  loading,
   polygon,
   isEditing,
   setIsEditing,
@@ -139,6 +137,7 @@ export const AreaLayout = ({
             locale={locale}
             active_destination={active_destination}
             visualization_destination={visualization_destination}
+            nameTestId="area_name"
           />
           <Box mb={35} py={40}>
             <Card>

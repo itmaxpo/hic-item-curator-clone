@@ -1,4 +1,4 @@
-import { AreaType } from '../../pages/Area/areaApi'
+import { AreaType } from '../areaApi'
 
 export const MockAreaData: { data: AreaType } = {
   data: {

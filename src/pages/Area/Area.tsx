@@ -19,7 +19,6 @@ export const Area = () => {
   ) : (
     <AreaLayout
       area={area}
-      loading={loading}
       polygon={polygon}
       isEditing={isEditing}
       updateArea={updateArea}
