@@ -25,9 +25,10 @@ Cypress.Commands.add('homePageStub', () => {
   cy.route('GET', 'https://partners-staging.**.com/content/items/**', 'fixture:item/item.json')
   cy.route(
     'GET',
-    'https://partners-staging.**.com/content/**/attachments',
+    'https://partners-staging.**.com/content/**/attachments*',
     'fixture:item/attachments.json'
   )
+
   cy.route(
       'GET',
       'https://partners-staging.**.com/configurations/v2/suppliers.json',

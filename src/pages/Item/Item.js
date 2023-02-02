@@ -20,6 +20,7 @@ import { useFieldsRef } from './useFieldsRef'
 import { parsePhoneNumber } from './OfferVisualisation/utils'
 import { usePrompt } from 'components/RouterPrompt'
 import { useNotification } from 'components/Notification'
+import * as Sentry from '@sentry/browser'
 
 const ItemLayout = lazy(() => import(/* webpackChunkName: "ItemLayout" */ './ItemLayout'))
 const OfferVisualisation = lazy(() =>
@@ -236,20 +237,22 @@ const ItemPage = () => {
       setIsLoading(true)
       setIsLoadingAdditionalInfo(true)
 
-      await Promise.all([fetchItem(), fetchAttachments()]).then(async (values) => {
-        const [item, attachments] = values
-        const itemWithAttachments = { ...item, ...attachments }
+      await Promise.all([fetchItem(), fetchAttachments()])
+        .then(async (values) => {
+          const [item, attachments] = values
+          const itemWithAttachments = { ...item, ...attachments }
 
-        originalItem.current = { ...itemWithAttachments }
-        dispatch({ type: 'updateAll', value: itemWithAttachments })
-        setIsLoading(false)
+          originalItem.current = { ...itemWithAttachments }
+          dispatch({ type: 'updateAll', value: itemWithAttachments })
+          setIsLoading(false)
 
-        if (itemWithAttachments.type === AREA_ITEM_TYPE) {
-          await fetchAdditionalInformation(itemWithAttachments)
-        }
+          if (itemWithAttachments.type === AREA_ITEM_TYPE) {
+            await fetchAdditionalInformation(itemWithAttachments)
+          }
 
-        setIsLoadingAdditionalInfo(false)
-      })
+          setIsLoadingAdditionalInfo(false)
+        })
+        .catch(Sentry.captureException)
     }
 
     fetchAllItemAttributes()

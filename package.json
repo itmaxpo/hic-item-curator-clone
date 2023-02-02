@@ -10,7 +10,6 @@
     "@tourlane/tourlane-ui": "^7.48.1",
     "awesome-phonenumber": "^2.73.0",
     "cuid": "^2.1.6",
-    "cypress": "^9.5.4",
     "draftjs-to-html": "^0.9.1",
     "html-react-parser": "^3.0.4",
     "lodash": "^4.17.21",
@@ -48,6 +47,15 @@
     "cy:run": "cypress run --browser chrome --headless",
     "test:e2e": "CI=1 npm install cypress; start-server-and-test start:testing http://localhost:3000 cy:run"
   },
+  "e2e": {
+    "baseUrl": "http://localhost:3000/",
+    "viewportWidth": 1440,
+    "viewportHeight": 747,
+    "video": false,
+    "experimentalFetchPolyfill": true,
+    "retries": 1,
+    "pageLoadTimeout": 10000
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -75,6 +83,7 @@
     "@types/react-lazyload": "^3.2.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.25",
+    "cypress": "^11.2.0",
     "cypress-file-upload": "^5.0.8",
     "draft-js": "^0.11.0",
     "env-cmd": "^10.1.0",
