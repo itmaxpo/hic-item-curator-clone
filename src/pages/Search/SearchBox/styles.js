@@ -84,12 +84,6 @@ export const CategoryCardsWrapper = styled(FlexContainer)`
   }
 `
 
-export const SearchWrapper = styled(FlexContainer)`
-  min-height: 48px;
-  min-width: 360px;
-  align-self: center;
-`
-
 export const SearchFieldsWrapper = styled(FlexContainer)`
   align-self: center;
   max-width: 740px;
@@ -97,4 +91,8 @@ export const SearchFieldsWrapper = styled(FlexContainer)`
 
 export const StyledBase = styled(Base)`
   padding-left: 5px;
+`
+
+export const Form = styled.form`
+  margin: 0 auto;
 `

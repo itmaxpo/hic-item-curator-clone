@@ -124,7 +124,6 @@ const SearchPage = () => {
       }
 
       prevPayload.current = payload || prevPayload.current
-
       // set search results
       switch (itemTypeRef.current) {
         case AREA_ITEM_TYPE: {

@@ -1,16 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
-import { get, debounce } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 
-import {
-  Flex,
-  FlexContainer,
-  COLORS,
-  Icon,
-  Label,
-  Checkbox,
-  Container
-} from '@tourlane/tourlane-ui'
+import { Flex, COLORS, Icon, Label, Checkbox } from '@tourlane/tourlane-ui'
 import TipIcon from '@tourlane/iconography/Glyphs/Other/Tip'
 import { getSuppliers } from 'services/configurationsApi'
 import { usePromise } from 'utils/usePromise'
@@ -22,9 +13,9 @@ import {
   NameField,
   CategoryCardsWrapper,
   Search,
-  SearchWrapper,
   SearchFieldsWrapper,
-  StyledBase
+  StyledBase,
+  Form
 } from './styles'
 import { getGoToDestination, parseSearchResponse, getQueryValue } from './utils'
 import { categoryCardsMap } from './categoryCardsMap'
@@ -54,15 +45,14 @@ const SearchBox = ({
   isLoading
 }) => {
   // Default values for state are coming from location query
-  const category = get(locationQuery, 'type')
+  const category = locationQuery?.type
   const country = getQueryValue(locationQuery, 'countryName', 'countryId')
   const area = getQueryValue(locationQuery, 'areaName', 'areaId')
-  const name = get(locationQuery, 'name')
-  const provider = get(locationQuery, 'provider')
-  const missingGeolocation = get(locationQuery, 'missingGeolocation') === 'true'
-  const blocked = get(locationQuery, 'blocked') === 'true'
+  const name = locationQuery?.name
+  const provider = locationQuery?.provider
+  const missingGeolocation = locationQuery?.missingGeolocation === 'true'
+  const blocked = locationQuery?.blocked === 'true'
   const navigate = useNavigate()
-
   const [goToDestination, setGoToDestination] = useState(undefined)
   const [{ data: suppliers = [] }] = usePromise(
     async () => (await getSuppliers()).map(({ name, uuid }) => ({ value: uuid, label: name })),
@@ -71,17 +61,11 @@ const SearchBox = ({
 
   const onNameChange = (e) => {
     const value = e?.target?.value
-    const keyCode = e?.keyCode
 
     onQueryUpdate({
       ...locationQuery,
       name: value
     })
-
-    // Execute search if enter pressed
-    if (keyCode === 13) {
-      onSearchClick()
-    }
   }
 
   const onCategoryCardClick = (value) => () => {
@@ -92,8 +76,8 @@ const SearchBox = ({
   const onCountryChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
-      countryId: get(value, 'value'),
-      countryName: get(value, 'label'),
+      countryId: value?.value,
+      countryName: value?.label,
       areaId: '',
       areaName: ''
     })
@@ -102,7 +86,7 @@ const SearchBox = ({
   const onSupplierChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
-      supplier: get(value, 'value')
+      supplier: value?.value
     })
   }
 
@@ -118,15 +102,13 @@ const SearchBox = ({
   const onAreaChange = (value) => {
     onQueryUpdate({
       ...locationQuery,
-      areaId: get(value, 'value'),
-      areaName: get(value, 'label')
+      areaId: value?.value,
+      areaName: value?.label
     })
   }
 
-  const debouncedOnNameChange = debounce(onNameChange, 300)
-  const debouncedOnProviderChange = debounce(onProviderChange, 300)
-
-  const onSearchClick = async () => {
+  const onSearchClick = async (event) => {
+    event.preventDefault()
     if (!goToDestination) {
       // set search results
       switch (category) {
@@ -136,9 +118,9 @@ const SearchBox = ({
         case ACCOMMODATION_ITEM_TYPE:
           await search(
             {
-              country: get(country, 'value'),
-              supplier: get(supplier, 'value'),
-              area: get(area, 'value'),
+              country: country?.value,
+              supplier: supplier?.value,
+              area: area?.value,
               name,
               missingGeolocation,
               blocked
@@ -153,7 +135,7 @@ const SearchBox = ({
       }
     } else {
       // go to item page
-      const itemId = get(area, 'value') || get(country, 'value')
+      const itemId = area?.value || country?.value
       navigate(`/item/${itemId}?language=en-GB`)
     }
   }
@@ -197,7 +179,7 @@ const SearchBox = ({
 
   // effect to get Go To destination
   useEffect(() => {
-    setGoToDestination(getGoToDestination(category, get(country, 'label'), get(area, 'label')))
+    setGoToDestination(getGoToDestination(category, country?.label, area?.label))
   }, [category, country, area])
 
   return (
@@ -216,127 +198,120 @@ const SearchBox = ({
           />
         ))}
       </CategoryCardsWrapper>
-      {category && (
-        <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
-          {category === ACCOMMODATION_ITEM_TYPE && (
-            <FlexContainer p={0} mb={1} fullWidth justify="center" alignItems="center">
-              <Icon as={TipIcon} size={20} color={COLORS.ELEMENT_GRAY} />
-              <StyledBase>Please select the country, supplier or both to search</StyledBase>
-            </FlexContainer>
-          )}
-          <Dropdown
-            dataTest="country-dropdown"
-            isAsync
-            isClearable
-            cacheOptions
-            value={country}
-            label="Country"
-            placeholder="Type to find"
-            openMenuOnClick={false}
-            loadOptions={countrySearch}
-            renderMarginRight={category !== COUNTRY_ITEM_TYPE}
-            renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
-            onChange={onCountryChange}
-          />
-          {(category === ACCOMMODATION_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE) && (
+      <Form onSubmit={onSearchClick}>
+        {category && (
+          <SearchFieldsWrapper p={0} pb={1.5} wrap justify="between">
+            {category === ACCOMMODATION_ITEM_TYPE && (
+              <Flex mb="24px" fullWidth justify="center" alignItems="center">
+                <Icon as={TipIcon} size={20} color={COLORS.ELEMENT_GRAY} />
+                <StyledBase>Please select the country, supplier or both to search</StyledBase>
+              </Flex>
+            )}
             <Dropdown
-              dataTest="supplier-dropdown"
-              label="Supplier"
-              placeholder="Name of the supplier"
-              value={supplier}
-              options={suppliers}
-              onChange={onSupplierChange}
+              dataTest="country-dropdown"
+              isAsync
+              isClearable
+              cacheOptions
+              value={country}
+              label="Country"
+              placeholder="Type to find"
+              openMenuOnClick={false}
+              loadOptions={countrySearch}
+              renderMarginRight={category !== COUNTRY_ITEM_TYPE}
+              renderMarginBottom={category === ACCOMMODATION_ITEM_TYPE}
+              onChange={onCountryChange}
             />
-          )}
-          <AreaDropdown
-            hidden={category === COUNTRY_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE}
-          />
-          {category === ACCOMMODATION_ITEM_TYPE && (
-            <NameField
-              label="Name (optional)"
-              placeholder="Name of the place"
-              defaultValue={name}
-              // listening to keyDown to capture "enter" to execute search
-              onKeyDown={(event) => {
-                // since React pools all events for perf optimization,
-                // we can only access event specific properties asynchronously by persisting event using event.persist()
-                event.persist()
-                debouncedOnNameChange(event)
-              }}
+            {(category === ACCOMMODATION_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE) && (
+              <Dropdown
+                dataTest="supplier-dropdown"
+                label="Supplier"
+                placeholder="Name of the supplier"
+                value={supplier}
+                options={suppliers}
+                onChange={onSupplierChange}
+              />
+            )}
+            <AreaDropdown
+              hidden={category === COUNTRY_ITEM_TYPE || category === ACTIVITY_ITEM_TYPE}
             />
-          )}
-          {category === ACTIVITY_ITEM_TYPE && (
-            <FlexContainer p={0} mt={1}>
+            {category === ACCOMMODATION_ITEM_TYPE && (
               <NameField
-                label="Name"
-                placeholder="Name of the activity"
-                data-test="name-search"
+                label="Name (optional)"
+                placeholder="Name of the place"
                 defaultValue={name}
                 // listening to keyDown to capture "enter" to execute search
-                onKeyDown={(event) => {
-                  // since React pools all events for perf optimization,
-                  // we can only access event specific properties asynchronously by persisting event using event.persist()
-                  event.persist()
-                  debouncedOnNameChange(event)
+                onChange={(event) => {
+                  onNameChange(event)
                 }}
               />
-              <Container p={0} ml={1}>
+            )}
+            {category === ACTIVITY_ITEM_TYPE && (
+              <Flex p={0} mt="24px">
                 <NameField
-                  label="Provider"
-                  placeholder="Provider of the activity"
-                  defaultValue={provider}
-                  data-test="provider-search"
+                  label="Name"
+                  placeholder="Name of the activity"
+                  data-test="name-search"
+                  defaultValue={name}
                   // listening to keyDown to capture "enter" to execute search
                   onKeyDown={(event) => {
-                    // since React pools all events for perf optimization,
-                    // we can only access event specific properties asynchronously by persisting event using event.persist()
-                    event.persist()
-                    debouncedOnProviderChange(event)
+                    onNameChange(event)
                   }}
                 />
-              </Container>
-            </FlexContainer>
-          )}
-        </SearchFieldsWrapper>
-      )}
-      {category === ACCOMMODATION_ITEM_TYPE && (
-        <FlexContainer p={0} pb={1.5} alignSelf="center">
-          <Flex>
-            <Label>
-              <Checkbox
-                defaultChecked={missingGeolocation}
-                onChange={(e) => {
-                  onFilterByMissingGeolocation(e.target.checked)
-                }}
-              />
-              Filter by missing geolocation
-            </Label>
+                <Flex ml="24px">
+                  <NameField
+                    label="Provider"
+                    placeholder="Provider of the activity"
+                    defaultValue={provider}
+                    data-test="provider-search"
+                    // listening to keyDown to capture "enter" to execute search
+                    onKeyDown={(event) => {
+                      onProviderChange(event)
+                    }}
+                  />
+                </Flex>
+              </Flex>
+            )}
+          </SearchFieldsWrapper>
+        )}
+        {category === ACCOMMODATION_ITEM_TYPE && (
+          <Flex pb="36px" alignSelf="center" justifyContent="center">
+            <Flex>
+              <Label>
+                <Checkbox
+                  defaultChecked={missingGeolocation}
+                  onChange={(e) => {
+                    onFilterByMissingGeolocation(e.target.checked)
+                  }}
+                />
+                Filter by missing geolocation
+              </Label>
+            </Flex>
+            <Flex pl="33px" alignSelf="center" justifyContent="center">
+              <Label>
+                <Checkbox
+                  defaultChecked={blocked}
+                  onChange={(e) => {
+                    onFilterByBlocklist(e.target.checked)
+                  }}
+                />
+                Filter by blocked accommodations
+              </Label>
+            </Flex>
           </Flex>
-          <FlexContainer p={0} pl={1.4} alignSelf="center">
-            <Label>
-              <Checkbox
-                defaultChecked={blocked}
-                onChange={(e) => {
-                  onFilterByBlocklist(e.target.checked)
-                }}
-              />
-              Filter by blocked accommodations
-            </Label>
-          </FlexContainer>
-        </FlexContainer>
-      )}
+        )}
 
-      {category !== ACTIVITY_ITEM_TYPE && (
-        <SearchWrapper p={0} alignItems={'center'} justify="between">
-          <Search
-            data-test="search"
-            isLoading={isLoading}
-            disabled={!country && !supplier}
-            destination={goToDestination}
-            onButtonClick={onSearchClick}
-          />
-        </SearchWrapper>
-      )}
+        {category !== ACTIVITY_ITEM_TYPE && (
+          <Flex p={0} alignItems={'center'} justifyContent="center">
+            <Search
+              data-test="search"
+              isLoading={isLoading}
+              disabled={!country && !supplier}
+              destination={goToDestination}
+              type="submit"
+            />
+          </Flex>
+        )}
+      </Form>
     </SearchBoxWrapper>
   )
 }

@@ -8,7 +8,7 @@ import { ButtonWrapper } from './styles'
  * Render a button that, when clicked, renders a fake progress bar that slowly increments.
  * This is used to show UI feedback on long tasks.
  */
-const ProgressButton = ({ label, onButtonClick, disabled, isLoading, ...rest }) => {
+const ProgressButton = ({ label, disabled, isLoading, ...rest }) => {
   const [progress, setProgress] = useState(0)
 
   const mockUpload = (progress = 20) => {
@@ -28,7 +28,6 @@ const ProgressButton = ({ label, onButtonClick, disabled, isLoading, ...rest }) 
 
   const onButtonClickHandler = () => {
     mockUpload()
-    onButtonClick()
   }
 
   return (
