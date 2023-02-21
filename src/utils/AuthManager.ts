@@ -20,10 +20,12 @@ let synchronise = <Args extends [], Return>(fn: (...args: Args) => Promise<Retur
 class AuthManager {
   private client = new Auth0Client({
     domain: process.env.REACT_APP_AUTH_DOMAIN!,
-    client_id: process.env.REACT_APP_AUTH_CLIENT_ID!,
-    redirect_uri: window.location.origin,
-    audience: process.env.REACT_APP_PARTNERS_API,
-    scope: 'read:all'
+    clientId: process.env.REACT_APP_AUTH_CLIENT_ID!,
+    authorizationParams: {
+      redirect_uri: window.location.origin,
+      audience: process.env.REACT_APP_PARTNERS_API,
+      scope: 'read:all'
+    }
   })
 
   loginWithPopup = () => this.client.loginWithPopup()
