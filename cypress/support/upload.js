@@ -3,11 +3,12 @@
  * Stubs file upload API with a successful response.
  */
 Cypress.Commands.add('fileUploadSuccessStub', (fixture = 'test.jpg') => {
-  const fixturePath = `fixture:item/${fixture}`
+  const fixturePath = `item/${fixture}`
 
   // stub API
-  cy.server()
-  cy.route('POST', 'https://partners-staging.**.com/content/**/attachments', fixturePath)
+  cy.intercept('POST', 'https://partners-staging.**.com/content/**/attachments', {
+    fixture: fixturePath
+  })
 })
 
 /**
@@ -16,11 +17,8 @@ Cypress.Commands.add('fileUploadSuccessStub', (fixture = 'test.jpg') => {
  */
 Cypress.Commands.add('fileUploadErrorStub', () => {
   // stub API
-  cy.server()
-  cy.route({
-    method: 'POST',
-    url: 'https://partners-staging.**.com/content/**/attachments',
-    status: 422,
+  cy.intercept('POST', 'https://partners-staging.**.com/content/**/attachments', {
+    statusCode: 422,
     response: {}
   })
 })

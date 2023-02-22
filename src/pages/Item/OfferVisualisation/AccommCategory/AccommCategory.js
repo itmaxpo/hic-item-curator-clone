@@ -10,7 +10,6 @@ import {
 
 export const AccommCategory = ({ isEditing, item, onChange }) => {
   const categories = useAccommodationCategories()
-
   const categoryLabel = getCategoryLabel(item, categories)
   const value = getCategoryValue(item, categories)
 

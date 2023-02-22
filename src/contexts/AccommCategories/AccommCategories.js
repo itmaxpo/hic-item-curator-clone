@@ -49,6 +49,8 @@ export function getCategoryValue(item, categories) {
 
 export function getCategoryLabel(item, categories = []) {
   const value = getCategoryValue(item, categories)
-  const { label } = categories.find((category) => category?.value === value) ?? { label: '' }
+  const { label } = categories.find((category) => category?.value === value) ?? {
+    label: ''
+  }
   return label
 }

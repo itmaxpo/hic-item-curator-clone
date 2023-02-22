@@ -1,30 +1,29 @@
 /* global cy before */
 import { testItemPage, pageAccomData, pageAccomDataAfterMerge } from '../../utils/utils'
 
-describe('Homepage', () => {
+describe('Homepage', { testIsolation: false }, () => {
   before(() => {
     cy.homePageLoad()
   })
 
   it('go to country', () => {
-    cy.server()
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/countries/search',
-      'fixture:search/goToCountry.json'
-    )
-    cy.route(
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+      fixture: 'search/goToCountry.json'
+    })
+
+    cy.intercept('GET', 'https://partners-staging.**.com/content/items/**/attachments**', {
+      fixture: 'search/attachments.json'
+    })
+
+    cy.intercept(
       'GET',
       'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
-      'fixture:search/emptyAreaName.json'
+      {
+        fixture: 'search/emptyAreaName.json'
+      }
     )
-    cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/items/**/attachments**',
-      'fixture:search/attachments.json'
-    )
-    cy.get('[data-test=searchBox]').as('searchBox')
 
+    cy.get('[data-test=searchBox]').as('searchBox')
     // select country tab
     cy.get('@searchBox').find('[data-test=Country]').click()
 
@@ -37,32 +36,28 @@ describe('Homepage', () => {
     cy.location().should((location) =>
       expect(location.pathname).to.eq('/item/087e8ead-fd75-4c11-9dce-ad8a2c649c17')
     )
-
     cy.go('back')
   })
 
   it('go to area', () => {
-    cy.server()
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/countries/search',
-      'fixture:search/goToCountry.json'
-    )
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/areas/search',
-      'fixture:search/goToArea.json'
-    )
-    cy.route(
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+      fixture: 'search/goToCountry.json'
+    })
+
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/areas/search', {
+      fixture: 'search/goToArea.json'
+    })
+
+    cy.intercept(
       'GET',
       'https://partners-staging.**.com/content/items/316c1b1f-ad72-49b8-84bb-69c4b82674ab?**',
-      'fixture:search/emptyAreaName.json'
+      {
+        fixture: 'search/emptyAreaName.json'
+      }
     )
-
     cy.get('[data-test=searchBox]').as('searchBox')
-
     // select country tab
-    cy.get('@searchBox').find('[data-test=Area]').click({force: true})
+    cy.get('@searchBox').find('[data-test=Area]').click({ force: true })
 
     // select country: Argentina
     cy.get('@searchBox').find('[data-test=country-dropdown]').setSelectOption('Argentina', 3000)
@@ -78,7 +73,6 @@ describe('Homepage', () => {
       expect(location.pathname).to.eq('/item/316c1b1f-ad72-49b8-84bb-69c4b82674ab')
     })
     cy.get('[data-test=source]').should('not.exist')
-
     cy.go('back')
   })
 
@@ -97,31 +91,32 @@ describe('Homepage', () => {
   })
 
   it('search for accommodations', () => {
-    cy.server()
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/countries/search',
-      'fixture:search/goToCountry.json'
-    )
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/accommodations/search',
-      'fixture:search/accomSearch.json'
-    )
-    cy.route(
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+      fixture: 'search/goToCountry.json'
+    })
+
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/accommodations/search', {
+      fixture: 'search/accomSearch.json'
+    })
+
+    cy.intercept('GET', 'https://partners-staging.**.com/content/items/**/attachments**', {
+      fixture: 'search/attachments.json'
+    })
+
+    cy.intercept(
       'GET',
-      'https://partners-staging.**.com/content/items/**/attachments**',
-      'fixture:search/attachments.json'
+      'https://partners-staging.**.com/content/items/869babbb-d6b5-456b-a20c-0744b3e33d57?**',
+      {
+        fixture: 'search/emptyAreaName.json'
+      }
     )
-    cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/items/**?**',
-      'fixture:search/emptyAreaName.json'
-    )
-    cy.route(
+
+    cy.intercept(
       'GET',
       'https://partners-staging.**.com/content/items/af406cf9-8f9e-4d92-9c1f-1baa14c9d454?**',
-      'fixture:search/areaName.json'
+      {
+        fixture: 'search/areaName.json'
+      }
     )
 
     cy.get('[data-test=searchBox]').as('searchBox')
@@ -168,22 +163,17 @@ describe('Homepage', () => {
   it(`validate accommodation selection to max 2
       THEN verify info button exists next to the merge button, and its tooltip
       THEN merging accommodations`, () => {
-    cy.server()
-    cy.route(
-      'POST',
-      'https://partners-staging.**.com/content/items/merge',
-      'fixture:search/merge.json'
-    )
-    cy.route(
-      'POST',
-      'https://partners-staging.**.com/content/items/merge_validation',
-      'fixture:search/merge_validation.json'
-    )
-    cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/items/**/attachments**',
-      'fixture:search/attachments.json'
-    )
+    cy.intercept('POST', 'https://partners-staging.**.com/content/items/merge', {
+      fixture: 'search/merge.json'
+    })
+
+    cy.intercept('POST', 'https://partners-staging.**.com/content/items/merge_validation', {
+      fixture: 'search/merge_validation.json'
+    })
+
+    cy.intercept('GET', 'https://partners-staging.**.com/content/items/**/attachments**', {
+      fixture: 'search/attachments.json'
+    })
 
     cy.get('[data-test=searchResult]').as('searchResult')
 
@@ -242,11 +232,10 @@ describe('Homepage', () => {
           .contains(pageAccomData[3].subtitle)
       })
 
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/accommodations/search',
-      'fixture:search/after_merge.json'
-    ).as('afterMerge')
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/accommodations/search', {
+      fixture: 'search/after_merge.json'
+    }).as('afterMerge')
+
     // merge!
     cy.get('@mergeItems').find('[data-test=merge]').click()
     cy.wait('@afterMerge')
@@ -274,12 +263,9 @@ describe('Homepage', () => {
   })
 
   it('Search for activities with no filters', () => {
-    cy.server()
-    cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/activities?*',
-      'fixture:search/activitySearch.json'
-    )
+    cy.intercept('GET', 'https://partners-staging.**.com/content/activities?*', {
+      fixture: 'search/activitySearch.json'
+    })
 
     cy.get('[data-test=searchBox]').as('searchBox')
 
@@ -290,17 +276,13 @@ describe('Homepage', () => {
   })
 
   it('Searching for activities by country', () => {
-    cy.server()
-    cy.route(
-      'GET',
-      'https://partners-staging.**.com/content/activities?*',
-      'fixture:search/activitySearch.json'
-    )
-    cy.route(
-      'POST',
-      'https://partners-staging.tlservers.com/content/countries/search',
-      'fixture:search/goToCountry.json'
-    )
+    cy.intercept('GET', 'https://partners-staging.**.com/content/activities?*', {
+      fixture: 'search/activitySearch.json'
+    })
+
+    cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+      fixture: 'search/goToCountry.json'
+    })
 
     cy.get('[data-test=searchBox]').as('searchBox')
 

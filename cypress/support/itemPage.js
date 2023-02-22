@@ -5,50 +5,46 @@
  */
 Cypress.Commands.add('itemPageAccommodationStub', (type = 'accom') => {
   // stub API
-  cy.server()
-  cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/configurations/v2/suppliers.json',
-    'fixture:suppliers.json'
-  )
-  cy.route('GET', 'https://partners-staging.**.com/content/items/**', 'fixture:item/item.json')
-  cy.route(
+
+  cy.intercept('POST', 'https://**.eu.auth0.com/oauth/token', { fixture: 'token.json' })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/configurations/v2/suppliers.json', {
+    fixture: 'suppliers.json'
+  })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/content/items/**', {
+    fixture: 'item/item.json'
+  })
+
+  cy.intercept(
     'GET',
     'https://partners-staging.**.com/content/items?item_type=accommodation_category&offset=0',
-    'fixture:item/accommodation-category.json'
+    { fixture: 'item/accommodation-category.json' }
   )
 
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'PATCH',
-    'https://partners-staging.**.com/content/**/attachments/**',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.tlservers.com/content/countries/search',
-    'fixture:item/textCountry.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/content/areas/search',
-    'fixture:item/testArea.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-accommodation',
-    'fixture:item/testAccommodation.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-room',
-    'fixture:item/testRoom.json'
-  )
+  cy.intercept('GET', 'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('PATCH', 'https://partners-staging.**.com/content/**/attachments/**', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+    fixture: 'item/testCountry.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/content/areas/search', {
+    fixture: 'item/testArea.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-accommodation', {
+    fixture: 'item/testAccommodation.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-room', {
+    fixture: 'item/testRoom.json'
+  })
 })
 
 /**
@@ -66,52 +62,49 @@ Cypress.Commands.add('itemPageAccommodationLoad', () => {
  */
 Cypress.Commands.add('itemPageAreaStub', (type = 'accom') => {
   // stub API
-  cy.server()
-  cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
-  cy.route('GET', 'https://partners-staging.**.com/content/suppliers?**', 'fixture:suppliers.json')
-  cy.route('GET', 'https://partners-staging.**.com/content/items/**', 'fixture:item/testArea.json')
-  cy.route(
+  cy.intercept('POST', 'https://**.eu.auth0.com/oauth/token', { fixture: 'token.json' })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/configurations/v2/suppliers.json', {
+    fixture: 'suppliers.json'
+  })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/content/items/**', {
+    fixture: 'item/testArea.json'
+  })
+
+  cy.intercept(
     'GET',
     'https://partners-staging.**.com/content/items?item_type=accommodation_category&offset=0',
-    'fixture:item/accommodation-category.json'
+    { fixture: 'item/accommodation-category.json' }
   )
 
-  cy.route(
-    'PATCH',
-    'https://partners-staging.**.com/content/items/**',
-    'fixture:item/updatedArea.json'
-  )
+  cy.intercept('PATCH', 'https://partners-staging.**.com/content/items/**', {
+    fixture: 'item/updatedArea.json'
+  })
 
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'PATCH',
-    'https://partners-staging.**.com/content/**/attachments/**',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.tlservers.com/content/countries/search',
-    'fixture:item/textCountry.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/content/areas/search',
-    'fixture:item/testArea.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-accommodation',
-    'fixture:item/testAccommodation.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-room',
-    'fixture:item/testRoom.json'
-  )
+  cy.intercept('GET', 'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('PATCH', 'https://partners-staging.**.com/content/**/attachments/**', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+    fixture: 'item/testCountry.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/content/areas/search', {
+    fixture: 'item/testArea.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-accommodation', {
+    fixture: 'item/testAccommodation.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-room', {
+    fixture: 'item/testRoom.json'
+  })
 })
 
 /**
@@ -130,54 +123,51 @@ Cypress.Commands.add('itemPageAreaLoad', () => {
  */
 Cypress.Commands.add('itemPageCountryStub', (type = 'accom') => {
   // stub API
-  cy.server()
-  cy.route('POST', 'https://**.eu.auth0.com/oauth/token', 'fixture:token.json')
-  cy.route('GET', 'https://partners-staging.**.com/content/suppliers?**', 'fixture:suppliers.json')
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/content/items/**',
-    'fixture:item/testCountry.json'
-  )
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/content/items/**/polygon',
-    'fixture:item/polygon.json'
-  )
-  cy.route(
+  cy.intercept('POST', 'https://**.eu.auth0.com/oauth/token', { fixture: 'token.json' })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/configurations/v2/suppliers.json', {
+    fixture: 'suppliers.json'
+  })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/content/items/**', {
+    fixture: 'item/testCountry.json'
+  })
+
+  cy.intercept('GET', 'https://partners-staging.**.com/content/items/**/polygon', {
+    fixture: 'item/polygon.json'
+  })
+
+  cy.intercept(
     'GET',
     'https://partners-staging.**.com/content/items?item_type=accommodation_category&offset=0',
-    'fixture:item/accommodation-category.json'
+    {
+      fixture: 'item/accommodation-category.json'
+    }
   )
-  cy.route(
-    'GET',
-    'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'PATCH',
-    'https://partners-staging.**.com/content/**/attachments/**',
-    'fixture:item/attachments.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.tlservers.com/content/countries/search',
-    'fixture:item/textCountry.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/content/areas/search',
-    'fixture:item/testArea.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-accommodation',
-    'fixture:item/testAccommodation.json'
-  )
-  cy.route(
-    'POST',
-    'https://partners-staging.**.com/search/v1/items?test-room',
-    'fixture:item/testRoom.json'
-  )
+
+  cy.intercept('GET', 'https://partners-staging.**.com/content/**/attachments?limit=50&offset=0', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('PATCH', 'https://partners-staging.**.com/content/**/attachments/**', {
+    fixture: 'item/attachments.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.tlservers.com/content/countries/search', {
+    fixture: 'item/testCountry.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/content/areas/search', {
+    fixture: 'item/testArea.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-accommodation', {
+    fixture: 'item/testAccommodation.json'
+  })
+
+  cy.intercept('POST', 'https://partners-staging.**.com/search/v1/items?test-room', {
+    fixture: 'item/testRoom.json'
+  })
 })
 
 /**

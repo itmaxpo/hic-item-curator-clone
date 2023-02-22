@@ -1,8 +1,10 @@
 /* global cy before */
 describe('Specific checks: description inspirations', () => {
-  before(() => cy.itemPageCountrySpecificLoad())
+  before(() => {
+    cy.itemPageCountrySpecificLoad()
+  })
 
-  it('could edit country  item', () => {
+  it('could edit country item', () => {
     cy.get('[data-test=edit-item-button]').click({ force: true })
     cy.get('[data-test=inspiration-collapse-button]').click({ force: true })
     cy.get('[data-test=item-inspiration-wetu]').find('span').contains('Displayed')

@@ -218,7 +218,7 @@ export const pageAccomDataAfterMerge = [
   {
     title: '562 Nogaro',
     subtitle: 'Argentina',
-    description: 'No description found.',
+    description: 'No description found.'
   },
   {
     title: '725 Continental Hotel',
@@ -228,11 +228,11 @@ export const pageAccomDataAfterMerge = [
   {
     title: 'Abasto Hotel Buenos Aires',
     subtitle: 'Argentina',
-    description: 'Located on the shore of the coastal Puerto Madryn',
+    description: 'Located on the shore of the coastal Puerto Madryn'
   },
   {
     title: 'Aeroparque Inn & Suites',
     subtitle: 'Argentina',
-    description: 'No description found.',
-  },
+    description: 'No description found.'
+  }
 ]

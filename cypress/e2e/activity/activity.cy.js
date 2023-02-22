@@ -3,16 +3,8 @@
 describe('GIVEN an Activity page', () => {
   before(() => {
     cy.activityLoad()
-  })
-
-  it('THEN it should have the activity name', () => {
     cy.get('h2').contains('My Activity')
-  })
-
-  it('THEN it should have the edit content button', () => {
     cy.get('[data-test="edit-content"]').contains('Edit Content')
-  })
-  it('THEN it should have the delete content button', () => {
     cy.get('[data-test="delete-content"]').contains('Delete').as('Delete')
     cy.get('@Delete').click()
     cy.get('[data-test="confirm-delete"]').contains('confirm')
