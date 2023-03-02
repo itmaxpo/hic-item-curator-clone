@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, ReactNode } from 'react'
 import styled from 'styled-components'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, useLocation, Routes } from 'react-router-dom'
 import { COLORS } from '@tourlane/tourlane-ui'
 import queryString from 'query-string'
 
@@ -8,6 +8,7 @@ import { ACCOMMODATION_ITEM_TYPE } from 'utils/constants'
 import LoadingPage from 'pages/Loading'
 import { authManager } from './utils/AuthManager'
 import { NotificationProvider, useNotification } from 'components/Notification'
+import { saveLastUrl } from './utils/saveLastUrl'
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -32,6 +33,9 @@ const MissingPage = lazy(
 
 const AuthListener = ({ children }: { children: ReactNode }) => {
   const { enqueueNotification } = useNotification()
+  const location = useLocation()
+
+  useEffect(() => saveLastUrl(location), [location])
 
   useEffect(
     () =>
