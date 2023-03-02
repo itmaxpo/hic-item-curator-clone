@@ -1,12 +1,16 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 import { BackgroundSingleCard } from 'components/Background'
 import { ReactComponent as LogoSvg } from 'icons/itemCuratorLogo.svg'
 import { authManager } from 'utils/AuthManager'
 import { StyledP, StyledButton } from './styles'
+import { saveLastUrl } from 'utils/saveLastUrl'
 
 const Login = () => {
-  let navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => saveLastUrl(location), [location])
 
   return (
     <BackgroundSingleCard>
@@ -15,7 +19,9 @@ const Login = () => {
       <StyledButton
         onClick={async () => {
           await authManager.loginWithPopup()
-          navigate('/')
+
+          const savedPath = sessionStorage.getItem('savedPath')
+          window.location.href = savedPath ?? '/'
         }}
       >
         Login with Google
