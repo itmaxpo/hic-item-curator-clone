@@ -16,7 +16,6 @@ export const validatePhoneNumber = (textPhone: string): ValidatePhoneNumberType 
   const standardNumber = isNonStandardPhoneNum ? `+${textPhone}` : textPhone
   const phone = new PhoneNumber(standardNumber || '')
 
-
   return {
     countryCode: phone.getRegionCode(),
     phoneNumber: phone.getNumber('significant') || '',
